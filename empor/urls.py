@@ -5,8 +5,6 @@ admin.autodiscover()
 urlpatterns = patterns('',
 #    url(r'^$', 'empor.views.home', name='home'),
     url(r'^empor/', include('product.urls')),
-
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
 )
