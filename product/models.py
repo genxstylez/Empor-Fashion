@@ -12,56 +12,53 @@ class Brand(models.Model):
 
 class Category(models.Model):
     name = models.CharField(_('Name'), max_length=100)
+    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+    
+    def __unicode__(self):
+        return self.name
+
+class ProductGroup(models.Model):
+    name = models.CharField(_('Name'), max_length=100)
+    price = models.PositiveIntegerField(_('Price'), default=0)
+    stock = models.PositiveIntegerField(_('Stock'), default=0)
+    category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='product_groups')
     
     def __unicode__(self):
         return self.name
 
 class Product(models.Model):
-    name = models.CharField(_('Name'), max_length=100)
+    name = models.CharField(_('Name'), max_length=100, blank=True)
     description = models.TextField(_('Description'))
-    stock = models.IntegerField(_('Stock'), default=0)
+    parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
+    stock = models.PositiveIntegerField(_('Stock'), default=0)
     category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products')
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
     price = models.PositiveIntegerField(_('Price'), default=0)
+    product_group = models.ForeignKey(ProductGroup, related_name='products', null=True, blank=True)
     has_options = models.BooleanField(_('Has options'), default=False)
     
     def __unicode__(self):
-        return self.name
-
-class OptionProduct(models.Model):
-    description = models.TextField(_('Description'))
-    product = models.ForeignKey(Product, verbose_name=_('Main product'), related_name='option_products')
-    stock = models.IntegerField(_('Stock'), default=0)
-    category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='option_products')
-    brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='option_products')
-    price = models.PositiveIntegerField(_('Price'), default=0)
-     
-    def __unicode__(self):
-
-        if self.option_set.count() > 0:
+        if self.has_options:
             name = '' 
             for option in self.option_set.all():
                 name += ' - ' + option.name
-            return self.product.name + name
+            return self.name + name
 
-        return self.product.name
+        return self.name
+
 
     def save(self):
-        total_stock = 0
-        for option_product in self.product.option_products.all():
-            total_stock += option_product.stock
-        self.product.stock = total_stock + self.stock
-        self.product.has_options = True
-        self.product.save()
+        if self.product_group:
+            self.has_options = True
+            if self.price == 0:
+                self.price = self.product_group.price
+            total_stock = 0
+            for option_product in self.product_group.products.all():
+                total_stock += option_product.stock
+                self.product_group.stock = total_stock + self.stock
+                self.product_group.save()
 
-        super(OptionProduct, self).save()
-
-    def get_price(self):
-        if self.price > 0:
-            return self.price
-        else:
-            return self.product.price
-
+        super(Product, self).save()
 
 class ProductImage(models.Model):
 
@@ -69,12 +66,11 @@ class ProductImage(models.Model):
         return 'product_images/%s/%s' % (self.product.brand, self.product)
 
     product = models.ForeignKey(Product, related_name='images', null=True, blank=True)
-    option_product = models.ForeignKey(OptionProduct, related_name='images', blank=True, null=True)
     image = models.ImageField(_('Image'), upload_to=product_image_path, blank=True)
 
 class OptionGroup(models.Model):
     name = models.CharField(_('Option Group'), max_length=100)
-    products = models.ManyToManyField(OptionProduct)
+    products = models.ManyToManyField(Product)
 
     def __unicode__(self):
         return self.name
@@ -82,7 +78,7 @@ class OptionGroup(models.Model):
 class Option(models.Model):
     name = models.CharField(_('Option'), max_length=100)
     option_group = models.ForeignKey(OptionGroup, verbose_name=_('Option Group'), related_name='options')
-    products = models.ManyToManyField(OptionProduct)
+    products = models.ManyToManyField(Product)
     
     def __unicode__(self):
         return self.name
