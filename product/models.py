@@ -31,14 +31,19 @@ class ProductGroup(models.Model):
         return self.name
 
 class Product(models.Model):
+
+    def thumbnail_path(self, filename):
+            return 'product_images/%s/%s/thumnail.jpg' % (self.product.brand, self.product)
+
     name = models.CharField(_('Name'), max_length=100, blank=True)
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
     sold = models.PositiveIntegerField(_('Sold'), default=0)
     category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products')
-    product_group = models.ForeignKey(ProductGroup, verbose_name=_('Product Group'), related_name='products', null=True, blank=True)
+    product_group = models.ForeignKey(ProductGroup, verbose_name=_('Product Group'), related_name='products')
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
+    thumbnail = models.ImageField(upload_to=thumbnail_path, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
