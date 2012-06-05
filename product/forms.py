@@ -1,16 +1,14 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from product.models import ProductGroup, Product, OptionGroup, ProductImage, Brand, Category, Option
+from product.models import ProductGroup, Product, OptionGroup, ProductImage, Brand, Category
 
 OPTION_CHOICES = [(0, '-----'),]
 OPTION_CHOICES += [(option.id, option.name) for option in OptionGroup.objects.all()]
-SUB_OPTION_CHOICES = [(0, '-----'),]
-SUB_OPTION_CHOICES += [(option.id, option.name) for option in Option.objects.all()]
 
 class ChildProductForm(forms.ModelForm):
-    option_group = forms.ChoiceField(label=_('Option Group'), choices=OPTION_CHOICES)
+    option_group = forms.ChoiceField(label=_('Option Group'), choices=OPTION_CHOICES, widget=forms.Select(attrs={'class':'optiongroup'}))
     stock = forms.CharField(label=_('Stock'))
-    option = forms.ChoiceField(label=_('Option'), choices=SUB_OPTION_CHOICES)
+    option = forms.ChoiceField(label=_('Option'), choices=[(0, '------')], widget=forms.Select(attrs={'class': 'options'}))
      
     class Meta:
         model = Product

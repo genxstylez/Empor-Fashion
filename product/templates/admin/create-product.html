@@ -19,12 +19,21 @@ $(function(){
         $('#child_formset').toggle();
     });
 
+    $('.optiongroup').live('change', function () {
+        var that = $(this)
+        $.get('/empor/admin/render_options/'+$(this).val(), function(response) {
+            for (var key in response) {
+                that.parent().parent().find('select.options').append('<option value="'+ response[key].id +'">'+ response[key].name+'</option>');
+            }
+        });
+    });
+
 });
 </script>
 </head>
 <body>
 {{ group.name }}
-{% for product in group.products.all %}
+{% for product in products %}
 {{ product.name }}
 {% endfor %}
 <form method="post">
@@ -33,11 +42,11 @@ $(function(){
 {{ product_form.as_p }}
     <div id="child_formset" style="display:none;">
     {{ child_formset.management_form }}
-    <div class="child-form">
     {% for form in child_formset %}
+    <div class="child-form">
     {{ form.as_p }}
-    {% endfor %}
     </div>
+    {% endfor %}
     </div>
 </div>
 </div>

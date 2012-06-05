@@ -18,9 +18,10 @@ def create_group(request):
 
 def create_product(request, group_id):
     group = ProductGroup.objects.get(id=group_id)
+    products = group.products.filter(parent=None)
     product_form = ProductForm(request.POST or None)
     ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm)
-    child_formset = ChildProductFormSet(request.POST or None, prefix='child', queryset=Option.objects.none())
+    child_formset = ChildProductFormSet(request.POST or None, prefix='child', queryset=Product.objects.none())
     if product_form.is_valid():
         product = product_form.save(commit=False)
         product.product_group = group
@@ -43,6 +44,7 @@ def create_product(request, group_id):
 
     return render(request, 'admin/create-product.html', {
         'group': group,
+        'products': products,
         'product_form': product_form,
         'child_formset': child_formset,
     })
