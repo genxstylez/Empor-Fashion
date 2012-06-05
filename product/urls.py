@@ -2,5 +2,9 @@ from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('product.views.admin',
     url(r'^admin/$', 'index', name='product-admin-index'),
-    url(r'^admin/create/$', 'create', name='product-admin-create'),
+    url(r'^admin/create/$', 'create_group', name='product-admin-create-group'),
+    url(r'^admin/create/(?P<group_id>\d+)/$', 'create_product', name='product-admin-create-product'),
+    url(r'^admin/create/category$', '_create_category', name='product-admin-create-category'),
+    url(r'^admin/create/brand$', '_create_brand', name='product-admin-create-brand'),
+    url(r'^admin/create/option_group$', '_create_optiongroup', name='product-admin-create-optiongroup'),
 )

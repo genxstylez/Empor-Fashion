@@ -9,6 +9,8 @@ class Category(models.Model):
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
     
     def __unicode__(self):
+        if self.parent:
+            return '%s:%s' % (self.parent, self.name)
         return self.name
 
 class Brand(models.Model):
@@ -26,6 +28,8 @@ class ProductGroup(models.Model):
     description = models.TextField(_('Description'), blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
     sold = models.PositiveIntegerField(_('Sold'), default=0)
+    brand = models.ForeignKey(Brand, verbose_name='Brand')
+    category = models.ForeignKey(Category, verbose_name='Category')
     
     def __unicode__(self):
         return self.name
@@ -55,9 +59,9 @@ class Product(models.Model):
             name = '' 
             for option in self.option_set.all():
                 name += ' - ' + option.name
-            return self.name + name
+            return self.product_group.name + ' - ' + self.name + name
 
-        return self.name
+        return self.product_group.name + ' - ' + self.name
 
     def get_siblings(self):
         return self.product_group.products.exclude(product=self)

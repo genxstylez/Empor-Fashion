@@ -36,35 +36,16 @@ $(function(){
 </script>
 </head>
 <body>
-{{ groupform.errors }}
+{{ form.errors }}
 <form method="post">
 {% csrf_token %}
-    <div>{{ groupform.name.label }}{{ groupform.name }}</div>
-    <div>{{ groupform.description.label }}{{ groupform.description }}</div>
-    <div>{{ groupform.category.label }}{{ groupform.category }}
+    <div>{{ form.name.label }}{{ form.name }}</div>
+    <div>{{ form.description.label }}{{ form.description }}</div>
+    <div>{{ form.category.label }}{{ form.category }}
     <a class="add" href="{% url product-admin-create-category %}" target=_blank>add</a>
     </div>
-<div>
-{{ groupform.brand.label }}{{ groupform.brand }}
-<a class="add" href="{% url product-admin-create-brand %}" target=_blank>add</a>
-</div>
-<div id="product_formset">
-{{ product_formset.management_form }} 
-    <div class="product-form">
-    {% for form in product_formset %}
-    {{ form.as_p }}
-        <input type="hidden" name="product_index{{ forloop.counter0 }}" value="{{ forloop.counter0 }}" />
-        <div id="child_formset" style="display:none;">
-        {{ child_formset.management_form }}
-        <div class="child-form">
-        {% for form in child_formset %}
-        {{ form.as_p }}
-        {% endfor %}
-        </div>
-        </div>
-    {% endfor %}
-    </div>
-</div>
+    {{ form.brand.label }}{{ form.brand }}
+    <a class="add" href="{% url product-admin-create-brand %}" target=_blank>add</a>
 <input type="submit" />
 </form>
 </body>
