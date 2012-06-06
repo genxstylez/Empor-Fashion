@@ -37,7 +37,7 @@ class ProductGroup(models.Model):
 class Product(models.Model):
 
     def thumbnail_path(self, filename):
-            return 'product_images/%s/%s/thumnail.jpg' % (self.product.brand, self.product)
+        return 'product_images/%s/%s/thumnail.jpg' % (self.product.brand, self.product)
 
     name = models.CharField(_('Name'), max_length=100, blank=True)
     description = models.TextField(_('Description'))
@@ -49,6 +49,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
     thumbnail = models.ImageField(upload_to=thumbnail_path, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
+    featured = models.BooleanField(_('Featured'), default=False)
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
@@ -65,6 +66,10 @@ class Product(models.Model):
 
     def get_siblings(self):
         return self.product_group.products.exclude(product=self)
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('product.views.site.product_view', [self.name])
 
     def sold(self, qty):
         self.sold += qty
@@ -91,7 +96,7 @@ class Product(models.Model):
             self.parent.sold -= qty
             self.parent.save()
         super(Product, self).save()
-    
+
     def save(self):
         if not self.pk:
             if self.parent:

@@ -1,0 +1,17 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div id="content_wrapper" class="broke-endless-pages">
+    {% for product in products %}
+      <div class="index_itembox {{ box_class|random }}"> 
+          <div class="itemimg"><img src="images/item/10064238_373145_1000.jpg"></div>
+          <a class="coverbox hide" href="{{ product.get_absolute_url }}">
+            <div class="content">
+                <div class="brand"><img src="images/swear_logo.png"></div>
+                <div class="itemname">{{ product.name }}</div>
+                <div class="price">{{ product.price }}</div>
+            </div>
+          </a>
+      </div>
+      {% endfor %}
+{% endblock %}
