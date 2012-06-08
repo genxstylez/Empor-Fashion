@@ -1,0 +1,38 @@
+{% extends 'empor/index.html' %}
+{% block popup %}
+<div id="itemup_wrapper">
+      <div class="white_bg" style=" display:block;"></div>
+      <div class="index_itembox itemopen itemup">
+          <span class="close">×</span>
+          <div class="left">
+            {% for image in product.images.all %}
+            <div class="imgbox {% if image.main %}large{% else %}small{% endif %}"><a href="#"><img src="{{ image.url }}"></a></div>
+            {% endfor %}
+          </div>
+          <div class="right">
+            <h1>{{ product }}</h1>
+            <div class="data"><h3><label>{% trans 'Price' %}：</label><span>{{ product.get_price }}</span></h3></div>
+            <div class="data">{{ product.description }}</div>
+            <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ product.sku }}</span></div>
+            <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ product.material }}</span></div>
+            {% for group in product.optiongroup.all %}
+            <div class="data"><label>{{ group.name }}：</label>
+                 <ul>
+                    {% for child in product.children.all %}
+                   <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#">{{ child.option }}</a></li>
+                    {% endfor %}
+                 </ul>
+            </div>
+            {% endfor %}
+            <div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
+            <div class="form-actions_left"><a href="cart.html" class="button">{% trans 'Add to Cart' %}</a></div>
+            <div class="data">
+                {% for sibling in product.get_siblings %}
+                <span class="other"><a href="#"><img src="images/other_01.jpg"></a></span>
+                <span class="other"><a href="#"><img src="images/other_01.jpg"></a></span>
+                {% endfor %}
+            </div>
+          </div>
+       </div>
+</div>
+{% endblock %}

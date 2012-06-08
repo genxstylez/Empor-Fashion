@@ -59,7 +59,7 @@ def _render_options(request, group_id):
         return JSONResponse(choices)
 
 def _create_brand(request):
-    form = BrandForm(request.POST or None)
+    form = BrandForm(request.POST, request.FILES or None)
     if form.is_valid():
         brand = form.save()
         return JSONResponse({'id': brand.id, 'name': brand.name})

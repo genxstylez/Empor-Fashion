@@ -1,0 +1,39 @@
+{% load i18n %}
+<div class="menu_pop">
+<div class="black_bg"></div>
+<div class="menu_content">
+    {% for category in categories %}
+    <div class="menu_box">
+        {% if category.name == 'MEN' %}
+        <h2><img src="{{ STATIC_URL }}images/men.png">MEN</h2>
+        <ul>
+            <li class="title">{% trans 'PRODUCT' %}</li>
+            {% for sub_category in category.children.all %}
+            <li><a href="#">{{ sub_category.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <ul>
+            <li class="title">{% trans 'BRAND' %}</li>
+            {% for brand in mbrands %}
+            <li><a href="#">{{ brand.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% if category.name == 'WOMEN' %}
+        <h2><img src="{{ STATIC_URL }}images/women.png">WOMEN</h2>
+        <ul>
+            <li class="title">{% trans 'PRODUCT' %}</li>
+            {% for sub_category in category.children.all %}
+            <li><a href="#">{{ sub_category.name }}</a></li>
+            {% endfor %}
+        </ul>
+        <ul>
+            <li class="title">{% trans 'BRAND' %}</li>
+            {% for brand in wbrands %}
+            <li><a href="#">{{ brand.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>

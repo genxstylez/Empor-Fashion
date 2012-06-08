@@ -14,7 +14,10 @@ class Category(models.Model):
         return self.name
 
 class Brand(models.Model):
+    def brand_path(self, filename):
+            return 'brand_images/%s/%s' % (self.name, filename)
     name = models.CharField(_('Name'), max_length=100)
+    image = models.ImageField(_('Image'), upload_to=brand_path)
     description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -37,7 +40,7 @@ class ProductGroup(models.Model):
 class Product(models.Model):
 
     def thumbnail_path(self, filename):
-        return 'product_images/%s/%s/thumnail.jpg' % (self.product.brand, self.product)
+        return 'product_images/%s/%s/thumbnail.%s' % (self.product.brand, self.product, self.filename.split('.')[1])
 
     name = models.CharField(_('Name'), max_length=100, blank=True)
     description = models.TextField(_('Description'))
@@ -49,6 +52,7 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
     thumbnail = models.ImageField(upload_to=thumbnail_path, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
+    material = models.CharField(_('Material'), max_length=100, blank=True)
     featured = models.BooleanField(_('Featured'), default=False)
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -66,6 +70,9 @@ class Product(models.Model):
 
     def get_siblings(self):
         return self.product_group.products.exclude(product=self)
+
+    def get_main_product(self):
+        return self.images.get(main=True)
 
     @models.permalink
     def get_absolute_url(self):
@@ -120,10 +127,11 @@ class Product(models.Model):
 class ProductImage(models.Model):
 
     def product_image_path(self, filename):
-        return 'product_images/%s/%s' % (self.product.brand, self.product)
+        return 'product_images/%s/%s' % (self.product.brand, self.product, filename)
 
     product = models.ForeignKey(Product, related_name='images', null=True, blank=True)
     image = models.ImageField(_('Image'), upload_to=product_image_path, blank=True)
+    main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
