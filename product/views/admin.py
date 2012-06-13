@@ -1,23 +1,27 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.forms.models import modelformset_factory
-from product.forms import ProductGroupForm, ChildProductForm, ProductImageForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
-from product.models import Product, Option, ProductImage, ProductGroup, OptionGroup
+from product.forms import CollectionForm, ChildProductForm, ProductImageForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
+from product.models import Product, Option, ProductImage, Collection, OptionGroup
 from empor.shortcuts import JSONResponse
 
 def index(request):
-    return render('something')
+    collections = Collection.objects.all()
+    return render(request, 'product/admin/index.html', {'collections': collections})
 
 def create_group(request):
-    form = ProductGroupForm(request.POST or None)
+    form = CollectionForm(request.POST or None)
     if form.is_valid():
         group = form.save()
-        return redirect('product-admin-create-product', group_id=group.id)
+        if 'add' in request.POST:
+            return redirect('product-admin-create-product', group_id=group.id)
+        else:
+            return redirect(index)
 
-    return render(request, 'product/admin/create-group.html', {'form' : form}) 
+    return render(request, 'product/admin/create-collection.html', {'form' : form}) 
 
 def create_product(request, group_id):
-    group = ProductGroup.objects.get(id=group_id)
+    group = Collection.objects.get(id=group_id)
     products = group.products.filter(parent=None)
     product_form = ProductForm(request.POST or None)
     ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm)

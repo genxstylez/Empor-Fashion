@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from product.models import ProductGroup, Product, OptionGroup, ProductImage, Brand, Category
+from product.models import Collection, Product, OptionGroup, ProductImage, Brand, Category
 
 OPTION_CHOICES = [(0, '-----'),]
 OPTION_CHOICES += [(option.id, option.name) for option in OptionGroup.objects.all()]
@@ -23,12 +23,12 @@ class ProductForm(forms.ModelForm):
         model = Product
         exclude = ('product_group', 'parent', 'brand', 'category')
 
-class ProductGroupForm(forms.ModelForm):
+class CollectionForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'input-xxxlarge', 'row': '5'}))
 
     class Meta:
-        model = ProductGroup
+        model = Collection 
         exclude = ('stock', 'sold')
 
 class BrandForm(forms.ModelForm):
