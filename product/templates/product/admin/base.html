@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>EMPOR</title>
+        <link href="{{ STATIC_URL }}/style/style.css" rel="stylesheet" type="text/css" />
+        {% block js %}{% endblock %}
+    </head>
+    <body>
+        <div id="header" class="broke-endless-pages">
+            <img src="{{ STATIC_URL }}images/EMPOR_logo_back.png">
+            </div>
+        <div id="back_weaper">
+            <div id="inside_box">
+                <div class="page-header">
+                    <h1>PRODUCTS GROUPS</h1>
+                    <a href="#" class="button">新增產品組</a>　<a href="back_p_edit.html" class="button">新增產品</a>　<a href="back_pg.html" class="button">產品列表</a>
+                </div>
+                {% block form_area %}
+                {% endblock %}
+            </div>
+        </div>
+    </body>
+</html>

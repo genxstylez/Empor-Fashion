@@ -24,6 +24,9 @@ class ProductForm(forms.ModelForm):
         exclude = ('product_group', 'parent', 'brand', 'category')
 
 class ProductGroupForm(forms.ModelForm):
+    name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'input-xxxlarge', 'row': '5'}))
+
     class Meta:
         model = ProductGroup
         exclude = ('stock', 'sold')

@@ -1,0 +1,47 @@
+{% extends 'product/admin/base.html' %}
+{% load i18n %}
+<!--$(function(){
+    // formset
+    var deleteText = '刪除';
+    var addText = '新增';
+
+    $('#product_formset').formset({
+        formCssClass: 'product-form',
+        prefix: 'product',
+        deleteText: deleteText,
+        addText: addText
+    });
+
+    $('#child_formset').formset({
+        formCssClass: 'child-form',
+        prefix: 'child',
+        deleteText: deleteText,
+        addText: addText
+    });
+
+    $('input[type="checkbox"]').change(function() {
+        $('#child_formset').toggle();
+    });
+
+    $('input.submit').click(function() {
+        var data = $('#product_group').serializeArray();
+        data += $(this).parents('.item_product').serializeArray();
+        console.log(data);
+        return false;
+    });
+});
+</script>-->
+{% block form_area %}
+<form id="pg_edit-form" method="post" class="form-inline well">
+    {% csrf_token %}
+    <h3>{% trans 'Add product group' %}</h3>
+    {% for field in form %}
+    <div class="control-group">
+        <label class="control-label">{{ field.label }}</label>
+        <div class="controls">{{ field }}</div>
+    </div>
+    {% endfor %}
+    <div class="form-actions"><a href="#" class="button">Save</a>　<a href="back_p_edit.html" class="button">Save and Add Product</a></div>
+    <br clear="all">
+</form>
+{% endblock %}

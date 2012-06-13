@@ -14,7 +14,7 @@ def create_group(request):
         group = form.save()
         return redirect('product-admin-create-product', group_id=group.id)
 
-    return render(request, 'admin/create-group.html', {'form' : form}) 
+    return render(request, 'product/admin/create-group.html', {'form' : form}) 
 
 def create_product(request, group_id):
     group = ProductGroup.objects.get(id=group_id)
@@ -42,7 +42,7 @@ def create_product(request, group_id):
                 child.optiongroup_set.add(OptionGroup.objects.get(id=child_formset[counter].cleaned_data['option_group']))
         return HttpResponse('done')
 
-    return render(request, 'admin/create-product.html', {
+    return render(request, 'product/admin/create-product.html', {
         'group': group,
         'products': products,
         'product_form': product_form,
