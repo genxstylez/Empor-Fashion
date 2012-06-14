@@ -1,12 +1,18 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+class Gender(models.Model): 
+    name = models.CharField(_('Name'), max_length=30) 
+
+    def __unicode__(self):
+        return self.name
 
 class Category(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+    gender = models.ManyToManyField(Gender, related_name='categories')
     
     def __unicode__(self):
         if self.parent:
@@ -33,13 +39,10 @@ class Collection(models.Model):
     sold = models.PositiveIntegerField(_('Sold'), default=0)
     brand = models.ForeignKey(Brand, verbose_name='Brand')
     category = models.ForeignKey(Category, verbose_name='Category')
+    gender = models.ManyToManyField(Gender)
     
     def __unicode__(self):
         return self.name
-
-class Gender(models.Model): 
-    name = models.CharField(_('Name'), max_length=30) 
-    categories = models.ManyToManyField(Category)
 
 class Product(models.Model):
 
