@@ -37,6 +37,10 @@ class ProductGroup(models.Model):
     def __unicode__(self):
         return self.name
 
+class Gender(models.Model): 
+    name = models.CharField(_('Name'), max_length=30) 
+    categories = models.ManyToManyField(Category)
+
 class Product(models.Model):
 
     def thumbnail_path(self, filename):
@@ -52,7 +56,8 @@ class Product(models.Model):
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
     thumbnail = models.ImageField(upload_to=thumbnail_path, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
-    material = models.CharField(_('Material'), max_length=100, blank=True)
+    Composition = models.CharField(_('Composition'), max_length=100, blank=True)
+    gender = models.ManyToManyField(Gender, related_name='products')
     featured = models.BooleanField(_('Featured'), default=False)
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
