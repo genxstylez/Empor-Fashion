@@ -26,7 +26,7 @@ class Brand(models.Model):
     def __unicode__(self):
         return self.name 
 
-class ProductGroup(models.Model):
+class Collection(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     description = models.TextField(_('Description'), blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
@@ -52,7 +52,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(_('Stock'), default=0)
     sold = models.PositiveIntegerField(_('Sold'), default=0)
     category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products')
-    product_group = models.ForeignKey(ProductGroup, verbose_name=_('Product Group'), related_name='products')
+    collection = models.ForeignKey(Collection, verbose_name=_('Collection'), related_name='products')
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
     thumbnail = models.ImageField(upload_to=thumbnail_path, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
