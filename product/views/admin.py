@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
+from django.core.files.base import ContentFile
+from django.conf import settings
 from django.http import HttpResponse
-from django.forms.models import modelformset_factory
-from product.forms import CollectionForm, ChildProductForm, ProductImageForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
+from django.forms.models import formset_factory
+from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
 from product.models import Product, Option, ProductImage, Collection, OptionGroup
 from empor.shortcuts import JSONResponse
 
@@ -12,42 +14,50 @@ def index(request):
 def create_group(request):
     form = CollectionForm(request.POST or None)
     if form.is_valid():
-        group = form.save()
+        collection = form.save()
         if 'add' in request.POST:
-            return redirect('product-admin-create-product', group_id=group.id)
+            return redirect('product-admin-create-product', group_id=collection.id)
         else:
             return redirect(index)
 
     return render(request, 'product/admin/create-collection.html', {'form' : form}) 
 
 def create_product(request, group_id):
-    group = Collection.objects.get(id=group_id)
-    products = group.products.filter(parent=None)
-    product_form = ProductForm(request.POST or None)
-    ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm)
-    child_formset = ChildProductFormSet(request.POST or None, prefix='child', queryset=Product.objects.none())
-    if product_form.is_valid():
-        product = product_form.save(commit=False)
-        product.product_group = group
-        product.category = group.category
-        product.brand = group.brand
-        product.save()
-        if product.has_options:
-            children = child_formset.save(commit=False)
-            for (counter, child) in enumerate(children):
-                child.parent = product
-                child.name = product.name
-                child.description = product.description
-                child.brand = product.brand
-                child.category = product.category
-                child.has_options = True
-                child.save()
-                child.option_set.add(Option.objects.get(id=child_formset[counter].cleaned_data['option']))
-                child.optiongroup_set.add(OptionGroup.objects.get(id=child_formset[counter].cleaned_data['option_group']))
-        return HttpResponse('done')
+    collection = Collection.objects.get(id=group_id)
+    products = collection.products.filter(parent=None)
+    ChildProductFormSet = formset_factory(ChildProductForm)
+    if request.POST:
+        product_form = ProductForm(request.POST)
+        child_formset = ChildProductFormSet(request.POST, prefix='child')
+        if product_form.is_valid() and child_formset.is_valid():
+            product = product_form.save(commit=False)
+            product.collection = collection 
+            product.category = collection.category
+            product.brand = collection.brand
+            product.save()
+            if product.has_options:
+                for (counter, form) in enumerate(child_formset.forms):
+                    child = Product()
+                    child.stock = form.cleaned_data['stock']
+                    child.price = form.cleaned_data['price'] if form.cleaned_data['price'] else product.price
+                    child.parent = product
+                    child.name = product.name
+                    child.description = product.description
+                    child.brand = product.brand
+                    child.category = product.category
+                    child.has_options = True
+                    child.collection = collection
+                    child.save()
+                    child.gender.add = product.gender
+                    child.options.add(Option.objects.get(id=child_formset[counter].cleaned_data['option']))
+                    child.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
+            return HttpResponse('done')
+    else:
+        product_form = ProductForm()
+        child_formset = ChildProductFormSet(prefix='child')
 
     return render(request, 'product/admin/create-product.html', {
-        'group': group,
+        'collection': collection,
         'products': products,
         'product_form': product_form,
         'child_formset': child_formset,
@@ -81,3 +91,24 @@ def _create_optiongroup(request):
     if form.is_valid():
         opt = form.save()
         return JSONResponse({'id': opt.id, 'name': opt.name})
+
+def _upload(request):
+    uploaded_file = request.FILES.get('file', None)
+    chunk = request.REQUEST.get('chunk', '0')
+    chunks = request.REQUEST.get('chunks', '0')
+    name = request.REQUEST.get('name', '')
+    if not name :
+        name = uploaded_file.name
+    if uploaded_file:
+        filepath = '%s/%s' % (settings.FILE_UPLOAD_TEMP_DIR, name)
+        with open(filepath, ('wb' if chunk == '0' else 'ab')) as f:
+            for content in uploaded_file.chunks():
+                f.write(content)
+    if int(chunk) + 1 >= int(chunks):
+        f = open(filepath)
+        image_file = ContentFile(f.read())
+        f.close()
+        image = ProductImage()
+        image.image.save(name, image_file, save=False)
+        image.save()
+    return JSONResponse({'success': True})

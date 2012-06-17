@@ -1,4 +1,5 @@
 {% extends 'product/admin/base.html' %}
+{% load i18n %}
 {% block js %}
 <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
 <script>
@@ -15,110 +16,106 @@ $(function(){
     });
 
     $('input[type="checkbox"]').change(function() {
-        $('#child_formset').toggle();
+        if($(this).is(':checked'))
+            $('#child_formset').show();
+        else
+            $('#child_formset').hide();
     });
 
     $('.optiongroup').on('change', function () {
         var that = $(this)
+        $('.options').empty();
         $.get('/empor/admin/render_options/'+$(this).val(), function(response) {
             for (var key in response) {
-                that.parent().parent().find('select.options').append('<option value="'+ response[key].id +'">'+ response[key].name+'</option>');
+                $('select.options').append('<option value="'+ response[key].id +'">'+ response[key].name+'</option>');
             }
+            $('.options').removeAttr('disabled');
         });
+    });
+
+    $('#uploader').pluploadQueue({
+        runtimes: 'html5, flash',
+        multipart: true,
+        headers: {'X-Requested-With': 'XMLHttpRequest', 'X_CSRFToken' : $('input[name*="csrfmiddlewaretoken"]').val()},
+        url: '/empor/admin/_upload/',
+        max_file_size: '10mb',
+        chunk_size: '1mb',
+        unique_names: true
     });
 
 });
 </script>
 {% endblock %}
 {% block content %}
-{{ group.name }}
+{{ collection.name }}
 {% for product in products %}
 {{ product.name }}
 {% endfor %}
-<form id="pg_edit_p1-form" method="post" action="#" class="form-inline well">
-            <h3>Add Product</h3>
-            <div class="control-group">
-                <label class="control-label">Images</label>
-                <div class="controls upload_box">Drag photos from your computer here</div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Type Images</label>
-                <div class="controls"><input class="input-file" id="fileInput" type="file"></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Name</label>
-                <div class="controls"><input id="p1_name" name="p1_name" type="text" class="input-xxxlarge"></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Price</label>
-                <div class="controls"><input id="price" name="price" type="text" class="input-large"></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Brand</label>
-                <div class="controls">
-                    <select name="brand" id="brand">
-                        <option>SWEAR-LONDON</option> 
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Gender</label>
-                <div class="controls">
-                    <select name="grnder" id="grnder">
-                        <option>MEN</option> 
-                        <option>WOMEN</option> 
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Category</label>
-                <div class="controls">
-                    <select name="category" id="category">
-                        <option>SHOES</option> 
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Products Groups</label>
-                <div class="controls">
-                    <select name="pg" id="pg">
-                        <option>CHAPLIN 1</option> 
-                    </select>
-                </div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Composition</label>
-                <div class="controls"><input id="composition" name="composition" type="text" class="input-xxxlarge"></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Color</label>
-                <div class="controls"><input id="color" name="color" type="text" class="input-xxxlarge"></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Description</label>
-                <div class="controls"><textarea class="input-xxxlarge" rows="5"></textarea></div>
-            </div>
-            <div class="control-group">
-                <label class="control-label">Stock</label>
-                <div class="controls"><input id="stock_size" name="stock_size" type="text" class="input-small" placeholder="size">　<input id="stock_qty" name="stock_qty" type="text" class="input-small" placeholder="qty"><a href="#" class="add_btn"><img src="images/add.png"></a></div>
-            </div>
-            <div class="form-actions"><a href="#" class="button">SAVE</a>　<a href="#" class="button_s">DELETE</a></div>
-            <br clear="all">
-        </form>
-<form method="post">
+<form id="p_edit-form" method="post" class="form-inline">
 {% csrf_token %}
-<div class="product-form">
-{{ product_form.as_p }}
-    <div id="child_formset" style="display:none;">
-    {{ child_formset.management_form }}
-    {% for form in child_formset %}
-    <div class="child-form">
-    {{ form.as_p }}
+    <div class="left">
+        <h3>上傳商品圖</h3>
+        <div class="control-group">
+            <div id="uploader" class="upload_box">Drag photos from your computer here</div>
+        </div>
+        <div class="control-group">
+                <div class="item_img">
+                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
+                    <img src="images/item/10064238_373145_1000.jpg">
+                    <input name="item_face" type="radio" value="" id="item_face">
+                </div>
+                <div class="item_img">
+                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
+                    <img src="images/item/10064238_373147_1000.jpg">
+                    <input name="item_face" type="radio" value="" id="item_face">
+                </div>
+                <div class="item_img">
+                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
+                    <img src="images/item/10064238_373149_1000.jpg">
+                    <input name="item_face" type="radio" value="" id="item_face">
+                </div>
+                <div class="item_img">
+                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
+                    <img src="images/item/10064238_373142_1000.jpg">
+                    <input name="item_face" type="radio" value="" id="item_face">
+                </div>
+        </div>
+        <h3>上傳商品樣式縮圖</h3>
+        <div class="control-group">
+            <input class="input-file" id="fileInput" type="file">
+            <div class="form-actions_left"><a href="#" class="button_s">上傳</a></div>
+        </div>
+        <div class="control-group">
+            <div class="img_cut_box"><img src="images/item/10064238_373145_1000.jpg"></div>
+        </div>
     </div>
-    {% endfor %}
-    </div>
-</div>
-</div>
-<input type="submit" />
+            <div class="right">
+                <h3>{% trans 'Product Information' %}</h3>
+                {% for field in product_form %}
+                <div class="control-group">
+                    <label class="control-label">{{ field.label }}</label>
+                    <div class="controls">{{ field }}</div>
+                </div>
+                {% endfor %}
+                {{ child_formset.management_form }}
+                {{ child_formset.errors }}
+                {% for form in child_formset.forms %}
+                <div id="child_formset" class="control-group" style="display:none;">
+                    <label class="control-label">{% trans 'Stock' %}</label>
+                    <div class="controls">
+                    {% for field in form %}
+                    {{ field }}
+                    {% endfor %}
+                    </div>
+                    <a href="#" class="add_btn"><img src="images/add.png"></a>
+                </div>
+                {% endfor %}
+                
+                <br clear="all">
+            </div>
+            <div class="form-actions">
+                <input type="submit" class="button" value="{% trans 'Save' %}" />
+            </div>
+        </form>
 </form>
 {% endblock %}

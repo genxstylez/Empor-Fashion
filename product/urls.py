@@ -3,6 +3,7 @@ from django.conf.urls.defaults import url, patterns
 urlpatterns = patterns('product.views.admin',
     url(r'^admin/$', 'index', name='product-admin-index'),
     url(r'^admin/render_options/(?P<group_id>\d+)/$', '_render_options', name='product-admin-render-options'),
+    url(r'^admin/_upload/$', '_upload', name='product-admin-upload'),
     url(r'^admin/create/$', 'create_group', name='product-admin-create-group'),
     url(r'^admin/create/(?P<group_id>\d+)/$', 'create_product', name='product-admin-create-product'),
     url(r'^admin/create/category$', '_create_category', name='product-admin-create-category'),

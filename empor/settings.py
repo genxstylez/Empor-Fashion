@@ -120,6 +120,7 @@ TEMPLATE_DIRS = (
     os.path.join(ROOT_PATH, 'templates')     
 )
 
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -164,3 +165,5 @@ LOGGING = {
         },
     }
 }
+
+FILE_UPLOAD_TEMP_DIR = '/tmp'
