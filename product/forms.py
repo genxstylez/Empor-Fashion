@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from product.models import Collection, Product, OptionGroup, ProductImage, Brand, Category, Option
+from product.models import Collection, Product, OptionGroup, Brand, Category, Option
 
 OPTIONGROUP_CHOICES = [(0, '-----'),]
 OPTIONGROUP_CHOICES += [(option.id, option.name) for option in OptionGroup.objects.all()]
@@ -10,12 +10,13 @@ OPTION_CHOICES += [(option.id, option.name) for option in Option.objects.all()]
 
 class ChildProductForm(forms.Form):
     option = forms.ChoiceField(label=_('Option'), choices=OPTION_CHOICES, widget=forms.Select(attrs={'class': 'options', 'disabled': 'disabled'}))
-    stock = forms.CharField(label=_('Stock'), widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': _('qty')}))
-    price = forms.CharField(required=False, widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': 'NT $'}))
+    stock = forms.IntegerField(label=_('Stock'), widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': _('qty')}))
+    price = forms.IntegerField(required=False, widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': 'NT $'}))
      
-class ProductImageForm(forms.ModelForm):
-    class Meta:
-        model = ProductImage
+class ProductImageForm(forms.Form):
+    id = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'image_id'}))
+    url = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'image_url'}))
+    main = forms.BooleanField(required=False)
 
 class ProductForm(forms.ModelForm):
     option_group = forms.ChoiceField(label=_('Option Group'), choices=OPTIONGROUP_CHOICES, 

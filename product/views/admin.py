@@ -3,7 +3,7 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 from django.http import HttpResponse
 from django.forms.models import formset_factory
-from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
+from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm, ProductImageForm
 from product.models import Product, Option, ProductImage, Collection, OptionGroup
 from empor.shortcuts import JSONResponse
 
@@ -26,15 +26,26 @@ def create_product(request, group_id):
     collection = Collection.objects.get(id=group_id)
     products = collection.products.filter(parent=None)
     ChildProductFormSet = formset_factory(ChildProductForm)
+    ProductImageFormSet= formset_factory(ProductImageForm)
     if request.POST:
         product_form = ProductForm(request.POST)
         child_formset = ChildProductFormSet(request.POST, prefix='child')
-        if product_form.is_valid() and child_formset.is_valid():
+        product_image_formset = ProductImageFormSet(request.POST, prefix='product_image')
+        if product_form.is_valid() and product_image_formset.is_valid() \
+            or product_form.data.has_key('has_options') and child_formset.is_valid() \
+            and product_image_formset.is_valid() and product_form.is_valid():
             product = product_form.save(commit=False)
             product.collection = collection 
             product.category = collection.category
             product.brand = collection.brand
             product.save()
+
+            for form in product_image_formset:
+                image = ProductImage.objects.get(id=form.cleaned_data['id'])
+                image.product = product
+                image.main = form.cleaned_data['main']
+                image.save()
+
             if product.has_options:
                 for (counter, form) in enumerate(child_formset.forms):
                     child = Product()
@@ -55,12 +66,14 @@ def create_product(request, group_id):
     else:
         product_form = ProductForm()
         child_formset = ChildProductFormSet(prefix='child')
+        product_image_formset = ProductImageFormSet(prefix='product_image')
 
     return render(request, 'product/admin/create-product.html', {
         'collection': collection,
         'products': products,
         'product_form': product_form,
         'child_formset': child_formset,
+        'product_image_formset': product_image_formset
     })
 
 def _render_options(request, group_id):
@@ -111,4 +124,5 @@ def _upload(request):
         image = ProductImage()
         image.image.save(name, image_file, save=False)
         image.save()
-    return JSONResponse({'success': True})
+
+    return JSONResponse({'success': True, 'file_id': image.id, 'file': image.image.url })

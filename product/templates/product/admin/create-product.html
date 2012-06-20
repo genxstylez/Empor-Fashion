@@ -2,24 +2,55 @@
 {% load i18n %}
 {% block js %}
 <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.livequery.js"></script>
 <script>
 $(function(){
     // formset
     var deleteText = '刪除';
     var addText = '新增';
 
-    $('#child_formset').formset({
+    $('.child-form').formset({
         formCssClass: 'child-form',
         prefix: 'child',
         deleteText: deleteText,
         addText: addText
     });
 
-    $('input[type="checkbox"]').change(function() {
+    $('.product-image').formset({
+        formCssClass: 'product-image',
+        prefix: 'product_image',
+        addText: '',
+        deleteText: '',
+        addCssClass: 'image_add'
+    });
+
+    $('input[name="has_options"]').change(function() {
         if($(this).is(':checked'))
             $('#child_formset').show();
         else
             $('#child_formset').hide();
+    });
+
+    $('input[name="has_options"]').livequery(function() {
+        if($(this).is(':checked'))
+            $('#child_formset').show();
+        else
+            $('#child_formset').hide();
+    });
+    
+    $('#p_edit-form').submit(function() {
+        if($('.item_img input[type="checkbox"]:checked').length != 1)
+            $('.item_img input[type="checkbox"]').removeAttr('checked');
+            $('.item_img input[type="checkbox"]:first').attr('checked', 'checked');
+    });
+
+    $('.item_img input[type="checkbox"]').livequery('change', function() {
+        $(this).parent().siblings().find('input[type="checkbox"]').removeAttr('checked');
+    });
+
+    $('.item_img .img_thumb').livequery(function() {
+        if($(this).attr('src') == '')
+            $(this).attr('src', $(this).siblings('.image_url').val());
     });
 
     $('.optiongroup').on('change', function () {
@@ -33,7 +64,14 @@ $(function(){
         });
     });
 
-    $('#uploader').pluploadQueue({
+    var management = $('input[name="product-TOTAL_FORMS"]');
+    var product_formset = $('#product_image_formset');
+
+    product_formset.livequery(function() {
+        if($('.img_thumb').attr('src') != '')
+            $(this).show();
+    });
+    /*$('#uploader').pluploadQueue({
         runtimes: 'html5, flash',
         multipart: true,
         headers: {'X-Requested-With': 'XMLHttpRequest', 'X_CSRFToken' : $('input[name*="csrfmiddlewaretoken"]').val()},
@@ -41,6 +79,47 @@ $(function(){
         max_file_size: '10mb',
         chunk_size: '1mb',
         unique_names: true
+    });*/
+
+    var uploader = new plupload.Uploader({
+        runtimes : 'gears,html5, flash',
+        browse_button: 'image_button', 
+        container : 'uploader',
+        drop_element: 'uploader',
+        runtimes: 'html5, flash',
+        multipart: true,
+        headers: {'X-Requested-With': 'XMLHttpRequest', 'X_CSRFToken' : $('input[name*="csrfmiddlewaretoken"]').val()},
+        url: '/empor/admin/_upload/',
+        max_file_size: '10mb',
+        chunk_size: '1mb',
+        unique_names: true,
+        multi_selection : true
+    });
+
+    uploader.init();
+
+    var files_count;
+
+    uploader.bind('FilesAdded', function(up, files) {
+        uploader.start();
+        files_count = files.length;
+    });
+
+    uploader.bind('FileUploaded', function(up, file, response) {
+        response = JSON.parse(response.response);
+        window.a = response;
+        console.log(response.file);
+        product_formset.find('.item_img:last .img_thumb').attr('src', response.file);
+        product_formset.find('.item_img:last .image_url').val(response.file);
+        product_formset.find('.item_img:last .image_id').val(response.file_id);
+        console.log(files_count);
+        if(files_count != product_formset.find('.item_img').length)
+            $('a.image_add').click();
+    });
+    
+    uploader.bind('UploadComplete', function() {
+        product_formset.find('.item_img:first input[type="checkbox"]').attr('checked', 'checked'); 
+        product_formset.fadeIn();
     });
 
 });
@@ -56,29 +135,20 @@ $(function(){
     <div class="left">
         <h3>上傳商品圖</h3>
         <div class="control-group">
+            <button id="image_button">browse</button>
             <div id="uploader" class="upload_box">Drag photos from your computer here</div>
         </div>
-        <div class="control-group">
-                <div class="item_img">
+        <div id="product_image_formset" class="control-group" style="display:none;">
+            {{ product_image_formset.management_form }}
+                {% for form in product_image_formset.forms %}
+                <div class="item_img product-image">
                     <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
-                    <img src="images/item/10064238_373145_1000.jpg">
-                    <input name="item_face" type="radio" value="" id="item_face">
+                    <img class="img_thumb" src="">
+                    {{ form.id }}
+                    {{ form.url }}
+                    {{ form.main }}
                 </div>
-                <div class="item_img">
-                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
-                    <img src="images/item/10064238_373147_1000.jpg">
-                    <input name="item_face" type="radio" value="" id="item_face">
-                </div>
-                <div class="item_img">
-                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
-                    <img src="images/item/10064238_373149_1000.jpg">
-                    <input name="item_face" type="radio" value="" id="item_face">
-                </div>
-                <div class="item_img">
-                    <div class="hide"><a href="#"><img src="images/remove.png"></a></div>
-                    <img src="images/item/10064238_373142_1000.jpg">
-                    <input name="item_face" type="radio" value="" id="item_face">
-                </div>
+                {% endfor %}
         </div>
         <h3>上傳商品樣式縮圖</h3>
         <div class="control-group">
@@ -95,22 +165,25 @@ $(function(){
                 <div class="control-group">
                     <label class="control-label">{{ field.label }}</label>
                     <div class="controls">{{ field }}</div>
+                    {{ field.errors }}
                 </div>
                 {% endfor %}
                 {{ child_formset.management_form }}
                 {{ child_formset.errors }}
-                {% for form in child_formset.forms %}
-                <div id="child_formset" class="control-group" style="display:none;">
-                    <label class="control-label">{% trans 'Stock' %}</label>
-                    <div class="controls">
-                    {% for field in form %}
-                    {{ field }}
-                    {% endfor %}
+                <div id="child_formset">
+                    {% for form in child_formset.forms %}
+                    <div class="child-form control-group">
+                        <label class="control-label">{% trans 'Stock' %}</label>
+                        <div class="controls">
+                        {% for field in form %}
+                        {{ field }}
+                        {{ field.errors }}
+                        {% endfor %}
+                        </div>
+                        <a href="#" class="add_btn"><img src="images/add.png"></a>
                     </div>
-                    <a href="#" class="add_btn"><img src="images/add.png"></a>
-                </div>
-                {% endfor %}
-                
+                    {% endfor %}
+                </div> 
                 <br clear="all">
             </div>
             <div class="form-actions">
