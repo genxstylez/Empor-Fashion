@@ -28,6 +28,14 @@ class ProductForm(forms.ModelForm):
         exclude = ('collection', 'parent', 'brand', 'category', 'thumbnail', 'gender', 'featured')
         fields = ('name', 'price', 'composition', 'description', 'has_options', 'option_group')
 
+class ProductThumbForm(forms.Form):
+    id = forms.CharField(widget=forms.HiddenInput())
+    url = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'thumb_url'}))
+    x1 = forms.CharField(widget=forms.HiddenInput())
+    y1 = forms.CharField(widget=forms.HiddenInput())
+    x2 = forms.CharField(widget=forms.HiddenInput())
+    y2 = forms.CharField(widget=forms.HiddenInput())
+    
 class CollectionForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'input-xxxlarge', 'row': '5'}))

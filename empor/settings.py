@@ -134,7 +134,8 @@ INSTALLED_APPS = (
     'product',
     'cart',
     'order',
-    'common', 
+    'common',
+    'easy_thumbnails',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -167,3 +168,11 @@ LOGGING = {
 }
 
 FILE_UPLOAD_TEMP_DIR = '/tmp'
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'small': {'size': (75, 75), 'crop': 'scale'},
+        'medium': {'size': (330, 330), 'crop': 'scale'},
+        'large': {'size': (800, 800), 'crop': 'scale'}
+    }
+}

@@ -1,6 +1,6 @@
 from django.db import models
 from django.db.models.signals import post_save
-from django.dispatch import receiver
+from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
 
 class Gender(models.Model): 
@@ -49,9 +49,6 @@ class Collection(models.Model):
 
 class Product(models.Model):
 
-    def thumbnail_path(self, filename):
-        return 'product_images/%s/%s/thumbnail.%s' % (self.product.brand, self.product, self.filename.split('.')[1])
-
     name = models.CharField(_('Name'), max_length=100, blank=True)
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
@@ -60,7 +57,6 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products')
     collection = models.ForeignKey(Collection, verbose_name=_('Collection'), related_name='products')
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
-    thumbnail = models.ImageField(upload_to=thumbnail_path, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
     composition = models.CharField(_('Composition'), max_length=100, blank=True)
     gender = models.ManyToManyField(Gender, related_name='products')
@@ -88,13 +84,31 @@ class Product(models.Model):
     def get_absolute_url(self):
         return ('product.views.site.product_view', [self.name])
 
+class ProductThumb(models.Model):
+
+    def thumbnail_path(self, filename):
+            return 'thumbnails/%s_thumbnail.%s' % (filename.split('.')[0], filename.split('.')[1])
+    def original_path(self, filename):
+            return 'thumbnails/%s_original.%s' % (filename.split('.')[0], filename.split('.')[1])
+
+    product = models.OneToOneField(Product, verbose_name=_('Product'), related_name="thumb", null=True, blank=True)
+    original = models.ImageField(upload_to=original_path)
+    thumb = models.ImageField(upload_to=thumbnail_path, blank=True)
+    x1 = models.IntegerField(default=0)
+    y1 = models.IntegerField(default=0)
+    x2 = models.IntegerField(default=0)
+    y2 = models.IntegerField(default=0)
+    
+    def __unicode__(self):
+        return '<%s> %s' % (self.product.collection.name , self.product.name)
+
 class ProductImage(models.Model):
 
     def product_image_path(self, filename):
         return 'product_images/%s' % (filename)
 
     product = models.ForeignKey(Product, related_name='images', null=True, blank=True)
-    image = models.ImageField(_('Image'), upload_to=product_image_path, blank=True)
+    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, blank=True)
     main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)

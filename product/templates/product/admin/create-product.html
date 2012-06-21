@@ -1,8 +1,10 @@
 {% extends 'product/admin/base.html' %}
 {% load i18n %}
 {% block js %}
+<link rel="stylesheet" href="{{ STATIC_URL }}js/Jcrop/css/jquery.Jcrop.css" type="text/css" />
 <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.livequery.js"></script>
+<script src="{{ STATIC_URL }}js/Jcrop/js/jquery.Jcrop.min.js"></script>
 <script>
 $(function(){
     // formset
@@ -71,22 +73,12 @@ $(function(){
         if($('.img_thumb').attr('src') != '')
             $(this).show();
     });
-    /*$('#uploader').pluploadQueue({
-        runtimes: 'html5, flash',
-        multipart: true,
-        headers: {'X-Requested-With': 'XMLHttpRequest', 'X_CSRFToken' : $('input[name*="csrfmiddlewaretoken"]').val()},
-        url: '/empor/admin/_upload/',
-        max_file_size: '10mb',
-        chunk_size: '1mb',
-        unique_names: true
-    });*/
 
     var uploader = new plupload.Uploader({
         runtimes : 'gears,html5, flash',
         browse_button: 'image_button', 
         container : 'uploader',
         drop_element: 'uploader',
-        runtimes: 'html5, flash',
         multipart: true,
         headers: {'X-Requested-With': 'XMLHttpRequest', 'X_CSRFToken' : $('input[name*="csrfmiddlewaretoken"]').val()},
         url: '/empor/admin/_upload/',
@@ -108,11 +100,9 @@ $(function(){
     uploader.bind('FileUploaded', function(up, file, response) {
         response = JSON.parse(response.response);
         window.a = response;
-        console.log(response.file);
         product_formset.find('.item_img:last .img_thumb').attr('src', response.file);
         product_formset.find('.item_img:last .image_url').val(response.file);
         product_formset.find('.item_img:last .image_id').val(response.file_id);
-        console.log(files_count);
         if(files_count != product_formset.find('.item_img').length)
             $('a.image_add').click();
     });
@@ -121,7 +111,49 @@ $(function(){
         product_formset.find('.item_img:first input[type="checkbox"]').attr('checked', 'checked'); 
         product_formset.fadeIn();
     });
+    
+    var thumb_uploader = new plupload.Uploader({
+        runtimes : 'html5, flash',
+        browse_button: 'thumb_button', 
+        container : 'thumb',
+        headers: {'X-Requested-With': 'XMLHttpRequest', 'X_CSRFToken' : $('input[name*="csrfmiddlewaretoken"]').val()},
+        url: '/empor/admin/_thumb_upload/',
+        max_file_size: '10mb',
+        chunk_size: '1mb',
+        unique_names: true,
+    });
+    
+    thumb_uploader.init();
 
+    thumb_uploader.bind('FilesAdded', function(up, files) {
+        $.each(files, function(i, file) {
+            $('.file_name').html(file.name);
+        });
+    });
+    $('#thumb .button_s').click(function() {
+        thumb_uploader.start();
+        return false;
+    });
+
+    thumb_uploader.bind('FileUploaded', function(up, file, response) {
+        response = JSON.parse(response.response);
+        $('.img_cut_box img').attr('src', response.file);
+        $('#thumb .thumb_url').val(response.file);
+        $('#thumb input[name="id"]').val(response.file_id);
+        $('.img_cut_box img').Jcrop({
+            onSelect: showCoords,
+            minSize: [40, 40],
+            maxSize: [100, 100],
+            aspectRatio: 1
+        });
+    });
+
+    function showCoords(c) {
+        $('#thumb input[name="x1"]').val(c.x);
+        $('#thumb input[name="y1"]').val(c.y);
+        $('#thumb input[name="x2"]').val(c.x2);
+        $('#thumb input[name="y2"]').val(c.y2);
+    }
 });
 </script>
 {% endblock %}
@@ -151,8 +183,10 @@ $(function(){
                 {% endfor %}
         </div>
         <h3>上傳商品樣式縮圖</h3>
-        <div class="control-group">
-            <input class="input-file" id="fileInput" type="file">
+        <div id="thumb" class="control-group">
+            {{ thumb_form }}
+            <input class="input-file" id="thumb_button" type="button" value="選擇檔案"/>
+            <span class="file_name"></span>
             <div class="form-actions_left"><a href="#" class="button_s">上傳</a></div>
         </div>
         <div class="control-group">

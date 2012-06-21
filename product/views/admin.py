@@ -3,9 +3,10 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 from django.http import HttpResponse
 from django.forms.models import formset_factory
-from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm, ProductImageForm
-from product.models import Product, Option, ProductImage, Collection, OptionGroup
+from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm, ProductImageForm, ProductThumbForm
+from product.models import Product, Option, ProductImage, Collection, OptionGroup, ProductThumb
 from empor.shortcuts import JSONResponse
+from empor.thumbs import thumb_resize, generate_crop
 
 def index(request):
     collections = Collection.objects.all()
@@ -29,16 +30,32 @@ def create_product(request, group_id):
     ProductImageFormSet= formset_factory(ProductImageForm)
     if request.POST:
         product_form = ProductForm(request.POST)
+        thumb_form = ProductThumbForm(request.POST)
         child_formset = ChildProductFormSet(request.POST, prefix='child')
         product_image_formset = ProductImageFormSet(request.POST, prefix='product_image')
-        if product_form.is_valid() and product_image_formset.is_valid() \
+        if product_form.is_valid() and product_image_formset.is_valid() and thumb_form.is_valid()\
             or product_form.data.has_key('has_options') and child_formset.is_valid() \
-            and product_image_formset.is_valid() and product_form.is_valid():
+            and product_image_formset.is_valid() and product_form.is_valid() and thumb_form.is_valid():
             product = product_form.save(commit=False)
             product.collection = collection 
             product.category = collection.category
             product.brand = collection.brand
             product.save()
+
+            thumb = ProductThumb.objects.get(id=thumb_form.cleaned_data['id'])
+            x1 = thumb_form.cleaned_data['x1']
+            y1 = thumb_form.cleaned_data['y1']
+            x2 = thumb_form.cleaned_data['x2']
+            y2 = thumb_form.cleaned_data['y2']
+            thumb_file = generate_crop(thumb.original.file, thumb.original.name.split('.')[1], int(x1), int(y1), int(x2), int(y2))
+
+            thumb.thumb.save(thumb_file[0], thumb_file[1], save=False)
+            thumb.product = product
+            thumb.x1 = x1
+            thumb.y1 = y1
+            thumb.x2 = x2
+            thumb.y2 = y2
+            thumb.save()
 
             for form in product_image_formset:
                 image = ProductImage.objects.get(id=form.cleaned_data['id'])
@@ -65,12 +82,14 @@ def create_product(request, group_id):
             return HttpResponse('done')
     else:
         product_form = ProductForm()
+        thumb_form = ProductThumbForm()
         child_formset = ChildProductFormSet(prefix='child')
         product_image_formset = ProductImageFormSet(prefix='product_image')
 
     return render(request, 'product/admin/create-product.html', {
         'collection': collection,
         'products': products,
+        'thumb_form': thumb_form,
         'product_form': product_form,
         'child_formset': child_formset,
         'product_image_formset': product_image_formset
@@ -126,3 +145,27 @@ def _upload(request):
         image.save()
 
     return JSONResponse({'success': True, 'file_id': image.id, 'file': image.image.url })
+
+def _thumb_upload(request):
+    uploaded_file = request.FILES.get('file', None)
+    chunk = request.REQUEST.get('chunk', '0')
+    chunks = request.REQUEST.get('chunks', '0')
+    name = request.REQUEST.get('name', '')
+    if not name :
+        name = uploaded_file.name
+    if uploaded_file:
+        filepath = '%s/%s' % (settings.FILE_UPLOAD_TEMP_DIR, name)
+        with open(filepath, ('wb' if chunk == '0' else 'ab')) as f:
+            for content in uploaded_file.chunks():
+                f.write(content)
+    if int(chunk) + 1 >= int(chunks):
+        f = open(filepath)
+        image_file = ContentFile(f.read())
+        f.close()
+
+        t = thumb_resize(image_file, name.split('.')[1], 420)
+        image = ProductThumb()
+        image.original.save(t[0], t[1], save=False)
+        image.save()
+
+    return JSONResponse({'success': True, 'file_id': image.id, 'file': image.original.url })
