@@ -41,8 +41,7 @@ $(function(){
     });
     
     $('#p_edit-form').submit(function() {
-        if($('.item_img input[type="checkbox"]:checked').length != 1)
-            $('.item_img input[type="checkbox"]').removeAttr('checked');
+        if($('.item_img input[type="checkbox"]:checked').length == 0)
             $('.item_img input[type="checkbox"]:first').attr('checked', 'checked');
     });
 

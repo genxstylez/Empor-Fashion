@@ -1,4 +1,9 @@
+
 $(function () {
+    //isotope for index
+    $('#content_wrapper').isotope({
+        itemSelector: '.index_itembox',
+    });
 
     //menu button binding
     $('div.menu_button a').on('click', function() {

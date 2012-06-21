@@ -75,10 +75,10 @@ class Product(models.Model):
         return self.collection.name + ' - ' + self.name
 
     def get_siblings(self):
-        return self.collection.products.exclude(product=self)
+        return self.collection.products.filter(parent=None).exclude(id=self.id)
 
-    def get_main_product(self):
-        return self.images.get(main=True)
+    def get_main_image(self):
+        return self.images.get(main=True).image
 
     @models.permalink
     def get_absolute_url(self):

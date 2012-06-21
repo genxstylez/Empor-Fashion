@@ -11,3 +11,7 @@ urlpatterns = patterns('product.views.admin',
     url(r'^admin/create/brand$', '_create_brand', name='product-admin-create-brand'),
     url(r'^admin/create/option_group$', '_create_optiongroup', name='product-admin-create-optiongroup'),
 )
+
+urlpatterns += patterns('product.views.site',
+    url(r'^product/(?P<product_id>\d+)/$', 'product_view', name='product-view'),
+)

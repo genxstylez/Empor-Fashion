@@ -6,18 +6,17 @@
     <link href="{{ STATIC_URL }}style/style.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}style/extra.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.isotope.min.js"></script>
     <script src="{{ STATIC_URL }}js/app.js"></script>
 </head>
 <body>
+{% block popup %}{% endblock %}
 <!-- menu_wrapper -->
 <div id="menu_wrapper">
     <!-- menu_bar -->
     <div class="menu_bar"></div>
     <!-- /menu_bar -->
     <!-- logo -->
-    <div class="index_itembox logo_box b_box" style="position: absolute; top: 20px; left: 10px;">
-        <a href="index.html"><img src="{{ STATIC_URL }}images/EMPOR_logo.png"></a>
-    </div>
     <!-- /logo -->
     <!-- menu_iconbox -->
     <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 70px;">
@@ -29,20 +28,19 @@
     <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 10px;">
         <a href="cart.html"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
     </div>
+    <div class="logo_box_top b_box" style="position: absolute; top: 20px; left: 10px;"></div>
     <!-- /menu_iconbox -->
     <!-- menu_button -->
     <div class="menu_button" style="position: absolute; top: 10px; right: 100px;">
         <a href="index_menuopen.html">MENU</a>
     </div>
     <!-- /menu_button -->
-    <!-- menu_content -->
-    <!--{% menu request %}-->
+    {% comment %}<!-- menu_content -->{% endcomment %}
     <!-- /menu_content -->
 </div>
 <!-- /menu_wrapper -->
 <!-- content_wrapper -->
 {% block content %}{% endblock %}
-{% block popup %}{% endblock %}
 <!-- content_wrapper -->
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap-dropdown.js"></script>

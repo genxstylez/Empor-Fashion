@@ -60,7 +60,7 @@ def create_product(request, group_id):
             for form in product_image_formset:
                 image = ProductImage.objects.get(id=form.cleaned_data['id'])
                 image.product = product
-                image.main = form.cleaned_data['main']
+                image.main = True if form.cleaned_data['main'] else False
                 image.save()
 
             if product.has_options:

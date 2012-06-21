@@ -1,24 +1,30 @@
 {% extends 'empor/index.html' %}
+{% load i18n thumbnail %}
 {% block popup %}
 <div id="itemup_wrapper">
       <div class="white_bg" style=" display:block;"></div>
-      <div class="index_itembox itemopen itemup">
+      <div class="itemopen itemup">
           <span class="close">×</span>
           <div class="left">
-            {% for image in product.images.all %}
-            <div class="imgbox {% if image.main %}large{% else %}small{% endif %}"><a href="#"><img src="{{ image.url }}"></a></div>
+            <div class="large"><a href="#"><img src="{{ focus_product.get_main_image|thumbnail_url:'medium' }}"></a></div>
+            <div class="small">
+            {% for image in focus_product.images.all %}
+            {% if not image.main %}
+            <a href="#"><img src="{{ image.image|thumbnail_url:'small' }}"></a>
+            {% endif %}
             {% endfor %}
+            </div>
           </div>
           <div class="right">
-            <h1>{{ product }}</h1>
-            <div class="data"><h3><label>{% trans 'Price' %}：</label><span>{{ product.get_price }}</span></h3></div>
-            <div class="data">{{ product.description }}</div>
-            <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ product.sku }}</span></div>
-            <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ product.material }}</span></div>
-            {% for group in product.optiongroup.all %}
+            <h1>{{ focus_product }}</h1>
+            <div class="data"><h3><label>{% trans 'Price' %}：</label><span>{{ focus_product.price }}</span></h3></div>
+            <div class="data">{{ focus_product.description }}</div>
+            <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
+            <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
+            {% for group in focus_product.optiongroup.all %}
             <div class="data"><label>{{ group.name }}：</label>
                  <ul>
-                    {% for child in product.children.all %}
+                    {% for child in focus_product.children.all %}
                    <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#">{{ child.option }}</a></li>
                     {% endfor %}
                  </ul>
@@ -27,9 +33,8 @@
             <div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
             <div class="form-actions_left"><a href="cart.html" class="button">{% trans 'Add to Cart' %}</a></div>
             <div class="data">
-                {% for sibling in product.get_siblings %}
-                <span class="other"><a href="#"><img src="images/other_01.jpg"></a></span>
-                <span class="other"><a href="#"><img src="images/other_01.jpg"></a></span>
+                {% for sibling in focus_product.get_siblings %}
+                <span class="other"><a href="#"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
                 {% endfor %}
             </div>
           </div>
