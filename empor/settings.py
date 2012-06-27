@@ -113,6 +113,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     'django.core.context_processors.request',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'userena.backends.UserenaAuthenticationBackend',
+    'guardian.backends.ObjectPermissionBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'empor.wsgi.application'
 
@@ -136,6 +145,9 @@ INSTALLED_APPS = (
     'order',
     'common',
     'easy_thumbnails',
+    'userena',
+    'guardian',
+    'member',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -176,3 +188,15 @@ THUMBNAIL_ALIASES = {
         'large': {'size': (800, 800), 'crop': 'scale'}
     }
 }
+
+ANONYMOUS_USER_ID = -1
+AUTH_PROFILE_MODULE = 'member.UserProfile'
+
+
+USERENA_WITHOUT_USERNAMES = True
+
+USERENA_DEFAULT_PRIVACY = 'closed'
+
+LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
+LOGIN_URL = '/accounts/signin/'
+LOGOUT_URL = '/accounts/signout/'

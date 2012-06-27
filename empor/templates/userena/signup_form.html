@@ -1,0 +1,36 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="index_itembox itemopen" style="position: absolute; top: 40px; left: 350px;">
+    <div class="center">
+        <h1>Register</h1>
+        <form id="register-form" method="post" action="/accounts/signup/" class="form-inline">
+            {% csrf_token %}
+            {{ form.errors }}
+            {% for field in form %}
+            {% if field.name == 'billing_recipient' %}
+            <h4>{% trans 'Billing Information' %}</h4>
+            {% endif %}
+            {% if field.name == 'shipping_recipient' %}
+            <h4>{% trans 'Shipping Information' %}</h4>
+            {% endif %}
+            <div class="control-group">
+                <label class="control-label">{{ field.label }}</label>
+                <div class="controls">{{ field }}</div>
+            </div>
+            {% if field.name == 'billing_country' %}
+            <div class="control-group">
+                <div class="controls">
+                    <input name="copy_address" type="checkbox" value="" id="copy_address">Shipping same as billing?
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <div class="form-actions">
+                <input type="submit" class="button" value="{% trans 'Continue' %}" />
+                <a href="#" class="button button_fb">Log In with Facebook</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
