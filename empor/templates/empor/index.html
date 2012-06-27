@@ -6,15 +6,17 @@
         <a href="index.html"><img src="{{ STATIC_URL }}images/EMPOR_logo.png"></a>
     </div>
     {% for product in products %}
-    <div class="index_itembox {{ box_class|random }}"> 
-        <div class="itemimg"><img src="{{ product.get_main_image|thumbnail_url:'medium' }}"></div>
-        <a class="coverbox hide" href="{{ product.get_absolute_url }}">
-        <div class="content">
-            <div class="brand"><img src="{{ product.brand.image.url }}"></div>
-            <div class="itemname">{{ product.name }}</div>
-            <div class="price">{{ product.price }}</div>
-        </div>
-        </a>
+    {% with box_class|random as class %}
+    <div class="index_itembox {{ class }}"> 
+            <div class="itemimg"><img src="{{ product.get_main_image|thumbnail_url:'medium' }}"></div>
+            <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
+            <div class="content">
+                <div class="brand"><img src="{{ product.brand.image.url }}"></div>
+                <div class="itemname">{{ product.name }}</div>
+                <div class="price">{{ product.price }}</div>
+            </div>
+            </a>
     </div>
+    {% endwith %}
     {% endfor %}
 {% endblock %}

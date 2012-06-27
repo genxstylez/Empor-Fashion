@@ -14,4 +14,16 @@ $(function () {
     $('div.black_bg').on('click', function() {
         $('div.menu_pop').fadeOut();
     });
+
+    $('a.dynamic').livequery('click', function() {
+        console.log('sdsdsd');
+        var url = $(this).attr('href');
+        var target = $(this).parent();
+        target.load(url, function() {
+            target.toggleClass('itemopen', 150, function() {
+            $('#content_wrapper').isotope('reLayout');
+            });
+        });
+    return false;
+    });
 });

@@ -6,7 +6,9 @@
     <link href="{{ STATIC_URL }}style/style.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}style/extra.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.isotope.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.livequery.js"></script> 
     <script src="{{ STATIC_URL }}js/app.js"></script>
 </head>
 <body>
@@ -42,12 +44,6 @@
 <!-- content_wrapper -->
 {% block content %}{% endblock %}
 <!-- content_wrapper -->
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
-    <script src="js/bootstrap-scrollspy.js"></script>
-    <script src="js/bootstrap-collapse.js"></script>
-    <script src="js/bootstrap-tooltip.js"></script>
-    <script src="js/application.js"></script> 
     <script type="text/javascript">
      $(function() {
         $('.index_content').hide();

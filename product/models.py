@@ -82,7 +82,7 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product.views.site.product_view', [self.name])
+        return ('product.views.site.product_view', [self.id])
 
 class ProductThumb(models.Model):
 

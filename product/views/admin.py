@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.forms.models import formset_factory
 from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm, ProductImageForm, ProductThumbForm
 from product.models import Product, Option, ProductImage, Collection, OptionGroup, ProductThumb
-from empor.shortcuts import JSONResponse
+from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
 
 def index(request):
@@ -102,27 +102,27 @@ def _render_options(request, group_id):
             choice = {'id': option.id, 'name': unicode(option.name)}
             choices.append(choice)
         
-        return JSONResponse(choices)
+        return JsonResponse(choices)
 
 def _create_brand(request):
     form = BrandForm(request.POST, request.FILES or None)
     if form.is_valid():
         brand = form.save()
-        return JSONResponse({'id': brand.id, 'name': brand.name})
+        return JsonResponse({'id': brand.id, 'name': brand.name})
     return render(request, 'admin/create-form.html', {'form': form})
 
 def _create_category(request):
     form = CategoryForm(request.POST or None)
     if form.is_valid():
         cat = form.save()
-        return JSONResponse({'id': cat.id, 'name': cat.name})
+        return JsonResponse({'id': cat.id, 'name': cat.name})
     return render(request, 'admin/create-form.html', {'form': form})
 
 def _create_optiongroup(request):
     form = OptionGroupForm(request.POST or None)
     if form.is_valid():
         opt = form.save()
-        return JSONResponse({'id': opt.id, 'name': opt.name})
+        return JsonResponse({'id': opt.id, 'name': opt.name})
 
 def _upload(request):
     uploaded_file = request.FILES.get('file', None)
@@ -144,7 +144,7 @@ def _upload(request):
         image.image.save(name, image_file, save=False)
         image.save()
 
-    return JSONResponse({'success': True, 'file_id': image.id, 'file': image.image.url })
+    return JsonResponse({'success': True, 'file_id': image.id, 'file': image.image.url })
 
 def _thumb_upload(request):
     uploaded_file = request.FILES.get('file', None)
@@ -168,4 +168,4 @@ def _thumb_upload(request):
         image.original.save(t[0], t[1], save=False)
         image.save()
 
-    return JSONResponse({'success': True, 'file_id': image.id, 'file': image.original.url })
+    return JsonResponse({'success': True, 'file_id': image.id, 'file': image.original.url })
