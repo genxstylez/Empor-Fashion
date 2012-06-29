@@ -5,7 +5,7 @@ from member.settings import COUNTRY_CHOICES
 from userena.models import UserenaBaseProfile
 
 class UserProfile(UserenaBaseProfile):
-    user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile')
+    user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile', unique=True)
     phone = models.CharField(_('Phone'), max_length=50, blank=True)
     billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
     billing_street1 = models.CharField(_('Billing Street 1'), max_length=100)

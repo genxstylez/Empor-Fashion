@@ -33,8 +33,12 @@ class RegisterForm(SignupFormOnlyEmail):
         new_user.first_name = self.cleaned_data['first_name']
         new_user.last_name = self.cleaned_data['last_name']
         new_user.save()
+        
+        try:
+            profile = UserProfile.objects.get(user=new_user)
+        except UserProfile.DoesNotExit:
+            profile = UserProfile(user=new_user)
 
-        profile = UserProfile(user=new_user)
         profile.billing_recipient = self.cleaned_data['billing_recipient']
         profile.billing_street1 = self.cleaned_data['billing_street1']
 

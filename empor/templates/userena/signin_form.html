@@ -1,0 +1,23 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="index_itembox itemopen" style="position: absolute; top: 40px; left: 350px;">
+    <div class="center">
+        <h1>Log In</h1>
+        
+        <form id="login-form" method="post" class="form-inline">
+            {% csrf_token %}
+            {% for field in form %}
+             <div class="control-group">
+               <label class="control-label">{{ field.label }}</label>
+               <div class="controls">{{ field }}</div>
+             </div>
+            {% endfor %}
+            <div class="form-actions">
+                <input type="submit" class="button" value="{% trans 'Log In' %}" />
+                <a href="#" class="button button_fb">Log In with Facebook</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
