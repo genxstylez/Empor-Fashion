@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 from empor import settings
 from django.contrib import admin
-from member.forms import RegisterForm
+from django.contrib.auth import views as auth_views
+from member.forms import RegisterForm, ProfileForm
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -10,8 +11,11 @@ urlpatterns = patterns('',
     url(r'^$', 'empor.views.index', name='index'),
     url(r'^empor/', include('product.urls')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
+    url(r'^accounts/(?P<username>[\.\w]+)/$','userena.views.profile_edit', {'edit_profile_form': ProfileForm}, name="member-profile"),
+    url(r'^accounts/password/reset/$', auth_views.password_reset, 
+        {'template_name': 'userena/password_reset_form.html',
+        'email_template_name': 'userena/emails/password_reset_message.txt'},
+        name="member-password-reset"),
     (r'^accounts/signup/$','userena.views.signup', {'signup_form': RegisterForm}),
     (r'^accounts/', include('userena.urls')),
-    
 )
-

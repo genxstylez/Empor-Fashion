@@ -19,6 +19,7 @@ $(function () {
         console.log('sdsdsd');
         var url = $(this).attr('href');
         var target = $(this).parent();
+        target.siblings().removeClass('itemopen');
         target.load(url, function() {
             target.toggleClass('itemopen', 150, function() {
             $('#content_wrapper').isotope('reLayout');

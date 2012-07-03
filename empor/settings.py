@@ -126,9 +126,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
 WSGI_APPLICATION = 'empor.wsgi.application'
 
 TEMPLATE_DIRS = (
-    os.path.join(ROOT_PATH, 'templates')     
+    os.path.join(ROOT_PATH, 'templates'),
+    os.path.join(ROOT_PATH, '../templates')     
 )
-
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -194,6 +194,8 @@ AUTH_PROFILE_MODULE = 'member.UserProfile'
 
 
 USERENA_WITHOUT_USERNAMES = True
+
+USERENA_PROFILE_DETAIL_TEMPLATE = 'userena/profile_detail.html'
 
 USERENA_DEFAULT_PRIVACY = 'closed'
 

@@ -1,8 +1,9 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from userena.forms import SignupFormOnlyEmail
+from userena.forms import SignupFormOnlyEmail, EditProfileForm
 from member.settings import COUNTRY_CHOICES
 from member.models import UserProfile
+from userena.utils import get_profile_model
 
 class RegisterForm(SignupFormOnlyEmail):
     first_name = forms.CharField(label=_('First name'), max_length=30, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
@@ -61,3 +62,43 @@ class RegisterForm(SignupFormOnlyEmail):
         profile.save()
 
         return new_user
+
+class ProfileForm(EditProfileForm):
+    """ Base form used for fields that are always required """
+    first_name = forms.CharField(label=_('First name'), max_length=30, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    last_name = forms.CharField(label=_('Last name'), max_length=30, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    phone = forms.CharField(label=_('Phone'), max_length=50, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    billing_recipient = forms.CharField(label=_('Recipient'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    billing_street1 = forms.CharField(label=_('Street 1'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    billing_street2 = forms.CharField(label=_('Street 2'), max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    billing_city = forms.CharField(label=_('City'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    billing_post_code = forms.CharField(label=_('Post Code'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    billing_country = forms.ChoiceField(label=_('Country'), choices=COUNTRY_CHOICES)
+    shipping_recipient = forms.CharField(label=_('Recipient'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    shipping_street1 = forms.CharField(label=_('Street 1'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    shipping_street2 = forms.CharField(label=_('Street 2'), max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    shipping_city = forms.CharField(label=_('City'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    shipping_post_code = forms.CharField(label=_('Post Code'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
+    shipping_country = forms.ChoiceField(label=_('Country'), choices=COUNTRY_CHOICES)
+
+    def __init__(self, *args, **kw):
+        super(EditProfileForm, self).__init__(*args, **kw)
+        # Put the first and last name at the top
+        new_order = self.fields.keyOrder[:-2]
+        new_order.insert(0, 'first_name')
+        new_order.insert(1, 'last_name')
+        self.fields.keyOrder = new_order
+
+    class Meta:
+        model = get_profile_model()
+        exclude = ['user', 'mugshot', 'privacy']
+
+    def save(self, force_insert=False, force_update=False, commit=True):
+        profile = super(EditProfileForm, self).save(commit=commit)
+        # Save first and last name
+        user = profile.user
+        user.first_name = self.cleaned_data['first_name']
+        user.last_name = self.cleaned_data['last_name']
+        user.save()
+
+        return profile
