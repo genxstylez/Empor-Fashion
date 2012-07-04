@@ -4,7 +4,7 @@
 <div class="index_itembox itemopen" style="position: absolute; top: 40px; left: 350px;">
     <div class="center">
         <h1>Register</h1>
-        <form id="register-form" method="post" action="/accounts/signup/" class="form-inline">
+        <form id="register-form" method="post" class="form-inline">
             {% csrf_token %}
             {{ form.errors }}
             {% for field in form %}
