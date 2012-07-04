@@ -36,11 +36,13 @@ def create_product(request, group_id):
         if product_form.is_valid() and product_image_formset.is_valid() and thumb_form.is_valid()\
             or product_form.data.has_key('has_options') and child_formset.is_valid() \
             and product_image_formset.is_valid() and product_form.is_valid() and thumb_form.is_valid():
+
             product = product_form.save(commit=False)
             product.collection = collection 
             product.category = collection.category
             product.brand = collection.brand
             product.save()
+            product.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
 
             thumb = ProductThumb.objects.get(id=thumb_form.cleaned_data['id'])
             x1 = thumb_form.cleaned_data['x1']
@@ -65,20 +67,21 @@ def create_product(request, group_id):
 
             if product.has_options:
                 for (counter, form) in enumerate(child_formset.forms):
-                    child = Product()
-                    child.stock = form.cleaned_data['stock']
-                    child.price = form.cleaned_data['price'] if form.cleaned_data['price'] else product.price
-                    child.parent = product
-                    child.name = product.name
-                    child.description = product.description
-                    child.brand = product.brand
-                    child.category = product.category
-                    child.has_options = True
-                    child.collection = collection
-                    child.save()
-                    child.gender.add = product.gender
-                    child.options.add(Option.objects.get(id=child_formset[counter].cleaned_data['option']))
-                    child.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
+                    if form.is_valid():
+                        child = Product()
+                        child.stock = form.cleaned_data['stock']
+                        child.price = form.cleaned_data['price'] if form.cleaned_data['price'] else product.price
+                        child.parent = product
+                        child.name = product.name
+                        child.description = product.description
+                        child.brand = product.brand
+                        child.category = product.category
+                        child.has_options = True
+                        child.collection = collection
+                        child.save()
+                        child.gender.add = product.gender
+                        child.options.add(Option.objects.get(id=child_formset[counter].cleaned_data['option']))
+                        child.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
             return HttpResponse('done')
     else:
         product_form = ProductForm()

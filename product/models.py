@@ -80,6 +80,10 @@ class Product(models.Model):
     def get_main_image(self):
         return self.images.get(main=True).image
 
+    def get_option(self):
+        if self.has_options:
+            return self.options.all()[0]
+
     @models.permalink
     def get_absolute_url(self):
         return ('product.views.site.product_view', [self.id])

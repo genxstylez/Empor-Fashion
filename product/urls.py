@@ -13,5 +13,5 @@ urlpatterns = patterns('product.views.admin',
 )
 
 urlpatterns += patterns('product.views.site',
-    url(r'^product/(?P<product_id>\d+)/$', 'product_view', name='product-view'),
+    url(r'^(?P<product_id>\d+)/$', 'product_view', name='product-view'),
 )

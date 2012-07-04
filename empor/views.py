@@ -5,7 +5,7 @@ from product.models import Product
 def index(request):
 
     if settings.DEBUG == True:
-        products = Product.objects.all()
+        products = Product.objects.filter(parent=None)
     else:
         products = Product.objects.filter(featured=True)
     box_class = ['a11', 'a12', 'a21', 'a22']

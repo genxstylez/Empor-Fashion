@@ -1,0 +1,45 @@
+{% extends 'empor/base.html' %}
+{% load i18n thumbnail %}
+{% block content %}
+<div class="index_itembox itemopen cart" style="position: absolute; top: 40px; right: 10px;">
+    <span class="close">×</span>
+    <div class="center">
+        <h1>{% trans 'CART' %}</h1>
+        <table class="table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>{% trans 'Item' %}</th>
+                <th>{% trans 'Price' %}</th>
+                <th>{% trans 'Qty' %}</th>
+                <th>{% trans 'Total' %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for item in cart.items.all %}
+                {{ item.cart_item.total }}
+                <tr>
+                    <td>
+                        <a href="{{ item.product.get_absolute_url }}">
+                            {% if item.product.parent %}
+                            <img src="{{ item.product.parent.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                            {% else %}
+                            <img src="{{ item.product.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                            {% endif %}
+                        </a>
+                    </td>
+                    <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.total }}</td>
+                    <td><a href="{% url cart-remove item.id %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <h2>{% trans 'Shopping Total' %}：{{ cart.total }}</h2>
+        <div class="form-actions"><a href="{% url index %}" class="button">Continue Shopping</a>　<a href="checkout.html" class="button">Checkout and Payment</a></div>
+    </div>
+</div>
+{% endblock %}

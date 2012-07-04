@@ -25,10 +25,10 @@
         <a href="contact.html"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
     </div>
     <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 40px;">
-        <a href="login.html"><img src="{{ STATIC_URL }}images/menu_icon_member.png"></a>
+        <a href="{% url userena_signin %}"><img src="{{ STATIC_URL }}images/menu_icon_member.png"></a>
     </div>
     <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 10px;">
-        <a href="cart.html"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
+        <a href="{% url cart-index %}"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
     </div>
     <div class="logo_box_top b_box" style="position: absolute; top: 20px; left: 10px;"></div>
     <!-- /menu_iconbox -->

@@ -15,7 +15,11 @@ $(function(){
         formCssClass: 'child-form',
         prefix: 'child',
         deleteText: deleteText,
-        addText: addText
+        addText: addText,
+        added: function() {
+            $('.options option[value="0"]').remove();
+            $('.options').removeAttr('disabled');
+        }
     });
 
     $('.product-image').formset({
