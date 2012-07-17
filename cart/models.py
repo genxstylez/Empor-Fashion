@@ -21,13 +21,14 @@ class CartItem(models.Model):
 class ArchivedCart(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), related_name='archived_cart', null=True, blank=True)
     session = models.CharField(_('Session'), max_length=100, blank=True)
-    items = models.ManyToManyField(Product, through='ArchivedCartItem')
+    total = models.PositiveIntegerField(_('Total'), default=0)
     created_at = models.DateTimeField(_('Created at'))
     last_modified = models.DateTimeField(_('Last modified'))
 
 class ArchivedCartItem(models.Model):
-    cart = models.ForeignKey(ArchivedCart, verbose_name=_('Archived Cart'))
+    cart = models.ForeignKey(ArchivedCart, verbose_name=_('Archived Cart'), related_name='items')
     product = models.ForeignKey(Product, verbose_name=_('Product'))
     quantity = models.PositiveIntegerField(_('Quantity'), default=1)
+    total = models.PositiveIntegerField(_('Total'), default=0)
     created_at = models.DateTimeField(_('Created at'))
     last_modified = models.DateTimeField(_('Last modified'))

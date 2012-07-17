@@ -1,3 +1,8 @@
 div.menu_pop {
     display: none;
 }
+
+div.outer_box {
+    left:360px;
+    position: absolute;
+    width: 63%;
