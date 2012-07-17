@@ -199,6 +199,8 @@ USERENA_PROFILE_DETAIL_TEMPLATE = 'userena/profile_detail.html'
 
 USERENA_DEFAULT_PRIVACY = 'closed'
 
+USERENA_REDIRECT_ON_SIGNOUT = '/'
+
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'

@@ -42,7 +42,7 @@
         <h2>{% trans 'Shopping Total' %}：{{ cart.total }}</h2>
         <div class="form-actions">
             <a href="{% url index %}" class="button">{% trans 'Continue Shopping' %}</a>　
-            <a href="{% url order-index %}" class="button">{% trans 'Checkout and Payment' %}</a>
+            {% if cart.items.count > 0 %}<a href="{% url order-index %}" class="button">{% trans 'Checkout and Payment' %}</a>{% endif %}
         </div>
     </div>
 </div>

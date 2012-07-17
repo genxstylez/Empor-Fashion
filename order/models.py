@@ -12,7 +12,7 @@ class Order(models.Model):
     shipping_address = models.CharField(_('Address'), max_length=500)
     billing_address = models.CharField(_('Billing Address'), max_length=500)
     new = models.BooleanField(_('New'), default=True)
-    status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES)
+    status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
     payment_method = models.PositiveSmallIntegerField(_('Payment method'), max_length=1, choices=PAYMENT_METHOD_CHOICES)
     total = models.PositiveIntegerField(_('Total'), default=0) 
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -26,7 +26,7 @@ class Order(models.Model):
 
         super(Order, self).save()
     
-class OrderProducts(models.Model):
+class OrderProduct(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('Order'), related_name='items')
     product = models.ForeignKey(Product, verbose_name=_('Product'))
     quantity = models.PositiveIntegerField(_('Quantity'), default=1)
@@ -35,6 +35,7 @@ class OrderProducts(models.Model):
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
     def save(self):
-        self.product.update(stock=self.product.stock - self.quantity)
-        super(OrderProducts, self).save()
+        self.product.stock= self.product.stock - self.quantity
+        self.product.save()
+        super(OrderProduct, self).save()
 

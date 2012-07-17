@@ -2,9 +2,6 @@
 {% load i18n thumbnail %}
 {% block content %}
 <div id="content_wrapper">
-    <div class="index_itembox logo_box b_box">
-        <a href="index.html"><img src="{{ STATIC_URL }}images/EMPOR_logo.png"></a>
-    </div>
     {% for product in products %}
     {% with box_class|random as class %}
     <div class="index_itembox {{ class }}"> 
