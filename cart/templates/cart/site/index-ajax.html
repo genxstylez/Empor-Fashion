@@ -1,7 +1,6 @@
-{% extends 'empor/base.html' %}
 {% load i18n thumbnail %}
-{% block content %}
-<div class="inside_itembox itemopen cart_open">
+<div class="index_itembox itemopen cart" style="position: absolute; top: 40px; right: 10px;">
+    <span class="close">×</span>
     <div class="center">
         <h1>{% trans 'Cart' %}</h1>
         <table class="table">
@@ -40,9 +39,8 @@
         </table>
         <h2>{% trans 'Shopping Total' %}：{{ cart.total }}</h2>
         <div class="form-actions">
-            <a href="{% url index %}" class="button">{% trans 'Continue Shopping' %}</a>　
+            <a id="continue" href="#" class="button">{% trans 'Continue Shopping' %}</a>　
             {% if cart.items.count > 0 %}<a href="{% url order-index %}" class="button">{% trans 'Checkout and Payment' %}</a>{% endif %}
         </div>
     </div>
 </div>
-{% endblock %}

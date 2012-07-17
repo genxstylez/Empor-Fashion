@@ -14,6 +14,7 @@
                         <th>{% trans 'Price' %}</th>
                         <th>{% trans 'Qty' %}</th>
                         <th>{% trans 'Total' %}</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,32 +67,53 @@
                     <label class="control-label">{% trans 'Phone' %}</label>
                     <div class="controls">{{ request.user.phone }}</div>
                 </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Billing Address' %}</label>
-                    <div class="controls">{{ form.billing_address }}</div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Recipient' %}</label>
-                    <div class="controls">{{ form.receiver }}</div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Shipping Address' %}</label>
-                    <div class="controls">{{ form.shipping_address }}</div>
-                </div>
+                <hr />
+                {% for field in form %}
+                {% if field.name != 'payment_method' %}
+                    {% if field.name == 'billing_recipient' %}
+                    <h4>{% trans 'Billing Information' %}</h4>
+                    {% endif %}
+                    {% if field.name == 'shipping_recipient' %}
+                    <h4>{% trans 'Shipping Information' %}</h4>
+                    {% endif %}
+                    <div class="control-group">
+                        <label class="control-label {{ field.css_classes }}">{{ field.label }}</label>
+                        <div class="controls">{{ field }}</div>
+                    </div>
+                    {% if field.name == 'billing_country' %}
+                    <div class="control-group">
+                        <div class="controls">
+                            <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
                 <hr />
                 <div class="control-group">
                     <label class="control-label">{% trans 'Payment methods' %}</label>
                     <div class="controls">
                         <ul>
                             {% for field in form.payment_method %}
-                            <li>{{ field }}</li>
+                            {% if forloop.counter == 1 %}
+                            <li style="height:24px;">
+                                <label style="width:100px">
+                                    {{ field.tag }}
+                                    <span style="float:left; margin-right: 10px;">{{ field.choice_label }} </span>
+                                    <img style="margin:0; position: relative; top: -5px" src="{{ STATIC_URL }}images/Credit Card PayPal.png" />
+                                </label>
+                            </li>
+                            {% else %}
+                            <li>
+                                {{ field }}
+                            </li> 
+                            {% endif %}
                             {% endfor %}
-                           <li><input name="pay" type="radio" checked="checked"><label><img src="images/Credit Card PayPal.png"></label></li>
                         </ul>
                    </div>
                  </div>
                  <div class="form-actions">
-                    <a href="{% url cart-index %}" class="button">Back</a>
+                    <a href="{% url cart-index %}" class="button">{% trans 'Back' %}</a>
                     {% if cart.items.count > 0 %}<input type="submit" class="button" value="{% trans 'Next' %}" />{% endif %}
                 </div>
             </form>

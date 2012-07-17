@@ -19,19 +19,3 @@ class UserProfile(UserenaBaseProfile):
     shipping_city = models.CharField(_('Shipping City'), max_length=100)
     shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=100)
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
-
-    def get_billing_details(self):
-        billing = self.billing_recipient + ', ' + self.billing_street1 + ', '
-        if self.billing_street2:
-            billing += self.billing_street2 + ', '
-        billing += self.billing_city + ', ' + self.billing_post_code + ', '
-        billing += self.get_billing_country_display() + '.'
-        return billing
-
-    def get_shipping_details(self):
-        shipping = self.shipping_recipient + ', ' + self.shipping_street1 + ', '
-        if self.shipping_street2:
-            shipping += self.shipping_street2 + ', '
-        shipping += self.shipping_city + ', ' + self.shipping_post_code + ', '
-        shipping += self.get_shipping_country_display() + '.'
-        return shipping

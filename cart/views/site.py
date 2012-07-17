@@ -67,8 +67,7 @@ def add_item(request):
             cart.total += item.total
             cart.save()
 
-        return JsonResponse({'success': True})
-
+        return render(request, 'cart/site/index-ajax.html', {'cart': cart})
     else: 
         return Http404
 
