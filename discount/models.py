@@ -1,10 +1,9 @@
 from django.db import models
+from django.db.models.signals import post_save
 from django.utils.translation import ugettext_lazy as _
 from product.models import Collection, Product, Category, Brand
-from transmeta import TransMeta
 
 class Discount(models.Model):
-    __metaclass__ = TransMeta
 
     description = models.CharField(_('Description'), max_length=100)
     active = models.BooleanField(_('Active'), default=True)
@@ -19,21 +18,21 @@ class Discount(models.Model):
     valid_categories = models.ManyToManyField(Category, verbose_name=_('Valid Categories'), null=True, blank=True)
     valid_brands = models.ManyToManyField(Brand, verbose_name=_('Valid Brands'), null=True, blank=True)
 
-    class Meta:
-        translate = ('amount', )
+def product_discountable(sender, instance, **kwargs):
+    """
+    if instance.valid_collections.count() > 0:
+        for collection in instance.valid_collections.all():
+            instance.valid_products.add(*collection.products.all())
+            collection.products.update(discountable=True)
+    if instance.valid_categories.count() > 0:
+        for category in instance.valid_categories.all():
+            instance.valid_products.add(*category.products.all())
+            category.products.update(discountable=True)
+    """
+    if instance.valid_brands.count() > 0:
+        for brand in instance.valid_brands.all():
+            for product in brand.products.all():
+                instance.valid_products.add(product.id)
+            brand.products.update(discountable=True)
 
-    def save(self, *args, **kwargs):
-        if not self.valid_products:
-            if self.valid_collections:
-                for collection in self.valid_collections:
-                    self.valid_products += collection.products.all()
-                    self.valid_products.save()
-            if self.valid_categories:
-                for category in self.valid_categories:
-                    self.valid_products += category.products.all()
-                    self.valid_products.save()
-            if self.valid_brands:
-                for brand in self.valid_brands:
-                    self.valid_products += brand.products.all()
-                    self.valid_products.save()
-        super(Discount, self).save(*args, **kwargs)
+post_save.connect(product_discountable, sender=Discount) 

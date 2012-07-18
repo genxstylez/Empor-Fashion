@@ -46,7 +46,6 @@ class Collection(models.Model):
     def __unicode__(self):
         return self.name
 
-
 class Product(models.Model):
 
     name = models.CharField(_('Name'), max_length=100, blank=True)
@@ -60,6 +59,7 @@ class Product(models.Model):
     price = models.PositiveIntegerField(_('Price'), default=0)
     composition = models.CharField(_('Composition'), max_length=100, blank=True)
     gender = models.ManyToManyField(Gender, related_name='products')
+    discountable = models.BooleanField(_('Discountable'), default=False)
     featured = models.BooleanField(_('Featured'), default=False)
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -85,18 +85,34 @@ class Product(models.Model):
             return self.options.all()[0]
 
     def get_best_discount(self):
+        d = None
+        value = 0 
         for discount in self.discount_set.all():
-            value = 0
             if discount.percentage:
-                value = self.price * discount.percentage/100
-                value = self.amount
+                value2 = self.price * discount.percentage/100
 
-        return value
+            else:
+                value2 = int(discount.amount)
+
+            if value2 > value:
+                value = value2
+                d = discount
+        return d 
 
 
     @models.permalink
     def get_absolute_url(self):
         return ('product.views.site.product_view', [self.id])
+
+def calculate_stock(sender, instance, **kwargs):
+    total_stock = 0
+    if instance.parent:
+        for product in instance.parent.children.all():
+            total_stock += product.stock
+        instance.parent.stock = total_stock
+        instance.parent.save()
+
+post_save.connect(calculate_stock, sender=Product, dispatch_uid='calculate-stock')
 
 class ProductThumb(models.Model):
 
@@ -146,12 +162,4 @@ class Option(models.Model):
     def __unicode__(self):
         return self.option_group.name + ' - ' + self.name
 
-def calculate_stock(sender, instance, **kwargs):
-    total_stock = 0
-    if instance.parent:
-        for product in instance.parent.children.all():
-            total_stock += product.stock
-        instance.parent.stock = total_stock
-        instance.parent.save()
 
-post_save.connect(calculate_stock, sender=Product, dispatch_uid='calculate-stock')

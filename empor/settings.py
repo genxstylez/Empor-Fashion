@@ -41,7 +41,7 @@ ugettext = lambda s: s # dummy ugettext function, as django's docs say
 
 LANGUAGES = (
     ('zh-TW', ugettext('Trad. Chinese')),
-    ('zh-CN', ugettext('Simp. Chinese')),
+    ('zh_CN', ugettext('Simp. Chinese')),
 )
 
 SITE_ID = 1
@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'discount',
     'common',
     'easy_thumbnails',
+    'transmeta',
     'userena',
     'guardian',
     'member',
