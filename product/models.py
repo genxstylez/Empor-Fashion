@@ -84,6 +84,16 @@ class Product(models.Model):
         if self.has_options:
             return self.options.all()[0]
 
+    def get_best_discount(self):
+        for discount in self.discount_set.all():
+            value = 0
+            if discount.percentage:
+                value = self.price * discount.percentage/100
+                value = self.amount
+
+        return value
+
+
     @models.permalink
     def get_absolute_url(self):
         return ('product.views.site.product_view', [self.id])

@@ -30,11 +30,19 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Asia/Taipei'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'zh-TW'
+
+
+ugettext = lambda s: s # dummy ugettext function, as django's docs say
+
+LANGUAGES = (
+    ('zh-TW', ugettext('Trad. Chinese')),
+    ('zh-CN', ugettext('Simp. Chinese')),
+)
 
 SITE_ID = 1
 
@@ -143,6 +151,7 @@ INSTALLED_APPS = (
     'product',
     'cart',
     'order',
+    'discount',
     'common',
     'easy_thumbnails',
     'userena',
