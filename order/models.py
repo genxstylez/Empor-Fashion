@@ -32,7 +32,7 @@ class Order(models.Model):
 
     def save(self):
         if self.status == 2:
-            for product in self.products.all():
+            for product in self.items.all():
                 product.product.stock+=product.quantity
                 product.product.save()
 
