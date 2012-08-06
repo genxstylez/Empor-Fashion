@@ -17,7 +17,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for item in cart.items.all %}
+            {% for item in items %}
                 <tr>
                     <td>
                         <a href="{{ item.product.get_absolute_url }}">
@@ -30,7 +30,7 @@
                     </td>
                     <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
                     <td>{{ item.product.price }}</td>
-                    <td>{% if item.product.discountable %} {{ item.product.get_best_discount }} {% else %} - {% endif %}</td>
+                    <td>{% if item.discount %} {{ item.get_discount_price }} {% else %} - {% endif %}</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.total }}</td>
                     <td><a href="{% url cart-remove item.id %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>

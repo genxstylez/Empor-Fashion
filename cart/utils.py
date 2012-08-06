@@ -15,6 +15,7 @@ def archive_cart(cart):
         ACitem.quantity = item.quantity
         ACitem.total = item.total
         ACitem.cart = Acart
+        ACitem.discount = item.discount
         ACitem.created_at = item.created_at
         ACitem.last_modified = item.last_modified
         ACitem.save()

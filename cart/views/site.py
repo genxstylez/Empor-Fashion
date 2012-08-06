@@ -33,8 +33,8 @@ def get_cart(request):
 
 def index(request):
     cart = get_cart(request)
-
-    return render(request, 'cart/site/index.html', {'cart': cart})
+    items = CartItem.objects.filter(cart=cart)
+    return render(request, 'cart/site/index.html', {'cart': cart, 'items': items})
 
 def add_item(request):
     cart = get_cart(request)
@@ -53,7 +53,7 @@ def add_item(request):
             item = CartItem.objects.get(product=product, cart=cart)
             item.quantity += int(quantity)
             cart.total -= item.total
-            item.total = int(product.price) * item.quantity
+            item.total = int(product.price) * int(item.quantity) - int(item.get_discount_price() * int(item.quantity))
             item.save()
             cart.total += item.total
             cart.save()
@@ -61,13 +61,17 @@ def add_item(request):
             item = CartItem()
             item.cart = cart
             item.product = product
+            if product.discountable:
+                item.discount = product.get_best_discount()
             item.quantity = quantity
-            item.total = int(product.price) * int(quantity)
+            item.total = int(product.price) * int(quantity) - int(item.get_discount_price() * int(quantity))
             item.save()
             cart.total += item.total
             cart.save()
 
-        return render(request, 'cart/site/index-ajax.html', {'cart': cart})
+        items = CartItem.objects.filter(cart=cart)
+
+        return render(request, 'cart/site/index-ajax.html', {'cart': cart, 'items': items})
     else: 
         return Http404
 

@@ -88,17 +88,17 @@ class Product(models.Model):
         d = None
         value = 0 
         for discount in self.discount_set.all():
-            if discount.percentage:
-                value2 = self.price * discount.percentage/100
+            if discount.percentage or discount.amount:
+                if discount.percentage:
+                    value2 = self.price * discount.percentage/100
 
-            else:
-                value2 = int(discount.amount)
+                else:
+                    value2 = int(discount.amount)
 
-            if value2 > value:
-                value = value2
-                d = discount
+                if value2 > value:
+                    value = value2
+                    d = discount
         return d 
-
 
     @models.permalink
     def get_absolute_url(self):

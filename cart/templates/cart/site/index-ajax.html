@@ -16,7 +16,7 @@
               </tr>
             </thead>
             <tbody>
-            {% for item in cart.items.all %}
+            {% for item in items %}
                 <tr>
                     <td>
                         <a href="{{ item.product.get_absolute_url }}">
