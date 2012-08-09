@@ -1,123 +1,121 @@
 {% extends 'empor/base.html' %}
 {% load i18n thumbnail %}
 {% block content %}
-<div id="content_wrapper" class="no_isotope">
-    <div class="inside_itembox itemopen">
-        <div class="center">
-            <h1>{% trans 'Confirm' %}</h1>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>{% trans 'Item' %}</th>
-                        <th>{% trans 'Discount' %}</th>
-                        <th>{% trans 'Price' %}</th>
-                        <th>{% trans 'Qty' %}</th>
-                        <th>{% trans 'Total' %}</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in items %}
-                    <tr>
-                        <td>
-                            <a href="{{ item.product.get_absolute_url }}">
-                                {% if item.product.parent %}
-                                <img src="{{ item.product.parent.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
-                                {% else %}
-                                <img src="{{ item.product.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
-                                {% endif %}
-                            </a>
-                        </td>
-                        <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
-                        <td>{{ item.product.price }}</td>
-                        <td><!-- discount here -->-</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.total }}</td>
-                        <td><a href="{% url cart-remove item.id %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <form id="confirm-form" method="post" class="form-inline">
-                {% csrf_token %}
-                {{ form.errors }}
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Total' %}</label>
-                    <div class="controls">{{ cart.total }}</div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Shipping' %}</label>
-                    <div class="controls">get_shipping</div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Total to pay' %}</label>
-                    <div class="controls">total</div>
-                </div>
-                <hr />
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Name' %}</label>
-                    <div class="controls">{{ request.user.first_name }} {{ request.user.last_name }}</div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Email' %}</label>
-                    <div class="controls">{{ request.user.email }}</div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Phone' %}</label>
-                    <div class="controls">{{ request.user.phone }}</div>
-                </div>
-                <hr />
-                {% for field in form %}
-                {% if field.name != 'payment_method' %}
-                    {% if field.name == 'billing_recipient' %}
-                    <h4>{% trans 'Billing Information' %}</h4>
-                    {% endif %}
-                    {% if field.name == 'shipping_recipient' %}
-                    <h4>{% trans 'Shipping Information' %}</h4>
-                    {% endif %}
-                    <div class="control-group">
-                        <label class="control-label {{ field.css_classes }}">{{ field.label }}</label>
-                        <div class="controls">{{ field }}</div>
-                    </div>
-                    {% if field.name == 'billing_country' %}
-                    <div class="control-group">
-                        <div class="controls">
-                            <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
-                        </div>
-                    </div>
-                    {% endif %}
-                {% endif %}
-                {% endfor %}
-                <hr />
-                <div class="control-group">
-                    <label class="control-label">{% trans 'Payment methods' %}</label>
-                    <div class="controls">
-                        <ul>
-                            {% for field in form.payment_method %}
-                            {% if forloop.counter == 1 %}
-                            <li style="height:24px;">
-                                <label style="width:100px; float:none;">
-                                    {{ field.tag }}
-                                    <span style="float:left; margin-right: 10px;">{{ field.choice_label }} </span>
-                                    <img style="margin:0; position: relative; top: -5px" src="{{ STATIC_URL }}images/Credit Card PayPal.png" />
-                                </label>
-                            </li>
+<div class="inside_itembox itemopen">
+    <div class="center">
+        <h1>{% trans 'Confirm' %}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>{% trans 'Item' %}</th>
+                    <th>{% trans 'Discount' %}</th>
+                    <th>{% trans 'Price' %}</th>
+                    <th>{% trans 'Qty' %}</th>
+                    <th>{% trans 'Total' %}</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>
+                        <a href="{{ item.product.get_absolute_url }}">
+                            {% if item.product.parent %}
+                            <img src="{{ item.product.parent.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
                             {% else %}
-                            <li>
-                                {{ field }}
-                            </li> 
+                            <img src="{{ item.product.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
                             {% endif %}
-                            {% endfor %}
-                        </ul>
-                   </div>
-                 </div>
-                 <div class="form-actions">
-                    <a href="{% url cart-index %}" class="button">{% trans 'Back' %}</a>
-                    {% if cart.items.count > 0 %}<input type="submit" class="button" value="{% trans 'Next' %}" />{% endif %}
+                        </a>
+                    </td>
+                    <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
+                    <td>{{ item.product.price }}</td>
+                    <td><!-- discount here -->-</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ item.total }}</td>
+                    <td><a href="{% url cart-remove item.id %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <form id="confirm-form" method="post" class="form-inline">
+            {% csrf_token %}
+            {{ form.errors }}
+            <div class="control-group">
+                <label class="control-label">{% trans 'Total' %}</label>
+                <div class="controls">{{ cart.total }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Shipping' %}</label>
+                <div class="controls">get_shipping</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Total to pay' %}</label>
+                <div class="controls">total</div>
+            </div>
+            <hr />
+            <div class="control-group">
+                <label class="control-label">{% trans 'Name' %}</label>
+                <div class="controls">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Email' %}</label>
+                <div class="controls">{{ request.user.email }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Phone' %}</label>
+                <div class="controls">{{ request.user.phone }}</div>
+            </div>
+            <hr />
+            {% for field in form %}
+            {% if field.name != 'payment_method' %}
+                {% if field.name == 'billing_recipient' %}
+                <h4>{% trans 'Billing Information' %}</h4>
+                {% endif %}
+                {% if field.name == 'shipping_recipient' %}
+                <h4>{% trans 'Shipping Information' %}</h4>
+                {% endif %}
+                <div class="control-group">
+                    <label class="control-label {{ field.css_classes }}">{{ field.label }}</label>
+                    <div class="controls">{{ field }}</div>
                 </div>
-            </form>
-        </div>
+                {% if field.name == 'billing_country' %}
+                <div class="control-group">
+                    <div class="controls">
+                        <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
+                    </div>
+                </div>
+                {% endif %}
+            {% endif %}
+            {% endfor %}
+            <hr />
+            <div class="control-group">
+                <label class="control-label">{% trans 'Payment methods' %}</label>
+                <div class="controls">
+                    <ul>
+                        {% for field in form.payment_method %}
+                        {% if forloop.counter == 1 %}
+                        <li style="height:24px;">
+                            <label style="width:100px; float:none;">
+                                {{ field.tag }}
+                                <span style="float:left; margin-right: 10px;">{{ field.choice_label }} </span>
+                                <img style="margin:0; position: relative; top: -5px" src="{{ STATIC_URL }}images/Credit Card PayPal.png" />
+                            </label>
+                        </li>
+                        {% else %}
+                        <li>
+                            {{ field }}
+                        </li> 
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+               </div>
+             </div>
+             <div class="form-actions">
+                <a href="{% url cart-index %}" class="button">{% trans 'Back' %}</a>
+                {% if cart.items.count > 0 %}<input type="submit" class="button" value="{% trans 'Next' %}" />{% endif %}
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

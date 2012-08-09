@@ -84,7 +84,7 @@ class Product(models.Model):
         if self.has_options:
             return self.options.all()[0]
 
-    def get_best_discount(self):
+    def get_discount_value(self):
         dis = None
         value = 0 
         for discount in self.discount_set.all():
@@ -100,7 +100,23 @@ class Product(models.Model):
                     dis = discount
         return dis.percentage if dis.percentage else dis.amount
 
-    def get_discounted_value(self):
+    def get_best_discount(self):
+        dis = None
+        value = 0 
+        for discount in self.discount_set.all():
+            if discount.percentage or discount.amount:
+                if discount.percentage:
+                    value2 = self.price * discount.percentage/100
+
+                else:
+                    value2 = int(discount.amount)
+
+                if value2 > value:
+                    value = value2
+                    dis = discount
+        return dis
+
+    def get_discounted_price(self):
         value = 0 
         for discount in self.discount_set.all():
             if discount.percentage or discount.amount:

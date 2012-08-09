@@ -660,14 +660,27 @@ table {
 	position:absolute;
 	top:50%;
 }
+.itemopen .large {
+    width:330px;
+    height:440px;
+    float:left;
+    margin: 10px;
+}
 .itemopen .large img{
+    position: absolute;
     width: 330px;
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
 	float:left;
+    top: 20;
+    left: 20;
+}
+.itemopen .small {
+    float: left;
 }
 .itemopen .small img {
+    cursor: pointer;
 	height:75px;
 	float:left;
 	margin-right:15px;

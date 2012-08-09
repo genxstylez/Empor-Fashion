@@ -1,7 +1,7 @@
 {% extends 'empor/base.html' %}
 {% load i18n thumbnail %}
 {% block content %}
-<div id="content_wrapper">
+<div id="isotope_list">
     {% for product in products %}
     {% with box_class|random as class %}
     <div class="index_itembox {{ class }}"> 
