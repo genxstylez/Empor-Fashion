@@ -1,4 +1,4 @@
-from cart.models import ArchivedCart, ArchivedCartItem
+from cart.models import ArchivedCart, ArchivedCartItem, CartItem
 
 def archive_cart(cart):
     Acart = ArchivedCart()
@@ -9,12 +9,14 @@ def archive_cart(cart):
     Acart.last_modified = cart.last_modified
     Acart.save()
 
-    for item in cart.items.all():
+    items = CartItem.objects.filter(cart=cart)
+
+    for item in items:
         ACitem = ArchivedCartItem()
         ACitem.product = item.product
+        ACitem.archived_cart = Acart
         ACitem.quantity = item.quantity
         ACitem.total = item.total
-        ACitem.cart = Acart
         ACitem.discount = item.discount
         ACitem.created_at = item.created_at
         ACitem.last_modified = item.last_modified

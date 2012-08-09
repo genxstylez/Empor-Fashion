@@ -2,6 +2,7 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from cart.utils import archive_cart
+from cart.models import ArchivedCartItem, CartItem
 from cart.views.site import get_cart
 from order.models import OrderProduct
 from order.forms import OrderForm
@@ -13,6 +14,7 @@ def index(request):
 
     else:
         cart = get_cart(request)
+        items = CartItem.objects.filter(cart=cart)
         if request.method == 'POST':
             form = OrderForm(request.POST)
             if form.is_valid():
@@ -22,13 +24,17 @@ def index(request):
                 order.cart = a_cart
                 order.user = request.user
                 order.save()
-                for item in a_cart.items.all():
+                items = ArchivedCartItem.objects.filter(archived_cart=a_cart)
+                for item in items:
                     order_item = OrderProduct()
                     order_item.order = order
                     order_item.product = item.product
                     order_item.quantity = item.quantity
                     order_item.total = item.total
                     order_item.save()
+                    if item.discount:
+                        item.discount.numUses += 1
+                        item.discount.save()
                 return render(request, 'order/site/thankyou.html', {'order': order})
         else:
             profile = request.user.profile
@@ -51,4 +57,4 @@ def index(request):
                 }
             )
         
-        return render(request, 'order/site/index.html', {'cart': cart, 'form': form})
+        return render(request, 'order/site/index.html', {'cart': cart, 'form': form, 'items': items})

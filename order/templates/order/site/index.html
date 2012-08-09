@@ -1,8 +1,8 @@
 {% extends 'empor/base.html' %}
 {% load i18n thumbnail %}
 {% block content %}
-<div id="content_wrapper">
-    <div class="index_itembox itemopen">
+<div id="content_wrapper" class="no_isotope">
+    <div class="inside_itembox itemopen">
         <div class="center">
             <h1>{% trans 'Confirm' %}</h1>
             <table class="table">
@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in cart.items.all %}
+                    {% for item in items %}
                     <tr>
                         <td>
                             <a href="{{ item.product.get_absolute_url }}">
@@ -97,7 +97,7 @@
                             {% for field in form.payment_method %}
                             {% if forloop.counter == 1 %}
                             <li style="height:24px;">
-                                <label style="width:100px">
+                                <label style="width:100px; float:none;">
                                     {{ field.tag }}
                                     <span style="float:left; margin-right: 10px;">{{ field.choice_label }} </span>
                                     <img style="margin:0; position: relative; top: -5px" src="{{ STATIC_URL }}images/Credit Card PayPal.png" />

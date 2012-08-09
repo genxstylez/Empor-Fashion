@@ -21,6 +21,23 @@ label.required:after {
     content: '*'
 }
 
+div#modal_overlay {
+    height:100%;
+    width: 100%;
+    background: white;
+    position: absolute;
+    display: none;
+    z-index: 1001;
+    top: 0px;
+    bottom: 0px;
+    opacity: 0.8;
+}
+
+div#content_pane {
+    z-index: 1002;
+    display: none;
+}
+
 /**** Isotope Filtering ****/
 
 .isotope-item {

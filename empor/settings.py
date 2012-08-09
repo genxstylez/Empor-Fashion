@@ -154,7 +154,6 @@ INSTALLED_APPS = (
     'discount',
     'common',
     'easy_thumbnails',
-    'transmeta',
     'userena',
     'guardian',
     'member',

@@ -1,4 +1,7 @@
-
+function show_content() {
+    $('#modal_overlay').fadeIn(200);
+    $('#content_pane').fadeIn(200);
+}
 $(function () {
     // ajax setup for csrf
     $.ajaxSetup({
@@ -23,19 +26,23 @@ $(function () {
     $('div.black_bg').on('click', function() {
         $('div.menu_pop').fadeOut();
     });
-
+    
     $('a.dynamic').livequery('click', function() {
+        var that = $(this).parent();
         var url = $(this).attr('href');
-        var target = $(this).parent();
-        target.siblings().removeClass('itemopen');
+        var target = $('#content_pane');
         target.load(url, function() {
-            target.toggleClass('itemopen', 150, function() {
-            $('#content_wrapper').isotope('reLayout');
-            });
+            that.hide();
+            setTimeout('show_content();', 180);
+        });
+        $('#content_pane .close').livequery('click', function() {
+            $('#content_pane').fadeOut(400);
+            $('#modal_overlay').hide();
+            that.fadeIn(200);
         });
     return false;
     });
-    
+
     // cart link
     // default quantity
     $('#quantity').livequery(function() {
@@ -50,6 +57,7 @@ $(function () {
 
     // add to cart
     $('a#add_cart').livequery('click', function() {
+        $('#content_pane').hide();
         var item = $('.product_option.selected a').attr('data');
         if(!item)
             item = $(this).attr('data');
@@ -57,12 +65,11 @@ $(function () {
         $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response) {
             $('body').append(response).hide().fadeIn();
             $('.cart .close').livequery('click', function() {
-                $('.cart').fadeOut(function() {$(this).remove();});
+                $('.cart').fadeOut(function() {$(this).remove(); $('#modal_overlay').hide();});
             });
             $('.cart #continue').livequery('click', function() {
-                $('.cart').fadeOut(function() {$(this).remove();});
+                $('.cart').fadeOut(function() {$(this).remove(); $('#modal_overlay').hide();});
             });
-            console.log(response);
         });
         return false;
     }); 

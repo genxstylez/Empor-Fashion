@@ -12,7 +12,7 @@ body {
 	font-family: Arial,Helvetica,sans-serif;
 	background-image: url(../images/a06.png);
 	background-repeat: repeat;
-	font-size:13px;
+	font-size:12px;
 }
 
 a:link, a:visited {
@@ -191,6 +191,8 @@ label, input, button, select, textarea {
 }
 .form-inline label {
 	display: inline-block;
+	float:left;
+	margin-right:10px;
 }
 .form-actions {
 	padding:5px 0;
@@ -395,7 +397,14 @@ table {
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	background: #fff;
 }
-.cart h2 {
+.cart_open {
+	-webkit-box-shadow:none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+	background: #fff;
+}
+.cart h2,
+.cart_open h2 {
 	text-align:right;
 }
 /*wrapper*/
@@ -771,7 +780,7 @@ table {
 }
 /*表單頁*/
 .control-group {
-	margin-bottom: 5px;
+	margin-bottom: 8px;
 	font-size:12px;
 	line-height:24px;
 	float: left;
@@ -788,6 +797,9 @@ table {
 }
 .controls a {
 	color:#413735;
+}
+.controls .second {
+	margin-left: 18px;
 }
 .control-group img {
 	margin-top:-5px;
@@ -866,37 +878,16 @@ table {
 	background:#29201b;
 	padding:10px;
 }
-#left_menu {
-	background: #F0F0F0;
-	position: absolute;
-	top: 50px;
-	left: 0px;
-	bottom: 0px;
-	width: 129px;
-	z-index: 5;
-	border-right: 1px solid #BBB;
-	font-size: 13px;
-	line-height: 24px;
-	overflow: hidden;
+#header img {
+	float:left;
 }
-#left_menu .menu_box {
-	margin-left: 0;
+#header .menu {
+	float:right;
+	color:#fff;
+	line-height:30px;
 }
-#left_menu .menu_box .menu_btn {
-	background-color: #F0F0F0;
-	border-top: 1px solid #F6F6F6;
-	border-bottom: 1px solid #DDD;
-	padding: 5px 15px;
-	cursor: pointer;
-	display: block;
-	text-decoration: none;
-	width: 100%;
-}
-#left_menu .menu_box .menu_btn:hover {
-	background-color: #e5e5e5;
-}
-#left_menu .menu_box a {
-	color:#555;
+#header .menu a {
+	color:#fff;
 }
 #back_weaper {
 	position: absolute;
@@ -977,7 +968,7 @@ table {
 	width:12px;
 	height:12px;
 }
-#pg_edit-form, #p_edit-form{
+#pg_edit-form, #p_edit-form, #discount_edit-form {
 	width:800px;
 	margin:0 auto;
 }
@@ -991,6 +982,24 @@ table {
 	background:#eee;
 	padding:10px 10px 0 10px;
 }
+#discount_edit-form_2 .left {
+	width: 200px;
+	float: left;
+	background: #EEE;
+	padding:10px;
+}
+#discount_edit-form_2 .left select{
+	margin-bottom:15px;
+}
+#discount_edit-form_2 .right {
+	margin-left: 230px;
+	width: auto;
+}
+#discount_edit-form_2 .full {
+	width: 100%;
+	margin-top:15px;
+	float: left;
+}
 .img_cut_box {
 	border:#ccc 1px solid;
 	padding:5px;
@@ -1002,10 +1011,12 @@ table {
 #p_edit-form .left .img_cut_box img {
 	width:420px;
 }
-#p_edit-form .right .control-label {
+#p_edit-form .right .control-label,
+#discount_edit-form .left .control-label {
 	width:80px;
 }
-#p_edit-form .right .controls {
+#p_edit-form .right .controls,
+#discount_edit-form .left .controls {
 	margin-left: 100px;
 }
 .inlineBlock {
@@ -1035,16 +1046,7 @@ table {
 	float:left;
 	margin-bottom:10px;
 }
-.index_itembox .content {
-	float: left;
-}
-.index_itembox .content .content_box {
-	float: left;
-	width: 44%;
-}
-.index_itembox .content .left {
-	border-right: #EEE 1px solid;
-}
+
 /* dropdown */
 .dropdown {
     position:relative;
@@ -1162,3 +1164,87 @@ table {
     top:-6px;
     right:10px;
 }
+
+.inside_itembox {
+	overflow: hidden;
+	border: 1px solid #eee;
+	background:#fff;
+}
+.inside_itembox .content {
+	float: left;
+}
+.inside_itembox .content .content_box {
+	float: left;
+	width: 44%;
+}
+.inside_itembox .content .left {
+	border-right: #EEE 1px solid;
+}
+.data .discount {
+	color: #990000;
+	font-size:20px;
+}
+.discount {
+	color: #990000;
+}
+.data strike {
+	margin-right:10px;
+}
+strike {
+	text-decoration: line-through;
+}
+.nav {
+  margin-bottom: 18px;
+  margin-left: 0;
+  list-style: none;
+}
+
+.nav > li > a {
+  display: block;
+}
+
+.nav > li > a:hover {
+  text-decoration: none;
+  background-color: #eeeeee;
+}
+
+.nav > .pull-right {
+  float: right;
+}
+
+.nav .nav-header {
+  display: block;
+  padding: 3px 0px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #413735;
+  text-transform: uppercase;
+}
+
+.nav li + .nav-header {
+  margin-top: 9px;
+}
+
+.nav-list {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-bottom: 0;
+}
+
+.nav-list > li > a,
+.nav-list .nav-header {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.nav-list > li > a {
+  padding: 3px 15px;
+}
+
+.nav-list > .active > a,
+.nav-list > .active > a:hover {
+  background-color: #d3cdc9;
+}
+
+
