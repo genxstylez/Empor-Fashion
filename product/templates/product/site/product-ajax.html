@@ -14,8 +14,20 @@
         </div>
     </div>
     <div class="right">
-        <h1>{{ focus_product }}</h1>
-        <div class="data"><h3><label>{% trans 'Price' %}：</label><span>{{ focus_product.price }}</span></h3></div>
+        <div class="brand"><img src="{{ focus_product.brand.image.url }}"></div>
+        <h2>{{ focus_product }}</h2>
+        
+        <div class="data">
+            <h3>
+                <label>{% trans 'Price' %}：</label>
+                {% if focus_product.discountable %}
+                <strike>{{ focus_product.price }}</strike>
+                <span class="discount">{{ focus_product.get_discounted_value }} ( -{{ focus_product.get_best_discount }} )</span>
+                {% else %}
+                <span>{{ focus_product.price }}</span>
+                {% endif %}
+            </h3>
+        </div>
         <div class="data">{{ focus_product.description }}</div>
         <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
         <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>

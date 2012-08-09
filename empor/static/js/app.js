@@ -5,10 +5,10 @@ function show_content() {
 $(function () {
     // ajax setup for csrf
     $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                // Only send the token to relative URLs i.e. locally.
-                xhr.setRequestHeader("X-CSRFToken", $('input[name*="csrfmiddlewaretoken"]').val());
-            }
+        beforeSend: function(xhr, settings) {
+            // Only send the token to relative URLs i.e. locally.
+            xhr.setRequestHeader("X-CSRFToken", $('input[name*="csrfmiddlewaretoken"]').val());
+        }
     });
 
     //isotope for index
@@ -41,6 +41,14 @@ $(function () {
             that.fadeIn(200);
         });
     return false;
+    });
+    
+    $('.index_itembox').on('mouseenter', function() {
+        $('.hide', this).show();
+    });
+
+    $('.index_itembox').on('mouseleave', function() {
+        $('.hide', this).hide();
     });
 
     // cart link
