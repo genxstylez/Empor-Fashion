@@ -70,9 +70,12 @@ class Product(models.Model):
             name = '' 
             for option in self.options.all():
                 name += ' - ' + option.name
-            return self.collection.name + ' - ' + self.name + name
+            return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name + name
 
-        return self.collection.name + ' - ' + self.name
+        return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name
+    
+    def get_name(self):
+        return self.__unicode__()
 
     def get_siblings(self):
         return self.collection.products.filter(parent=None).exclude(id=self.id)

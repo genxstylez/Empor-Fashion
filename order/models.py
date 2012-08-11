@@ -2,13 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from product.models import Product
-from cart.models import ArchivedCart
+from cart.models import ArchivedCart, ArchivedCartItem
 from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES
 from member.settings import COUNTRY_CHOICES
 
 class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders')
     cart = models.OneToOneField(ArchivedCart, related_name='order')
+    items = models.ManyToManyField(Product, verbose_name='items', through='OrderItem')
     new = models.BooleanField(_('New'), default=True)
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
     payment_method = models.PositiveSmallIntegerField(_('Payment method'), max_length=1, choices=PAYMENT_METHOD_CHOICES)
@@ -29,17 +30,27 @@ class Order(models.Model):
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+    dispatched_date = models.DateTimeField(_('Dispatched date'), null=True, blank=True)
 
     def save(self):
         if self.status == 2:
             for product in self.items.all():
-                product.product.stock+=product.quantity
-                product.product.save()
+                product.stock += OrderItem.objects.get(product=product, order=self).quantity
+                product.save()
+                discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
+                discount.numUses -= 1
+                discount.save()
+
+        if self.status == 1:
+            for product in self.items.all():
+                discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
+                discount.numUses += 1
+                discount.save()
 
         super(Order, self).save()
     
-class OrderProduct(models.Model):
-    order = models.ForeignKey(Order, verbose_name=_('Order'), related_name='items')
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, verbose_name=_('Order'))
     product = models.ForeignKey(Product, verbose_name=_('Product'))
     quantity = models.PositiveIntegerField(_('Quantity'), default=1)
     total = models.PositiveIntegerField(_('Total'), default=0)
@@ -47,7 +58,7 @@ class OrderProduct(models.Model):
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
     def save(self):
-        self.product.stock= self.product.stock - self.quantity
+        self.product.stock = self.product.stock - self.quantity
         self.product.save()
-        super(OrderProduct, self).save()
+        super(OrderItem, self).save()
 

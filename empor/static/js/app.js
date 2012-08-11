@@ -3,6 +3,12 @@ function show_content() {
     $('#content_pane').fadeIn(200);
 }
 $(function () {
+    
+    //paypal form auto submit
+    $('form[name="paypal"]').livequery(function() {
+        $(this).submit();
+    });
+
     // ajax setup for csrf
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
@@ -52,6 +58,11 @@ $(function () {
             that.fadeIn(200);
         });
     return false;
+    });
+
+    $('#content_pane .close').livequery('click', function() {
+        $('#content_pane').fadeOut(400);
+        $('#modal_overlay').hide();
     });
     
     $('.index_itembox').on('mouseenter', function() {

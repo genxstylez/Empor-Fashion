@@ -1,0 +1,31 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<h3>{% trans 'Redirecting to' %} PayPal</h3>
+<form action="https://www.paypal.com/cgi-bin/webscr" name="paypal" method="post">
+
+    <input type="hidden" name="cmd" value="_cart" />
+    <input type="hidden" name="upload" value="1" />
+    <input type="hidden" name="business" value="genxstylez@gmail.com" />
+    <input type="hidden" name="currency_code" value="TWD" />
+    <input type="hidden" name="image_url" value="{{ request.get_host }}{{ STATIC_URL }}images/logo_150.png" />
+    <input type="hidden" name="return" value="{{ request.get_host }}{% url order-success order.id %}" />
+    <input type="hidden" name="rm" value="0" />
+    <input type="hidden" name="address1" value="{{ order.shipping_street1 }}" />
+    <input type="hidden" name="address2" value="{{ order.shipping_street2 }}" />
+    <input type="hidden" name="city" value="{{ order.city }}" />
+    <input type="hidden" name="country" value="TW" />
+    <input type="hidden" name="email" value="{{ order.user.email }}" />
+    <input type="hidden" name="first_name" value="{{ order.user.first_name }}" />
+    <input type="hidden" name="last_name" value="{{ order.user.last_name }}" />
+    <input type="hidden" name="lc" value="TW" />
+    <input type="hidden" name="zip" value="{{ order.shipping.post_code }}" />
+
+    {% for item in items %}
+        <input type="hidden" name="item_name_{{ forloop.counter }}" value="{{ item.product.get_name }}" />
+        <input type="hidden" name="quantity_{{ forloop.counter }}" value="{{ item.quantity }}" />
+        <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ item.total }}" />
+    {% endfor %}
+
+</form>
+{% endblock %}

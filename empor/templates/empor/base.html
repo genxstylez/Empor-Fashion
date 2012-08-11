@@ -12,7 +12,6 @@
     <script src="{{ STATIC_URL }}js/app.js"></script>
 </head>
 <body>
-{% block popup %}{% endblock %}
 <!-- menu_wrapper -->
 <div id="menu_wrapper">
     <!-- menu_bar -->
@@ -45,11 +44,13 @@
 <!-- /menu_wrapper -->
 <!-- content_wrapper -->
 <div id="content_wrapper">
-{% block content %}
-{% endblock %}
+    {% block content %}
+    {% endblock %}
 </div>
 <!-- content_wrapper -->
-<div id="modal_overlay"></div>
-<div id="content_pane"></div>
+<div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>
+<div id="content_pane" {% if popup %}style="display:block;"{% endif %}>
+    {% block popup %}{% endblock %}
+</div>
 </body>
 </html>

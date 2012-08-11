@@ -1,0 +1,53 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen">
+    <div class="center">
+        <h1>Orders</h1>
+        <div class="menu">
+            <a href="{% url member-profile request.user.username %}">{% trans 'Member Information' %}</a> ／
+            <a href="{% url order-orders %}" style="text-decoration: underline;">{% trans 'Orders Tracking' %}</a>
+        </div>
+        {% block order_content %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans 'Order ID' %}</th>
+                    <th>{% trans 'Order Date' %}</th>
+                    <th>{% trans 'Status' %}</th>
+                    <th>{% trans 'Dispatched Date' %}</th>
+                    <th width="50px">{% trans 'Details' %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.transaction_id }}</td>
+                    <td>{{ order.created_at|date:"Y/m/d" }}</td>
+                    <td>
+                        {% if order.status == 0 %}
+                        <span class="orange">
+                        {% endif %}
+                        {% if order.status == 1 %}
+                        <span class="blue">
+                        {% endif %}
+                        {% if order.status == 2 %}
+                        <span class="red">
+                        {% endif %}
+                        {% if order.status == 3 %}
+                        <span class="green">
+                        {% endif %}
+                        {{ order.get_status_display }}
+                        </span>
+                    </td>
+                    <td>{{ order.dispatched_date|date:"Y/m/d" }}</td>
+                    <td><a href="{% url order-info order.id %}">{% trans 'Details' %}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endblock %}
+    </div>
+</div>
+{% endblock %}
+        

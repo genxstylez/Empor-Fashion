@@ -7,7 +7,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Sam Liu', 'genxstylez@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -41,7 +41,7 @@ ugettext = lambda s: s # dummy ugettext function, as django's docs say
 
 LANGUAGES = (
     ('zh-TW', ugettext('Trad. Chinese')),
-    ('zh_CN', ugettext('Simp. Chinese')),
+    ('zh-CN', ugettext('Simp. Chinese')),
 )
 
 SITE_ID = 1
@@ -55,7 +55,7 @@ USE_I18N = True
 USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
-USE_TZ = True
+USE_TZ = False
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'empor.wsgi.application'
@@ -157,7 +157,6 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'member',
-    'paypal.standard.ipn',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -214,5 +213,3 @@ USERENA_REDIRECT_ON_SIGNOUT = '/'
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
-
-PAYPAL_RECEIVER_EMAIL = 'genxstylez@gmail.com'

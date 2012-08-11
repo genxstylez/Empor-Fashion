@@ -30,7 +30,6 @@ class CartItem(models.Model):
         else:
             return 0
 
-
 class ArchivedCart(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), related_name='archived_cart', null=True, blank=True)
     session = models.CharField(_('Session'), max_length=100, blank=True)

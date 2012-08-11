@@ -1,53 +1,50 @@
 {% extends 'empor/index.html' %}
 {% load i18n thumbnail %}
 {% block popup %}
-<div id="itemup_wrapper">
-    <div class="white_bg" style=" display:block;"></div>
-    <div class="itemopen itemup">
-        <span class="close">×</span>
-        <div class="left">
-            <div class="large">
-                <img src="{{ focus_product.get_main_image|thumbnail_url:'medium' }}" rel="{{ focus_product.get_main_image|thumbnail_url:'small' }}" />
-            </div>
-            <div class="small">
-                {% for image in focus_product.images.all %}
-                <img src="{{ image.image|thumbnail_url:'small' }}" rel="{{ image.image|thumbnail_url:'medium' }}" />
-                {% endfor %}
-            </div>  
+<div class="itemopen itemup">
+    <span class="close">×</span>
+    <div class="left">
+        <div class="large">
+            <img src="{{ focus_product.get_main_image|thumbnail_url:'medium' }}" rel="{{ focus_product.get_main_image|thumbnail_url:'small' }}" />
         </div>
-        <div class="right">
-            <div class="brand"><img src="{{ focus_product.brand.image.url }}"></div>
-            <h2>{{ focus_product }}</h2>
-            <div class="data">
-                <h3>
-                    <label>{% trans 'Price' %}：</label>
-                    {% if focus_product.discountable %}
-                    <strike>{{ focus_product.price }}</strike>
-                    <span class="discount">{{ focus_product.get_discounted_price }} ( -{{ focus_product.get_discount_value }} )</span>
-                    {% else %}
-                    <span>{{ focus_product.price }}</span>
-                    {% endif %}
-                </h3>
-            </div> 
-            <div class="data">{{ focus_product.description }}</div>
-            <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
-            <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
-            {% for group in focus_product.optiongroup.all %}
-            <div class="data"><label>{{ group.name }}：</label>
-                 <ul>
-                    {% for child in focus_product.children.all %}
-                   <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#">{{ child.option }}</a></li>
-                    {% endfor %}
-                 </ul>
-            </div>
+        <div class="small">
+            {% for image in focus_product.images.all %}
+            <img src="{{ image.image|thumbnail_url:'small' }}" rel="{{ image.image|thumbnail_url:'medium' }}" />
             {% endfor %}
-            <div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
-            <div class="form-actions_left"><a href="cart.html" class="button">{% trans 'Add to Cart' %}</a></div>
-            <div class="data">
-                {% for sibling in focus_product.get_siblings %}
-                <span class="other"><a href="#"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
+        </div>  
+    </div>
+    <div class="right">
+        <div class="brand"><img src="{{ focus_product.brand.image.url }}"></div>
+        <h2>{{ focus_product }}</h2>
+        <div class="data">
+            <h3>
+                <label>{% trans 'Price' %}：</label>
+                {% if focus_product.discountable %}
+                <strike>{{ focus_product.price }}</strike>
+                <span class="discount">{{ focus_product.get_discounted_price }} ( -{{ focus_product.get_discount_value }} )</span>
+                {% else %}
+                <span>{{ focus_product.price }}</span>
+                {% endif %}
+            </h3>
+        </div> 
+        <div class="data">{{ focus_product.description }}</div>
+        <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
+        <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
+        {% for group in focus_product.optiongroup.all %}
+        <div class="data"><label>{{ group.name }}：</label>
+             <ul>
+                {% for child in focus_product.children.all %}
+               <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#">{{ child.option }}</a></li>
                 {% endfor %}
-            </div>
+             </ul>
+        </div>
+        {% endfor %}
+        <div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
+        <div class="form-actions_left"><a href="cart.html" class="button">{% trans 'Add to Cart' %}</a></div>
+        <div class="data">
+            {% for sibling in focus_product.get_siblings %}
+            <span class="other"><a href="#"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
+            {% endfor %}
         </div>
     </div>
 </div>
