@@ -51,23 +51,19 @@ def add_item(request):
 
         try:
             item = CartItem.objects.get(product=product, cart=cart)
-            item.quantity += int(quantity)
-            cart.total -= item.total
-            item.total = int(product.price) * int(item.quantity) - int(item.get_discount_price() * int(item.quantity))
-            item.save()
-            cart.total += item.total
-            cart.save()
         except CartItem.DoesNotExist:
             item = CartItem()
             item.cart = cart
             item.product = product
-            if product.discountable:
-                item.discount = product.get_best_discount()
-            item.quantity = quantity
-            item.total = int(product.price) * int(quantity) - int(item.get_discount_price() * int(quantity))
-            item.save()
-            cart.total += item.total
-            cart.save()
+
+        quantity = int(quantity)
+        item.quantity += int(quantity)
+        item.discount_total += product.get_discount_price() * quantity
+        item.total += product.get_discounted_price() * quantity
+        item.save()
+        cart.total += product.get_discounted_price() * quantity
+        cart.discount_total += item.discount_total
+        cart.save()
 
         items = CartItem.objects.filter(cart=cart)
 
@@ -82,7 +78,9 @@ def remove_item(request, item_id):
 
     try:
         total = item.total
+        discount_total = item.discount_total
         item.delete()
+        cart.discount_total -= discount_total
         cart.total -= total
         cart.save()
          
@@ -90,5 +88,3 @@ def remove_item(request, item_id):
         return JsonResponse({'success': False})
         
     return JsonResponse({'success': True})
-
-

@@ -13,6 +13,7 @@ class Order(models.Model):
     new = models.BooleanField(_('New'), default=True)
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
     payment_method = models.PositiveSmallIntegerField(_('Payment method'), max_length=1, choices=PAYMENT_METHOD_CHOICES)
+    discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     total = models.PositiveIntegerField(_('Total'), default=0) 
     billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
     billing_phone = models.CharField(_('Billing Phone'), max_length=50)
@@ -71,7 +72,8 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('Order'))
     product = models.ForeignKey(Product, verbose_name=_('Product'))
-    quantity = models.PositiveIntegerField(_('Quantity'), default=1)
+    quantity = models.PositiveIntegerField(_('Quantity'), default=0)
+    discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     total = models.PositiveIntegerField(_('Total'), default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
@@ -80,4 +82,3 @@ class OrderItem(models.Model):
         self.product.stock = self.product.stock - self.quantity
         self.product.save()
         super(OrderItem, self).save()
-

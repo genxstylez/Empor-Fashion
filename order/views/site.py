@@ -18,6 +18,7 @@ def index(request):
         if form.is_valid():
             order = form.save(commit=False)
             a_cart = archive_cart(cart)
+            order.discount_total = a_cart.discount_total
             order.total = a_cart.total
             order.cart = a_cart
             order.user = request.user
@@ -28,12 +29,13 @@ def index(request):
                 order_item.order = order
                 order_item.product = item.product
                 order_item.quantity = item.quantity
+                order_item.discount_total = item.discount_total
                 order_item.total = item.total
                 order_item.save()
-        if order.payment_method == 0: 
-            return redirect('order-paypal', order_id=order.id)
-        else:
-            return redirect('order-success', order_id=order.id)
+            if order.payment_method == 0: 
+                return redirect('order-paypal', order_id=order.id)
+            else:
+                return redirect('order-success', order_id=order.id)
     else:
         profile = request.user.profile
         form = OrderForm(initial={

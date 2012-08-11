@@ -8,7 +8,7 @@ class OrderForm(ModelForm):
     payment_method = forms.ChoiceField(widget=forms.RadioSelect(), choices=PAYMENT_METHOD_CHOICES)
     class Meta:
         model = Order
-        exclude = ('user', 'cart', 'new', 'status', 'total', 'created_at', 'last_modified', 'items', 'dispatched_date')
+        exclude = ('user', 'cart', 'new', 'status', 'total', 'created_at', 'last_modified', 'items', 'dispatched_date', 'discount_total')
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
