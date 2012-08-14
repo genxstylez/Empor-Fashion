@@ -23,7 +23,7 @@ def get_cart(request):
     except Cart.DoesNotExist:
         request.session.save()
         if request.user.is_authenticated():
-            cart, created  = Cart.objects.get_or_create(session=request.session.session_key, user=request.user)
+            cart, created  = Cart.objects.get_or_create(user=request.user)
         else:
             cart, created = Cart.objects.get_or_create(session=request.session.session_key)
 

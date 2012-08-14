@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'userena',
     'guardian',
     'member',
+    'paypal.standard.ipn',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -213,3 +214,5 @@ USERENA_REDIRECT_ON_SIGNOUT = '/'
 LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
 LOGIN_URL = '/accounts/signin/'
 LOGOUT_URL = '/accounts/signout/'
+
+PAYPAL_RECEIVER_EMAIL = 'genxstylez@gmail.com'

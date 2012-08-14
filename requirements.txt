@@ -2,4 +2,3 @@ django==1.4
 pillow
 django-userena
 django-extensions
-django-transmeta
