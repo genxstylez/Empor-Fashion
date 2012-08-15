@@ -1,0 +1,126 @@
+{% extends 'order/site/orders.html' %}
+{% load i18n thumbnail %}
+{% block order_content %}
+<div id="order_detail_content">
+    <div class="control-group">
+        <label class="control-label">{% trans 'Order ID' %}</label>
+        <div class="controls">{{ order.transation_id }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Order Status' %}</label>
+        <div class="controls">
+            {% if order.status == 0 %}
+            <span class="orange">
+            {% endif %}
+            {% if order.status == 1 %}
+            <span class="blue">
+            {% endif %}
+            {% if order.status == 2 %}
+            <span class="red">
+            {% endif %}
+            {% if order.status == 3 %}
+            <span class="green">
+            {% endif %}
+            {{ order.get_status_display }}
+            </span> 
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Order Date' %}</label>
+        <div class="controls">{{ order.created_at|date:"Y/m/d" }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Dispatched Date' %}</label>
+        <div class="controls">{{ order.dispatched_date|date:"Y/m/d" }}</div>
+    </div>
+    <hr />
+    <div class="control-group">
+        <label class="control-label">{% trans 'Gross Total' %}</label>
+        <div class="controls">{{ order.total }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Shipping</label>
+        <div class="controls">£ 40.00</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">Total to Pay</label>
+        <div class="controls">£ 166.00</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Name' %}</label>
+        <div class="controls">{{ order.billing_recipient }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Email' %}</label>
+        <div class="controls"><span>{{ order.user.email }}</span></div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Phone' %}</label>
+        <div class="controls">{{ order.billing_phone }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Billing Address' %}</label>
+        <div class="controls">{{ order.get_billing_address }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Payment Method' %}</label>
+        <div class="controls">{{ order.get_payment_method_display }}</div>
+    </div>
+    <hr />
+    <div class="control-group">
+        <label class="control-label">Shipping Address</label>
+        <div class="controls">No.1, Shifu Rd., Xinyi District, Taipei City 11008, Taiwan (R.O.C.).</div>
+    </div>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>{% trans 'Item' %}</th>
+                <th>{% trans 'Price' %}</th>
+                <th>{% trans 'Discount' %}</th>
+                <th>{% trans 'Qty' %}</th>
+                <th>{% trans 'Total' %}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>
+                    <a href="{{ item.product.get_absolute_url }}">
+                        {% if item.product.parent %}
+                        <img src="{{ item.product.parent.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                        {% else %}
+                        <img src="{{ item.product.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                        {% endif %}
+                    </a>
+                </td>
+                <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
+                <td>{{ item.product.price }}</td>
+                <td>{% if item.discount %} {{ item.get_discount_price }} {% else %} - {% endif %}</td>
+                <td>{{ item.quantity }}</td>
+                <td>{{ item.total }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="5">{% trans 'Gross Total' %}</td>
+                <td>£ 168.00</td>
+            </tr>
+            <tr>
+                <td colspan="5">{% trans 'Discount Total' %}</td>
+                <td>£ 42.00</td>
+            </tr>
+            <tr>
+                <td colspan="5">{% trans 'Shipping Cost' %}</td>
+                <td>£ 10.00</td>
+            </tr>
+            <tr>
+                <td colspan="5">{% trans 'Net Total' %}</td>
+                <td>£ 136.00</td>
+            </tr>
+
+        </tbody>
+        </table>
+    <div class="form-actions"><a href="order.html" class="button">回訂單列表頁</a></div>
+</div>
+{% endblock %}

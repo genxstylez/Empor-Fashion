@@ -48,6 +48,25 @@ class Order(models.Model):
                 discount.save()
 
         super(Order, self).save()
+
+    def get_billing_address(self):
+        address = self.billing_post_code + ' '
+        address += self.get_billing_country_display()
+        address += self.billing_city
+        address += self.billing_street1
+        if self.billing_street2:
+            address += self.billing_street2
+        return address
+
+    def get_shipping_address(self):
+        address = self.shipping_post_code
+        address += self.get_shipping_country_display()
+        address += self.shipping_city
+        address += self.shipping_street1
+        if self.shipping_street2:
+            address += self.shipping_street2
+        return address
+
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('Order'))

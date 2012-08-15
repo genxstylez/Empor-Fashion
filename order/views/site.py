@@ -67,11 +67,12 @@ def orders(request):
 @login_required
 def info(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    items = OrderItem.objects.filter(order=order)
 
     if order.user != request.user:
         raise Http404
 
-    return render(request, 'order/site/order.html', {'order': order})
+    return render(request, 'order/site/order.html', {'order': order, 'items': items})
 
 @login_required
 def paypal(request, order_id):

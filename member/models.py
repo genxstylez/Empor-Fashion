@@ -4,6 +4,12 @@ from django.utils.translation import ugettext_lazy as _
 from member.settings import COUNTRY_CHOICES
 from userena.models import UserenaBaseProfile
 
+class UserExtend(object):
+    def get_name(self):
+        return self.first_name + ' ' + self.last_name
+
+User.__bases__ += (UserExtend,)
+
 class UserProfile(UserenaBaseProfile):
     user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile', unique=True)
     phone = models.CharField(_('Phone'), max_length=50, blank=True)
@@ -19,3 +25,4 @@ class UserProfile(UserenaBaseProfile):
     shipping_city = models.CharField(_('Shipping City'), max_length=100)
     shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=100)
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
+
