@@ -519,6 +519,10 @@ table {
 	background:#fff;
 }
 .b_box {
+    position: relative;
+    top: 20px;
+    float: right;
+    margin-right: 8px;
 	background-color: #29201b;
 	border: 1px solid #29201b;
 }
@@ -613,10 +617,8 @@ table {
 /*itemopen*/
 .itemopen {
     width: 840px;
-	min-height:500px;
-	height:auto;
 	margin: 10px auto;
-	z-index:9999999;
+    float: left;
 }
 .itemopen h1 {
 	font-size:100px;
@@ -781,11 +783,7 @@ table {
 	z-index: 30000;
 }
 .itemup {
-	position: fixed;
-	top: 43%;
-	left: 50%;
-	margin-left:-420px;
-	margin-top:-250px;
+	position: relative;
 	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);

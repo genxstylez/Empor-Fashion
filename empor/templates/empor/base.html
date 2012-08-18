@@ -23,14 +23,14 @@
     </div>
     <!-- /logo -->
     <!-- menu_iconbox -->
-    <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 70px;">
-        <a href="contact.html"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
+    <div class="menu_iconbox b_box">
+        <a href="{% url cart-index %}"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
     </div>
-    <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 40px;">
+        <div class="menu_iconbox b_box">
         <a href="{% url member-index %}"><img src="{{ STATIC_URL }}images/menu_icon_member.png"></a>
     </div>
-    <div class="index_itembox menu_iconbox b_box" style="position: absolute; top: 20px; right: 10px;">
-        <a href="{% url cart-index %}"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
+    <div class="menu_iconbox b_box">
+        <a href="contact.html"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
     </div>
     <!-- /menu_iconbox -->
     <!-- menu_button -->
@@ -49,7 +49,7 @@
 </div>
 <!-- content_wrapper -->
 <div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>
-<div id="content_pane" {% if popup %}style="display:block;"{% endif %}>
+<div id="content_pane" {% if popup %}style="display:block;" class="itemup"{% endif %}>
     {% block popup %}{% endblock %}
 </div>
 </body>

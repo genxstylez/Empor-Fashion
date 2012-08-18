@@ -36,19 +36,14 @@ div#modal_overlay {
 div#content_pane {
     z-index: 1002;
     display: none;
-    position: relative;
-    top: 25%;
-    left: 50%;
-    margin-left: -420px;
-    margin-top: -250px;
-    -webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
     background: white;
+    overflow: hidden;
+    position: relative;
     width: 840px;
     min-height: 500px;
+    top: 15%;
+    margin: 0 auto;
     height: auto;
-    margin: 10px auto;
 }
 
 /**** Isotope Filtering ****/
