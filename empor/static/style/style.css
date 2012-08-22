@@ -618,7 +618,6 @@ table {
 .itemopen {
     width: 840px;
 	margin: 10px auto;
-    float: left;
 }
 .itemopen h1 {
 	font-size:100px;

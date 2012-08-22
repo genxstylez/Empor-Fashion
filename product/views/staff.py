@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.core.files.base import ContentFile
 from django.conf import settings
 from django.http import HttpResponse
+from django.views.decorators.http import require_POST
 from django.forms.models import formset_factory
 from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm, ProductImageForm, ProductThumbForm
 from product.models import Product, Option, ProductImage, Collection, OptionGroup, ProductThumb
@@ -127,11 +128,12 @@ def _create_optiongroup(request):
         opt = form.save()
         return JsonResponse({'id': opt.id, 'name': opt.name})
 
+@require_POST
 def _upload(request):
     uploaded_file = request.FILES.get('file', None)
-    chunk = request.REQUEST.get('chunk', '0')
-    chunks = request.REQUEST.get('chunks', '0')
-    name = request.REQUEST.get('name', '')
+    chunk = request.POST.get('chunk', '0')
+    chunks = request.POST.get('chunks', '0')
+    name = request.POST.get('name', '')
     if not name :
         name = uploaded_file.name
     if uploaded_file:
@@ -147,7 +149,8 @@ def _upload(request):
         image.image.save(name, image_file, save=False)
         image.save()
 
-    return JsonResponse({'success': True, 'file_id': image.id, 'file': image.image.url })
+        return JsonResponse({'success': True, 'file_id': image.id, 'file': image.image.url })
+    return JsonResponse({'success': True})
 
 def _thumb_upload(request):
     uploaded_file = request.FILES.get('file', None)

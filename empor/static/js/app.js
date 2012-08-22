@@ -36,10 +36,11 @@ $(function () {
     });
 
     //menu button binding
-    $('div.menu_button a').on('click', function() {
+ /*   $('div.menu_button a').on('click', function() {
         $('div.menu_pop').fadeIn();
         return false;
     });
+*/
     // image gallery
     $('div.small img').livequery('click', function () {
         var src = $(this).attr('src');

@@ -1,5 +1,4 @@
 from django.conf.urls import patterns, include, url
-from empor import settings
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from member.forms import RegisterForm, ProfileForm
@@ -9,13 +8,13 @@ urlpatterns = patterns('',
     url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', 'empor.views.index', name='index'),
+    url(r'^(?P<gender_type>\w+)/$', 'empor.views.gender', name='index-gender'),
     url(r'^staff/', include('product.staff-urls')),
-    url(r'^product/', include('product.urls')),
+    url(r'^(?P<brand>\w+)/', include('product.urls')),
     url(r'^cart/', include('cart.urls')),
     url(r'^discount/', include('discount.urls')),
     url(r'^order/', include('order.urls')),
     url(r'^member/', include('member.urls')),
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT,}),
     url(r'^accounts/password/reset/$', auth_views.password_reset, 
         {'template_name': 'userena/password_reset_form.html',
         'email_template_name': 'userena/emails/password_reset_message.txt'},

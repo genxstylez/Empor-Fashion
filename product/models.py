@@ -159,14 +159,12 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product.views.site.product_view', [self.id])
+        return ('product.views.site.product_view', [self.brand.name, self.slug])
 
 @receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):
     total_stock = 0
     if instance.parent:
-        if not instance.sku:
-            instance.sku = instance.brand.name[:4].upper() + '%04d%04d%04d' % (instance.collection.id , instance.parent.id, instance.id)
         for product in instance.parent.children.all():
             total_stock += product.stock
         instance.parent.stock = total_stock

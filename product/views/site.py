@@ -2,7 +2,7 @@ from django.utils.translation import ugettext as _
 from django.shortcuts import render, get_object_or_404
 from product.models import Product
 
-def product_view(request, product_slug):
+def product_view(request, brand, product_slug):
     focus_product = get_object_or_404(Product, slug=product_slug)
 
     if request.is_ajax():

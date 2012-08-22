@@ -35,7 +35,8 @@
     <!-- /menu_iconbox -->
     <!-- menu_button -->
     <div class="menu_button" style="position: absolute; top: 10px; right: 100px;">
-        <a href="index_menuopen.html">MENU</a>
+        <a href="{% url index-gender 'MEN' %}">MEN</a> /
+        <a href="{% url index-gender 'WOMEN' %}">WOMEN</a>
     </div>
     <!-- /menu_button -->
     {% comment %}<!-- menu_content -->{% endcomment %}
