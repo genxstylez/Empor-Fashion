@@ -5,8 +5,10 @@ from product.models import Product
 from cart.models import ArchivedCart, ArchivedCartItem
 from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES
 from member.settings import COUNTRY_CHOICES
+from datetime import datetime
 
 class Order(models.Model):
+    order_id = models.CharField(_('Order ID'), max_length=20, blank=True)
     user = models.ForeignKey(User, related_name='orders')
     cart = models.OneToOneField(ArchivedCart, related_name='order')
     items = models.ManyToManyField(Product, verbose_name='items', through='OrderItem')
@@ -47,7 +49,8 @@ class Order(models.Model):
                 discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
                 discount.numUses += 1
                 discount.save()
-
+        if not self.order_id:
+            self.order_id = 'EMP%6s%06d' % (datetime.now().strftime('%y%m%d'), self.id)
         super(Order, self).save()
 
     def get_billing_address(self):

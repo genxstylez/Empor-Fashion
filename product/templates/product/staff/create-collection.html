@@ -1,4 +1,4 @@
-{% extends 'product/admin/base.html' %}
+{% extends 'product/staff/base.html' %}
 {% load i18n %}
 {% block content %}
 <form id="pg_edit-form" method="post" class="form-inline well">
@@ -8,6 +8,7 @@
     <div class="control-group">
         <label class="control-label">{{ field.label }}</label>
         <div class="controls">{{ field }}</div>
+        {{ field.errors }}
     </div>
     {% endfor %}
     <div class="form-actions">

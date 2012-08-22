@@ -68,7 +68,7 @@
     </div>
     <hr />
     <div class="control-group">
-        <label class="control-label">Shipping Address</label>
+        <label class="control-label">{% trans 'Shipping Address' %}</label>
         <div class="controls">No.1, Shifu Rd., Xinyi District, Taipei City 11008, Taiwan (R.O.C.).</div>
     </div>
     
@@ -121,6 +121,6 @@
 
         </tbody>
         </table>
-    <div class="form-actions"><a href="order.html" class="button">回訂單列表頁</a></div>
+    <div class="form-actions"><a href="{% url order-orders %}" class="button">{% trans 'Back to Orders List' %}</a></div>
 </div>
 {% endblock %}

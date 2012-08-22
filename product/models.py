@@ -1,5 +1,7 @@
 from django.db import models
 from django.db.models.signals import post_save
+from django.dispatch import receiver
+from empor.storage import empor_storage
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
 
@@ -25,7 +27,7 @@ class Brand(models.Model):
     def brand_path(self, filename):
             return 'brand_images/%s/%s' % (self.name, filename)
     name = models.CharField(_('Name'), max_length=100)
-    image = models.ImageField(_('Image'), upload_to=brand_path)
+    image = models.ImageField(_('Image'), upload_to=brand_path, storage=empor_storage)
     description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -49,6 +51,8 @@ class Collection(models.Model):
 class Product(models.Model):
 
     name = models.CharField(_('Name'), max_length=100, blank=True)
+    sku = models.CharField(_('SKU'), max_length=20, blank=True)
+    slug = models.CharField(_('Slug'), max_length=100, blank=True)
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
@@ -64,6 +68,11 @@ class Product(models.Model):
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.name.replace(' ', '_').lower()
+        super(Product, self).save(*args, **kwargs)
 
     def __unicode__(self):
         if self.has_options:
@@ -152,15 +161,25 @@ class Product(models.Model):
     def get_absolute_url(self):
         return ('product.views.site.product_view', [self.id])
 
+@receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):
     total_stock = 0
     if instance.parent:
+        if not instance.sku:
+            instance.sku = instance.brand.name[:4].upper() + '%04d%04d%04d' % (instance.collection.id , instance.parent.id, instance.id)
         for product in instance.parent.children.all():
             total_stock += product.stock
         instance.parent.stock = total_stock
         instance.parent.save()
 
-post_save.connect(calculate_stock, sender=Product, dispatch_uid='calculate-stock')
+@receiver(post_save, sender=Product)
+def sku(sender, instance, **kwargs):
+    if not instance.sku:
+        if instance.parent: 
+            instance.sku = instance.brand.name[:3].upper() + '%04d%04d%04d' % (instance.collection.id , instance.parent.id, instance.id)
+        else:
+            instance.sku = instance.brand.name[:3].upper() + '%04d%04d' % (instance.collection.id , instance.id)
+        instance.save()
 
 class ProductThumb(models.Model):
 
@@ -170,8 +189,8 @@ class ProductThumb(models.Model):
             return 'thumbnails/%s_original.%s' % (filename.split('.')[0], filename.split('.')[1])
 
     product = models.OneToOneField(Product, verbose_name=_('Product'), related_name="thumb", null=True, blank=True)
-    original = models.ImageField(upload_to=original_path)
-    thumb = models.ImageField(upload_to=thumbnail_path, blank=True)
+    original = models.ImageField(upload_to=original_path, storage=empor_storage)
+    thumb = models.ImageField(upload_to=thumbnail_path, blank=True, storage=empor_storage)
     x1 = models.IntegerField(default=0)
     y1 = models.IntegerField(default=0)
     x2 = models.IntegerField(default=0)
@@ -186,7 +205,7 @@ class ProductImage(models.Model):
         return 'product_images/%s' % (filename)
 
     product = models.ForeignKey(Product, related_name='images', null=True, blank=True)
-    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, blank=True)
+    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, blank=True, storage=empor_storage)
     main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
@@ -209,5 +228,3 @@ class Option(models.Model):
     
     def __unicode__(self):
         return self.option_group.name + ' - ' + self.name
-
-

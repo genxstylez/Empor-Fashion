@@ -10,13 +10,13 @@
     <body>
         <div id="header" class="broke-endless-pages">
             <img src="{{ STATIC_URL }}images/EMPOR_logo_back.png">
-            </div>
+            <span class="menu">
+                <a href="{% url staff-index %}">產品列表</a> ／ 
+                <a href="back_discountlist.html">折扣列表</a>
+            </span>
+        </div>
         <div id="back_weaper">
             <div id="inside_box">
-                <div class="page-header">
-                    <h1>PRODUCTS GROUPS</h1>
-                    <a href="#" class="button">新增產品組</a>　<a href="back_p_edit.html" class="button">新增產品</a>　<a href="back_pg.html" class="button">產品列表</a>
-                </div>
                 {% block content%}
                 {% endblock %}
             </div>

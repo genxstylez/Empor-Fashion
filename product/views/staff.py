@@ -10,21 +10,21 @@ from empor.thumbs import thumb_resize, generate_crop
 
 def index(request):
     collections = Collection.objects.all()
-    return render(request, 'product/admin/index.html', {'collections': collections})
+    return render(request, 'product/staff/index.html', {'collections': collections})
 
-def create_group(request):
+def collection_create(request):
     form = CollectionForm(request.POST or None)
     if form.is_valid():
         collection = form.save()
         if 'add' in request.POST:
-            return redirect('product-admin-create-product', group_id=collection.id)
+            return redirect('staff-create-product', collection_id=collection.id)
         else:
             return redirect(index)
 
-    return render(request, 'product/admin/create-collection.html', {'form' : form}) 
+    return render(request, 'product/staff/create-collection.html', {'form' : form}) 
 
-def create_product(request, group_id):
-    collection = Collection.objects.get(id=group_id)
+def product_create(request, collection_id):
+    collection = Collection.objects.get(id=collection_id)
     products = collection.products.filter(parent=None)
     ChildProductFormSet = formset_factory(ChildProductForm)
     ProductImageFormSet= formset_factory(ProductImageForm)
@@ -89,7 +89,7 @@ def create_product(request, group_id):
         child_formset = ChildProductFormSet(prefix='child')
         product_image_formset = ProductImageFormSet(prefix='product_image')
 
-    return render(request, 'product/admin/create-product.html', {
+    return render(request, 'product/staff/create-product.html', {
         'collection': collection,
         'products': products,
         'thumb_form': thumb_form,
@@ -112,14 +112,14 @@ def _create_brand(request):
     if form.is_valid():
         brand = form.save()
         return JsonResponse({'id': brand.id, 'name': brand.name})
-    return render(request, 'admin/create-form.html', {'form': form})
+    return render(request, 'staff/create-form.html', {'form': form})
 
 def _create_category(request):
     form = CategoryForm(request.POST or None)
     if form.is_valid():
         cat = form.save()
         return JsonResponse({'id': cat.id, 'name': cat.name})
-    return render(request, 'admin/create-form.html', {'form': form})
+    return render(request, 'staff/create-form.html', {'form': form})
 
 def _create_optiongroup(request):
     form = OptionGroupForm(request.POST or None)
