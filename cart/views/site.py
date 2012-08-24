@@ -1,4 +1,5 @@
 from django.db import IntegrityError
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from empor.shortcuts import JsonResponse
@@ -38,16 +39,16 @@ def index(request):
 
 def add_item(request):
     cart = get_cart(request)
-    if request.method == 'POST':
+    if request.method == 'POST' and request.is_ajax():
 
-        product_id = request.POST.get('product_id')
-        quantity = request.POST.get('quantity')
+        product_id = request.POST.get('product_id', None)
+        quantity = request.POST.get('quantity', 1)
 
         product = get_object_or_404(Product, id=product_id)
 
         #if no options selected for has_options product
         if product.has_options and product.children.count() > 0:
-            return JsonResponse({'success': False})
+            return Http404
 
         try:
             item = CartItem.objects.get(product=product, cart=cart)
@@ -57,12 +58,16 @@ def add_item(request):
             item.product = product
 
         quantity = int(quantity)
+        discount = product.get_discount_price() * quantity
+        gross = product.price * quantity
         item.quantity += int(quantity)
-        item.discount_total += product.get_discount_price() * quantity
-        item.total += product.get_discounted_price() * quantity
+        item.discount_total += discount
+        item.gross_total += gross
+        item.net_total += gross - discount
         item.save()
-        cart.total += product.get_discounted_price() * quantity
-        cart.discount_total += item.discount_total
+        cart.discount_total += discount
+        cart.gross_total += gross
+        cart.net_total += gross - discount
         cart.save()
 
         items = CartItem.objects.filter(cart=cart)
@@ -71,20 +76,26 @@ def add_item(request):
     else: 
         return Http404
 
-def remove_item(request, item_id):
-    cart = get_cart(request)
+def remove_item(request):
+    item_id = request.POST.get('cart', None)
+    if request.is_ajax() and item_id: 
+        cart = get_cart(request)
 
-    item = get_object_or_404(CartItem, id=item_id)
+        item = get_object_or_404(CartItem, id=item_id)
 
-    try:
-        total = item.total
-        discount_total = item.discount_total
-        item.delete()
-        cart.discount_total -= discount_total
-        cart.total -= total
-        cart.save()
-         
-    except IntegrityError:
-        return JsonResponse({'success': False})
-        
-    return JsonResponse({'success': True})
+        try:
+            gross_total = item.gross_total
+            discount_total = item.discount_total
+            net_total = item.net_total
+            item.delete()
+            cart.discount_total -= discount_total
+            cart.gross_total -= gross_total
+            cart.net_total -= net_total
+            cart.save()
+             
+        except IntegrityError:
+            return JsonResponse({'success': False})
+            
+        return JsonResponse({'success': True})
+    else:
+        raise Http404

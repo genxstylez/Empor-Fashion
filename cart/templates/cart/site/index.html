@@ -32,14 +32,15 @@
                     <td>{{ item.product.price }}</td>
                     <td>{% if item.discount %} {{ item.get_discount_price }} {% else %} - {% endif %}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>{{ item.total }}</td>
-                    <td><a href="{% url cart-remove item.id %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
+                    <td class="item_total">{{ item.net_total }}</td>
+                    <td><a href="{% url cart-remove %}" data="{{ item.id }}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
-        <h2>{% trans 'Shopping Total' %}：{{ cart.total }}</h2>
+        <h2>{% trans 'Shopping Total' %}：<span id="total">{{ cart.net_total }}</span></h2>
         <div class="form-actions">
+            {% csrf_token %}
             <a href="{% url index %}" class="button">{% trans 'Continue Shopping' %}</a>　
             {% if cart.items.count > 0 %}<a href="{% url order-index %}" class="button">{% trans 'Checkout and Payment' %}</a>{% endif %}
         </div>

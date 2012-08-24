@@ -130,31 +130,33 @@ class Product(models.Model):
 
     def get_discount_price(self):
         value = 0 
-        for discount in self.discount_set.all():
-            if discount.percentage or discount.amount:
-                if discount.percentage:
-                    value2 = self.price * discount.percentage/100
+        if self.discountable:
+            for discount in self.discount_set.all():
+                if discount.percentage or discount.amount:
+                    if discount.percentage:
+                        value2 = self.price * discount.percentage/100
 
-                else:
-                    value2 = int(discount.amount)
+                    else:
+                        value2 = int(discount.amount)
 
-                if value2 > value:
-                    value = value2
+                    if value2 > value:
+                        value = value2
         return value
 
 
     def get_discounted_price(self):
         value = 0 
-        for discount in self.discount_set.all():
-            if discount.percentage or discount.amount:
-                if discount.percentage:
-                    value2 = self.price * discount.percentage/100
+        if self.discountable:
+            for discount in self.discount_set.all():
+                if discount.percentage or discount.amount:
+                    if discount.percentage:
+                        value2 = self.price * discount.percentage/100
 
-                else:
-                    value2 = int(discount.amount)
+                    else:
+                        value2 = int(discount.amount)
 
-                if value2 > value:
-                    value = value2
+                    if value2 > value:
+                        value = value2
         return self.price - value
 
     @models.permalink

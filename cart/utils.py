@@ -5,7 +5,8 @@ def archive_cart(cart):
     Acart.user = cart.user
     Acart.session = cart.session
     Acart.discount_total = cart.discount_total
-    Acart.total = cart.total
+    Acart.gross_total= cart.gross_total
+    Acart.net_total = cart.net_total
     Acart.created_at = cart.created_at
     Acart.last_modified = cart.last_modified
     Acart.save()
@@ -18,7 +19,8 @@ def archive_cart(cart):
         ACitem.archived_cart = Acart
         ACitem.quantity = item.quantity
         ACitem.discount_total = item.discount_total
-        ACitem.total = item.total
+        ACitem.gross_total = item.gross_total
+        ACitem.net_total = item.net_total
         ACitem.created_at = item.created_at
         ACitem.last_modified = item.last_modified
         ACitem.save()

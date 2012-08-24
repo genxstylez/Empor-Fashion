@@ -32,18 +32,17 @@
                     <td>{{ item.product.price }}</td>
                     <td>{% if item.discount_total > 0 %}{{ item.product.get_discounted_price }}{% else %}-{% endif %}</td>
                     <td>{{ item.quantity }}</td>
-                    <td>{{ item.total }}</td>
-                    <td><a href="{% url cart-remove item.id %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
+                    <td>{{ item.net_total }}</td>
+                    <td><a href="{% url cart-remove %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
         <form id="confirm-form" method="post" class="form-inline">
             {% csrf_token %}
-            {{ form.errors }}
             <div class="control-group">
                 <label class="control-label">{% trans 'Total' %}</label>
-                <div class="controls">{{ cart.total }}</div>
+                <div class="controls">{{ cart.net_total }}</div>
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Shipping' %}</label>
@@ -78,6 +77,7 @@
                 <div class="control-group">
                     <label class="control-label {{ field.css_classes }}">{{ field.label }}</label>
                     <div class="controls">{{ field }}</div>
+                    {{ field.errors }}
                 </div>
                 {% if field.name == 'billing_country' %}
                 <div class="control-group">

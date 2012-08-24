@@ -47,7 +47,7 @@
         <div class="controls">£ 166.00</div>
     </div>
     <div class="control-group">
-        <label class="control-label">{% trans 'Name' %}</label>
+        <label class="control-label">{% trans 'Buyer' %}</label>
         <div class="controls">{{ order.billing_recipient }}</div>
     </div>
     <div class="control-group">
@@ -68,8 +68,16 @@
     </div>
     <hr />
     <div class="control-group">
+        <label class="control-label">{% trans 'Recipient' %}</label>
+    <div class="controls">{{ order.shipping_recipient }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">{% trans 'Phone' %}</label>
+        <div class="controls">{{ order.shipping_phone }}</div>
+    </div>
+    <div class="control-group">
         <label class="control-label">{% trans 'Shipping Address' %}</label>
-        <div class="controls">No.1, Shifu Rd., Xinyi District, Taipei City 11008, Taiwan (R.O.C.).</div>
+        <div class="controls">{{ order.get_shipping_address }}</div>
     </div>
     
     <table class="table">
@@ -104,11 +112,11 @@
             {% endfor %}
             <tr>
                 <td colspan="5">{% trans 'Gross Total' %}</td>
-                <td>£ 168.00</td>
+                <td>{{ order.total }}</td>
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Discount Total' %}</td>
-                <td>£ 42.00</td>
+                <td>{{ order.discount_total }}</td>
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Shipping Cost' %}</td>

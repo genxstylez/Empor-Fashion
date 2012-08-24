@@ -117,23 +117,45 @@ $(function () {
     // add to cart
     $('a#add_cart').livequery('click', function() {
         $('#content_pane').hide();
+        $('#modal_overlay').hide();
         var item = $('.product_option.selected a').attr('data');
         if(!item)
             item = $(this).attr('data');
         var qty = $('#quantity').val();
-        $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response) {
-            $(response).hide().appendTo('body').fadeIn();
-            $('.cart .close').livequery('click', function() {
-                $('.cart').fadeOut(200, function() {$(this).remove(); $('#modal_overlay').hide();});
-                $('.index_itembox').fadeIn(200);
-            });
-            $('.cart #continue').livequery('click', function() {
-                $('.cart').fadeOut(200, function() {$(this).remove(); $('#modal_overlay').hide();});
-                $('.index_itembox').fadeIn(200);
-            });
+        $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response, textStatus, xhr) {
+            if (xhr.status == 200) {
+                $(response).hide().appendTo('body').fadeIn();
+                $('.cart .close').livequery('click', function() {
+                    $('.cart').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
+                    $('.index_itembox').fadeIn(200);
+                });
+                $('.cart #continue').livequery('click', function() {
+                    
+                    $('.cart').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
+                    $('.index_itembox').fadeIn(200);
+                });
+            }
         });
         return false;
     }); 
+    
+    //remove from cart
+    $('a.remove_btn').livequery('click', function() {
+        var item = $(this).closest('tr');
+        var price = parseInt($('.item_total', item).text());
+        var data = $(this).attr('data');
+        $.post('/cart/remove/', {'cart': data}, function(response) {
+            if(response.success) {
+                item.fadeOut(200, function() { 
+                    $('span#total').text(function(index, text) {
+                        $(this).text(parseInt(text)-price);
+                    });
+                    $(this).remove(); 
+                });
+            }
+        });
+    return false;
+    });
 });
 
 $.Isotope.prototype._getCenteredMasonryColumns = function() {    this.width = this.element.width();

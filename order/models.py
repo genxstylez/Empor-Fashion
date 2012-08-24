@@ -16,7 +16,8 @@ class Order(models.Model):
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
     payment_method = models.PositiveSmallIntegerField(_('Payment method'), max_length=1, choices=PAYMENT_METHOD_CHOICES)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
-    total = models.PositiveIntegerField(_('Total'), default=0) 
+    gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
+    net_total = models.PositiveIntegerField(_('Net Total'), default=0) 
     billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
     billing_phone = models.CharField(_('Billing Phone'), max_length=50)
     billing_street1 = models.CharField(_('Billing Street 1'), max_length=100)
@@ -49,6 +50,7 @@ class Order(models.Model):
                 discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
                 discount.numUses += 1
                 discount.save()
+
         if not self.order_id:
             self.order_id = 'EMP%6s%06d' % (datetime.now().strftime('%y%m%d'), self.id)
         super(Order, self).save()
@@ -77,7 +79,8 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, verbose_name=_('Product'))
     quantity = models.PositiveIntegerField(_('Quantity'), default=0)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
-    total = models.PositiveIntegerField(_('Total'), default=0)
+    gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
+    net_total = models.PositiveIntegerField(_('Total'), default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
