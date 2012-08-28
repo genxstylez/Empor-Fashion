@@ -29,7 +29,7 @@
                     </td>
                     <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
                     <td>{{ item.product.price }}</td>
-                    <td>{% if item.discount_total > 0 %} {{ item.product.get_discounted_price }} {% else %} - {% endif %}</td>
+                    <td>{% if item.discount_total > 0 %} {{ item.product.get_discount_price }} {% else %} - {% endif %}</td>
                     <td>{{ item.quantity }}</td>
                     <td class="item_total">{{ item.net_total }}</td>
                     <td><a href="{% url cart-remove %}" data="{{ item.id }}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>

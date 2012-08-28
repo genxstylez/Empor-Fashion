@@ -1,5 +1,4 @@
 from django.db import IntegrityError
-from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from empor.shortcuts import JsonResponse
@@ -16,10 +15,10 @@ def get_cart(request):
     try:
         cart = Cart.objects.get(id=cart_id)
         if request.user.is_authenticated():
-            if not cart == request.user.cart:
+            if cart != request.user.cart:
                 archive_cart(request.user.cart)
-                cart.user = request.user
-                cart.save()
+            cart.user = request.user
+            cart.save()
 
     except Cart.DoesNotExist:
         request.session.save()
@@ -56,6 +55,7 @@ def add_item(request):
             item = CartItem()
             item.cart = cart
             item.product = product
+            item.discount = product.get_best_discount()
 
         quantity = int(quantity)
         discount = product.get_discount_price() * quantity

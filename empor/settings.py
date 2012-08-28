@@ -200,7 +200,13 @@ THUMBNAIL_ALIASES = {
 }
 
 DEFAULT_FROM_EMAIL = 'webmaster@empor.com'
-EMAIL_HOST = 'localhost'
+#EMAIL_HOST = 'localhost'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'genxstylez@gmail.com'
+EMAIL_HOST_PASSWORD = 'beckhamd'
+EMAIL_PORT = 587
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'member.UserProfile'

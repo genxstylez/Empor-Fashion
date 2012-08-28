@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from product.models import Product
+from discount.models import Discount
 from cart.models import ArchivedCart, ArchivedCartItem
 from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES
 from member.settings import COUNTRY_CHOICES
@@ -44,15 +45,17 @@ class Order(models.Model):
             for product in self.items.all():
                 product.stock += OrderItem.objects.get(product=product, order=self).quantity
                 product.save()
-                discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
-                discount.numUses -= 1
-                discount.save()
+                if product.discountable:
+                    discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
+                    discount.numUses -= 1
+                    discount.save()
 
         if self.status == 1:
             for product in self.items.all():
-                discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
-                discount.numUses += 1
-                discount.save()
+                if product.discountable:
+                    discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
+                    discount.numUses += 1
+                    discount.save()
         super(Order, self).save()
 
     def get_billing_address(self):
@@ -82,6 +85,7 @@ def order_id(sender, instance, **kwargs):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('Order'))
     product = models.ForeignKey(Product, verbose_name=_('Product'))
+    discount = models.ForeignKey(Discount, verbose_name=_('Discount'), null=True)
     quantity = models.PositiveIntegerField(_('Quantity'), default=0)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
