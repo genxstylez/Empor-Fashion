@@ -1,3 +1,5 @@
+# coding: utf-8
+from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
@@ -19,7 +21,8 @@ def index(request):
             order = form.save(commit=False)
             a_cart = archive_cart(cart)
             order.discount_total = a_cart.discount_total
-            order.total = a_cart.total
+            order.gross_total = a_cart.gross_total
+            order.net_total = a_cart.net_total
             order.cart = a_cart
             order.user = request.user
             order.save()
@@ -30,7 +33,8 @@ def index(request):
                 order_item.product = item.product
                 order_item.quantity = item.quantity
                 order_item.discount_total = item.discount_total
-                order_item.total = item.total
+                order_item.gross_total = item.gross_total
+                order_item.net_total = item.net_total
                 order_item.save()
             if order.payment_method == 0: 
                 return redirect('order-paypal', order_id=order.id)
@@ -87,6 +91,12 @@ def paypal(request, order_id):
 
 @login_required
 def success(request, order_id):
+
+    from order.utils import generate_order_pdf
+    from django.conf import settings
+    from django.template.loader import render_to_string
+    from django.core.mail import EmailMessage
+
     order = get_object_or_404(Order, id=order_id)
     if order.user != request.user:
         raise Http404
@@ -95,4 +105,13 @@ def success(request, order_id):
         order.status = 3
         order.save()
 
+    pdf = generate_order_pdf(request, order) 
+    items = OrderItem.objects.filter(order=order)
+    subject = _('EMPOR Order Confirmation')
+    content = render_to_string('order/site/email.html', {'order': order, 'items': items})
+    message = EmailMessage(subject, content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
+    filename = order.order_id
+    message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
+    message.content_subtype = "html"
+    message.send()
     return render(request, 'order/site/thankyou.html', {'order': order})

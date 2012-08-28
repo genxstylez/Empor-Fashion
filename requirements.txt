@@ -4,3 +4,4 @@ django-userena
 django-extensions
 django-storages
 boto
+xhtml2pdf

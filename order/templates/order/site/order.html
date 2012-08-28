@@ -36,15 +36,15 @@
     <hr />
     <div class="control-group">
         <label class="control-label">{% trans 'Gross Total' %}</label>
-        <div class="controls">{{ order.total }}</div>
+        <div class="controls">{{ order.gross_total }}</div>
     </div>
     <div class="control-group">
         <label class="control-label">Shipping</label>
         <div class="controls">£ 40.00</div>
     </div>
     <div class="control-group">
-        <label class="control-label">Total to Pay</label>
-        <div class="controls">£ 166.00</div>
+        <label class="control-label">{% trans 'Net Total' %}</label>
+        <div class="controls">{{ order.net_total }}</div>
     </div>
     <div class="control-group">
         <label class="control-label">{% trans 'Buyer' %}</label>
@@ -112,7 +112,7 @@
             {% endfor %}
             <tr>
                 <td colspan="5">{% trans 'Gross Total' %}</td>
-                <td>{{ order.total }}</td>
+                <td>{{ order.gross_total }}</td>
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Discount Total' %}</td>
@@ -124,7 +124,7 @@
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Net Total' %}</td>
-                <td>£ 136.00</td>
+                <td>{{ order.net_total }}</td>
             </tr>
 
         </tbody>

@@ -128,7 +128,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'empor.wsgi.application'
@@ -198,6 +198,9 @@ THUMBNAIL_ALIASES = {
         'large': {'size': (800, 800), 'crop': 'scale'}
     }
 }
+
+DEFAULT_FROM_EMAIL = 'webmaster@empor.com'
+EMAIL_HOST = 'localhost'
 
 ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'member.UserProfile'

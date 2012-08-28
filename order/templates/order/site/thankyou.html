@@ -1,0 +1,14 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen">
+    <div class="center">
+        <h1>THANK YOU ！</h1>
+        <h3>訂單編號：{{ order.order_id }}</h3>
+        <p>感謝您的購買 ！</p>
+        <p>我們將會將此訂單記錄寄至您的信箱，</p>
+        <p>您也可以至訂單查詢頁面查詢您的購買記錄。</p>
+        <div class="form-actions"><a href="{% url order-info order.id %}" class="button">訂單查詢</a></div>
+    </div>
+</div>
+{% endblock %}

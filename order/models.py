@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from product.models import Product
@@ -50,9 +53,6 @@ class Order(models.Model):
                 discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
                 discount.numUses += 1
                 discount.save()
-
-        if not self.order_id:
-            self.order_id = 'EMP%6s%06d' % (datetime.now().strftime('%y%m%d'), self.id)
         super(Order, self).save()
 
     def get_billing_address(self):
@@ -73,6 +73,11 @@ class Order(models.Model):
             address += self.shipping_street2
         return address
 
+@receiver(post_save, sender=Order)
+def order_id(sender, instance, **kwargs):
+    if not instance.order_id:
+        instance.order_id = 'EMP%6s%04d' % (datetime.now().strftime('%y%m%d'), instance.id)
+        instance.save()
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('Order'))
