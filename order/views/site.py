@@ -30,16 +30,19 @@ def index(request):
             for item in items:
                 order_item = OrderItem()
                 order_item.order = order
+                order_item.discount = item.discount
                 order_item.product = item.product
                 order_item.quantity = item.quantity
                 order_item.discount_total = item.discount_total
                 order_item.gross_total = item.gross_total
                 order_item.net_total = item.net_total
                 order_item.save()
+                request.session.save()
+                request.session['order_id']  = order.id
             if order.payment_method == 0: 
-                return redirect('order-paypal', order_id=order.id)
+                return redirect('order-paypal')
             else:
-                return redirect('order-success', order_id=order.id)
+                return redirect('order-success')
     else:
         profile = request.user.profile
         form = OrderForm(initial={
@@ -81,7 +84,8 @@ def info(request, order_id):
     return render(request, 'order/site/order.html', {'order': order, 'items': items})
 
 @login_required
-def paypal(request, order_id):
+def paypal(request):
+    order_id = request.session['order_id']
     order = get_object_or_404(Order, id=order_id)
     items = OrderItem.objects.filter(order=order)
     if order.user != request.user:
@@ -90,8 +94,8 @@ def paypal(request, order_id):
     return render(request, 'order/site/paypal.html', {'order': order, 'items': items})
 
 @login_required
-def success(request, order_id):
-
+def success(request):
+    order_id = request.session['order_id']
     from order.utils import generate_order_pdf
     from django.conf import settings
     from django.template.loader import render_to_string
@@ -101,9 +105,8 @@ def success(request, order_id):
     if order.user != request.user:
         raise Http404
 
-    if order.payment_method == 0:
-        order.status = 3
-        order.save()
+    order.status = 1
+    order.save()
 
     pdf = generate_order_pdf(request, order) 
     items = OrderItem.objects.filter(order=order)

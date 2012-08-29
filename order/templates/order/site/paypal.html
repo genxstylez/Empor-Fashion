@@ -9,7 +9,7 @@
     <input type="hidden" name="business" value="genxstylez@gmail.com" />
     <input type="hidden" name="currency_code" value="TWD" />
     <input type="hidden" name="image_url" value="{{ request.get_host }}{{ STATIC_URL }}images/logo_150.png" />
-    <input type="hidden" name="return" value="{{ request.get_host }}{% url order-success order.id %}" />
+    <input type="hidden" name="return" value="{{ request.get_host }}{% url order-success %}" />
     <input type="hidden" name="rm" value="0" />
     <input type="hidden" name="address1" value="{{ order.shipping_street1 }}" />
     <input type="hidden" name="address2" value="{{ order.shipping_street2 }}" />
@@ -24,7 +24,8 @@
     {% for item in items %}
         <input type="hidden" name="item_name_{{ forloop.counter }}" value="{{ item.product.get_name }}" />
         <input type="hidden" name="quantity_{{ forloop.counter }}" value="{{ item.quantity }}" />
-        <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ item.total }}" />
+        <input type="hidden" name="discount_amount_{{ forloop.counter }}" value="{{ item.discount_total }}" />
+        <input type="hidden" name="amount_{{ forloop.counter }}" value="{{ item.gross_total }}" />
     {% endfor %}
 
 </form>
