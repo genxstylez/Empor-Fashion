@@ -1,26 +1,26 @@
-{% extends 'product/staff/base.html' %}
+{% extends 'staff/base.html' %}
 {% load i18n %}
 {% block content %}
 <div class="page-header">
     <h1>{% trans 'Collections' %}</h1>
-    <a href="{% url staff-create-collection %}" class="button">新增產品組</a>　
+    <a href="{% url staff-create-collection %}" class="button">{% trans 'Add a collection' %}</a>　
 </div>
 <table class="table">
     <thead>
       <tr>
         <th>{% trans 'Collections' %}</th>
+        <th>{% trans 'Category' %}</th>
         <th>{% trans 'Product Quantity' %}</th>
         <th width="100px">{% trans 'Add Product' %}</th>
-        <th width="70px">{% trans 'Edit' %}</th>
       </tr>
     </thead>
     <tbody>
         {% for collection in collections %}
         <tr>
             <td>{{ collection.name }}</td>
+            <td>{{ collection.category }}</td>
             <td>{{ collection.products.count }}</td>
-            <td><a href="{% url staff-create-product collection.id %}" class="button_s">{% trans 'Add Product' %}</a></td>
-            <td><a href="back_pg_edit.html" class="button_s">{% trans 'EDIT' %}</a></td>
+            <td><a href="{% url staff-collection collection.id %}" class="button_s">{% trans 'Details' %}</a></td>
         </tr>
         {% endfor %}
     </tbody>

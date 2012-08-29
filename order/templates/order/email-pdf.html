@@ -173,7 +173,7 @@ a:hover {
                     <tbody>
                     {% for item in items %}
                         <tr>
-                            <td><img src="{{ product.get_main_image|thumbnail_url:'small' }}"></td>
+                            <td><img src="{{ item.product.get_main_image|thumbnail_url:'small' }}"></td>
                             <td>{{ item.product }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total }}</td>

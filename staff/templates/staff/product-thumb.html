@@ -31,31 +31,26 @@ $(function(){
         return false;
     });
 
+    var jcrop_api;
+    initJcrop();
+
     thumb_uploader.bind('FileUploaded', function(up, file, response) {
         response = JSON.parse(response.response);
         console.log(response.image_url);
         $('#img').attr('src', response.image_url);
         $('#thumb input[name="thumb_url"]').val(response.image_url);
-        jcrop_api.destroy();
+        jcrop_api.setImage(response.image_url);
+    });
+
+    function initJcrop() {
         $('#img').Jcrop({
             onSelect: showCoords,
             minSize: [40, 40],
             maxSize: [100, 100],
-            aspectRatio: 1
-        });
-    });
-    {% if thumb %}
-    $('#img').Jcrop({
-        onSelect: showCoords,
-        minSize: [40, 40],
-        maxSize: [100, 100],
-        aspectRatio: 1
-    });
-    {% endif %}
-    jcrop_api = $.Jcrop('#img');
-    {% if thumb.thumb %}
-    jcrop_api.setSelect([{{ thumb.x1 }}, {{ thumb.y1 }}, {{ thumb.x2 }}, {{ thumb.y2 }}]);
-    {% endif %}
+            aspectRatio: 1,
+            setSelect: [{{ thumb.x1 }}, {{ thumb.y1 }}, {{ thumb.x2 }}, {{ thumb.y2 }}],
+        }, function() { jcrop_api = this; });
+    }
 
     function showCoords(c) {
         $('#thumb input[name="x1"]').val(parseInt(c.x));
@@ -87,5 +82,6 @@ $(function(){
     <div class="form-actions">
         <input type="submit" class="button" value="{% trans 'Save' %}" />
     </div>
+    <br clear="all" />
 </form>
 {% endblock %}

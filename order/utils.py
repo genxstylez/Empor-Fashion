@@ -10,7 +10,7 @@ def generate_order_pdf(request, order):
     產生ORDER PDF
     """
     items = OrderItem.objects.filter(order=order)
-    html = render_to_string('order/site/email.html', {
+    html = render_to_string('order/email-pdf.html', {
             'order': order,
             'items': items,
             'domain': request.get_host(),

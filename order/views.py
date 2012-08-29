@@ -6,7 +6,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from cart.utils import archive_cart
 from cart.models import ArchivedCartItem, CartItem
-from cart.views.site import get_cart
+from cart.views import get_cart
 from order.models import OrderItem, Order
 from order.forms import OrderForm
 
@@ -64,13 +64,13 @@ def index(request):
             }
         )
     
-    return render(request, 'order/site/index.html', {'cart': cart, 'form': form, 'items': items})
+    return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items})
 
 @login_required
 def orders(request):
     orders = Order.objects.filter(user=request.user)
 
-    return render(request, 'order/site/orders.html', {'orders': orders})
+    return render(request, 'order/orders.html', {'orders': orders})
     
 
 @login_required
@@ -81,7 +81,7 @@ def info(request, order_id):
     if order.user != request.user:
         raise Http404
 
-    return render(request, 'order/site/order.html', {'order': order, 'items': items})
+    return render(request, 'order/order.html', {'order': order, 'items': items})
 
 @login_required
 def paypal(request):
@@ -91,7 +91,7 @@ def paypal(request):
     if order.user != request.user:
         raise Http404
 
-    return render(request, 'order/site/paypal.html', {'order': order, 'items': items})
+    return render(request, 'order/paypal.html', {'order': order, 'items': items})
 
 @login_required
 def success(request):
@@ -111,10 +111,12 @@ def success(request):
     pdf = generate_order_pdf(request, order) 
     items = OrderItem.objects.filter(order=order)
     subject = _('EMPOR Order Confirmation')
-    content = render_to_string('order/site/email.html', {'order': order, 'items': items})
+    content = render_to_string('order/email.html', {'order': order, 'items': items, 
+        'STATIC_URL': settings.STATIC_URL, 'domain': request.get_host()
+    })
     message = EmailMessage(subject, content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
     filename = order.order_id
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
     message.content_subtype = "html"
     message.send()
-    return render(request, 'order/site/thankyou.html', {'order': order})
+    return render(request, 'order/thankyou.html', {'order': order})

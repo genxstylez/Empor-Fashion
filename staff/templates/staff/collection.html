@@ -1,0 +1,49 @@
+{% extends 'staff/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="page-header">
+    <h1>{% trans 'Collections' %}</h1>
+    <a href="{% url staff-create-product collection.id %}" class="button">{% trans 'Add a product' %}</a>
+</div>
+<table class="table">
+    <thead>
+      <tr>
+        <th>{% trans 'Product' %}</th>
+        <th>{% trans 'Category' %}</th>
+        <th>{% trans 'Composition' %}</th>
+        <th width="70px">{% trans 'Edit' %}</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product }}</td>
+            <td>{{ product.category }}</td>
+            <td>{{ product.composition }}</td>
+            <td><a href="{% url staff-edit-product collection.id product.id %}" class="button_s">{% trans 'Edit' %}</a></td>
+        </tr>
+        {% if product.children %}
+        <tr>
+            <td colspan="4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <td>{% trans 'Product' %}</td>
+                            <td>{% trans 'Stock' %}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for child in product.children.all %}
+                    <tr>
+                        <td>{{ child }}</td>
+                        <td>{{ child.stock }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

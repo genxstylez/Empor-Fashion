@@ -161,7 +161,7 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product.views.site.product_view', [self.brand.name, self.slug])
+        return ('product.views.product_view', [self.brand.name, self.slug])
 
 @receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):

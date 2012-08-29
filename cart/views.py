@@ -34,7 +34,7 @@ def get_cart(request):
 def index(request):
     cart = get_cart(request)
     items = CartItem.objects.filter(cart=cart)
-    return render(request, 'cart/site/index.html', {'cart': cart, 'items': items})
+    return render(request, 'cart/index.html', {'cart': cart, 'items': items})
 
 def add_item(request):
     cart = get_cart(request)
@@ -72,7 +72,7 @@ def add_item(request):
 
         items = CartItem.objects.filter(cart=cart)
 
-        return render(request, 'cart/site/index-ajax.html', {'cart': cart, 'items': items})
+        return render(request, 'cart/index-ajax.html', {'cart': cart, 'items': items})
     else: 
         return Http404
 

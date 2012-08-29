@@ -1,10 +1,9 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core.files.base import ContentFile
 from django.conf import settings
-from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.forms.models import formset_factory
-from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm, ProductThumbForm
+from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
 from product.models import Product, Option, ProductImage, Collection, OptionGroup, ProductThumb
 from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
@@ -12,6 +11,11 @@ from empor.thumbs import thumb_resize, generate_crop
 def index(request):
     collections = Collection.objects.all()
     return render(request, 'staff/index.html', {'collections': collections})
+
+def collection(request, collection_id):   
+    collection = get_object_or_404(Collection, id=collection_id)
+    products = collection.products.filter(parent=None)
+    return render(request, 'staff/collection.html', {'collection': collection, 'products': products})
 
 def collection_create(request):
     form = CollectionForm(request.POST or None)
@@ -24,7 +28,12 @@ def collection_create(request):
 
     return render(request, 'staff/create-collection.html', {'form' : form}) 
 
-def product_create(request, collection_id):
+def product_create(request, collection_id, product_id=None):
+    edit_product = None
+    child_values = None
+    if product_id:
+        edit_product = get_object_or_404(Product, id=product_id)
+        child_values = Product.objects.filter(parent=edit_product).values('options', 'stock', 'price')
     collection = Collection.objects.get(id=collection_id)
     products = collection.products.filter(parent=None)
     ChildProductFormSet = formset_factory(ChildProductForm)
@@ -40,21 +49,6 @@ def product_create(request, collection_id):
             product.brand = collection.brand
             product.save()
             product.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
-
-            thumb = ProductThumb.objects.get(id=thumb_form.cleaned_data['id'])
-            x1 = thumb_form.cleaned_data['x1']
-            y1 = thumb_form.cleaned_data['y1']
-            x2 = thumb_form.cleaned_data['x2']
-            y2 = thumb_form.cleaned_data['y2']
-            thumb_file = generate_crop(thumb.original.file, thumb.original.name.split('.')[1], int(x1), int(y1), int(x2), int(y2))
-
-            thumb.thumb.save(thumb_file[0], thumb_file[1], save=False)
-            thumb.product = product
-            thumb.x1 = x1
-            thumb.y1 = y1
-            thumb.x2 = x2
-            thumb.y2 = y2
-            thumb.save()
 
             if product.has_options:
                 for (counter, form) in enumerate(child_formset.forms):
@@ -73,10 +67,11 @@ def product_create(request, collection_id):
                         child.gender.add = product.gender
                         child.options.add(Option.objects.get(id=child_formset[counter].cleaned_data['option']))
                         child.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
-            return HttpResponse('done')
+            return redirect('staff-product-image', product.id)
     else:
-        product_form = ProductForm()
-        child_formset = ChildProductFormSet(prefix='child')
+        
+        product_form = ProductForm(instance=edit_product)
+        child_formset = ChildProductFormSet(initial=child_values, prefix='child')
 
     return render(request, 'staff/create-product.html', {
         'collection': collection,
@@ -93,6 +88,7 @@ def product_image(request, product_id):
         image = ProductImage.objects.get(id=image_id)
         image.main = True
         image.save()
+        return redirect('staff-product-thumb', product.id)
     return render(request, 'staff/product-image.html', {'product': product, 'images': images})
 
 def product_thumb(request, product_id):
@@ -113,6 +109,7 @@ def product_thumb(request, product_id):
         thumb.x2 = x2
         thumb.y2 = y2
         thumb.save()
+        return redirect('staff-collection', product.collection.id)
 
     return render(request, 'staff/product-thumb.html', {'product': product, 'thumb': thumb})
 
