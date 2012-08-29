@@ -1,0 +1,20 @@
+{% extends 'product/staff/base.html' %}
+{% load i18n %}
+{% block content %}
+<form id="pg_edit-form" method="post" class="form-inline well">
+    {% csrf_token %}
+    <h3>{% trans 'Add Collection' %}</h3>
+    {% for field in form %}
+    <div class="control-group">
+        <label class="control-label">{{ field.label }}</label>
+        <div class="controls">{{ field }}</div>
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    <div class="form-actions">
+        <input type="submit" class="button" name="save" value="{% trans 'Save' %}" />　
+        <input type="submit" class="button" name="add" value="{% trans 'Save and Add Product' %}" />
+    </div>
+    <br clear="all">
+</form>
+{% endblock %}

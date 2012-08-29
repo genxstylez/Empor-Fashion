@@ -13,11 +13,6 @@ class ChildProductForm(forms.Form):
     stock = forms.IntegerField(label=_('Stock'), widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': _('qty')}))
     price = forms.IntegerField(required=False, widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': 'NT $'}))
      
-class ProductImageForm(forms.Form):
-    id = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'image_id'}))
-    url = forms.CharField(widget=forms.HiddenInput(attrs={'class': 'image_url'}))
-    main = forms.BooleanField(required=False)
-
 class ProductForm(forms.ModelForm):
     option_group = forms.ChoiceField(label=_('Option Group'), choices=OPTIONGROUP_CHOICES, 
         required=False, widget=forms.Select(attrs={'class':'optiongroup'}))
@@ -25,8 +20,8 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        exclude = ('collection', 'parent', 'brand', 'category', 'thumbnail', 'gender', 'featured')
-        fields = ('name', 'price', 'composition', 'description', 'has_options', 'option_group')
+        exclude = ('collection', 'parent', 'brand', 'category', 'thumbnail', 'featured')
+        fields = ('name', 'price', 'gender', 'composition', 'description', 'has_options', 'option_group', )
 
 class ProductThumbForm(forms.Form):
     id = forms.CharField(widget=forms.HiddenInput())

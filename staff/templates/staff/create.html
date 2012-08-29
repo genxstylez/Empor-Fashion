@@ -1,0 +1,71 @@
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></scriptpt src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script>
+$(function(){
+    // formset
+    var deleteText = '刪除';
+    var addText = '新增';
+
+    $('#product_formset').formset({
+        formCssClass: 'product-form',
+        prefix: 'product',
+        deleteText: deleteText,
+        addText: addText
+    });
+
+    $('#child_formset').formset({
+        formCssClass: 'child-form',
+        prefix: 'child',
+        deleteText: deleteText,
+        addText: addText
+    });
+
+    $('input[type="checkbox"]').change(function() {
+        $('#child_formset').toggle();
+    });
+
+    $('input.submit').click(function() {
+        var data = $('#product_group').serializeArray();
+        data += $(this).parents('.item_product').serializeArray();
+        console.log(data);
+        return false;
+    });
+});
+</script>
+</head>
+<body>
+{{ groupform.errors }}
+<form method="post">
+{% csrf_token %}
+    <div>{{ groupform.name.label }}{{ groupform.name }}</div>
+    <div>{{ groupform.description.label }}{{ groupform.description }}</div>
+    <div>{{ groupform.category.label }}{{ groupform.category }}
+    <a class="add" href="{% url product-admin-create-category %}" target=_blank>add</a>
+    </div>
+<div>
+{{ groupform.brand.label }}{{ groupform.brand }}
+<a class="add" href="{% url product-admin-create-brand %}" target=_blank>add</a>
+</div>
+<div id="product_formset">
+{{ product_formset.management_form }} 
+    <div class="product-form">
+    {% for form in product_formset %}
+    {{ form.as_p }}
+        <input type="hidden" name="product_index{{ forloop.counter0 }}" value="{{ forloop.counter0 }}" />
+        <div id="child_formset" style="display:none;">
+        {{ child_formset.management_form }}
+        <div class="child-form">
+        {% for form in child_formset %}
+        {{ form.as_p }}
+        {% endfor %}
+        </div>
+        </div>
+    {% endfor %}
+    </div>
+</div>
+<input type="submit" />
+</form>
+</body>
+</html>

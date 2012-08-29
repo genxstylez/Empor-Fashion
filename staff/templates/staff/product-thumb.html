@@ -1,0 +1,91 @@
+{% extends 'staff/base.html' %}
+{% load i18n %}
+{% block js %}
+<link rel="stylesheet" href="{{ STATIC_URL }}js/Jcrop/css/jquery.Jcrop.css" type="text/css" />
+<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.livequery.js"></script>
+<script src="{{ STATIC_URL }}js/Jcrop/js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    var thumb_uploader = new plupload.Uploader({
+        runtimes : 'html5, flash',
+        browse_button: 'thumb_button', 
+        container : 'thumb',
+        headers: {'X-Requested-With': 'XMLHttpRequest', 'X-CSRFToken' : '{{ csrf_token }}'},
+        url: '/staff/_thumb_upload/',
+        max_file_size: '10mb',
+        chunk_size: '1mb',
+        unique_names: false,
+        multipart_params: {'product_id': {{ product.id }} },
+    });
+    
+    thumb_uploader.init();
+
+    thumb_uploader.bind('FilesAdded', function(up, files) {
+        $.each(files, function(i, file) {
+            $('.file_name').html(file.name);
+        });
+    });
+    $('#thumb .button_s').click(function() {
+        thumb_uploader.start();
+        return false;
+    });
+
+    thumb_uploader.bind('FileUploaded', function(up, file, response) {
+        response = JSON.parse(response.response);
+        console.log(response.image_url);
+        $('#img').attr('src', response.image_url);
+        $('#thumb input[name="thumb_url"]').val(response.image_url);
+        jcrop_api.destroy();
+        $('#img').Jcrop({
+            onSelect: showCoords,
+            minSize: [40, 40],
+            maxSize: [100, 100],
+            aspectRatio: 1
+        });
+    });
+    {% if thumb %}
+    $('#img').Jcrop({
+        onSelect: showCoords,
+        minSize: [40, 40],
+        maxSize: [100, 100],
+        aspectRatio: 1
+    });
+    {% endif %}
+    jcrop_api = $.Jcrop('#img');
+    {% if thumb.thumb %}
+    jcrop_api.setSelect([{{ thumb.x1 }}, {{ thumb.y1 }}, {{ thumb.x2 }}, {{ thumb.y2 }}]);
+    {% endif %}
+
+    function showCoords(c) {
+        $('#thumb input[name="x1"]').val(parseInt(c.x));
+        $('#thumb input[name="y1"]').val(parseInt(c.y));
+        $('#thumb input[name="x2"]').val(parseInt(c.x2));
+        $('#thumb input[name="y2"]').val(parseInt(c.y2));
+    }
+});
+</script>
+{% endblock %}
+{% block content %}
+<h1>{{ product.collection.name }} >> {% trans 'Add Product' %}</h1>
+<form id="p_edit-form" method="post" class="form-inline">
+{% csrf_token %}
+    <h3>Step 3 - {% trans 'Upload Product Thumbnail' %}</h3>
+    <div id="thumb" class="control-group">
+        <input class="input-file" id="thumb_button" type="button" value="選擇檔案"/>
+        <span class="file_name">{{ thumb.originial.url }}</span>
+        <div class="form-actions_left"><a href="#" class="button_s">上傳</a></div>
+        <input type="hidden" name="thumb_url" value="{{ thumb.original.url }}" />
+        <input type="hidden" name="x1" value="{{ thumb.x1 }}" />
+        <input type="hidden" name="x2" value="{{ thumb.x2 }}" />
+        <input type="hidden" name="y1" value="{{ thumb.y1 }}" />
+        <input type="hidden" name="y2" value="{{ thumb.y2 }}" />
+    </div>
+    <div class="control-group" style="width:auto;">
+        <div class="img_cut_box"><img id="img" src="{{ thumb.original.url }}"></div>
+    </div>
+    <div class="form-actions">
+        <input type="submit" class="button" value="{% trans 'Save' %}" />
+    </div>
+</form>
+{% endblock %}

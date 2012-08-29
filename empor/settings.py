@@ -158,6 +158,7 @@ INSTALLED_APPS = (
     'guardian',
     'member',
     'storages',
+    'staff',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -198,6 +199,8 @@ THUMBNAIL_ALIASES = {
         'large': {'size': (800, 800), 'crop': 'scale'}
     }
 }
+
+THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 DEFAULT_FROM_EMAIL = 'webmaster@empor.com'
 EMAIL_HOST = 'localhost'

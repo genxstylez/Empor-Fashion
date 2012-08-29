@@ -1,0 +1,95 @@
+{% extends 'product/staff/base.html' %}
+{% load i18n %}
+{% block js %}
+<link rel="stylesheet" href="{{ STATIC_URL }}js/Jcrop/css/jquery.Jcrop.css" type="text/css" />
+<script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
+<script src="{{ STATIC_URL }}js/jquery.livequery.js"></script>
+<script src="{{ STATIC_URL }}js/Jcrop/js/jquery.Jcrop.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    // formset
+    var deleteText = '刪除';
+    var addText = '<img src="{{ STATIC_URL }}images/add.png" />';
+
+    $('.child-form').formset({
+        formCssClass: 'child-form',
+        prefix: 'child',
+        deleteText: deleteText,
+        addText: addText,
+        added: function() {
+            $('.options option[value="0"]').remove();
+            $('.options').removeAttr('disabled');
+        }
+    });
+
+    $('input[name="has_options"]').change(function() {
+        if($(this).is(':checked'))
+            $('#child_formset').show();
+        else
+            $('#child_formset').hide();
+    });
+
+    $('input[name="has_options"]').livequery(function() {
+        if($(this).is(':checked'))
+            $('#child_formset').show();
+        else
+            $('#child_formset').hide();
+    });
+    
+    $('#p_edit-form').submit(function() {
+        if($('.item_img input[type="checkbox"]:checked').length == 0)
+            $('.item_img input[type="checkbox"]:first').attr('checked', 'checked');
+    });
+
+    $('.item_img input[type="checkbox"]').livequery('change', function() {
+        $(this).parent().siblings().find('input[type="checkbox"]').removeAttr('checked');
+    });
+
+    $('.optiongroup').on('change', function () {
+        var that = $(this)
+        $('.options').empty();
+        $.get('/staff/render_options/'+$(this).val(), function(response) {
+            for (var key in response) {
+                $('select.options').append('<option value="'+ response[key].id +'">'+ response[key].name+'</option>');
+            }
+            $('.options').removeAttr('disabled');
+        });
+    });
+});
+</script>
+{% endblock %}
+
+{%block content %}
+<div class="page-header">
+    <h1>{{ collection.name }} >> {% trans 'Add Product' %}</h1>
+</div>
+<form id="p_edit-form" method="post" class="form-inline well">
+{% csrf_token %}
+<h3>Step 1 -{% trans 'Product Information' %}</h3>
+{% for field in product_form %}
+    <div class="control-group">
+        <label class="control-label">{{ field.label }}</label>
+        <div class="controls">{{ field }}</div>
+        {{ field.errors }}
+    </div>
+    {% endfor %}
+    {{ child_formset.management_form }}
+    <div id="child_formset">
+        {% for form in child_formset.forms %}
+        <div class="child-form control-group">
+            <label class="control-label">{% trans 'Stock' %}</label>
+            <div class="controls">
+                {% for field in form %}
+                {{ field }}
+                {{ field.errors }}
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="form-actions">
+        <input type="submit" class="button" value="{% trans 'Save' %}" />
+    </div>
+    <br clear="all">
+</form>
+{% endblock %}
