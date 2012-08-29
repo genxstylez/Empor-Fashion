@@ -5,11 +5,19 @@
     <title>EMPOR</title>
     <link href="{{ STATIC_URL }}style/style.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}style/extra.css" rel="stylesheet" type="text/css">
+    <link href="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.isotope.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.livequery.js"></script> 
     <script src="{{ STATIC_URL }}js/app.js"></script>
+    <script src="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl_minimized.js"></script>
+
+    {% if flash.message %}
+    <script type="text/javascript">
+        var flashMessage = '{{ flash.message }}';
+    </script>
+    {% endif %}
 </head>
 <body>
 <!-- menu_wrapper -->
@@ -30,7 +38,7 @@
         <a href="{% url member-index %}"><img src="{{ STATIC_URL }}images/menu_icon_member.png"></a>
     </div>
     <div class="menu_iconbox b_box">
-        <a href="contact.html"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
+        <a href="{% url service-index %}"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
     </div>
     <!-- /menu_iconbox -->
     <!-- menu_button -->

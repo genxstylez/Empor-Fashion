@@ -15,7 +15,11 @@ function show_content(ele) {
     ); 
 }
 $(function () {
-    
+    if (typeof(flashMessage) != 'undefined') {
+        $.jGrowl(flashMessage, {
+            position: 'bottom-right'
+        });
+    }
     //paypal form auto submit
     $('form[name="paypal"]').livequery(function() {
         $(this).submit();

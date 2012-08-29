@@ -109,6 +109,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'djangoflash.middleware.FlashMiddleware',
 )
 
 ROOT_URLCONF = 'empor.urls'
@@ -120,6 +121,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.media",
     "django.core.context_processors.static",
     'django.core.context_processors.request',
+    'djangoflash.context_processors.flash',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -159,6 +161,7 @@ INSTALLED_APPS = (
     'member',
     'storages',
     'staff',
+    'service',
 )
 
 # A sample logging configuration. The only tangible logging
