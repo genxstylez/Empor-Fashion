@@ -1,18 +1,16 @@
 # coding: utf-8
 from django.utils.translation import ugettext as _
-from django.core.urlresolvers import reverse
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from cart.utils import archive_cart
 from cart.models import ArchivedCartItem, CartItem
 from cart.views import get_cart
-from order.models import OrderItem, Order
+from order.models import OrderItem, Order, Shipping
 from order.forms import OrderForm
 
 @login_required
 def index(request):
-    #redirect('%s?next=%s' % (reverse('member-signin-register'), reverse('order-index')))
     cart = get_cart(request)
     items = CartItem.objects.filter(cart=cart)
     if request.method == 'POST':
@@ -20,6 +18,7 @@ def index(request):
         if form.is_valid():
             order = form.save(commit=False)
             a_cart = archive_cart(cart)
+            order.shipping = Shipping.objects.get(area='Taiwan')
             order.discount_total = a_cart.discount_total
             order.gross_total = a_cart.gross_total
             order.net_total = a_cart.net_total
