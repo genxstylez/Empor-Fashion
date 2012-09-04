@@ -41,16 +41,20 @@
         <form id="confirm-form" method="post" class="form-inline">
             {% csrf_token %}
             <div class="control-group">
-                <label class="control-label">{% trans 'Total' %}</label>
-                <div class="controls">{{ cart.net_total }}</div>
+                <label class="control-label">{% trans 'Product Total' %}</label>
+                <div class="controls">{{ cart.gross_total }}</div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">{% trans 'Discount Total' %}</label>
+                <div class="controls">{{ cart.discount_total }}</div>
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Shipping' %}</label>
-                <div class="controls">get_shipping</div>
+                <div class="controls">{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span class="discount">{% trans 'No Shipping Cost' %}</span>{% endif %}</div>
             </div>
             <div class="control-group">
-                <label class="control-label">{% trans 'Total to pay' %}</label>
-                <div class="controls">total</div>
+                <label class="control-label">{% trans 'Total' %}</label>
+                <div class="controls">{{ order.net_total }}</div>
             </div>
             <hr />
             <div class="control-group">

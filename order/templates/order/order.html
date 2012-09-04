@@ -111,7 +111,7 @@
             </tr>
             {% endfor %}
             <tr>
-                <td colspan="5">{% trans 'Gross Total' %}</td>
+                <td colspan="5">{% trans 'Product Total' %}</td>
                 <td>{{ order.gross_total }}</td>
             </tr>
             <tr>
@@ -120,10 +120,10 @@
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Shipping Cost' %}</td>
-                <td>£ 10.00</td>
+                <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span class="discount">{% trans 'No Shipping Cost' %}</span>{% endif %}</td>
             </tr>
             <tr>
-                <td colspan="5">{% trans 'Net Total' %}</td>
+                <td colspan="5">{% trans 'Total' %}</td>
                 <td>{{ order.net_total }}</td>
             </tr>
 
