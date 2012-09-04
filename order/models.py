@@ -11,10 +11,6 @@ from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES
 from member.settings import COUNTRY_CHOICES
 from datetime import datetime
 
-class Shipping(models.Model):
-    area = models.CharField(_('Area'), max_length=50)
-    cost = models.PositiveIntegerField(_('Cost'))
-
 class Order(models.Model):
     order_id = models.CharField(_('Order ID'), max_length=20, blank=True)
     user = models.ForeignKey(User, related_name='orders')
@@ -26,7 +22,6 @@ class Order(models.Model):
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
     net_total = models.PositiveIntegerField(_('Net Total'), default=0) 
-    shipping = models.ForeignKey(Shipping, verbose_name=_('Shipping'))
     shipping_discount = models.PositiveIntegerField(_('Shipping Discount'), default=0)
     billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
     billing_phone = models.CharField(_('Billing Phone'), max_length=50)

@@ -49,7 +49,6 @@ class Collection(models.Model):
         return self.name
 
 class Product(models.Model):
-
     name = models.CharField(_('Name'), max_length=100, blank=True)
     sku = models.CharField(_('SKU'), max_length=20, blank=True)
     slug = models.CharField(_('Slug'), max_length=100, blank=True)

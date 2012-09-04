@@ -50,7 +50,7 @@
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Shipping' %}</label>
-                <div class="controls">{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span class="discount">{% trans 'No Shipping Cost' %}</span>{% endif %}</div>
+                <div class="controls">{{ shipping }}</div>
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Total' %}</label>
