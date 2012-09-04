@@ -4,10 +4,11 @@ from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from cart.utils import archive_cart
-from cart.models import ArchivedCartItem, CartItem
+from cart.models import CartItem
 from cart.views import get_cart
-from order.models import OrderItem, Order, Shipping
+from order.models import OrderItem, Order
 from order.forms import OrderForm
+from django.conf import settings
 
 @login_required
 def index(request):
@@ -17,15 +18,13 @@ def index(request):
         form = OrderForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
-            a_cart = archive_cart(cart)
-            order.shipping = Shipping.objects.get(area='Taiwan')
-            order.discount_total = a_cart.discount_total
-            order.gross_total = a_cart.gross_total
-            order.net_total = a_cart.net_total
-            order.cart = a_cart
+            order.discount_total = cart.discount_total
+            order.gross_total = cart.gross_total
+            order.net_total = cart.net_total
+            order.cart = cart
             order.user = request.user
+            order.shipping = get_shipping(request, order.country)
             order.save()
-            items = ArchivedCartItem.objects.filter(archived_cart=a_cart)
             for item in items:
                 order_item = OrderItem()
                 order_item.order = order
@@ -63,7 +62,22 @@ def index(request):
             }
         )
     
+    
     return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items})
+
+@login_required
+def get_shipping(request, country_id):
+    if country_id > 0:
+        return settings.SHIPPING_OVERSEAS_COST
+    else:
+        cart = get_cart(request)
+        if settings.SHIPPING_FREE_ITEM_COUNT:
+            if cart.items.count() > settings.SHIPPING_FREE_ITEM_COUNT:
+                return 0
+        if settings.SHIPPING_FREE_MINIMUM_PURCHASE:
+            if cart.net_total > settings.SHIPPING_FREE_MINIMUM_PURCHASE:
+                return 0
+        return settings.SHIPPING_DEFAULT_COST
 
 @login_required
 def orders(request):
@@ -71,7 +85,6 @@ def orders(request):
 
     return render(request, 'order/orders.html', {'orders': orders})
     
-
 @login_required
 def info(request, order_id):
     order = get_object_or_404(Order, id=order_id)
@@ -104,6 +117,8 @@ def success(request):
     if order.user != request.user:
         raise Http404
 
+    cart = get_cart(request)
+    archive_cart(cart)
     order.status = 1
     order.save()
 

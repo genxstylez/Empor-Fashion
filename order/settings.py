@@ -11,5 +11,3 @@ PAYMENT_METHOD_CHOICES = [
     (0, _('PayPal')),
     (1, _('COD')),
 ]
-
-SHIPPING = 100
