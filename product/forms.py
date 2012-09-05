@@ -9,10 +9,14 @@ OPTION_CHOICES = [(0, '-----'),]
 OPTION_CHOICES += [(option.id, option.name) for option in Option.objects.all()]
 
 class ChildProductForm(forms.Form):
-    option = forms.ChoiceField(label=_('Option'), choices=OPTION_CHOICES, widget=forms.Select(attrs={'class': 'options', 'disabled': 'disabled'}))
+    option = forms.ChoiceField( label=_('Option'), choices=OPTION_CHOICES, widget=forms.Select(attrs={'class': 'options', 'disabled': 'disabled'}))
     stock = forms.IntegerField(label=_('Stock'), widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': _('qty')}))
     price = forms.IntegerField(required=False, widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': 'NT $'}))
-     
+
+    def clean(self):
+        if not self.fields['option'] or not self.fields['stock']:
+            raise forms.ValidationError(_('This field is required'))
+        
 class ProductForm(forms.ModelForm):
     option_group = forms.ChoiceField(label=_('Option Group'), choices=OPTIONGROUP_CHOICES, 
         required=False, widget=forms.Select(attrs={'class':'optiongroup'}))

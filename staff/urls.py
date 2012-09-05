@@ -5,7 +5,7 @@ urlpatterns = patterns('staff.views',
     url(r'^collection/(?P<collection_id>\d+)/$',                               'collection',           name='staff-collection'),
     url(r'^collection/create/$',                                   'collection_create',    name='staff-create-collection'),
     url(r'^collection/(?P<collection_id>\d+)/product/create/$',    'product_create',       name='staff-create-product'),
-    url(r'^collection/(?P<collection_id>\d+)/product/edit/(?P<product_id>\d+)/$',    'product_create',       name='staff-edit-product'),
+    url(r'^collection/(?P<collection_id>\d+)/product/edit/(?P<product_id>\d+)/$',    'product_edit',       name='staff-edit-product'),
     url(r'^product/(?P<product_id>\d+)/image/$',        'product_image',       name='staff-product-image'),
     url(r'^product/(?P<product_id>\d+)/thumbnail/$',    'product_thumb',       name='staff-product-thumb'),
 

@@ -81,9 +81,9 @@ $(function(){
             <div class="controls">
                 {% for field in form %}
                 {{ field }}
-                {{ field.errors }}
                 {% endfor %}
             </div>
+            {{ form.errors }}
         </div>
         {% endfor %}
     </div>

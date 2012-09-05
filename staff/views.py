@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from django.http import Http404
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core.files.base import ContentFile
 from django.conf import settings
@@ -29,13 +31,7 @@ def collection_create(request):
     return render(request, 'staff/create-collection.html', {'form' : form}) 
 
 def product_create(request, collection_id, product_id=None):
-    edit_product = None
-    child_values = None
-    if product_id:
-        edit_product = get_object_or_404(Product, id=product_id)
-        child_values = Product.objects.filter(parent=edit_product).values('options', 'stock', 'price')
     collection = Collection.objects.get(id=collection_id)
-    products = collection.products.filter(parent=None)
     ChildProductFormSet = formset_factory(ChildProductForm)
     if request.method == 'POST':
         product_form = ProductForm(request.POST)
@@ -45,6 +41,54 @@ def product_create(request, collection_id, product_id=None):
 
             product = product_form.save(commit=False)
             product.collection = collection 
+            product.category = collection.category
+            product.brand = collection.brand
+            product.has_options = True if int(product_form.cleaned_data['option_group']) > 0 else False
+            product.save()
+            if int(product_form.cleaned_data['option_group']) > 0:
+                product.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
+
+            if product.has_options:
+                for (counter, form) in enumerate(child_formset.forms):
+                    if form.is_valid():
+                        child = Product()
+                        child.stock = form.cleaned_data['stock']
+                        child.price = form.cleaned_data['price'] if form.cleaned_data['price'] else product.price
+                        child.parent = product
+                        child.name = product.name
+                        child.description = product.description
+                        child.brand = product.brand
+                        child.category = product.category
+                        child.has_options = True
+                        child.collection = collection
+                        child.save()
+                        child.gender.add = product.gender
+                        child.options.add(Option.objects.get(id=child_formset[counter].cleaned_data['option']))
+                        child.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
+            return redirect('staff-product-image', product.id)
+    else:
+        product_form = ProductForm()
+        child_formset = ChildProductFormSet(prefix='child')
+
+    return render(request, 'staff/create-product.html', {
+        'collection': collection,
+        'product_form': product_form,
+        'child_formset': child_formset,
+    })
+
+def product_edit(request, collection_id, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    collection = Collection.objects.get(id=collection_id)
+    ChildProductFormSet = formset_factory(ChildProductForm)
+    child_values = Product.objects.filter(parent=product).values('options__id', 'stock', 'price')
+    if request.method == 'POST':
+        product_form = ProductForm(request.POST)
+        child_formset = ChildProductFormSet(request.POST, prefix='child')
+        if product_form.is_valid() or product_form.data.has_key('has_options') and child_formset.is_valid() and \
+            product_form.is_valid():
+
+            product = product_form.save(commit=False)
+            product.collection = collection
             product.category = collection.category
             product.brand = collection.brand
             product.save()
@@ -69,13 +113,11 @@ def product_create(request, collection_id, product_id=None):
                         child.option_group.add(OptionGroup.objects.get(id=product_form.cleaned_data['option_group']))
             return redirect('staff-product-image', product.id)
     else:
-        
-        product_form = ProductForm(instance=edit_product)
+        product_form = ProductForm(instance=product, initial={'option_group': product.option_group.all()[0].id})
         child_formset = ChildProductFormSet(initial=child_values, prefix='child')
 
     return render(request, 'staff/create-product.html', {
         'collection': collection,
-        'products': products,
         'product_form': product_form,
         'child_formset': child_formset,
     })

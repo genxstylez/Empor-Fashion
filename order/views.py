@@ -63,7 +63,6 @@ def index(request):
             }
         )
     
-    
     return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items})
 
 @login_required
