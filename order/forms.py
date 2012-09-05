@@ -14,6 +14,7 @@ class OrderForm(ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['shipping_country'].widget.attrs['id'] = 'ship_country'
         for field in self.fields:
             if field != 'payment_method' and field != 'shipping_country' and field != 'billing_country':
                 self.fields[field].widget.attrs['class'] = 'input-xxxlarge'

@@ -32,7 +32,7 @@ $(function () {
             xhr.setRequestHeader("X-CSRFToken", $('input[name*="csrfmiddlewaretoken"]').val());
         }
     });
-
+    
     //isotope for index
     $('#isotope_list').isotope({
         itemSelector: '.index_itembox',
@@ -55,6 +55,15 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
+    });
+
+    // shipping country
+    $('#ship_country').livequery(function() {
+        var val = $(this).val();
+        $.get('/order/shipping/' + val + '/', function(response) {
+            if(response.success)
+                $('.ship_cost').html(response.shipping);
+        });
     });
 
     $('div.black_bg').on('click', function() {

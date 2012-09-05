@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from empor.shortcuts import JsonResponse
 from cart.utils import archive_cart
 from cart.models import CartItem
 from cart.views import get_cart
@@ -67,16 +68,25 @@ def index(request):
 
 @login_required
 def get_shipping(request, country_id):
+    country_id = int(country_id)
     if country_id > 0:
+        if request.is_ajax():
+            return JsonResponse({'success': True, 'shipping': settings.SHIPPING_OVERSEAS_COST})
         return settings.SHIPPING_OVERSEAS_COST
     else:
         cart = get_cart(request)
         if settings.SHIPPING_FREE_ITEM_COUNT:
             if cart.items.count() > settings.SHIPPING_FREE_ITEM_COUNT:
+                if request.is_ajax():
+                    return JsonResponse({'success': True, 'shipping': 0})
                 return 0
         if settings.SHIPPING_FREE_MINIMUM_PURCHASE:
             if cart.net_total > settings.SHIPPING_FREE_MINIMUM_PURCHASE:
+                if request.is_ajax():
+                    return JsonResponse({'success': True, 'shipping': 0})
                 return 0
+        if request.is_ajax():
+            return JsonResponse({'success': True, 'shipping': settings.SHIPPING_DEFAULT_COST})
         return settings.SHIPPING_DEFAULT_COST
 
 @login_required
