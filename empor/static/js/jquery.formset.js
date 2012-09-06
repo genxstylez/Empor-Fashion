@@ -139,6 +139,8 @@
                 var formCount = parseInt($('#id_' + options.prefix + '-TOTAL_FORMS').val()),
                     row = options.formTemplate.clone(true).removeClass('formset-custom-template'),
                     buttonRow = $(this).parents('tr.' + options.formCssClass + '-add').get(0) || this;
+
+                window.a = options.formTemplate;
                 applyExtraClasses(row, formCount);
                 row.insertBefore($(buttonRow)).show();
                 row.find('input,select,textarea,label').each(function() {
