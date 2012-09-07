@@ -1,0 +1,100 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-07 20:04+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: models.py:8 models.py:29
+msgid "User"
+msgstr "使用者"
+
+#: models.py:9 models.py:30
+msgid "Session"
+msgstr ""
+
+#: models.py:10 models.py:31
+msgid "Items"
+msgstr "物品"
+
+#: models.py:11 models.py:22 models.py:32 models.py:43
+msgid "Discount Total"
+msgstr "折扣合計"
+
+#: models.py:12 models.py:23 models.py:33 models.py:44
+msgid "Gross Total"
+msgstr "商品合計"
+
+#: models.py:13 models.py:24 models.py:34 models.py:45
+msgid "Net Total"
+msgstr "總合計"
+
+#: models.py:14 models.py:25 models.py:35 models.py:46
+msgid "Created at"
+msgstr "建立日期"
+
+#: models.py:15 models.py:26 models.py:36 models.py:47
+msgid "Last modified"
+msgstr "更改日期"
+
+#: models.py:18 templates/cart/index-ajax.html:5 templates/cart/index.html:6
+msgid "Cart"
+msgstr "購物車"
+
+#: models.py:19 models.py:40
+msgid "Product"
+msgstr "產品"
+
+#: models.py:20 models.py:41 templates/cart/index-ajax.html:12
+#: templates/cart/index.html:13
+msgid "Discount"
+msgstr "折扣"
+
+#: models.py:21 models.py:42
+msgid "Quantity"
+msgstr "數量"
+
+#: models.py:39
+msgid "Archived Cart"
+msgstr "購物車(存)"
+
+#: templates/cart/index-ajax.html:10 templates/cart/index.html:11
+msgid "Item"
+msgstr "物品"
+
+#: templates/cart/index-ajax.html:11 templates/cart/index.html:12
+msgid "Price"
+msgstr "價格"
+
+#: templates/cart/index-ajax.html:13 templates/cart/index.html:14
+msgid "Qty"
+msgstr "數量"
+
+#: templates/cart/index-ajax.html:14 templates/cart/index.html:15
+msgid "Total"
+msgstr "合計"
+
+#: templates/cart/index-ajax.html:40 templates/cart/index.html:41
+msgid "Shopping Total"
+msgstr "購物合計"
+
+#: templates/cart/index-ajax.html:42 templates/cart/index.html:44
+msgid "Continue Shopping"
+msgstr "繼續購物"
+
+#: templates/cart/index-ajax.html:43 templates/cart/index.html:45
+msgid "Checkout and Payment"
+msgstr "結帳"
