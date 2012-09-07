@@ -141,6 +141,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'grappelli',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -212,6 +213,8 @@ THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 DEFAULT_FROM_EMAIL = 'webmaster@empor.com'
 #EMAIL_HOST = 'localhost'
+
+GRAPPELLI_ADMIN_TITLE = 'EMPOR'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'

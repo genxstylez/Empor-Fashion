@@ -46,6 +46,10 @@ div#content_pane {
     height: auto;
 }
 
+.errorlist li {
+    color: red;
+}
+
 /**** Isotope Filtering ****/
 
 .isotope-item {

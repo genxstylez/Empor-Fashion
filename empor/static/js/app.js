@@ -125,6 +125,7 @@ $(function () {
     $('.product_option').livequery('click', function() {
         $(this).addClass('selected');
         $(this).siblings().removeClass('selected');
+        return false;
     });
 
     // add to cart

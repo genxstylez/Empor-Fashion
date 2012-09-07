@@ -29,7 +29,7 @@
                         </a>
                     </td>
                     <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
-                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.gross_total }}</td>
                     <td>{% if item.discount %} {{ item.get_discount_price }} {% else %} - {% endif %}</td>
                     <td>{{ item.quantity }}</td>
                     <td class="item_total">{{ item.net_total }}</td>

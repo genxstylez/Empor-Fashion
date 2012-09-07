@@ -1,32 +1,37 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from product.models import Collection, Product, OptionGroup, Brand, Category, Option
+from product.models import Collection, Product, Brand, Category, OptionGroup
 
-OPTIONGROUP_CHOICES = [(0, '-----'),]
-OPTIONGROUP_CHOICES += [(option.id, option.name) for option in OptionGroup.objects.all()]
-
-OPTION_CHOICES = [(option.id, option.name) for option in Option.objects.all()]
-
-class ChildProductForm(forms.Form):
-    id = forms.CharField(widget=forms.HiddenInput())
-    option = forms.ChoiceField(label=_('Option'), choices=OPTION_CHOICES, widget=forms.Select(attrs={'class': 'options', 'disabled': 'disabled'}))
-    stock = forms.IntegerField(label=_('Stock'), widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': _('qty')}))
+class ChildProductForm(forms.ModelForm):
+    stock = forms.IntegerField(widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': _('qty')}))
     price = forms.IntegerField(required=False, widget=forms.TextInput(attrs={'class':'input-mini', 'placeholder': 'NT $'}))
+    
+    class Meta:
+        model = Product
+        fields = ('option', 'stock', 'price')
 
-    def clean(self):
-        if not self.fields['option'] or not self.fields['stock']:
-            raise forms.ValidationError(_('This field is required'))
-        return self.cleaned_data
-        
 class ProductForm(forms.ModelForm):
-    option_group = forms.ChoiceField(label=_('Option Group'), choices=OPTIONGROUP_CHOICES, 
-        required=False, widget=forms.Select(attrs={'class':'optiongroup'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'input-large', 'row': '10'}))
 
     class Meta:
         model = Product
-        exclude = ('collection', 'parent', 'brand', 'category', 'thumbnail', 'featured')
         fields = ('name', 'price', 'gender', 'composition', 'description', 'has_options', 'option_group', )
+
+    def clean_name(self):
+        if not self.cleaned_data['name']:
+            raise forms.ValidationError(_('This field is required'))
+        return self.cleaned_data['name']
+
+    def clean_price(self):
+        if not self.cleaned_data['price']:
+            raise forms.ValidationError(_('This field is required'))
+        return self.cleaned_data['price']
+
+    def clean_option_group(self):
+        if self.cleaned_data['has_options'] and not self.cleaned_data['option_group']:
+            raise forms.ValidationError(_('Option Group Required'))
+        else:
+            return self.cleaned_data['option_group']
 
 class ProductThumbForm(forms.Form):
     id = forms.CharField(widget=forms.HiddenInput())

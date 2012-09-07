@@ -48,6 +48,23 @@ class Collection(models.Model):
     def __unicode__(self):
         return self.name
 
+class OptionGroup(models.Model):
+    name = models.CharField(_('Option Group'), max_length=100)
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+
+    def __unicode__(self):
+        return self.name
+
+class Option(models.Model):
+    name = models.CharField(_('Option'), max_length=100)
+    option_group = models.ForeignKey(OptionGroup, verbose_name=_('Option Group'), related_name='options')
+    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
+    last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+    
+    def __unicode__(self):
+        return self.option_group.name + ' - ' + self.name
+
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=100, blank=True)
     sku = models.CharField(_('SKU'), max_length=20, blank=True)
@@ -59,6 +76,8 @@ class Product(models.Model):
     category = models.ForeignKey(Category, verbose_name=_('Category'), related_name='products')
     collection = models.ForeignKey(Collection, verbose_name=_('Collection'), related_name='products')
     brand = models.ForeignKey(Brand, verbose_name=_('Brand'), related_name='products')
+    option_group = models.ForeignKey(OptionGroup, verbose_name=_('Option Group'), related_name='products', null=True, blank=True)
+    option = models.ForeignKey(Option, verbose_name=_('Option'), related_name='products', null=True, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
     composition = models.CharField(_('Composition'), max_length=100, blank=True)
     gender = models.ManyToManyField(Gender, related_name='products')
@@ -67,19 +86,19 @@ class Product(models.Model):
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
-    
+
+    class Meta:
+        unique_together = ('slug', 'brand', 'option')
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = self.name.replace(' ', '_').lower()
         super(Product, self).save(*args, **kwargs)
 
     def __unicode__(self):
-        if self.has_options:
-            name = '' 
-            for option in self.options.all():
-                name += ' - ' + option.name
-            return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name + name
-
+        if self.option:
+            return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name + ' - ' + self.option.name
+            
         return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name
     
     def get_name(self):
@@ -90,10 +109,6 @@ class Product(models.Model):
 
     def get_main_image(self):
         return self.images.get(main=True).image
-
-    def get_option(self):
-        if self.has_options:
-            return self.options.all()[0]
 
     def get_discount_value(self):
         dis = None
@@ -209,21 +224,4 @@ class ProductImage(models.Model):
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
-class OptionGroup(models.Model):
-    name = models.CharField(_('Option Group'), max_length=100)
-    products = models.ManyToManyField(Product, null=True, blank=True, related_name="option_group")
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
-    def __unicode__(self):
-        return self.name
-
-class Option(models.Model):
-    name = models.CharField(_('Option'), max_length=100)
-    option_group = models.ForeignKey(OptionGroup, verbose_name=_('Option Group'), related_name='options')
-    products = models.ManyToManyField(Product, null=True, blank=True, related_name="options")
-    created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
-    last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
-    
-    def __unicode__(self):
-        return self.option_group.name + ' - ' + self.name

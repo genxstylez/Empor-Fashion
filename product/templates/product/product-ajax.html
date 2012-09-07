@@ -29,15 +29,13 @@
         <div class="data">{{ focus_product.description }}</div>
         <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
         <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
-        {% for group in focus_product.option_group.all %}
-        <div class="data"><label>{{ group.name }}：</label>
+        <div class="data"><label>{{ focus_product.option_group.name }}：</label>
              <ul>
                 {% for child in focus_product.children.all %}
-                <li class="product_option {% if child.stock == 0 %}soldout{% endif %}"><a href="#" data="{{ child.id }}">{{ child.get_option.name }}</a></li>
+                <li class="product_option {% if child.stock == 0 %}soldout{% endif %}"><a href="#" data="{{ child.id }}">{{ child.option.name }}</a></li>
                 {% endfor %}
              </ul>
         </div>
-        {% endfor %}
         <div class="data"><label>{% trans 'Quantity' %}：</label><input id="quantity" type="number" name="quantity" min="1" max="10" /></div>
         <div class="form-actions_left">
             {% csrf_token %}

@@ -50,7 +50,7 @@ $(function(){
         $(this).parent().siblings().find('input[type="checkbox"]').removeAttr('checked');
     });
 
-    $('.optiongroup').on('change', function () {
+    $('select[name="option_group"]').on('change', function () {
         var that = $(this)
         $('.options').empty();
         $.get('/staff/render_options/'+$(this).val(), function(response) {
@@ -70,18 +70,19 @@ $(function(){
 </div>
 <form id="p_edit-form" method="post" class="form-inline well">
 {% csrf_token %}
-<h3>Step 1 -{% trans 'Product Information' %}</h3>
+<h3>Step 1 - {% trans 'Product Information' %}</h3>
 {% for field in product_form %}
     <div class="control-group">
         <label class="control-label">{{ field.label }}</label>
         <div class="controls">{{ field }}</div>
-        {{ field.errors }}
+        <div class="controls">{{ field.errors }}</div>
         {{ field.help_text }}
     </div>
     {% endfor %}
     {{ child_formset.management_form }}
     <div id="child_formset">
         {% for form in child_formset.forms %}
+        {{ form.errors }}
         <div class="child-form control-group">
             <label class="control-label">{% trans 'Stock' %}</label>
             <div class="controls">
@@ -89,12 +90,12 @@ $(function(){
                 {{ field }}
                 {% endfor %}
             </div>
-            {{ form.errors }}
         </div>
         {% endfor %}
     </div>
     <div class="form-actions">
-        <input type="submit" class="button" value="{% trans 'Save' %}" />
+        <input type="submit" class="button" name="save" value="{% trans 'Save' %}" />　
+        <input type="submit" class="button" name="add" value="{% trans 'Save and Upload Image' %}" />
     </div>
     <br clear="all">
 </form>
