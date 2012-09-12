@@ -1,0 +1,91 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-09-12 11:49-0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: models.py:7
+msgid "User"
+msgstr "使用者"
+
+#: models.py:8
+msgid "Subject"
+msgstr "主旨"
+
+#: models.py:9
+msgid "Type"
+msgstr "類別"
+
+#: models.py:10
+msgid "Name"
+msgstr "姓名"
+
+#: models.py:11
+msgid "Email"
+msgstr ""
+
+#: models.py:12
+msgid "Phone"
+msgstr "電話"
+
+#: models.py:13
+msgid "Content"
+msgstr "內容"
+
+#: models.py:14
+msgid "Status"
+msgstr "狀態"
+
+#: models.py:15
+msgid "Created at"
+msgstr "建立時間"
+
+#: models.py:16
+msgid "Last modified"
+msgstr "最後更改"
+
+#: models.py:22
+msgid "Question"
+msgstr "發問"
+
+#: models.py:23
+msgid "Questions"
+msgstr "發問"
+
+#: settings.py:5
+msgid "Service"
+msgstr "客服"
+
+#: settings.py:6
+msgid "Sales"
+msgstr "業務"
+
+#: settings.py:10
+msgid "Unsolved"
+msgstr "未解決"
+
+#: settings.py:11
+msgid "Solved"
+msgstr "已解決"
+
+#: views.py:33
+msgid "Your email has been sent!"
+msgstr "您的問題已送出"
+
+#: templates/service/index.html:17
+msgid "Send"
+msgstr "傳送"

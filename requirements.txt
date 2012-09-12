@@ -1,5 +1,5 @@
-django==1.4
-pillow
+django
+pil
 django-userena
 django-extensions
 django-storages
