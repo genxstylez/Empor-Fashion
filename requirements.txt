@@ -6,3 +6,4 @@ django-storages
 boto
 xhtml2pdf
 django-flash
+mysql-python
