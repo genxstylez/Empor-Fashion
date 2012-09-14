@@ -13,7 +13,10 @@ def index(request):
     spam = request.POST.get('spam', None)
     if spam:
         return HttpResponse('spam')
-    initial = {'email': request.user.email, 'phone': request.user.profile.phone, 'name': request.user.get_name() } if request.user.is_authenticated() else None
+    if request.user.is_autheticated():
+        initial = {'email': request.user.email, 'phone': request.user.profile.phone, 'name': request.user.get_name() }
+    else:
+        initial = None
     form = QuestionForm(request.POST or None, initial=initial)
     if form.is_valid():
         if request.user.is_authenticated:
