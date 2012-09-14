@@ -13,7 +13,7 @@ def index(request):
     spam = request.POST.get('spam', None)
     if spam:
         return HttpResponse('spam')
-    if request.user.is_autheticated():
+    if request.user.is_authenticated():
         initial = {'email': request.user.email, 'phone': request.user.profile.phone, 'name': request.user.get_name() }
     else:
         initial = None
