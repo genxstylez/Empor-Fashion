@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.http import Http404
+from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core.files.base import ContentFile
 from django.conf import settings
@@ -10,15 +11,18 @@ from product.models import Product, Option, ProductImage, Collection, OptionGrou
 from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
 
+@staff_member_required
 def index(request):
     collections = Collection.objects.all()
     return render(request, 'staff/index.html', {'collections': collections})
 
+@staff_member_required
 def collection(request, collection_id):   
     collection = get_object_or_404(Collection, id=collection_id)
     products = collection.products.filter(parent=None)
     return render(request, 'staff/collection.html', {'collection': collection, 'products': products})
 
+@staff_member_required
 def collection_create(request):
     form = CollectionForm(request.POST or None)
     if form.is_valid():
@@ -30,6 +34,7 @@ def collection_create(request):
 
     return render(request, 'staff/create-collection.html', {'form' : form}) 
 
+@staff_member_required
 def product_create(request, collection_id):
     collection = Collection.objects.get(id=collection_id)
     ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm)
@@ -84,6 +89,7 @@ def product_create(request, collection_id):
         'child_formset': child_formset,
     })
 
+@staff_member_required
 def product_edit(request, collection_id, product_id):
     product = get_object_or_404(Product, id=product_id)
     collection = Collection.objects.get(id=collection_id)
@@ -127,6 +133,7 @@ def product_edit(request, collection_id, product_id):
         'child_formset': child_formset,
     })
 
+@staff_member_required
 def product_image(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     images = ProductImage.objects.filter(product=product)
@@ -143,6 +150,7 @@ def product_image(request, product_id):
 
     return render(request, 'staff/product-image.html', {'product': product, 'images': images})
 
+@staff_member_required
 def product_thumb(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     try:
@@ -165,6 +173,7 @@ def product_thumb(request, product_id):
 
     return render(request, 'staff/product-thumb.html', {'product': product, 'thumb': thumb})
 
+@staff_member_required
 def _render_options(request, group_id):
     if request.is_ajax():
         choices = []
@@ -174,6 +183,7 @@ def _render_options(request, group_id):
         
         return JsonResponse(choices)
 
+@staff_member_required
 def _create_brand(request):
     form = BrandForm(request.POST, request.FILES or None)
     if form.is_valid():
@@ -181,6 +191,7 @@ def _create_brand(request):
         return JsonResponse({'id': brand.id, 'name': brand.name})
     return render(request, 'staff/create-form.html', {'form': form})
 
+@staff_member_required
 def _create_category(request):
     form = CategoryForm(request.POST or None)
     if form.is_valid():
@@ -188,12 +199,15 @@ def _create_category(request):
         return JsonResponse({'id': cat.id, 'name': cat.name})
     return render(request, 'staff/create-form.html', {'form': form})
 
+@staff_member_required
 def _create_optiongroup(request):
     form = OptionGroupForm(request.POST or None)
     if form.is_valid():
         opt = form.save()
         return JsonResponse({'id': opt.id, 'name': opt.name})
 
+
+@staff_member_required
 @require_POST
 def _upload(request):
     product_id = request.POST.get('product_id', None)
@@ -221,6 +235,8 @@ def _upload(request):
         return JsonResponse({'success': True, 'image_id': image.id, 'image_url': image.image['small'].url })
     return JsonResponse({'success': True})
 
+@staff_member_required
+@require_POST
 def _thumb_upload(request):
     product_id = request.POST.get('product_id', None)
     product = get_object_or_404(Product, id=product_id)
