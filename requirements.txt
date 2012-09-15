@@ -7,3 +7,4 @@ boto
 xhtml2pdf
 django-flash
 mysql-python
+gunicorn
