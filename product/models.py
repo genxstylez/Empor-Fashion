@@ -92,7 +92,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = self.name.replace(' ', '-').replace('/', '-').decode('utf-8').lower()
+            self.slug = self.name.replace(' ', '').replace('/', '-').decode('utf-8').lower()
         super(Product, self).save(*args, **kwargs)
 
     def __unicode__(self):
