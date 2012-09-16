@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -92,7 +93,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = self.name.replace(' ', '').replace('/', '-').decode('utf-8').lower()
+            self.slug = self.name.replace(' ', '').replace('/', '-').encode('utf-8').lower()
         super(Product, self).save(*args, **kwargs)
 
     def __unicode__(self):
