@@ -37,3 +37,5 @@ def index(request):
         
     return render(request, 'service/index.html', {'form': form})
     
+def faq(request):
+    return render(request, 'service/faq.html')

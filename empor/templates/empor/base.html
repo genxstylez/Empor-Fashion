@@ -22,33 +22,34 @@
 <body>
 <!-- menu_wrapper -->
 <div id="menu_wrapper">
-    <!-- menu_bar -->
-    <div class="menu_bar"></div>
-    <!-- /menu_bar -->
     <!-- logo -->
-    <div class="logo_box b_box" style="position: absolute; top: 10px; left: 10px;">
+    <div class="logo_box b_box">
         <a href="{% url index %}"><img src="{{ STATIC_URL }}images/EMPOR_logo.png" /></a>
     </div>
     <!-- /logo -->
     <!-- menu_iconbox -->
     <div class="menu_iconbox b_box">
-        <a href="{% url cart-index %}"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
-    </div>
-        <div class="menu_iconbox b_box">
-        <a href="{% url member-index %}"><img src="{{ STATIC_URL }}images/menu_icon_member.png"></a>
-    </div>
-    <div class="menu_iconbox b_box">
         <a href="{% url service-index %}"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
     </div>
+    <div class="menu_iconbox b_box">
+        <a href="{% url cart-index %}"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
+    </div>
+    {% if request.user.is_authenticated %}
+    <div class="menu_textbox b_box">
+        <a href="{% url userena_signout %}">{% trans 'LOGOUT' %}</a> ／ <a href="{% url member-profile %}">{% trans 'MY ACCOUNT' %}</a>
+    </div>
+    {% else %}
+    <div class="menu_textbox b_box">
+        <a href="{% url userena_signup %}">{% trans 'JOIN US' %}</a> ／ <a href="{% url userena_signin %}">{% trans 'LOGIN' %}</a>
+    </div>
+    {% endif %}
     <!-- /menu_iconbox -->
     <!-- menu_button -->
-    <div class="menu_button" style="position: absolute; top: 10px; right: 100px;">
+    <div class="menu_button">
         <a href="{% url index-gender 'MEN' %}">MEN</a> /
         <a href="{% url index-gender 'WOMEN' %}">WOMEN</a>
     </div>
     <!-- /menu_button -->
-    {% comment %}<!-- menu_content -->{% endcomment %}
-    <!-- /menu_content -->
 </div>
 <!-- /menu_wrapper -->
 <!-- content_wrapper -->
