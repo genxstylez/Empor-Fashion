@@ -36,7 +36,7 @@
     </div>
     {% if request.user.is_authenticated %}
     <div class="menu_textbox b_box">
-        <a href="{% url userena_signout %}">{% trans 'LOGOUT' %}</a> ／ <a href="{% url member-profile %}">{% trans 'MY ACCOUNT' %}</a>
+        <a href="{% url userena_signout %}">{% trans 'LOGOUT' %}</a> ／ <a href="{% url member-profile request.user.username %}">{% trans 'MY ACCOUNT' %}</a>
     </div>
     {% else %}
     <div class="menu_textbox b_box">
@@ -53,8 +53,10 @@
 </div>
 <!-- /menu_wrapper -->
 <!-- content_wrapper -->
+<div id="content_wrapper">
 {% block content %}
 {% endblock %}
+</div>
 <!-- content_wrapper -->
 <footer>
     <a href="help.html"><img src="images/icon_info.png"></a>

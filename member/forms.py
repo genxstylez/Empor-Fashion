@@ -1,9 +1,11 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from userena.forms import SignupFormOnlyEmail, EditProfileForm
+from userena.forms import SignupFormOnlyEmail, EditProfileForm, identification_field_factory
 from member.settings import COUNTRY_CHOICES
 from member.models import UserProfile
 from userena.utils import get_profile_model
+from userena import settings as userena_settings
+from django.contrib.auth import authenticate
 
 class RegisterForm(SignupFormOnlyEmail):
     first_name = forms.CharField(label=_('First name'), max_length=30, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
@@ -102,3 +104,24 @@ class ProfileForm(EditProfileForm):
         user.save()
 
         return profile
+
+class AuthenticationForm(forms.Form):
+    
+    attrs_dict = {'class': 'required input-large'}
+    # userena siginform override for css class
+
+    identification = forms.CharField(label=_('Email'), widget=forms.TextInput(attrs=attrs_dict), max_length=75,
+                    error_messages={'required': _('Please supply your email')})
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput(attrs=attrs_dict, render_value=False))
+    remember_me = forms.BooleanField(widget=forms.CheckboxInput(), required=False,
+                label=_(u'Remember me') % {'days': _(userena_settings.USERENA_REMEMBER_ME_DAYS[0])})
+
+    def clean(self):
+        identification = self.cleaned_data.get('identification')
+        password = self.cleaned_data.get('password')
+
+        if identification and password:
+            user = authenticate(identification=identification, password=password)
+            if user is None:
+                raise forms.ValidationError(_(u"Please enter a correct username or email and password. Note that both fields are case-sensitive."))
+        return self.cleaned_data

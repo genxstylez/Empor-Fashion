@@ -1,21 +1,19 @@
 {% extends 'empor/base.html' %}
 {% load i18n %}
 {% block content %}
-<div class="inside_itembox itemopen">
-    <div class="center">
-        <h1>Contact</h1>
-        <form id="contact-form" method="post" action="#" class="form-inline">
-            {% csrf_token %}
-            {% for field in form %}
-            <div class="control-group">
-                <label class="control-label">{{ field.label }}</label>
-                <div class="controls">{{ field }}</div>
-                {{ field.errors }}
-            </div>
-            {% endfor %}
-            <input type="hidden" name="spam" value="" />
-            <div class="form-actions"><input type="submit" class="button" value="{% trans 'Send' %}" /></div>
-        </form>
-    </div>
+<div class="inside_itembox itemopen center">
+    <h1>Contact</h1>
+    <form id="contact-form" method="post" action="#" class="form-inline">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="control-group">
+            <label class="control-label">{{ field.label }}</label>
+            <div class="controls">{{ field }}</div>
+            {{ field.errors }}
+        </div>
+        {% endfor %}
+        <input type="hidden" name="spam" value="" />
+        <div class="form-actions"><input type="submit" class="button" value="{% trans 'Send' %}" /></div>
+    </form>
 </div>
 {% endblock %}

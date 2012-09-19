@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
-from member.forms import RegisterForm, ProfileForm
+from member.forms import RegisterForm, ProfileForm, AuthenticationForm
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -20,7 +20,7 @@ urlpatterns = patterns('',
         'email_template_name': 'userena/emails/password_reset_message.txt'},
         name="member-password-reset"),
     (r'^accounts/signup/$','userena.views.signup', {'signup_form': RegisterForm}),
-    (r'^accounts/signin/$','userena.views.signin'),
+    (r'^accounts/signin/$','userena.views.signin', {'auth_form': AuthenticationForm}),
     (r'^accounts/signout/$','userena.views.signout'),
     url(r'^accounts/(?P<username>[\.\w]+)/$','userena.views.profile_edit', {'edit_profile_form': ProfileForm}, name="member-profile"),
     (r'^accounts/', include('userena.urls')),
