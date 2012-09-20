@@ -1,53 +1,51 @@
 {% extends 'empor/base.html' %}
 {% block content %}
 <div class="inside_itembox itemopen">
-    <a name="top"></a> 
-    <div class="center">
-        <h1>HELP</h1>
-        <div class="help_menu">
-            <a href="#shopping" class="span3"><i class="xl_icon-buy"></i><h3>購物方式</h3></a>
-            <a href="#delivery" class="span3"><i class="xl_icon-send"></i><h3>配送取貨</h3></a>
-            <a href="#refund" class="span3"><i class="xl_icon-refund"></i><h3>退貨方式</h3></a>
+    <div id="top"></div>
+    <h1>HELP</h1>
+    <div class="help_menu">
+        <a href="#shopping" class="span3"><i class="xl_icon-buy"></i><h3>購物方式</h3></a>
+        <a href="#delivery" class="span3"><i class="xl_icon-send"></i><h3>配送取貨</h3></a>
+        <a href="#refund" class="span3"><i class="xl_icon-refund"></i><h3>退貨方式</h3></a>
+    </div>
+    <div class="help_content">
+        <div id="shopping">
+            <h4>購物方式</h4>
+            <h5>1.購物流程</h5>
+            <p>選購喜愛的商品 &gt; 登入會員 &gt; 進行結帳 &gt; 出貨通知 &gt; 收到商品</p>
+            <h5>2.付款方式</h5>
+            <p>(1)Paypal刷卡</p>
+            <p>(2)貨到付現：宅急便人員將貨物送達時，直接支付現金給宅急便人員即可。</p>
+            <p>(3)貨到刷卡：宅急便人員將貨物送達時，使用信用卡(VISA，MASTER及JCB)進行付款。</p>
+            <h5>3.發票寄送</h5>
+            <p></p>
+            <div class="pagetop"><a href="#top"><i class="xs_icon-gotop"></i>TOP</a></div>
         </div>
-        <div class="help_content">
-            <div id="shopping">
-                <h4>購物方式</h4>
-                <h5>1.購物流程</h5>
-                <p>選購喜愛的商品 &gt; 登入會員 &gt; 進行結帳 &gt; 出貨通知 &gt; 收到商品</p>
-                <h5>2.付款方式</h5>
-                <p>(1)Paypal刷卡</p>
-                <p>(2)貨到付現：宅急便人員將貨物送達時，直接支付現金給宅急便人員即可。</p>
-                <p>(3)貨到刷卡：宅急便人員將貨物送達時，使用信用卡(VISA，MASTER及JCB)進行付款。</p>
-                <h5>3.發票寄送</h5>
-                <p></p>
-                <div class="pagetop"><a href="#top"><i class="xs_icon-gotop"></i>TOP</a></div>
-            </div>
-            <div id="delivery">
-                <h4>配送取貨</h4>
-                <h5>1.出貨時間</h5>
-                <p>商品將於訂單確認並完成付款動作後，五個工作天內出貨。您亦可至 <a href="http://www.t-cat.com.tw/Inquire/Trace.aspx" target="_blank">http://www.t-cat.com.tw/Inquire/Trace.aspx</a> 查詢配送狀態。</p>
-                <h5>2.配送方式</h5>
-                <p>提供黑貓宅急便運送方式。可指定送達時間。</p>
-                <p>運送地區：台灣本島各地各縣市、澎湖部分地區、金門部分地區（大金門、小金門）、小琉球、馬祖全部地區、綠島。</p>
-                <p>以下區域恕不提供宅急便包裹收送服務：蘭嶼、澎湖望安鄉、七美鄉、虎井島、桶盤島、大倉嶼、員貝嶼、鳥嶼、吉貝嶼、金門烏坵鄉(大膽島、二膽島)</p>
-                <h5>3.運費計算</h5>
-                <p>國內一律免運費！國外地區運費一律$500！</p>
-                <div class="pagetop"><a href="#top"><i class="xs_icon-gotop"></i>TOP</a></div>
-            </div>
-            <div id="refund">
-                <h4>退貨方式</h4>
-                <h5>1.七日鑑賞期</h5>
-                <p>消費者收受商品後享有七日鑑賞期(包含例假日)，鑑賞期非試用期，退回之商品需為未使用過且有完整包裝及發票。</p>
-                <h5>2.退貨標準</h5>
-                <p>辦理退換貨時，若商品有下列情形者，可能會被認定為已逾越商品鑑賞之必要程度，而將影響退貨權力或需負擔毀壞之費用</p>
-                <p>鞋類商品：</p>
-                <p>(1)鞋底磨損(試穿時請留意避免鞋底磨損，應在地毯或是軟墊上試穿)</p>
-                <p>(2)鞋子上有不可清除的髒污或因試穿產生的折痕(皮革紋路不在此限)</p>
-                <p>(3)鞋子附屬配件/贈品短缺</p>
-                <h5>3.退貨流程</h5>
-                <p></p>
-                <div class="pagetop"><a href="#top"><i class="xs_icon-gotop"></i>TOP</a></div>
-            </div>
+        <div id="delivery">
+            <h4>配送取貨</h4>
+            <h5>1.出貨時間</h5>
+            <p>商品將於訂單確認並完成付款動作後，五個工作天內出貨。您亦可至 <a href="http://www.t-cat.com.tw/Inquire/Trace.aspx" target="_blank">http://www.t-cat.com.tw/Inquire/Trace.aspx</a> 查詢配送狀態。</p>
+            <h5>2.配送方式</h5>
+            <p>提供黑貓宅急便運送方式。可指定送達時間。</p>
+            <p>運送地區：台灣本島各地各縣市、澎湖部分地區、金門部分地區（大金門、小金門）、小琉球、馬祖全部地區、綠島。</p>
+            <p>以下區域恕不提供宅急便包裹收送服務：蘭嶼、澎湖望安鄉、七美鄉、虎井島、桶盤島、大倉嶼、員貝嶼、鳥嶼、吉貝嶼、金門烏坵鄉(大膽島、二膽島)</p>
+            <h5>3.運費計算</h5>
+            <p>國內一律免運費！國外地區運費一律$500！</p>
+            <div class="pagetop"><a href="#top"><i class="xs_icon-gotop"></i>TOP</a></div>
+        </div>
+        <div id="refund">
+            <h4>退貨方式</h4>
+            <h5>1.七日鑑賞期</h5>
+            <p>消費者收受商品後享有七日鑑賞期(包含例假日)，鑑賞期非試用期，退回之商品需為未使用過且有完整包裝及發票。</p>
+            <h5>2.退貨標準</h5>
+            <p>辦理退換貨時，若商品有下列情形者，可能會被認定為已逾越商品鑑賞之必要程度，而將影響退貨權力或需負擔毀壞之費用</p>
+            <p>鞋類商品：</p>
+            <p>(1)鞋底磨損(試穿時請留意避免鞋底磨損，應在地毯或是軟墊上試穿)</p>
+            <p>(2)鞋子上有不可清除的髒污或因試穿產生的折痕(皮革紋路不在此限)</p>
+            <p>(3)鞋子附屬配件/贈品短缺</p>
+            <h5>3.退貨流程</h5>
+            <p></p>
+            <div class="pagetop"><a href="#top"><i class="xs_icon-gotop"></i>TOP</a></div>
         </div>
     </div>
 </div>
