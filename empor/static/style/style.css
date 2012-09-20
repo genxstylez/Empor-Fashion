@@ -594,7 +594,7 @@ input[type="radio"] {
 .span3:hover .xl_icon-buy {background-position:-128px -164px;}
 .xl_icon-send {background-position:-64px -100px;}
 .span3:hover .xl_icon-send {background-position:-64px -164px;}
-.xl_icon-back {background-position:0px -100px;}
+.xl_icon-refund {background-position:0px -100px;}
 .span3:hover .xl_icon-back {background-position:0px -164px;}
 /*button*/
 .button {
