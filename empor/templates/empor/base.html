@@ -4,6 +4,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>EMPOR</title>
     <link href="{{ STATIC_URL }}style/style.css" rel="stylesheet" type="text/css">
+    <link href="{{ STATIC_URL }}style/slideshow.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}style/extra.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -29,10 +30,10 @@
     <!-- /logo -->
     <!-- menu_iconbox -->
     <div class="menu_iconbox b_box">
-        <a href="{% url service-index %}"><img src="{{ STATIC_URL }}images/menu_icon_contact.png"></a>
+        <a href="{% url service-index %}"><i class="m_icon-contact"></i></a>
     </div>
     <div class="menu_iconbox b_box">
-        <a href="{% url cart-index %}"><img src="{{ STATIC_URL }}images/menu_icon_cart.png"></a>
+        <a href="{% url cart-index %}"><i class="m_icon-cart"></i></a>
     </div>
     {% if request.user.is_authenticated %}
     <div class="menu_textbox b_box">
@@ -46,8 +47,8 @@
     <!-- /menu_iconbox -->
     <!-- menu_button -->
     <div class="menu_button">
-        <a href="{% url index-gender 'MEN' %}">MEN</a> /
-        <a href="{% url index-gender 'WOMEN' %}">WOMEN</a>
+        <a href="{% url products-view 'MEN' %}">MEN</a> /
+        <a href="{% url products-view 'WOMEN' %}">WOMEN</a>
     </div>
     <!-- /menu_button -->
 </div>
@@ -59,8 +60,8 @@
 </div>
 <!-- content_wrapper -->
 <footer>
-    <a href="help.html"><img src="images/icon_info.png"></a>
-    <a href="https://www.facebook.com/pages/EMPOR/220960498003255"><img src="images/icon_fb.png"></a>
+    <a href="help.html"><i class="s_icon-info"></i></a>
+    <a href="https://www.facebook.com/pages/EMPOR/220960498003255"><i class="s_icon-fb"></i></a>
     <div class="text">COPYRIGHT© 2012 EMPOR</div>
 </footer>
 <div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>

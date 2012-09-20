@@ -16,6 +16,6 @@ class KeyImpression(models.Model):
 
 class Impression(models.Model):
     def impression_path(self, filename):
-        return 'impressions/%s' % (self.name, filename)
+        return 'impressions/%s' % (filename)
     image = models.ImageField(_('Image'), upload_to=impression_path, storage=empor_storage)
     active = models.BooleanField(_('Active'), default=True)
