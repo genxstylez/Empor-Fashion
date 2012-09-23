@@ -4,7 +4,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>EMPOR</title>
     <link href="{{ STATIC_URL }}style/style.css" rel="stylesheet" type="text/css">
-    <link href="{{ STATIC_URL }}style/slideshow.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}style/extra.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl.css" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -19,10 +18,11 @@
         var flashMessage = '{{ flash.message }}';
     </script>
     {% endif %}
+    {% block js %}{% endblock %}
 </head>
 <body>
 <!-- menu_wrapper -->
-<div id="menu_wrapper">
+<div id="menu_wrapper" {% block menu_class %}{% endblock %}>
     <!-- logo -->
     <div class="logo_box b_box">
         <a href="{% url index %}"><img src="{{ STATIC_URL }}images/EMPOR_logo.png" /></a>
@@ -47,8 +47,9 @@
     <!-- /menu_iconbox -->
     <!-- menu_button -->
     <div class="menu_button">
-        <a href="{% url products-view 'MEN' %}">MEN</a> /
-        <a href="{% url products-view 'WOMEN' %}">WOMEN</a>
+        <a href="{% url products-view %}">ALL</a> /
+        <a href="{% url products-view-gender 'MEN' %}">MEN</a> /
+        <a href="{% url products-view-gender 'WOMEN' %}">WOMEN</a>
     </div>
     <!-- /menu_button -->
 </div>
@@ -59,6 +60,7 @@
 {% endblock %}
 </div>
 <!-- content_wrapper -->
+<div id="back-top"></div>
 <footer>
     <a href="{% url service-faq %}"><i class="s_icon-info"></i></a>
     <a href="https://www.facebook.com/pages/EMPOR/220960498003255"><i class="s_icon-fb"></i></a>

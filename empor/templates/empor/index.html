@@ -1,9 +1,17 @@
 {% extends 'empor/base.html' %}
+{% block js %}
+<script src="{{ STATIC_URL }}js/jquery.backstretch.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $.backstretch([
+        {% for impression in impressions %}
+            "{{ impression.image.url }}",
+        {% endfor %}
+    ], { duration: 5000, fade: 2000 });
+});
+</script>
+{% endblock %}
+{% block menu_class %}class="b_bg"{% endblock %}
 {% block content %}
 <div class="index_text"><img src="{{ key.image.url }}"></div>
-<ul class="cb-slideshow">
-    {% for impression in impressions %}
-    <li><img src="{{ impression.image.url }}" /></li>
-    {% endfor %}
-</ul>
 {% endblock %}

@@ -583,6 +583,8 @@ input[type="radio"] {
 .xs_icon-gotop {background-position:0px -80px;margin-right:3px;}
 .xs_icon-add {background-position:-40px -80px;margin-right:10px;margin-top:5px;}
 .xs_icon-subtract {background-position:-60px -80px;margin-top:5px;}
+.xs_icon-remove {background-position:-20px -80px;filter:alpha(opacity=50); -moz-opacity: 0.5; opacity: 0.5; }
+.xs_icon-remove:hover {filter:alpha(opacity=100); -moz-opacity: 1; opacity: 1; }
 .s_icon-info {background-position:-20px -60px;}
 .s_icon-fb {background-position:0px -60px;}
 .m_icon-cart {background-position:0px -40px;}
@@ -595,7 +597,7 @@ input[type="radio"] {
 .xl_icon-send {background-position:-64px -100px;}
 .span3:hover .xl_icon-send {background-position:-64px -164px;}
 .xl_icon-refund {background-position:0px -100px;}
-.span3:hover .xl_icon-back {background-position:0px -164px;}
+.span3:hover .xl_icon-refund {background-position:0px -164px;}
 /*button*/
 .button {
 	color:#ffffff;
@@ -620,7 +622,7 @@ input[type="radio"] {
 	color:#ffffff;
 	background-color:#29201b;
 	display:inline-block;
-	font-size:11px;
+	font-size:10px;
 	line-height:20px;
 	padding:2px 10px;
 	text-decoration:none;
@@ -1161,16 +1163,6 @@ h3 .l_icon-gender {
 	margin-left: 35px;
 	margin-bottom: 25px;
 }
-.remove_btn img {
-    filter:alpha(opacity=50); 
-    -moz-opacity: 0.5; 
-    opacity: 0.5; 
-}
-.remove_btn:hover img {
-    filter:alpha(opacity=100); 
-    -moz-opacity: 1; 
-    opacity: 1; 
-}
 #login-form {
 	float: left;
 	margin-top: 20px;
@@ -1217,7 +1209,8 @@ h3 .l_icon-gender {
 	width: 100%;
 	margin-left:0px;
 }
-h4 {
+#register-form h4,
+#guestcheckout-form h4 {
 	margin-bottom:10px;
 }
 #header {
@@ -1616,7 +1609,6 @@ strike {
 	margin-bottom:15px;
 	padding: 0 20px;
 }
-
 .help_content h4 {
 	background-color:#29201b;
 	color:#fff;
@@ -1665,4 +1657,38 @@ footer .text,
 footer i {
 	float:right;
 	margin-right:10px;
+}
+.badge {
+	position: absolute;
+	top: -5px;
+	right: -5px;
+	background: #28A4B6;
+	box-shadow: 0 1px 0 rgba(0, 0, 0, .3);
+	padding: 0px 6px;
+	font-size: 11px;
+	font-weight: bold;
+	white-space: nowrap;
+	color: white;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+/* Back to top button */
+#back-top {
+    cursor: pointer;
+	position: fixed;
+	bottom: 50px;
+	right:30px;
+    display: none;
+	width: 90px;
+	height: 90px;
+	margin-bottom: 7px;
+	background: #ddd url(../images/up-arrow.png) no-repeat center center;
+	/* background color transition */
+	-webkit-transition: 1s;
+	-moz-transition: 1s;
+	transition: 1s;
+}
+#back-top:hover {
+	background-color: #413735;
 }
