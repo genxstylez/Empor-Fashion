@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.http import Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core.files.base import ContentFile
@@ -7,7 +6,7 @@ from django.conf import settings
 from django.views.decorators.http import require_POST
 from django.forms.models import modelformset_factory
 from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
-from product.models import Product, Option, ProductImage, Collection, OptionGroup, ProductThumb
+from product.models import Product, Option, ProductImage, Collection, ProductThumb
 from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
 
