@@ -123,6 +123,7 @@ def product_edit(request, collection_id, product_id):
                 child.option_group = product.option_group
                 if not child.price:
                     child.price = product.price
+                child.collection = collection
                 child.save()
                 child.gender.clear()
                 for gender in product.gender.all():
