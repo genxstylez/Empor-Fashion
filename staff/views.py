@@ -115,7 +115,15 @@ def product_edit(request, collection_id, product_id):
         if product.has_options:
             for (counter, form) in enumerate(child_formset.forms):
                 child = form.save(commit=False)
+                child.parent = product
                 child.option_group = product.option_group
+                child.description = product.description
+                child.brand = product.brand
+                child.category = product.category
+                child.has_options = True
+                child.option_group = product.option_group
+                if not child.price:
+                    child.price = product.price
                 child.save()
                 child.gender.clear()
                 for gender in product.gender.all():
