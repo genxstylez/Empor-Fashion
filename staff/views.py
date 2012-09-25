@@ -115,7 +115,7 @@ def product_edit(request, collection_id, product_id):
             for (counter, form) in enumerate(child_formset.forms):
                 child = form.save(commit=False)
                 child.parent = product
-                child.option_group = product.option_group
+                child.name = product.name
                 child.description = product.description
                 child.brand = product.brand
                 child.category = product.category
