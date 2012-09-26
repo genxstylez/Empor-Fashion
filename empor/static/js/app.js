@@ -1,4 +1,4 @@
-function show_content(ele) {
+function show_content() {
     var height = $('.itemopen').height();
     var center_left = position.left - (($(window).width() - 840)/2);
     var center_top = position.top - (($(window).height() - height + 20)/2);
@@ -94,7 +94,7 @@ $(function () {
 
         target.css({
             'left': position.left, 'top': position.top, 
-            'position': 'relative', 'margin-left': 0, 
+            'position': 'absolute', 'margin-left': 0, 
             'margin-top': 0, 'height': that.height(),
             'width': that.width(),
         });

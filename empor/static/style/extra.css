@@ -44,10 +44,10 @@ div#content_pane {
     display: none;
     background: white;
     overflow: hidden;
-    position: relative;
+    position: absolute;
     width: 840px;
     min-height: 500px;
-    top: 15%;
+    top: 10%
     margin: 0 auto;
     height: auto;
 }
