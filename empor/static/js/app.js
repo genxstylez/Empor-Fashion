@@ -137,7 +137,9 @@ $(function () {
     });
 
     // product option select
-    $('.product_option').livequery('click', function() {
+    $('.size_select li').livequery('click', function() {
+        if($(this).hasClass('soldout'))
+            return false;
         $(this).addClass('selected');
         $(this).siblings().removeClass('selected');
         return false;
