@@ -70,7 +70,7 @@ class Option(models.Model):
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     sku = models.CharField(_('SKU'), max_length=20, blank=True)
-    slug = models.SlugField(_('Slug'), max_length=100)
+    slug = models.SlugField(_('Slug'))
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
