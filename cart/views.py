@@ -45,10 +45,6 @@ def add_item(request):
 
         product = get_object_or_404(Product, id=product_id)
 
-        #if no options selected for has_options product
-        if product.has_options and product.children.count() > 0:
-            return Http404
-
         try:
             item = CartItem.objects.get(product=product, cart=cart)
         except CartItem.DoesNotExist:

@@ -150,6 +150,8 @@ $(function () {
         $('#content_pane').hide();
         $('#modal_overlay').hide();
         var item = $('.product_option.selected a').attr('data');
+        if($('product_option').length > 0 && $('.product_option.selected a').length == 0)
+            alert('please choose a size');
         if(!item)
             item = $(this).attr('data');
         var qty = $('#quantity').val();
