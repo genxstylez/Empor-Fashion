@@ -98,11 +98,6 @@ class Product(models.Model):
             
         return self.brand.name + ' - ' + self.name
 
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.parent.slug
-        super(Product, self).save(*args, **kwargs)
-    
     def get_name(self):
         return self.__unicode__()
 
