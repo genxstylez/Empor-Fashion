@@ -1,8 +1,7 @@
 {% load i18n thumbnail %}
-<div class="index_itembox itemopen cart" style="position: absolute; top: 40px; right: 10px;">
+<div class="index_itembox itemopen cart_s" style="position: absolute; top: 40px; right: 10px;">
     <span class="close">×</span>
     <div class="center">
-        <h1>{% trans 'Cart' %}</h1>
         <table class="table">
             <thead>
               <tr>
@@ -28,9 +27,9 @@
                         </a>
                     </td>
                     <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
-                    <td>{{ item.gross_total }}</td>
-                    <td>{% if item.discount_total > 0 %} {{ item.product.get_discount_price }} {% else %} - {% endif %}</td>
-                    <td>{{ item.quantity }}</td>
+                    <td class="t_right">{{ item.gross_total }}</td>
+                    <td class="t_right">{% if item.discount_total > 0 %} {{ item.product.get_discount_price }} {% else %} - {% endif %}</td>
+                    <td class="t_right">{{ item.quantity }}</td>
                     <td class="item_total">{{ item.net_total }}</td>
                     <td><a href="{% url cart-remove %}" data="{{ item.id }}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
                 </tr>

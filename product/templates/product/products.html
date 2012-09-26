@@ -1,5 +1,5 @@
 {% extends 'empor/base.html' %}
-{% load i18n thumbnail %}
+{% load i18n thumbnail common %}
 {% block content %}
 <div id="isotope_list">
     {% for product in products %}
@@ -12,6 +12,15 @@
                 <div class="itemname">{{ product.name }}</div>
                 <div class="price">{{ product.price }}</div>
             </div>
+            {% with product.get_gender as gender %}
+                {% if gender == 3 %}
+                <i class="l_icon-gender unisex"></i>
+                {% elif gender == 2 %}
+                <i class="l_icon-gender women"></i>
+                {% else %}
+                <i class="l_icon-gender men"></i>
+                {% endif %}
+            {% endwith %}
             </a>
     </div>
     {% endwith %}

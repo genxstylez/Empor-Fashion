@@ -26,7 +26,7 @@ class Category(models.Model):
 
 class Brand(models.Model):
     def brand_path(self, filename):
-            return 'brand_images/%s/%s' % (self.name, filename)
+        return 'brand_images/%s/%s' % (self.name, filename)
     name = models.CharField(_('Name'), max_length=100)
     image = models.ImageField(_('Image'), upload_to=brand_path, storage=empor_storage)
     slug = models.SlugField(_('Slug'))
@@ -91,12 +91,17 @@ class Product(models.Model):
 
     class Meta:
         unique_together = ('slug', 'brand', 'option')
-
+    
     def __unicode__(self):
         if self.option:
             return self.brand.name + ' - ' + self.name + ' - ' + self.option.name
             
         return self.brand.name + ' - ' + self.name
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = self.parent.slug
+        super(Product, self).save(*args, **kwargs)
     
     def get_name(self):
         return self.__unicode__()
@@ -106,6 +111,12 @@ class Product(models.Model):
 
     def get_main_image(self):
         return self.images.get(main=True).image
+
+    def get_gender(self):
+        if self.gender.count() == 2:
+            return 3
+        else:
+            return self.gender.all()[0].id
 
     def get_discount_value(self):
         dis = None
