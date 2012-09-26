@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from empor.storage import empor_storage
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
+from urllib import quote
 
 class Gender(models.Model): 
     name = models.CharField(_('Name'), max_length=30) 
@@ -93,7 +94,7 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = self.name.replace(' ', '').replace('/', '-').encode('utf-8').lower()
+            self.slug = self.name.replace(' ', '').split('/')[0].lower() + '-' + self.id
         super(Product, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -176,7 +177,7 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product.views.product_view', [self.brand.name, self.slug])
+        return ('product.views.product_view', [self.brand.name, quote(self.slug.encode('utf-8'))])
 
 @receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):
