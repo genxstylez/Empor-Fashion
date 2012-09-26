@@ -152,7 +152,6 @@ $(function () {
             return false;
         }
         $('#content_pane').hide();
-        $('#content_pane > *').remove();
         $('#modal_overlay').hide();
         var item = $('.size_select .selected a').attr('data');
         if(!item)
@@ -175,6 +174,7 @@ $(function () {
                     $('.cart').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
                     $('.index_itembox').fadeIn(200);
                 });
+                $('#content_pane > *').remove();
             }
         });
         return false;
