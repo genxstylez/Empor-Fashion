@@ -5,7 +5,6 @@ from django.dispatch import receiver
 from empor.storage import empor_storage
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
-from urllib import quote
 
 class Gender(models.Model): 
     name = models.CharField(_('Name'), max_length=30) 
@@ -30,6 +29,7 @@ class Brand(models.Model):
             return 'brand_images/%s/%s' % (self.name, filename)
     name = models.CharField(_('Name'), max_length=100)
     image = models.ImageField(_('Image'), upload_to=brand_path, storage=empor_storage)
+    slug = models.SlugField(_('Slug'))
     description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -68,9 +68,9 @@ class Option(models.Model):
         return self.option_group.name + ' - ' + self.name
 
 class Product(models.Model):
-    name = models.CharField(_('Name'), max_length=100, blank=True)
+    name = models.CharField(_('Name'), max_length=100)
     sku = models.CharField(_('SKU'), max_length=20, blank=True)
-    slug = models.CharField(_('Slug'), max_length=100, blank=True)
+    slug = models.SlugField(_('Slug'), max_length=100)
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
@@ -91,11 +91,6 @@ class Product(models.Model):
 
     class Meta:
         unique_together = ('slug', 'brand', 'option')
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.name.replace(' ', '').split('/')[0].lower() + '-' + self.id
-        super(Product, self).save(*args, **kwargs)
 
     def __unicode__(self):
         if self.option:
@@ -177,7 +172,7 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product.views.product_view', [self.brand.name, self.slug])
+        return ('product-view', [self.brand.slug, self.slug])
 
 @receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):

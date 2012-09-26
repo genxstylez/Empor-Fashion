@@ -12,9 +12,9 @@ def products(request, gender_type=None):
     box_class = ['a11', 'a12', 'a21', 'a22']
     return render(request, 'product/products.html', {'products': products, 'box_class': box_class })
 
-def product_view(request, brand, product_slug):
+def product_view(request, brand_slug, product_slug):
     try:
-        focus_product = Product.objects.prefetch_related('brand', 'option_group').get(brand__name=brand, slug=product_slug, parent=None)
+        focus_product = Product.objects.prefetch_related('brand', 'option_group').get(brand__slug=brand_slug, slug=product_slug, parent=None)
     except Product.DoesNotExist:
         raise Http404
 

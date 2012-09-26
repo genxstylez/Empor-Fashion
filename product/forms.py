@@ -15,7 +15,7 @@ class ProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        fields = ('name', 'price', 'gender', 'composition', 'description', 'has_options', 'option_group', )
+        fields = ('name', 'slug', 'price', 'gender', 'composition', 'description', 'has_options', 'option_group', )
 
     def clean_name(self):
         if not self.cleaned_data['name']:
