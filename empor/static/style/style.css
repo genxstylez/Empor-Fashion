@@ -768,7 +768,7 @@ table {
 #menu_wrapper {
 	position: relative;
     clear: both;
-	z-index: 20000;
+	z-index: 0;
 	font-size:16px;
 	line-height:20px;
 	font-family: "font_b",Arial,Helvetica,sans-serif;
