@@ -32,7 +32,7 @@
         <div class="data"><label>{{ focus_product.option_group.name }}：</label>
              <ul>
                 {% for child in focus_product.children.all %}
-                <li class="product_option {% if child.stock == 0 %}soldout{% endif %}"><a href="#" data="{{ child.id }}">{{ child.option.name }}</a></li>
+                <li class="size_select {% if child.stock == 0 %}soldout{% endif %}"><a href="#" data="{{ child.id }}">{{ child.option.name }}</a></li>
                 {% endfor %}
              </ul>
         </div>
