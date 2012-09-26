@@ -30,9 +30,9 @@
         <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
         <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
         <div class="data"><label>{{ focus_product.option_group.name }}：</label>
-             <ul>
+             <ul class="size_select">
                 {% for child in focus_product.children.all %}
-                <li class="size_select {% if child.stock == 0 %}soldout{% endif %}"><a href="#" data="{{ child.id }}">{{ child.option.name }}</a></li>
+                <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href="#" data="{{ child.id }}">{{ child.option.name }}</a></li>
                 {% endfor %}
              </ul>
         </div>
