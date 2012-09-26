@@ -147,12 +147,14 @@ $(function () {
 
     // add to cart
     $('a#add_cart').livequery('click', function() {
+        if($('.size_select').length > 0 && $('.size_select .selected').length == 0) {
+            alert('please choose a size');
+            return false;
+        }
         $('#content_pane').hide();
         $('#content_pane > *').remove();
         $('#modal_overlay').hide();
-        var item = $('.product_option.selected a').attr('data');
-        if($('product_option').length > 0 && $('.product_option.selected a').length == 0)
-            alert('please choose a size');
+        var item = $('.size_select .selected a').attr('data');
         if(!item)
             item = $(this).attr('data');
         var qty = $('#quantity').val();
