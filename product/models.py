@@ -219,8 +219,8 @@ class ProductImage(models.Model):
     def product_image_path(self, filename):
         return '%s/%s/%s/images/%s' % (self.product.brand.name, self.product.collection.name, self.product.name, filename)
 
-    product = models.ForeignKey(Product, related_name='images', null=True, blank=True)
-    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, blank=True, storage=empor_storage)
+    product = models.ForeignKey(Product, related_name='images')
+    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, storage=empor_storage)
     main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
