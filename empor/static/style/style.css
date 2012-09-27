@@ -1001,29 +1001,25 @@ h3 .l_icon-gender {
 	top:50%;
 }
 .itemopen .large {
-    width:330px;
-    height:440px;
-    float:left;
-    margin: 10px;
+    width: 330px;
+	float: left;
+	margin: 10px;
 }
 .itemopen .large img{
-    position: absolute;
     width: 330px;
-	filter:alpha(opacity=100);
+	filter: alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
-	float:left;
-    top: 20;
-    left: 20;
+	float: left;
 }
 .itemopen .small {
     float: left;
 }
 .itemopen .small img {
     cursor: pointer;
-	height:75px;
-	float:left;
-	margin-right:15px;
+	height: 65px;
+	float: left;
+	margin: 0 0 5px 10px;
 }
 .itemopen img {
 	filter:alpha(opacity=60);
