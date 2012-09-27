@@ -4,8 +4,8 @@ function show_content() {
     var center_top = position.top - (($(window).height() - height + 20)/2);
     $('.itemopen').appendTo(target).show();
     target.animate({
-        'left': '-='+center_left, 'top': '-='+center_top,
-        'width': '840px', 'height': height + 20 + 'px',
+        'left': '-='+center_left,
+        'width': '840px',
         }, 400, function() {
             target.removeClass().addClass('itemup');
             var target_offset = target.offset()
@@ -70,7 +70,7 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        $('div.large').height($(image).height());
+        setTimeout($('div.large').height($(image).height()), 10);
     });
 
     // shipping country
