@@ -13,7 +13,7 @@ def generate_crop(file, ext, x1, y1, x2, y2):
     cropped = image.crop((x1,y1,x2,y2))
 
     if image.size != (40,40):
-        cropped = thumb_resize(image, ext, 40, 40)
+        to_return = thumb_resize(cropped, ext, 40, 40)
 
     else:
         io = cStringIO.StringIO()
@@ -22,9 +22,9 @@ def generate_crop(file, ext, x1, y1, x2, y2):
         cropped.save(io, ext, quality=95)
         content = ContentFile(io.getvalue())
         filename = hashlib.md5(io.getvalue()).hexdigest()+ '.' + ext
-        cropped = (filename, content)
+        to_return = (filename, content)
 
-    return cropped
+    return to_return
 
 def thumb_resize(file, ext, dimension1, dimension2=None):
     if isinstance(file, Image.Image):
