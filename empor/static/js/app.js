@@ -67,14 +67,13 @@ $(function () {
         var src = $(this).attr('src');
         var large_src = $(this).attr('rel');
         var current_img = $('div.large img');
+        var large_height = parseInt(330 / $(this).attr('large_width') * $(this).attr('large_height'));
         image = new Image();
         $(image).attr({'src': large_src, 'rel': src});
-        image.onload = function() {
-            $('div.large').height(330 / image.width * image.height);
-        }
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
+        $('div.large').height(large_height);
     });
 
     // shipping country
