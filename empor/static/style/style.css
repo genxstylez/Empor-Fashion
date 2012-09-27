@@ -1025,7 +1025,7 @@ h3 .l_icon-gender {
 	-moz-opacity: 0.6;
 	opacity: 0.6;
 }
-.itemopen img:hover {
+.itemopen .small img:hover {
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
