@@ -71,7 +71,7 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(600, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        setTimeout("$('div.large').height($(image).height())", 100);
+        setTimeout("$('div.large').height($(image).height())", 400);
     });
 
     // shipping country
