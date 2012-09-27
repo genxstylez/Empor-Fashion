@@ -1,4 +1,4 @@
-{% load thumbnail i18n %}
+{% load thumbnail i18n common %}
 <html xmlns="http://www.w3.org/1999/xhtml"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
@@ -95,18 +95,18 @@
                             <td><img src="{{ item.product.get_main_image|thumbnail_url:'small' }}"></td>
                             <td>{{ item.product }}</td>
                             <td>{{ item.quantity }}</td>
-                            <td>{{ item.gross_total }}</td>
-                            <td>{{ item.discount_total }}</td>
-                            <td>{{ item.net_total }}</td>
+                            <td>{{ item.gross_total|currency }}</td>
+                            <td>{{ item.discount_total|currency }}</td>
+                            <td>{{ item.net_total|currency }}</td>
                         </tr>
                     {% endfor %}
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Order Gross Total' %}</td>
-                            <td>{{ order.gross_total }}</td>
+                            <td>{{ order.gross_total|currency }}</td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Discount Total' %}</td>
-                            <td>{{ order.discount_total }}</td>
+                            <td>{{ order.discount_total|currency }}</td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Shipping Cost' %}</td>
@@ -114,7 +114,7 @@
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Order Net Total' %}</td>
-                            <td>{{ order.net_total }}</td>
+                            <td>{{ order.net_total|currency }}</td>
                         </tr>
                     </tbody>
                 </table>

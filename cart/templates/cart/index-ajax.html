@@ -1,4 +1,4 @@
-{% load i18n thumbnail %}
+{% load i18n thumbnail common %}
 <div class="index_itembox itemopen cart_s center" style="position: absolute; top: 50px; right: 10px;">
     <span class="close">×</span>
     <table class="table">
@@ -25,15 +25,15 @@
                     </a>
                 </td>
                 <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
-                <td class="t_right">{{ item.gross_total }}</td>
-                <td class="t_right">{% if item.discount_total > 0 %} {{ item.product.get_discount_price }} {% else %} - {% endif %}</td>
+                <td class="t_right">{{ item.gross_total|currency }}</td>
+                <td class="t_right">{% if item.discount_total > 0 %} {{ item.product.get_discount_price|currency }} {% else %} - {% endif %}</td>
                 <td class="t_right">{{ item.quantity }}</td>
-                <td class="t_right item_total">{{ item.net_total }}</td>
+                <td class="t_right item_total">{{ item.net_total|currency }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <h3>{% trans 'Shopping Total' %}：<span id="total">{{ cart.net_total }}</span></h3>
+    <h3>{% trans 'Shopping Total' %}：<span id="total">{{ cart.net_total|currency }}</span></h3>
     <div class="form-actions">
         <a id="continue" href="#" class="button">{% trans 'Continue Shopping' %}</a>　
         {% if cart.items.count > 0 %}<a href="{% url order-index %}" class="button">{% trans 'Checkout and Payment' %}</a>{% endif %}

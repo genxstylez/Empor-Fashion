@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-07 20:18+0000\n"
+"POT-Creation-Date: 2012-09-27 12:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,41 +18,67 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: forms.py:9 forms.py:68
+#: forms.py:11 forms.py:70
 msgid "First name"
 msgstr "名"
 
-#: forms.py:10 forms.py:69
+#: forms.py:12 forms.py:71
 msgid "Last name"
 msgstr "姓"
 
-#: forms.py:11 forms.py:70 models.py:15
+#: forms.py:13 forms.py:72 models.py:15
 msgid "Phone"
 msgstr "電話"
 
-#: forms.py:12 forms.py:18 forms.py:71 forms.py:77
-msgid "Recipient"
-msgstr "收件人"
+#: forms.py:14 forms.py:73
+msgid "Billing Recipient"
+msgstr "購買人"
 
-#: forms.py:13 forms.py:19 forms.py:72 forms.py:78
+#: forms.py:15 forms.py:21 forms.py:74 forms.py:80
 msgid "Street 1"
 msgstr "地址 1"
 
-#: forms.py:14 forms.py:20 forms.py:73 forms.py:79
+#: forms.py:16 forms.py:22 forms.py:75 forms.py:81
 msgid "Street 2"
 msgstr "地址 2"
 
-#: forms.py:15 forms.py:21 forms.py:74 forms.py:80
+#: forms.py:17 forms.py:23 forms.py:76 forms.py:82
 msgid "City"
 msgstr "城市"
 
-#: forms.py:16 forms.py:22 forms.py:75 forms.py:81
+#: forms.py:18 forms.py:24 forms.py:77 forms.py:83
 msgid "Post Code"
 msgstr "郵遞區號"
 
-#: forms.py:17 forms.py:23 forms.py:76 forms.py:82
+#: forms.py:19 forms.py:25 forms.py:78 forms.py:84
 msgid "Country"
 msgstr "國家"
+
+#: forms.py:20 forms.py:79
+msgid "Shipping Recipient"
+msgstr "收件人"
+
+#: forms.py:113
+msgid "Email"
+msgstr ""
+
+#: forms.py:114
+msgid "Please supply your email"
+msgstr "請輸入您的email"
+
+#: forms.py:115
+msgid "Password"
+msgstr "密碼"
+
+#: forms.py:117
+msgid "Remember me"
+msgstr "記住我"
+
+#: forms.py:126
+msgid ""
+"Please enter a correct username or email and password. Note that both fields "
+"are case-sensitive."
+msgstr "請輸入正確的email與密碼."
 
 #: models.py:14
 msgid "User"
@@ -60,7 +86,7 @@ msgstr "使用者"
 
 #: models.py:16
 msgid "Billing recipient"
-msgstr "帳單收件人"
+msgstr "購買人"
 
 #: models.py:17
 msgid "Billing Street 1"
@@ -113,3 +139,6 @@ msgstr "台灣"
 #: settings.py:5
 msgid "China"
 msgstr "中國大陸"
+
+#~ msgid "Recipient"
+#~ msgstr "收件人"

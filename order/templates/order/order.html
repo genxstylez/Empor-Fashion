@@ -1,5 +1,5 @@
 {% extends 'order/site/orders.html' %}
-{% load i18n thumbnail %}
+{% load i18n thumbnail common %}
 {% block order_content %}
 <div id="order_detail_content">
     <div class="control-group">
@@ -36,7 +36,7 @@
     <hr />
     <div class="control-group">
         <label class="control-label">{% trans 'Gross Total' %}</label>
-        <div class="controls">{{ order.gross_total }}</div>
+        <div class="controls">{{ order.gross_total|currency }}</div>
     </div>
     <div class="control-group">
         <label class="control-label">Shipping</label>
@@ -44,7 +44,7 @@
     </div>
     <div class="control-group">
         <label class="control-label">{% trans 'Net Total' %}</label>
-        <div class="controls">{{ order.net_total }}</div>
+        <div class="controls">{{ order.net_total|currency }}</div>
     </div>
     <div class="control-group">
         <label class="control-label">{% trans 'Buyer' %}</label>
@@ -104,27 +104,27 @@
                     </a>
                 </td>
                 <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
-                <td>{{ item.product.price }}</td>
-                <td>{% if item.discount_total > 0 %} {{ item.product.get_discounted_price }} {% else %} - {% endif %}</td>
+                <td>{{ item.product.price|currency }}</td>
+                <td>{% if item.discount_total > 0 %} {{ item.product.get_discounted_price|currency }} {% else %} - {% endif %}</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ item.total }}</td>
+                <td>{{ item.total|currency }}</td>
             </tr>
             {% endfor %}
             <tr>
                 <td colspan="5">{% trans 'Product Total' %}</td>
-                <td>{{ order.gross_total }}</td>
+                <td>{{ order.gross_total|currency }}</td>
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Discount Total' %}</td>
-                <td>{{ order.discount_total }}</td>
+                <td>{{ order.discount_total|currency }}</td>
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Shipping Cost' %}</td>
-                <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span class="discount">{% trans 'No Shipping Cost' %}</span>{% endif %}</td>
+                <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost|currency }}{% else %}<span class="discount">{% trans 'No Shipping Cost' %}</span>{% endif %}</td>
             </tr>
             <tr>
                 <td colspan="5">{% trans 'Total' %}</td>
-                <td>{{ order.net_total }}</td>
+                <td>{{ order.net_total|currency }}</td>
             </tr>
 
         </tbody>

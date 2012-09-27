@@ -194,9 +194,7 @@ $(function () {
                     badge.remove();
                 }
                 item.fadeOut(200, function() { 
-                    $('span#total').text(function(index, text) {
-                        $(this).text(parseInt(text)-price);
-                    });
+                    $('span#total').text('NT$'+response.total);
                     $(this).remove(); 
                 });
             }

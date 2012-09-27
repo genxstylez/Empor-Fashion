@@ -225,8 +225,8 @@ DEFAULT_FROM_EMAIL = 'webmaster@empor.com'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'genxstylez@gmail.com'
-EMAIL_HOST_PASSWORD = 'beckhamd'
+EMAIL_HOST_USER = 'webmaster@empor.com.tw'
+EMAIL_HOST_PASSWORD = '53780722'
 EMAIL_PORT = 587
 
 ANONYMOUS_USER_ID = -1

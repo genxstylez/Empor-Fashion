@@ -1,8 +1,8 @@
 {% extends 'empor/base.html' %}
-{% load i18n thumbnail %}
+{% load i18n thumbnail common %}
 {% block content %}
 <div class="inside_itembox itemopen cart center"> 
-    <h1>{% trans 'Cart' %}</h1>
+    <h1>Cart</h1>
     <table class="table">
         <thead>
             <tr>
@@ -28,16 +28,16 @@
                     </a>
                 </td>
                 <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
-                <td>{{ item.gross_total }}</td>
-                <td>{% if item.discount %} {{ item.get_discount_price }} {% else %} - {% endif %}</td>
+                <td>{{ item.gross_total|currency }}</td>
+                <td>{% if item.discount %} {{ item.get_discount_price|currency }} {% else %} - {% endif %}</td>
                 <td>{{ item.quantity }}</td>
-                <td class="item_total">{{ item.net_total }}</td>
+                <td class="item_total">{{ item.net_total|currency }}</td>
                 <td><a href="{% url cart-remove %}" data="{{ item.id }}" class="remove_btn"><i class="xs_icon-remove"></i></a></td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <h2>{% trans 'Shopping Total' %}：<span id="total">{{ cart.net_total }}</span></h2>
+    <h2>{% trans 'Shopping Total' %}：<span id="total">{{ cart.net_total|currency }}</span></h2>
     <div class="form-actions">
         {% csrf_token %}
         <a href="{% url index %}" class="button">{% trans 'Continue Shopping' %}</a>　

@@ -70,7 +70,7 @@ msgstr "選項"
 
 #: models.py:70
 msgid "SKU"
-msgstr ""
+msgstr "商品編號"
 
 #: models.py:71
 msgid "Slug"

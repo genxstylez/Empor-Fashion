@@ -23,7 +23,7 @@ class Order(models.Model):
     gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
     net_total = models.PositiveIntegerField(_('Net Total'), default=0) 
     shipping_discount = models.PositiveIntegerField(_('Shipping Discount'), default=0)
-    billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
+    billing_recipient = models.CharField(_('Billing Recipient'), max_length=100)
     billing_phone = models.CharField(_('Billing Phone'), max_length=50)
     billing_street1 = models.CharField(_('Billing Street 1'), max_length=100)
     billing_street2 = models.CharField(_('Billing Street 2'), max_length=100, blank=True)
@@ -39,7 +39,7 @@ class Order(models.Model):
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
-    dispatched_date = models.DateTimeField(_('Dispatched date'), null=True, blank=True)
+    dispatched_date = models.DateTimeField(_('Dispatched Date'), null=True, blank=True)
 
     def save(self):
         if self.status == 2:
