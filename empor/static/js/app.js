@@ -78,12 +78,11 @@ $(function () {
         var current_img = $('div.large img');
         image = new Image();
         $(image).attr({'src': large_src, 'rel': src});
+        var img_height = 330 / image.width * image.height;
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        window.ele = $(image);
-        setTimeout('img_crossfade(ele)', 100);
-        //setTimeout("$('div.large').height($(image).height())", 400);
+        /$('div.large').height(img_height);
     });
 
     // shipping country
