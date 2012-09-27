@@ -1,5 +1,6 @@
 from django import template
 from django.template.loader import render_to_string
+from django.template.defaultfilters import stringfilter
 from product.models import Brand, Category
 from empor.settings import STATIC_URL
 from cart.views import get_cart
@@ -23,5 +24,6 @@ def cart_count(request):
         return ''
 
 @register.filter
+@stringfilter
 def currency(str):
     return 'NT$ %' % str
