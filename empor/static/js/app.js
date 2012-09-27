@@ -15,6 +15,14 @@ function show_content() {
         }
     ); 
 }
+
+function img_crossfade(ele) {
+    if (ele.height() > 0)
+        $('div.large').height(ele.height());
+    else
+        img_crossfade(ele);
+}
+
 $(function () {
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
@@ -71,11 +79,7 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(600, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        do {
-            if($(image).height() > 0) 
-                $('div.large').height($(image).height());
-        } while ($(image).height() > 0);
-            
+        img_crossfade($(image));            
         //setTimeout("$('div.large').height($(image).height())", 400);
     });
 
