@@ -3,7 +3,7 @@ function show_content() {
     var center_left = position.left - (($(window).width() - 840)/2);
     var center_top = position.top - (($(window).height() - height + 20)/2);
     $('.itemopen').appendTo(target).show();
-    $('div.large').height($('div.large img').height);
+    $('div.large').height($('div.large img').height());
     target.animate({
         'left': '-='+center_left,
         'width': '840px',
@@ -71,7 +71,7 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        setTimeout($('div.large').height($(image).height()), 10);
+        setTimeout("$('div.large').height($(image).height())", 10);
     });
 
     // shipping country
