@@ -3,11 +3,12 @@
     <span class="close">×</span>
     <div class="left">
         <div class="large">
-            <img src="{{ focus_product.get_main_image.medium.url }}" rel="{{ focus_product.get_main_image.small.url }}" />
+            <img src="{{ focus_product.get_main_image|thumbnail_url:'medium' }}" rel="{{ focus_product.get_main_image|thumbnail_url:'small' }}" />
         </div>
         <div class="small">
             {% for image in focus_product.images.all %}
-            <img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" large_width="{{ image.image.medium.width }}" large_height="{{ image.image.medium.height }}" />
+            <img src="{{ image.image|thumbnail_url:'small' }}" rel="{{ image.image|thumbnail_url:'medium' }}" />
+            {% comment %}large_width="{{ image.image.medium.width }}" large_height="{{ image.image.medium.height }}" />{% endcomment %}
             {% endfor %}
         </div>
     </div>
