@@ -3,6 +3,7 @@ function show_content() {
     var center_left = position.left - (($(window).width() - 840)/2);
     var center_top = position.top - (($(window).height() - height + 20)/2);
     $('.itemopen').appendTo(target).show();
+    $('div.large').height($('div.large img').height);
     target.animate({
         'left': '-='+center_left,
         'width': '840px',
