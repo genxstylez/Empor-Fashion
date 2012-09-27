@@ -1006,6 +1006,7 @@ h3 .l_icon-gender {
 	margin: 10px;
 }
 .itemopen .large img{
+    position: aboslute;
     width: 330px;
 	filter: alpha(opacity=100);
 	-moz-opacity: 1;
