@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.http import Http404
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core.files.base import ContentFile
@@ -7,9 +6,10 @@ from django.conf import settings
 from django.views.decorators.http import require_POST
 from django.forms.models import modelformset_factory
 from product.forms import CollectionForm, ChildProductForm, ProductForm, CategoryForm, BrandForm, OptionGroupForm
-from product.models import Product, Option, ProductImage, Collection, OptionGroup, ProductThumb
+from product.models import Product, Option, ProductImage, Collection, ProductThumb
 from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
+import os
 
 @staff_member_required
 def index(request):
@@ -72,6 +72,7 @@ def product_create(request, collection_id):
                     if not child.price:
                         child.price = product.price
                     child.collection = collection
+                    child.slug = product.slug + '-' + child.option.name
                     child.save()
                     for gender in product.gender.all():
                         child.gender.add(gender)
@@ -115,7 +116,17 @@ def product_edit(request, collection_id, product_id):
         if product.has_options:
             for (counter, form) in enumerate(child_formset.forms):
                 child = form.save(commit=False)
+                child.parent = product
+                child.name = product.name
+                child.description = product.description
+                child.brand = product.brand
+                child.category = product.category
+                child.has_options = True
                 child.option_group = product.option_group
+                if not child.price:
+                    child.price = product.price
+                child.collection = collection
+                child.slug = product.slug + '-' + child.option.name
                 child.save()
                 child.gender.clear()
                 for gender in product.gender.all():
@@ -138,6 +149,7 @@ def product_image(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     images = ProductImage.objects.filter(product=product)
     if request.method == 'POST':
+        product.images.all().update(main=False)
         image_id = request.POST.get('main', '')
         image = ProductImage.objects.get(id=image_id)
         image.main = True

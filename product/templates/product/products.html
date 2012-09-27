@@ -1,0 +1,29 @@
+{% extends 'empor/base.html' %}
+{% load i18n thumbnail common %}
+{% block content %}
+<div id="isotope_list">
+    {% for product in products %}
+    {% with box_class|random as class %}
+    <div class="index_itembox {{ class }}"> 
+            <div class="itemimg"><img src="{{ product.get_main_image|thumbnail_url:'medium' }}"></div>
+            <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
+            <div class="content">
+                <div class="brand"><img src="{{ product.brand.image.url }}"></div>
+                <div class="itemname">{{ product.name }}</div>
+                <div class="price">{{ product.price }}</div>
+            </div>
+            {% with product.get_gender as gender %}
+                {% if gender == 3 %}
+                <i class="l_icon-gender unisex"></i>
+                {% elif gender == 2 %}
+                <i class="l_icon-gender women"></i>
+                {% else %}
+                <i class="l_icon-gender men"></i>
+                {% endif %}
+            {% endwith %}
+            </a>
+    </div>
+    {% endwith %}
+    {% endfor %}
+</div>
+{% endblock %}

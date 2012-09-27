@@ -2,6 +2,16 @@ div.menu_pop {
     display: none;
 }
 
+.backstretch::after { 
+    content: '';
+    background: transparent url(../images/pattern.png) repeat top left; 
+}
+
+.backstretch::after {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+}
 div.index_itembox {
     margin-left: 8px;
     margin-top: 8px;
@@ -34,10 +44,10 @@ div#content_pane {
     display: none;
     background: white;
     overflow: hidden;
-    position: relative;
+    position: absolute;
     width: 840px;
     min-height: 500px;
-    top: 15%;
+    top: 10%
     margin: 0 auto;
     height: auto;
 }

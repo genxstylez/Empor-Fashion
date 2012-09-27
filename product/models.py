@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -25,9 +26,10 @@ class Category(models.Model):
 
 class Brand(models.Model):
     def brand_path(self, filename):
-            return 'brand_images/%s/%s' % (self.name, filename)
+        return 'brand_images/%s/%s' % (self.name, filename)
     name = models.CharField(_('Name'), max_length=100)
     image = models.ImageField(_('Image'), upload_to=brand_path, storage=empor_storage)
+    slug = models.SlugField(_('Slug'))
     description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -66,9 +68,9 @@ class Option(models.Model):
         return self.option_group.name + ' - ' + self.name
 
 class Product(models.Model):
-    name = models.CharField(_('Name'), max_length=100, blank=True)
+    name = models.CharField(_('Name'), max_length=100)
     sku = models.CharField(_('SKU'), max_length=20, blank=True)
-    slug = models.CharField(_('Slug'), max_length=100, blank=True)
+    slug = models.SlugField(_('Slug'))
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
@@ -89,18 +91,13 @@ class Product(models.Model):
 
     class Meta:
         unique_together = ('slug', 'brand', 'option')
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = self.name.replace(' ', '_').lower()
-        super(Product, self).save(*args, **kwargs)
-
+    
     def __unicode__(self):
         if self.option:
-            return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name + ' - ' + self.option.name
+            return self.brand.name + ' - ' + self.name + ' - ' + self.option.name
             
-        return self.brand.name + ' - ' + self.collection.name + ' - ' + self.name
-    
+        return self.brand.name + ' - ' + self.name
+
     def get_name(self):
         return self.__unicode__()
 
@@ -109,6 +106,12 @@ class Product(models.Model):
 
     def get_main_image(self):
         return self.images.get(main=True).image
+
+    def get_gender(self):
+        if self.gender.count() == 2:
+            return 3
+        else:
+            return self.gender.all()[0].id
 
     def get_discount_value(self):
         dis = None
@@ -175,7 +178,7 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product.views.product_view', [self.brand.name, self.slug])
+        return ('product-view', [self.brand.slug, self.slug])
 
 @receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):
@@ -198,9 +201,9 @@ def sku(sender, instance, **kwargs):
 class ProductThumb(models.Model):
 
     def thumbnail_path(self, filename):
-        return '%s/%s/%s/thumbnails/%s_thumbnail.%s' % (self.product.brand.name, self.product.collection.name, self.product.name, filename.split('.')[0], filename.split('.')[1])
+        return '%s/%s/%s/thumbnails/%s_thumbnail.%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
     def original_path(self, filename):
-        return '%s/%s/%s/thumbnails/%s_original.%s' % (self.product.brand.name, self.product.collection.name, self.product.name, filename.split('.')[0], filename.split('.')[1])
+        return '%s/%s/%s/thumbnails/%s_original.%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
 
     product = models.OneToOneField(Product, verbose_name=_('Product'), related_name="thumb", null=True, blank=True)
     original = models.ImageField(upload_to=original_path, storage=empor_storage)
@@ -216,10 +219,10 @@ class ProductThumb(models.Model):
 class ProductImage(models.Model):
 
     def product_image_path(self, filename):
-        return '%s/%s/%s/images/%s' % (self.product.brand.name, self.product.collection.name, self.product.name, filename)
+        return '%s/%s/%s/images/%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename)
 
-    product = models.ForeignKey(Product, related_name='images', null=True, blank=True)
-    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, blank=True, storage=empor_storage)
+    product = models.ForeignKey(Product, related_name='images')
+    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, storage=empor_storage)
     main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
