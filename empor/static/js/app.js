@@ -16,15 +16,6 @@ function show_content() {
     ); 
 }
 
-function img_crossfade(ele) {
-    if (ele.height() > 0) {
-        $('div.large').height(ele.height());
-        window.ele = null;
-    } else {
-        setTimeout('img_crossfade(ele)', 100);
-    }
-}
-
 $(function () {
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
@@ -78,11 +69,12 @@ $(function () {
         var current_img = $('div.large img');
         image = new Image();
         $(image).attr({'src': large_src, 'rel': src});
-        var img_height = 330 / image.width * image.height;
+        image.onload = function() {
+            $('div.large').height(330 / image.width * image.height);
+        }
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        $('div.large').height(img_height);
     });
 
     // shipping country
