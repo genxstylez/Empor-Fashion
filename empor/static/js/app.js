@@ -17,6 +17,7 @@ function show_content() {
 }
 
 function img_crossfade(ele) {
+    var ele = $(ele);
     if (ele.height() > 0)
         $('div.large').height(ele.height());
     else
