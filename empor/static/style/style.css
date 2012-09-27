@@ -947,7 +947,6 @@ h3 .l_icon-gender {
     width: 840px;
 	margin: 10px auto;
 	min-height:480px;
-	padding-bottom:30px;
 }
 .itemopen.cart_s {
     width: 400px;
@@ -1006,12 +1005,11 @@ h3 .l_icon-gender {
 	margin: 10px;
 }
 .itemopen .large img{
-    position: aboslute;
+    position: absolute;
     width: 330px;
 	filter: alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
-	float: left;
 }
 .itemopen .small {
     float: left;

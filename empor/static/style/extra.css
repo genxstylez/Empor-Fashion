@@ -45,6 +45,7 @@ div#content_pane {
     background: white;
     overflow: hidden;
     position: absolute;
+    top: 8%;
     width: 840px;
     min-height: 500px;
     margin: 0 auto;
