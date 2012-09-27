@@ -20,7 +20,7 @@ function img_crossfade(ele) {
     if (ele.height() > 0)
         $('div.large').height(ele.height());
     else
-        img_crossfade(ele);
+        setTimeout('img_crossfade(ele)', 100);
 }
 
 $(function () {
@@ -79,7 +79,7 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(600, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        img_crossfade($(image));            
+        setTimeout('img_crossfade($(image))', 100);
         //setTimeout("$('div.large').height($(image).height())", 400);
     });
 
