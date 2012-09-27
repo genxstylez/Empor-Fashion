@@ -19,10 +19,10 @@
             <h3>
                 <label>{% trans 'Price' %}：</label>
                 {% if focus_product.discountable %}
-                <strike>{{ focus_product.price }}</strike>
-                <span class="discount">{{ focus_product.get_discounted_price }} ( -{{ focus_product.get_discount_value }} )</span>
+                <strike>{{ focus_product.price|currency }}</strike>
+                <span class="discount">{{ focus_product.get_discounted_price|currency }} ( -{{ focus_product.get_discount_value|currency }} )</span>
                 {% else %}
-                <span>{{ focus_product.price }}</span>
+                <span>{{ focus_product.price|currency }}</span>
                 {% endif %}
             </h3>
         </div>

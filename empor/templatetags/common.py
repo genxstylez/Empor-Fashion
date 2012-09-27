@@ -21,3 +21,7 @@ def cart_count(request):
         return '<span class="badge">%s</span>' % cart.items.count()
     else:
         return ''
+
+@register.filter
+def currency(str):
+    return 'NT$ %' % str

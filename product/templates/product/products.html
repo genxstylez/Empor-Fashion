@@ -10,7 +10,7 @@
             <div class="content">
                 <div class="brand"><img src="{{ product.brand.image.url }}"></div>
                 <div class="itemname">{{ product.name }}</div>
-                <div class="price">{{ product.price }}</div>
+                <div class="price">{{ product.price|currency }}</div>
             </div>
             {% with product.get_gender as gender %}
                 {% if gender == 3 %}
