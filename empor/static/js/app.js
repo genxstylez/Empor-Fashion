@@ -79,7 +79,7 @@ $(function () {
         image = new Image();
         $(image).attr({'src': large_src, 'rel': src});
         $(image).hide().appendTo('div.large');
-        current_img.fadeOut(600, function() { $(this).remove(); });
+        current_img.fadeOut(1500, function() { $(this).remove(); });
         $(image).fadeIn(800);
         window.ele = $(image);
         setTimeout('img_crossfade(ele)', 100);
