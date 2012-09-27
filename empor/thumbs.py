@@ -16,13 +16,13 @@ def generate_crop(file, ext, x1, y1, x2, y2):
         cropped = thumb_resize(image, ext, 40, 40)
 
     else:
-        imagefile = cStringIO.StringIO()
-        filename = hashlib.md5(imagefile.getvalue()).hexdigest()+ '.' + ext
+        io = cStringIO.StringIO()
         if ext.upper() == 'JPG':
                 ext = 'JPEG'
-        image.save(imagefile, ext, quality=95)
-        content = ContentFile(imagefile.getvalue())
-        image = (filename, content)
+        cropped.save(io, ext, quality=95)
+        content = ContentFile(io.getvalue())
+        filename = hashlib.md5(io.getvalue()).hexdigest()+ '.' + ext
+        cropped = (filename, content)
 
     return cropped
 
@@ -36,12 +36,12 @@ def thumb_resize(file, ext, dimension1, dimension2=None):
     ratio = sizes[0] / dimension1
     if not dimension2:
         dimension2 = sizes[1]/ratio 
-    image = image.resize((dimension1, dimension2), Image.ANTIALIAS)
+    resized = image.resize((dimension1, dimension2), Image.ANTIALIAS)
 
     io = cStringIO.StringIO()
     if ext.upper() == 'JPG':
         ext = 'JPEG'
-    image.save(io, ext, quality=95)
+    resized.save(io, ext, quality=95)
     content = ContentFile(io.getvalue())
     filename = hashlib.md5(io.getvalue()).hexdigest()+ '.' + ext
 
