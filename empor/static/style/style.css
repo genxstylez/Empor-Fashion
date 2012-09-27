@@ -1012,6 +1012,7 @@ h3 .l_icon-gender {
 	opacity: 1;
 }
 .itemopen .small {
+    z-index: 9999;
     float: left;
 }
 .itemopen .small img {
