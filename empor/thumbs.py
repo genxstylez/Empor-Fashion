@@ -18,7 +18,9 @@ def generate_crop(file, ext, x1, y1, x2, y2):
     else:
         imagefile = StringIO()
         filename = hashlib.md5(imagefile.getvalue()).hexdigest()+ '.' + ext
-        image.save(imagefile)
+        if ext.upper() == 'JPG':
+                ext = 'JPEG'
+        image.save(imagefile, ext, quality=95)
         content = ContentFile(imagefile.getvalue())
         image = (filename, content)
 
@@ -38,7 +40,9 @@ def thumb_resize(file, ext, dimension1, dimension2=None):
 
     imagefile = StringIO()
     filename = hashlib.md5(imagefile.getvalue()).hexdigest()+ '.' + ext
-    image.save(imagefile)
+    if ext.upper() == 'JPG':
+        ext = 'JPEG'
+    image.save(imagefile, ext, quality=95)
     content = ContentFile(imagefile.getvalue())
 
     return (filename, content)
