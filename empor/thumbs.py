@@ -1,8 +1,7 @@
 from PIL import Image
 import hashlib
-import os
 from cStringIO import StringIO
-from django.core.files import File
+from django.core.files import ContentFile
 
 def generate_crop(file, ext, x1, y1, x2, y2):
     image = Image.open(file)
@@ -19,10 +18,8 @@ def generate_crop(file, ext, x1, y1, x2, y2):
     else:
         imagefile = StringIO()
         filename = hashlib.md5(imagefile.getvalue()).hexdigest()+ '.' + ext
-        imagefile = open(os.path.join('/tmp',filename), 'w')
         image.save(imagefile)
-        imagefile = open(os.path.join('/tmp',filename), 'r')
-        content = File(imagefile)
+        content = ContentFile(imagefile.getvalue())
         image = (filename, content)
 
     return image
@@ -41,9 +38,7 @@ def thumb_resize(file, ext, dimension1, dimension2=None):
 
     imagefile = StringIO()
     filename = hashlib.md5(imagefile.getvalue()).hexdigest()+ '.' + ext
-    imagefile = open(os.path.join('/tmp',filename), 'w')
     image.save(imagefile)
-    imagefile = open(os.path.join('/tmp',filename), 'r') 
-    content = File(imagefile)
+    content = ContentFile(imagefile.getvalue())
 
     return (filename, content)

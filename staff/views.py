@@ -9,7 +9,6 @@ from product.forms import CollectionForm, ChildProductForm, ProductForm, Categor
 from product.models import Product, Option, ProductImage, Collection, ProductThumb
 from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
-import os
 
 @staff_member_required
 def index(request):
