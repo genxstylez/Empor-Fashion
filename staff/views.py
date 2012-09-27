@@ -149,6 +149,7 @@ def product_image(request, product_id):
     product = get_object_or_404(Product, id=product_id)
     images = ProductImage.objects.filter(product=product)
     if request.method == 'POST':
+        product.images.all().update(main=False)
         image_id = request.POST.get('main', '')
         image = ProductImage.objects.get(id=image_id)
         image.main = True
