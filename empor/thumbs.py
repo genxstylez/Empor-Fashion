@@ -1,7 +1,7 @@
 from PIL import Image
 import hashlib
 from cStringIO import StringIO
-from django.core.files import ContentFile
+from django.core.files.base import ContentFile
 
 def generate_crop(file, ext, x1, y1, x2, y2):
     image = Image.open(file)
