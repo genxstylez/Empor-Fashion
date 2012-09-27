@@ -17,11 +17,12 @@ function show_content() {
 }
 
 function img_crossfade(ele) {
-    var ele = $(ele);
-    if (ele.height() > 0)
+    if (ele.height() > 0) {
         $('div.large').height(ele.height());
-    else
+        window.ele = null;
+    } else {
         setTimeout('img_crossfade(ele)', 100);
+    }
 }
 
 $(function () {
@@ -80,7 +81,8 @@ $(function () {
         $(image).hide().appendTo('div.large');
         current_img.fadeOut(600, function() { $(this).remove(); });
         $(image).fadeIn(800);
-        setTimeout('img_crossfade($(image))', 100);
+        window.ele = $(image);
+        setTimeout('img_crossfade(ele)', 100);
         //setTimeout("$('div.large').height($(image).height())", 400);
     });
 
