@@ -93,9 +93,7 @@ $(function () {
         window.position = that.offset();
 
         target.css({
-            'left': position.left, 'top': position.top, 
-            'position': 'absolute', 'margin-left': 0, 
-            'margin-top': 0, 'height': that.height(),
+            'left': position.left,
             'width': that.width(),
         });
 

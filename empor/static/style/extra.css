@@ -47,7 +47,6 @@ div#content_pane {
     position: absolute;
     width: 840px;
     min-height: 500px;
-    top: 10%
     margin: 0 auto;
     height: auto;
 }
