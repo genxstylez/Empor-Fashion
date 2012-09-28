@@ -70,8 +70,9 @@ $(function () {
         var large_height = parseInt(330 / $(this).attr('medium_width') * $(this).attr('medium_height'));
         image = new Image();
         $(image).attr({'src': large_src, 'rel': src});
-        $(image).hide().appendTo('div.large').fadeIn(800);
-        current_img.fadeOut(1500, function() { $(this).remove(); });
+        $(image).hide().appendTo('div.large');
+        image.onload = function() { $(this).fadeIn(800); }
+        current_img.fadeOut(1200, function() { $(this).remove(); });
         $('div.large').height(large_height);
     });
 
