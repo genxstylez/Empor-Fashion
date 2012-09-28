@@ -21,7 +21,7 @@ def product_view(request, brand_slug, product_slug):
     if request.is_ajax():
         return render(request, 'product/product-ajax.html', {'focus_product': focus_product})
     
-    products = Product.objects.all().prefetch_related('brand', 'option_group')
+    products = Product.objects.filter(parent=None).prefetch_related('brand', 'option_group')
     box_class = ['a11', 'a12', 'a21', 'a22']
 
     return render(request, 'product/product.html', {'products': products, 'focus_product': focus_product, 'box_class': box_class, 'popup': True})
