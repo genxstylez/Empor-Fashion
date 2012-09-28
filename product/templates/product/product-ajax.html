@@ -7,7 +7,7 @@
         </div>
         <div class="small">
             {% for image in focus_product.images.all %}
-            <img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" medium_width="{{ image.medium_width }}" medium_height="{{ image._medium_height }}" />
+            <img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" medium_width="{{ image.medium_width }}" medium_height="{{ image.medium_height }}" />
             {% endfor %}
         </div>
     </div>
