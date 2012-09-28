@@ -217,7 +217,7 @@ class ProductThumb(models.Model):
         return '<%s> %s' % (self.product.collection.name , self.product.name)
 
 class ProductImage(models.Model):
-
+    from empor.storage import empor_storage
     def product_image_path(self, filename):
         return '%s/%s/%s/images/%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename)
 
@@ -232,3 +232,12 @@ class ProductImage(models.Model):
     main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+
+    def delete(self):
+        if empor_storage.exists(self.image.file.name):
+            print True
+            empor_storage.delete(self.image.file.name)
+            empor_storage.delete(self.image['small'].file.name)
+            empor_storage.delete(self.image['medium'].file.name)
+            empor_storage.delete(self.image['large'].file.name)
+        super(ProductImage,self).delete()
