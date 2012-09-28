@@ -67,7 +67,7 @@ $(function () {
         var src = $(this).attr('src');
         var large_src = $(this).attr('rel');
         var current_img = $('div.large img');
-        var large_height = parseInt(330 / $(this).attr('large_width') * $(this).attr('large_height'));
+        var large_height = parseInt(330 / $(this).attr('medium_width') * $(this).attr('medium_height'));
         image = new Image();
         $(image).attr({'src': large_src, 'rel': src});
         $(image).hide().appendTo('div.large');
