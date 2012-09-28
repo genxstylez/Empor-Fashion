@@ -241,6 +241,12 @@ def _upload(request):
         image = ProductImage()
         image.product = product
         image.image.save(name, image_file, save=False)
+        image.small_width = image.image['small'].width
+        image.small_height = image.image['small'].height
+        image.medium_width = image.image['medium'].width
+        image.medium_height = image.image['medium'].height
+        image.large_width = image.image['large'].width
+        image.large_height = image.image['large'].height
         image.save()
 
         return JsonResponse({'success': True, 'image_id': image.id, 'image_url': image.image['small'].url })
