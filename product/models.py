@@ -29,7 +29,7 @@ class Brand(models.Model):
         return 'brand_images/%s/%s' % (self.name, filename)
     name = models.CharField(_('Name'), max_length=100)
     image = models.ImageField(_('Image'), upload_to=brand_path, storage=empor_storage)
-    slug = models.SlugField(_('Slug'))
+    slug = models.SlugField(_('Slug'), db_index=True)
     description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
@@ -69,8 +69,8 @@ class Option(models.Model):
 
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=100)
-    sku = models.CharField(_('SKU'), max_length=20, blank=True)
-    slug = models.SlugField(_('Slug'))
+    sku = models.CharField(_('SKU'), max_length=20, db_index=True)
+    slug = models.SlugField(_('Slug'), db_index=True)
     description = models.TextField(_('Description'))
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
     stock = models.PositiveIntegerField(_('Stock'), default=0)
@@ -223,8 +223,12 @@ class ProductImage(models.Model):
 
     product = models.ForeignKey(Product, related_name='images')
     image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, storage=empor_storage)
+    small_width = models.PositiveSmallIntegerField(default=0)
+    small_height = models.PositiveSmallIntegerField(default=0)
+    medium_width = models.PositiveSmallIntegerField(default=0)
+    medium_height = models.PositiveSmallIntegerField(default=0)
+    large_width = models.PositiveSmallIntegerField(default=0)
+    large_height = models.PositiveSmallIntegerField(default=0)
     main = models.BooleanField(_('Main'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
-
-
