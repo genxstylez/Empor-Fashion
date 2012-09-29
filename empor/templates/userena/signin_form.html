@@ -6,7 +6,7 @@
     <div class="content"> 
         <div class="content_box left">
             <h2>{% trans 'I AM A REGISTERED CUSTOMER' %}</h2>
-            <h3><small>{% trans 'Please enter your email and password below to log in' %}.</small></h3>
+            <h3><small>{% trans 'Please enter your email and password below to log into EMPOR' %}.</small></h3>
             <form id="login-form" method="post" class="form-inline">
                     {% csrf_token %}
                 {{ form.errors }}
@@ -33,7 +33,7 @@
         </div>
         <div class="content_box right">
             <h2>{% trans 'I AM A NEW CUSTOMER' %}</h2>
-            <h3><small>{% trans 'Please click Register and enter your details' %}.</small></h3>
+            <h3><small>{% trans 'If you are still not an EMPOR, please join us.' %}.</small></h3>
             <div class="form-actions"><a href="{% url userena_signup %}" class="button">{% trans 'Register' %}</a></div>
         </div>
     </div>

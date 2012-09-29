@@ -20,14 +20,13 @@
         {% if field.name == 'billing_country' %}
         <div class="control-group">
             <div class="controls">
-                <input name="copy_address" type="checkbox" value="" id="copy_address">Shipping same as billing?
+                <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
             </div>
         </div>
         {% endif %}
         {% endfor %}
         <div class="form-actions">
-            <input type="submit" class="button" value="{% trans 'Continue' %}" />
-            <a href="#" class="button button_fb">Log In with Facebook</a>
+            <input type="submit" class="button" value="{% trans 'Confirm' %}" />
         </div>
     </form>
 </div>

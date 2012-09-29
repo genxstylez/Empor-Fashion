@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-27 11:35+0000\n"
+"POT-Creation-Date: 2012-09-29 12:42-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -61,3 +61,80 @@ msgstr ""
 #: templates/empor/menu.html:16 templates/empor/menu.html.py:31
 msgid "BRAND"
 msgstr ""
+
+#: templates/userena/password_reset_form.html:6
+msgid "Forgot Password"
+msgstr ""
+
+#: templates/userena/password_reset_form.html:7
+msgid ""
+"To obtain a new password, please enter your e-mail address and a link will "
+"be emailed to you."
+msgstr ""
+
+#: templates/userena/password_reset_form.html:19
+msgid "Send"
+msgstr ""
+
+#: templates/userena/profile_form.html:6
+msgid "Member Information"
+msgstr "會員資料"
+
+#: templates/userena/profile_form.html:7
+msgid "Orders Tracking"
+msgstr "訂單查詢"
+
+#: templates/userena/profile_form.html:9
+msgid "Member"
+msgstr ""
+
+#: templates/userena/profile_form.html:15
+#: templates/userena/signup_form.html:11
+msgid "Billing Information"
+msgstr "購買人資料"
+
+#: templates/userena/profile_form.html:18
+#: templates/userena/signup_form.html:14
+msgid "Shipping Information"
+msgstr "收件人資料"
+
+#: templates/userena/profile_form.html:27
+#: templates/userena/signup_form.html:23
+msgid "Shipping same as billing?"
+msgstr "收件人資料同上？"
+
+#: templates/userena/profile_form.html:33
+msgid "Save"
+msgstr "儲存"
+
+#: templates/userena/signin_form.html:5
+msgid "Sign In"
+msgstr ""
+
+#: templates/userena/signin_form.html:8
+msgid "I AM A REGISTERED CUSTOMER"
+msgstr "會員登入"
+
+#: templates/userena/signin_form.html:9
+msgid "Please enter your email and password below to log into EMPOR"
+msgstr "請輸入您的Email及密碼登入EMPOR"
+
+#: templates/userena/signin_form.html:29
+msgid "Log In"
+msgstr "登入"
+
+#: templates/userena/signin_form.html:35
+msgid "I AM A NEW CUSTOMER"
+msgstr "加入會員"
+
+#: templates/userena/signin_form.html:36
+msgid "If you are still not an EMPOR, please join us."
+msgstr "如果你還不是一名EMPOR，來加入我們吧！"
+
+#: templates/userena/signin_form.html:37
+msgid "Register"
+msgstr "加入EMPOR"
+
+#: templates/userena/signup_form.html:29
+msgid "Confirm"
+msgstr "確定"
