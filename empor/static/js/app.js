@@ -27,6 +27,17 @@ $(function () {
         $(this).submit();
     });
 
+    //same as billing checkbox
+    $('input[name="copy_address"]').click(function() {
+        if($(this).is(':checked')) {
+            $('input#id_shipping_recipient').val($('input#id_billing_recipient').val());
+            $('input#id_shipping_street1').val($('input#id_billing_street1').val());
+            $('input#id_shipping_street2').val($('input#id_billing_street2').val());
+            $('input#id_shipping_city').val($('input#id_billing_city').val());
+            $('input#id_shipping_post_code').val($('input#id_billing_post_code').val());
+            $('select#id_shipping_country').val($('select#id_billing_country').val());
+        }
+    });
     // ajax setup for csrf
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
