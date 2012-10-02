@@ -22,6 +22,7 @@ body {
 	background-image: url(../images/a06.png);
 	background-repeat: repeat;
 	font-size:12px;
+	line-height:20px;
 }
 
 a:link, a:visited {
@@ -587,6 +588,7 @@ input[type="radio"] {
 .xs_icon-remove:hover {filter:alpha(opacity=100); -moz-opacity: 1; opacity: 1; }
 .s_icon-info {background-position:-20px -60px;}
 .s_icon-fb {background-position:0px -60px;}
+.s_icon-error {background-position:-40px -60px;}
 .m_icon-cart {background-position:0px -40px;}
 .m_icon-contact {background-position:-20px -40px;}
 .l_icon-gender.men {background-position:-40px 0px;}
@@ -639,8 +641,16 @@ input[type="radio"] {
 .button_fb {
 	background-color:#3B5998;
 }
+.button.button_fb:hover {
+	color:#becff2;
+}
 a.button {
 	color:#fff;
+}
+.button_l {
+	font-size: 20px;
+	line-height: 30px;
+	padding: 15px 30px;
 }
 /*table*/
 table {
@@ -740,11 +750,13 @@ table {
 }
 /*wrapper*/
 #content_wrapper {
-    position: relative;
-    width: 100%;
-    height: auto;
-    clear: both;
-    margin-bottom: 70px;
+    position: absolute;
+	width: 100%;
+	height: auto;
+	bottom: 30px;
+	top: 0px;
+	overflow-y: auto;
+	overflow-x: hidden;
 }
 .black_bg {
 	background: rgba(25, 20, 15, 0.9);
@@ -834,6 +846,9 @@ table {
     text-decoration:underline;
 } 
 /*index*/
+.index_itembox_list {
+	position:relative;
+}
 .index_itembox {
 	overflow: hidden;
 	border: 1px solid #eee;
@@ -902,6 +917,15 @@ table {
 	height:auto;
 	margin-right: auto;
 	margin-left: auto;	
+}
+.itemopen .brand_banner {
+	margin:20px 0;
+}
+.itemopen .brand_banner img {
+	filter:alpha(opacity=100);
+	-moz-opacity: 1;
+	opacity: 1;
+	width:840px;
 }
 .index_itembox .coverbox .content .itemname {
 	font-weight:bold;
@@ -1126,6 +1150,9 @@ h3 .l_icon-gender {
 	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
 	background:#fff;
 	top:30px;
+}
+.itemopen .data.help-inline {
+	color: #B94A48;
 }
 /*表單頁*/
 .control-group {
@@ -1635,9 +1662,9 @@ strike {
 	width: 400px;
 	margin: 0 0 0 -200px;
 }
-footer {
+#footer {
 	width: 100%;
-	position: fixed;
+	position: absolute;
 	bottom: 0;
 	background: #29201b;
 	color: white;
@@ -1645,9 +1672,14 @@ footer {
 	line-height:16px;
 	text-align:right;
 	padding:7px 0;
+	margin: 0 auto;
+	z-index: 999;
+	clear: both;
+	left: 0;
+	bottom: 0;
 }
-footer .text,
-footer i {
+#footer .text,
+#footer i {
 	float:right;
 	margin-right:10px;
 }
@@ -1684,4 +1716,14 @@ footer i {
 }
 #back-top:hover {
 	background-color: #413735;
+}
+
+.intermission {
+	background: url(../images/rule_split_589x4.png) no-repeat center center;
+	color: #888;
+	font-size: 18px;
+	text-align: center;
+	margin: 30px 0;
+	float: left;
+	width: 100%;
 }
