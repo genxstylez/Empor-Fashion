@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib import auth
 from django.contrib.auth.models import User
 from member.settings import COUNTRY_CHOICES, RESERVED_KEYWORD
 from member.models import UserTemp
@@ -99,3 +100,38 @@ class LoginForm(forms.Form):
         User.objects.filter(username__iexact=self.cleaned_data['username']).count() == 0:
             raise forms.ValidationError(_('Account cannot be found, please register'))
         return self.cleaned_data['username']
+
+class ReActivateForm(forms.Form):
+    username = forms.CharField(widget=forms.HiddenInput)
+    email = forms.EmailField()
+
+    def clean_email(self):
+        user = User.objects.filter(email=self.cleaned_data['email'])
+        if user.count() >= 1:
+            raise forms.ValidationError(_('there is another user register with this email'))
+
+        usertemp = UserTemp.objects.filter(email=self.cleaned_data['email'])
+        usertemp = usertemp.exclude(username=self.cleaned_data['username'])
+        if usertemp.count() >= 1:
+            raise forms.ValidationError(_('there is another user register with this email'))
+
+        return self.cleaned_data['email']
+
+class FacebookBindingForm(forms.Form):
+    username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'rel': _('Account'), 'class': 'input-xlarge', 'placeholder': _('Account')}))
+    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'rel': _('Password'), 'class': 'input-xlarge', 'placeholder': _('Password')}))
+
+    def clean(self):
+        cleaned_data = self.cleaned_data
+        username = cleaned_data.get('username')
+        password = cleaned_data.get('password')
+
+        if username and password:
+            user = auth.authenticate(username=username, password=password)
+            if not user:
+                message = _('Please enter correct username and password')
+                self._errors['password'] = self.error_class([message])
+
+                del cleaned_data['password']
+
+        return cleaned_data
