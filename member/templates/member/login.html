@@ -1,0 +1,41 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>{% trans 'Sign In' %}</h1>
+    <div class="content"> 
+        <div class="content_box left">
+            <h2>{% trans 'I AM A REGISTERED CUSTOMER' %}</h2>
+            <h3><small>{% trans 'Please enter your email and password below to log into EMPOR' %}.</small></h3>
+            <form id="login-form" method="post" class="form-inline">
+                    {% csrf_token %}
+                {{ form.errors }}
+                {% for field in form %}
+                {% if field.name == 'remember_me' %}
+                <div class="control-group">
+                    <div class="controls">
+                        {{ field }}{{ field.label }} │ <a href="forgot.html">忘記密碼 ?</a>
+                    </div>
+                 </div> 
+                {% else %}
+                 <div class="control-group">
+                   <label class="control-label">{{ field.label }}</label>
+                   <div class="controls">{{ field }}</div>
+                 </div>
+                {% endif %}
+                {% endfor %}
+
+                <div class="form-actions">
+                    <input type="submit" class="button" value="{% trans 'Log In' %}" />
+                    <a href="#" class="button button_fb">Log In with Facebook</a>
+                </div>
+            </form>
+        </div>
+        <div class="content_box right">
+            <h2>{% trans 'I AM A NEW CUSTOMER' %}</h2>
+            <h3><small>{% trans 'If you are still not an EMPOR, please join us.' %}.</small></h3>
+            <div class="form-actions"><a href="{% url member-register %}" class="button">{% trans 'Register' %}</a></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
