@@ -31,8 +31,11 @@
                         alert('Facebook API 錯誤，請重新嘗試或手動登入');
                     }
                     else{
-                        $.post('{% url member-facebook-verify %}', response, function(data) {
-                            data == 'True'?location.href=next:location.href='{% url member-facebook-connect %}';
+                        $.post('{% url member-facebook-verify %}', function(response) {
+                            if (response.success)
+                                location.href=next;
+                            else 
+                                location.href='{% url member-facebook-connect %}';
                         });
                     }
                 });
