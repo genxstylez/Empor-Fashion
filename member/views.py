@@ -311,10 +311,6 @@ def facebook_connect_new(request):
         first_name = profile.get('first_name', '')
         last_name = profile.get('last_name', '')
 
-        if birthday:
-            month, day, year = birthday.split('/')
-            birthday = date(int(year), int(month), int(day)).strftime('%Y-%m-%d')
-
         form = RegisterForm(initial={
             'username': username, 
             'birthday': birthday, 
