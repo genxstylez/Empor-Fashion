@@ -452,7 +452,7 @@ label, input, button, select, textarea {
 	padding:5px 0;
 	text-align: center;
 	*zoom:1;
-	margin:10px 0;
+	margin:10px 0 10px 10px;
 	width:100%;
 	float:left;
 }
@@ -1133,7 +1133,9 @@ h3 .l_icon-gender {
 	border: 0;
 	color:#fff;
 	border: 1px solid #d3cdc9;
-	background-image: url(../images/soldout_bg.jpg);
+	background-image:url("../images/all_icon.png");
+	background-repeat:no-repeat;
+	background-position:-60px -60px;
 	cursor:default;
 }
 .itemopen .data .size_link {
@@ -1190,7 +1192,10 @@ h3 .l_icon-gender {
 	margin-left: 35px;
 	margin-bottom: 25px;
 }
-#login-form {
+#login-form,
+#register-form,
+#member-form,
+#confirm-form {
 	float: left;
 	margin-top: 20px;
 }
@@ -1200,11 +1205,8 @@ h3 .l_icon-gender {
 	margin-top: 20px;
 	width: 500px;
 }
-#login-form .control-label {
-	width: 70px;
-}
-#login-form .controls {
-	margin-left:90px;
+#login-form input {
+	margin-right:10px;
 }
 #forgot-form .control-label,
 #reactivate-form .control-label {
@@ -1221,20 +1223,6 @@ h3 .l_icon-gender {
 	float: left;
 	width: 700px;
 	margin-left:60px;
-}
-#register-form,
-#guestcheckout-form {
-	float: left;
-	margin-top: 20px;
-	width: 100%;
-	margin-left:0px;
-}
-#member-form,
-#confirm-form {
-	float: left;
-	margin-top: 20px;
-	width: 100%;
-	margin-left:0px;
 }
 #register-form h4,
 #guestcheckout-form h4 {
