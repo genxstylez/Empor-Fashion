@@ -155,8 +155,6 @@ INSTALLED_APPS = (
     'order',
     'discount',
     'easy_thumbnails',
-    'userena',
-    'guardian',
     'member',
     'storages',
     'staff',
@@ -228,16 +226,7 @@ EMAIL_HOST_USER = 'webmaster@empor.com.tw'
 EMAIL_HOST_PASSWORD = '53780722'
 EMAIL_PORT = 587
 
-ANONYMOUS_USER_ID = -1
 AUTH_PROFILE_MODULE = 'member.UserProfile'
-
-USERENA_WITHOUT_USERNAMES = True
-USERENA_PROFILE_DETAIL_TEMPLATE = 'userena/profile_detail.html'
-USERENA_DEFAULT_PRIVACY = 'closed'
-USERENA_REDIRECT_ON_SIGNOUT = '/'
-LOGIN_REDIRECT_URL = '/accounts/%(username)s/'
-LOGIN_URL = '/accounts/signin/'
-LOGOUT_URL = '/accounts/signout/'
 
 AWS_ACCESS_KEY_ID = 'AKIAJVYZPH6EZHTV7JKQ' 
 AWS_SECRET_ACCESS_KEY = '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'

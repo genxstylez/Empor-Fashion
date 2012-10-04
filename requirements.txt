@@ -1,6 +1,6 @@
 django
 pil
-django-userena
+easy-thumbnails
 django-extensions
 django-storages
 boto
