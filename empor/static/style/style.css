@@ -973,7 +973,7 @@ h3 .l_icon-gender {
 /*itemopen*/
 .itemopen {
     width: 840px;
-	margin: 10px auto;
+	margin: 0 auto 50px;
 	min-height:480px;
 }
 .itemopen.cart_s {
