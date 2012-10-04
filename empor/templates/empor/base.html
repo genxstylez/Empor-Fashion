@@ -31,8 +31,8 @@
                         alert('Facebook API 錯誤，請重新嘗試或手動登入');
                     }
                     else{
-                        $.post('{% url member-facebook-verify %}', function(response) {
-                            if (response.success)
+                        $.post('{% url member-facebook-verify %}', response, function(data) {
+                            if (data.success)
                                 location.href=next;
                             else 
                                 location.href='{% url member-facebook-connect %}';
