@@ -15,7 +15,8 @@ from django.views.decorators.csrf import csrf_protect
 from django.core.mail import EmailMessage
 from empor.shortcuts import JsonResponse
 from member.models import UserProfile, FacebookProfile, UserTemp
-from member.forms import LoginForm, RegisterForm, ReActivateForm, FacebookBindingForm
+from member.forms import LoginForm, RegisterForm, ReActivateForm, FacebookBindingForm, \
+    PromptResetForm, ResetPasswordForm, ForgotPasswordForm
 import random
 from datetime import datetime, date
 
@@ -374,3 +375,100 @@ def facebook_unbind(request):
         pass
 
     return HttpResponse('done')
+
+@login_required
+def prompt_reset(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = PromptResetForm(request.POST)
+        if form.is_valid():
+            password = form.cleaned_data['password']
+            auth_user = auth.authenticate(username=user.username, password=password)
+            if auth_user:
+                request.session['prompt_reset'] = True
+                return reset_password(request)
+    form = PromptResetForm()
+    return render(request, 'member/prompt-reset.html', {'form': form})
+
+@login_required
+def reset_password(request):
+    prompt = request.session.get('prompt_reset', None)
+    if prompt:
+        if request.method == 'POST':
+            form = ResetPasswordForm(request.POST)
+            if form.is_valid():
+                user = request.user
+                new_password = form.cleaned_data['password']
+                user.set_password(new_password)
+                user.save()
+                return render(request, 'member/reset-done.html')
+        form = ResetPasswordForm()
+        return render(request, 'member/reset-password.html', {'form': form})
+    else:
+        raise Http404
+
+def reset_password_code(request, reset_code):
+    try:
+        profile = UserProfile.objects.get(reset_code=reset_code)
+        request.session['prompt_reset'] = True
+        auth.login(request, profile.user) 
+        return reset_password(request)
+    except UserProfile.DoesNotExist:
+        raise Http404
+    
+def forgot_password(request):
+    ''' 忘記密碼 '''
+
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            value = form.cleaned_data['value']
+
+            try:
+                if value.find('@') > 0:
+                    user = User.objects.get(username__iexact=value)
+                else:
+                    user = User.objects.get(email=value)
+            except User.DoesNotExist:
+                request.flash['message']  = _("Can't find this account!")
+                return forgot_password(request)
+
+            # activation code
+            salt = sha_constructor(str(random.random())).hexdigest()[:5]
+            reset_code = sha_constructor(salt+user.username).hexdigest()
+
+            html_content = render_to_string('email/reset_password.html', {
+                'host': request.get_host(),
+                'STATIC_URL': settings.STATIC_URL,
+                'user': user,
+                'reset_code': reset_code
+            })
+            subject = _('Streetvoice.com, request reset your password.')
+
+            msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+            msg.content_subtype = "html"
+            msg.send()
+
+            # store reset code
+            profile = UserProfile.objects.get(user=user)
+            profile.password_code = reset_code
+            profile.save()
+
+            # for display encrypt email address
+            email_username, email_domain = str(user.email).split('@')
+            encrypt_username = email_username[0] + email_username[1]
+            email_username_amount = len(email_username)-2
+            while email_username_amount > 0:
+                encrypt_username += "*"
+                email_username_amount -= 1
+            
+            return render(request, 'member/forgot_password_sent.html', {
+                'form': form,
+                'encrypt_username': encrypt_username,
+                'email_domain': email_domain,
+            })
+    form = ForgotPasswordForm()
+
+    return render(request, 'member/forgot_password.html', {'form': form})
+ 

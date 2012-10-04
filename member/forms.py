@@ -119,8 +119,8 @@ class ReActivateForm(forms.Form):
         return self.cleaned_data['email']
 
 class FacebookBindingForm(forms.Form):
-    username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'rel': _('Account'), 'class': 'input-xlarge', 'placeholder': _('Account')}))
-    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'rel': _('Password'), 'class': 'input-xlarge', 'placeholder': _('Password')}))
+    username = forms.CharField(max_length=20, widget=forms.TextInput(attrs={'class': 'input-xlarge'}), label=_('Account'))
+    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}), label=_('Password'))
 
     def clean(self):
         cleaned_data = self.cleaned_data
@@ -136,3 +136,29 @@ class FacebookBindingForm(forms.Form):
                 del cleaned_data['password']
 
         return cleaned_data
+
+class PromptResetForm(forms.Form):
+    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}))
+
+class ResetPasswordForm(forms.Form):
+    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}))
+    passconf = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}))
+    
+    def clean_password(self):
+        if not re.match('\S{3,12}', self.cleaned_data['password']):
+            raise forms.ValidationError(_('this password is not valid'))
+
+        return self.cleaned_data['password']
+
+    def clean_passconf(self):
+        password = self.cleaned_data.get('password', None)
+        passconf = self.cleaned_data.get('passconf')
+
+        if password:
+            if passconf != password:
+                raise forms.ValidationError(_('Password confirm not equal to password'))
+
+        return self.cleaned_data['passconf']
+
+class ForgotPasswordForm(forms.Form):
+    value = forms.CharField(widget=forms.TextInput(attrs={'class': 'input-xlarge'}), label=_('Account or Email'))

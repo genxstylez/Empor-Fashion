@@ -57,6 +57,7 @@ class UserProfile(models.Model):
     shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=100)
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
     activation_code = models.CharField(max_length=40, db_index=True)
+    reset_code = models.CharField(max_length=40, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
