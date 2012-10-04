@@ -451,7 +451,7 @@ label, input, button, select, textarea {
 	padding:5px 0;
 	text-align: center;
 	*zoom:1;
-	margin:10px 0;
+	margin:10px 0 10px 10px;
 	width:100%;
 	float:left;
 }
@@ -1430,7 +1430,6 @@ h3 .l_icon-gender {
 .dropdown-menu {
     position:absolute;
     top:21px;
-    right:-1px;
     z-index:1000;
     float:left;
     display:none;
