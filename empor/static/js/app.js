@@ -93,9 +93,9 @@ $(function () {
 
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
-            $('#back-top').fadeIn();
+            $('#back-top').fadeIn(1000);
         } else {
-            $('#back-top').fadeOut();
+            $('#back-top').fadeOut(1000);
         }
     });
 

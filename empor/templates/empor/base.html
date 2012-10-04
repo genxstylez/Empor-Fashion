@@ -33,9 +33,9 @@
                     else{
                         $.post('{% url member-facebook-verify %}', response, function(data) {
                             if (data.success)
-                                location.href='{% url member-facebook-connect %}';
-                            else 
                                 location.href=next;
+                            else 
+                                location.href='{% url member-facebook-connect %}';
                         });
                     }
                 });
