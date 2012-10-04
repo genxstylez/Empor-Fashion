@@ -17,6 +17,9 @@
     {% if flash.message %}
     <script type="text/javascript">
     var flashMessage = '{{ flash.message }}';
+    </script>
+    {% endif %}
+    <script type="text/javascript">
     function fb_login(){
         var next = window.location.href.split('?next=',2);
         if (next[1] == null){next = '{% url index %}';}
@@ -37,10 +40,10 @@
         }, {scope: 'offline_access,user_birthday,email,user_likes,user_relationships,publish_actions'});
     };
     </script>
-    {% endif %}
     {% block js %}{% endblock %}
 </head>
 <body>
+<div id="content_wrapper">
 <!-- menu_wrapper -->
 <div id="menu_wrapper" {% block menu_class %}{% endblock %}>
     <!-- logo -->
@@ -62,7 +65,7 @@
     </div>
     {% else %}
     <div class="menu_textbox b_box">
-        <a href="{% url member-login %}">{% trans 'JOIN US' %}</a> ／ <a href="{% url member-login %}">{% trans 'LOGIN' %}</a>
+        <a href="{% url member-register %}">{% trans 'JOIN US' %}</a> ／ <a href="{% url member-login %}">{% trans 'LOGIN' %}</a>
     </div>
     {% endif %}
     <!-- /menu_iconbox -->
@@ -75,18 +78,15 @@
     <!-- /menu_button -->
 </div>
 <!-- /menu_wrapper -->
-<!-- content_wrapper -->
-<div id="content_wrapper">
 {% block content %}
 {% endblock %}
 </div>
-<!-- content_wrapper -->
 <div id="back-top"></div>
-<footer>
+<div id="footer">
     <a href="{% url service-faq %}"><i class="s_icon-info"></i></a>
     <a href="https://www.facebook.com/pages/EMPOR/220960498003255"><i class="s_icon-fb"></i></a>
     <div class="text">COPYRIGHT© 2012 EMPOR</div>
-</footer>
+</div>
 <div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>
 <div id="content_pane" {% if popup %}style="display:block;" class="itemup"{% endif %}>
     {% block popup %}{% endblock %}

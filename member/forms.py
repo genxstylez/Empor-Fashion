@@ -89,10 +89,10 @@ class ProfileForm(forms.Form):
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label=_('Account'), 
-        widget=forms.TextInput(attrs={'class': 'input-large'}) 
+        widget=forms.TextInput(attrs={'class': 'input-xlarge'}) 
     )
     password = forms.CharField(max_length=16, widget=forms.PasswordInput(
-        attrs={'class': 'input-large'}), 
+        attrs={'class': 'input-xlarge'}), 
         label=_('password')
     )
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(), required=False, label=_('Remember me'))
