@@ -5,6 +5,7 @@ urlpatterns = patterns('member.views',
     url(r'^logout/$',       'logout',       name='member-logout'),
     url(r'^register/$',     'register',     name='member-register'),
     url(r'^register/complete$',     'register_complete',     name='member-register-complete'),
+    url(r'^reactivate/$',                               'reactivate',           name='member-reactivate'),
     url(r'^activate/(?P<activation_code>\w+)/$',         'activate',        name='member-activate'),
 
     url(r'facebook/verify/', 'facebook_verify', name='member-facebook-verify'),
