@@ -259,7 +259,7 @@ def facebook_connect_new(request):
             user.save()
 
             salt = sha_constructor(str(random.random())).hexdigest()[:5]
-            activation_code = sha_constructor(salt+user_temp.usernmae).hexdigest()
+            activation_code = sha_constructor(salt+user_temp.username).hexdigest()
 
             # user profile
             user_profile = UserProfile(
