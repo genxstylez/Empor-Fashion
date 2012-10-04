@@ -754,7 +754,7 @@ table {
 }
 /*wrapper*/
 #content_wrapper {
-    position: absolute;
+    position: relative;
 	width: 100%;
 	height: auto;
 	bottom: 30px;
@@ -1655,8 +1655,7 @@ strike {
 }
 #footer {
 	width: 100%;
-	position: absolute;
-	bottom: 0;
+	position: fixed;
 	background: #29201b;
 	color: white;
 	font-size: 11px;
@@ -1691,6 +1690,7 @@ strike {
 }
 /* Back to top button */
 #back-top {
+    z-index: 999;
     cursor: pointer;
 	position: fixed;
 	bottom: 50px;
