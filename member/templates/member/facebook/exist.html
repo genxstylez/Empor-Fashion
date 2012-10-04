@@ -1,0 +1,20 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>Sign In</h1>
+    <h3>{{ profile.name }} 您好，您已使用Facebook帳號登入！</h3>
+    <h3><small>如果你已是 EMPOR 會員，確認對應你的 EMPOR 會員帳號後，便可開始使用 Facebook 帳號來登入 EMPOR 。</small></h3>
+    <form id="login-form" method="post" class="form-inline">
+        {% for field in form %}
+        <div class="control-group">
+            <label class="control-label">{{ field.label }}</label>
+            <div class="controls">{{ field }}</div> {{ field.errors }}
+        </div>
+        {% endfor %}
+        <div class="form-actions">
+            <input type="submit" class="button" value="{% trans 'Confirm' %}" />
+        </div>
+    </form>
+</div>
+{% endblock %}

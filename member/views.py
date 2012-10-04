@@ -1,21 +1,23 @@
 # -*- coding: utf-8 -*_
 from django.conf import settings
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.contrib import auth
 from django.utils.translation import ugettext as _
 from django.utils.http import urlquote_plus
 from django.utils.encoding import iri_to_uri
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.hashcompat import sha_constructor
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_protect
 from django.core.mail import EmailMessage
-from empor.shortcuts import jsonResponse
+from empor.shortcuts import JsonResponse
 from member.models import UserProfile, FacebookProfile, UserTemp
 from member.forms import LoginForm, RegisterForm, ReActivateForm, FacebookBindingForm
 import random
+from datetime import datetime, date
 
 def login(request):
     if request.method == 'POST':
@@ -204,18 +206,18 @@ def reactivate_done(request):
 
 
 #client-side verify
-def facebook_verify_client(request):
-    if request.method == 'POST':
+def facebook_verify(request):
+    if request.method == 'POST' and request.is_ajax():
         profile = request.POST
         # if user is already connected
         user = auth.authenticate(facebook_uid=profile['id'])
         if user:
             auth.login(request, user)
-            return jsonResponse({'success': True})
+            return JsonResponse({'success': True})
 
         request.session['facebook_profile'] = profile
 
-        return jsonResponse({'success': False})
+        return JsonResponse({'success': False})
     else:
         raise Http404
 
@@ -240,8 +242,6 @@ def facebook_connect_new(request):
     profile = request.session.get('facebook_profile', None)
 
     if not profile:
-        if settings.SITE_ID == 3:
-            return jsonResponse({'success': True, 'redirect': '/'})
         return redirect('/')
 
     if request.method == 'POST':
@@ -253,25 +253,20 @@ def facebook_connect_new(request):
             password = User.objects.make_random_password()
 
             # create user
-            user = User.objects.create_user(user_temp.username, profile['email'], password, first_name=user_temp.first_name, last_name=user_temp.last_name)
-            user.first_name = profile.get('first_name', '')
-            user.last_name = profile.get('last_name', '')
+            user = User.objects.create_user(user_temp.username, profile['email'], password)
+            user.first_name = user_temp.first_name
+            user.last_name = user_temp.last_name
             user.save()
-
-            # gender
-            try:
-                gender = "M" if profile['gender'] == 'male' else 'F'
-            except KeyError:
-                gender = "M"
 
             salt = sha_constructor(str(random.random())).hexdigest()[:5]
             activation_code = sha_constructor(salt+user_temp.usernmae).hexdigest()
 
             # user profile
-            profile = UserProfile(
+            user_profile = UserProfile(
                 user = user,
                 phone = user_temp.phone,
-                gender = gender,
+                gender = user_temp.gender,
+                birthday = user_temp.birthday,
                 billing_recipient = user_temp.billing_recipient,
                 billing_street1 = user_temp.billing_street1,
                 billing_street2 = user_temp.billing_street2,
@@ -286,19 +281,20 @@ def facebook_connect_new(request):
                 shipping_country = user_temp.shipping_country,
                 activation_code = activation_code,
             )
-            profile.save()
+            user_profile.save()
 
             # facebook profile
-            fbprofile = FacebookProfile()
-            fbprofile.uid = profile['id']
-            fbprofile.user = user
-            fbprofile.name = profile.get('name', '')
-            fbprofile.gender = profile.get('gender', 'male')
-            fbprofile.locale = profile['locale']
-            fbprofile.url = profile['link']
-            fbprofile.timezone = profile.get('timezone', '')
-            fbprofile.verified = profile.get('verified', False)
-            fbprofile.created_at = datetime.now()
+            fbprofile = FacebookProfile(
+                uid = profile['id'],
+                user = user,
+                name = profile.get('name', ''),
+                gender = profile.get('gender', 'male'),
+                locale = profile['locale'],
+                url = profile['link'],
+                timezone = profile.get('timezone', ''),
+                verified = profile.get('verified', False),
+                created_at = datetime.now()
+            )
             fbprofile.save()
 
             # login user
@@ -307,23 +303,25 @@ def facebook_connect_new(request):
 
             request.session['fb_connect_type'] = 'new'
 
-            if settings.SITE_ID == 3:
-                return jsonResponse({'success': True, 'redirect': reverse('member-facebook-connect-done')})
-
             return redirect('member-facebook-connect-done')
     else:
         username = profile.get('username', '')
-        nickname = profile.get('name', '')
         birthday = profile.get('birthday', None)
+        gender = profile.get('gender', 0)
+        first_name = profile.get('first_name', '')
+        last_name = profile.get('last_name', '')
 
         if birthday:
             month, day, year = birthday.split('/')
             birthday = date(int(year), int(month), int(day)).strftime('%Y-%m-%d')
 
-        form = FacebookRegistrationForm(initial={'username': username, 'nickname': nickname, 'birthday': birthday})
-
-    if settings.SITE_ID == 3:
-        return render(request, 'member/facebook/hk/new.html', {'profile': profile, 'form': form})
+        form = RegisterForm(initial={
+            'username': username, 
+            'birthday': birthday, 
+            'gender': gender,
+            'first_name': first_name,
+            'last_name': last_name,
+        })
 
     return render(request, 'member/facebook/new.html', {'profile': profile, 'form': form})
 
@@ -331,8 +329,6 @@ def facebook_connect_exist(request):
     profile = request.session.get('facebook_profile', None)
 
     if not profile:
-        if settings.SITE_ID == 3:
-            return jsonResponse({'success': True, 'redirect': '/'})
         return redirect('/')
 
     if request.method == 'POST':
@@ -340,8 +336,6 @@ def facebook_connect_exist(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            import_picture = form.cleaned_data['import_picture']
-            request.session['import_picture'] = import_picture
 
             user = auth.authenticate(username=username, password=password)
 
@@ -356,10 +350,7 @@ def facebook_connect_exist(request):
             fbprofile.timezone = profile.get('timezone', '')
             fbprofile.verified = profile.get('verified', False)
             fbprofile.created_at = datetime.now()
-            try:
-                fbprofile.save()
-            except IntegrityError:
-                pass
+            fbprofile.save()
 
             if user:
                 auth.login(request, user)
@@ -369,11 +360,9 @@ def facebook_connect_exist(request):
     else:
         form = FacebookBindingForm()
 
-    if settings.SITE_ID == 3:
-        return render(request, 'member/facebook/hk/exist.html', {'form': form, 'profile': profile})
-
     return render(request, 'member/facebook/exist.html', {'form': form, 'profile': profile})
 
+@login_required
 def facebook_connect_done(request):
     fb_connect_type = request.session.get('fb_connect_type')
 

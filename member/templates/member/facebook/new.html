@@ -14,6 +14,8 @@ $(function() {
 {% block content %}
 <div class="inside_itembox itemopen center">
     <h1>Register</h1>
+    <h3>{{ profile.name }} 您好，您已使用Facebook帳號登入！</h3>
+    <h3><small>填寫需要的資料來建立 EMPOR 帳戶以對應使用你的 Facebook 帳號</small></h3>
     <form id="register-form" method="post" class="form-inline">
         {% csrf_token %}
         {% for field in form %}

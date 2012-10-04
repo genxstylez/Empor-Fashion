@@ -1,0 +1,22 @@
+{% extends 'empor/base.html %}
+{% load i18n %}
+
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>Register</h1>
+    <h3>{{ user.facebook_profile.name }} 您好，您已使用Facebook帳號登入！</h3>
+    <h3><small>
+        {% if fb_connect_type == 'new' %}
+        你的EMPOR帳號已完成註冊，可以開始使用Facebook帳號來登入EMPOR
+        {% else %}
+        你的EMPOR帳號已確認，可以開始使用Facebook帳號來登入EMPOR
+        {% endif %}
+    </small></h3>
+    <h3>帳號：{{ user.username }}</h3>
+        <h3>Email: {{ user.email }}</h3>
+    </div>
+    <div class="form-actions">
+        <a class="button" href="{% url index %}">開始使用EMPOR</a>
+    </div>
+</div>
+{% endblock %}

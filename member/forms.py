@@ -15,11 +15,14 @@ class RegisterForm(forms.ModelForm):
     class Meta:
         model = UserTemp
         exclude = ('activation_code', 'activated')
+        widgets = {
+            'birthday': forms.DateInput(format='%Y/%m/%d', attrs={'class': 'birthday' }),
+        }
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if field == 'shipping_country' or field == 'billing_country':
+            if field == 'shipping_country' or field == 'billing_country' or field == 'birthday':
                 pass
             else:
                 self.fields[field].widget.attrs['class'] = 'input-xxxlarge'
@@ -85,7 +88,7 @@ class ProfileForm(forms.Form):
     shipping_country = forms.ChoiceField(label=_('Country'), choices=COUNTRY_CHOICES)
 
 class LoginForm(forms.Form):
-    username = forms.CharField(max_length=20, label=_('Account or Email'), 
+    username = forms.CharField(max_length=20, label=_('Account'), 
         widget=forms.TextInput(attrs={'class': 'input-large'}) 
     )
     password = forms.CharField(max_length=16, widget=forms.PasswordInput(
@@ -95,8 +98,6 @@ class LoginForm(forms.Form):
     remember_me = forms.BooleanField(widget=forms.CheckboxInput(), required=False, label=_('Remember me'))
     def clean_username(self):
         if UserTemp.objects.filter(username__iexact=self.cleaned_data['username']).count() == 0 and \
-        UserTemp.objects.filter(email__iexact=self.cleaned_data['username']).count() == 0 and \
-        User.objects.filter(email__iexact=self.cleaned_data['username']).count() == 0 and \
         User.objects.filter(username__iexact=self.cleaned_data['username']).count() == 0:
             raise forms.ValidationError(_('Account cannot be found, please register'))
         return self.cleaned_data['username']

@@ -6,6 +6,7 @@
     <link href="{{ STATIC_URL }}style/style.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}style/extra.css" rel="stylesheet" type="text/css">
     <link href="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl.css" rel="stylesheet" type="text/css">
+    {% block css %}{% endblock %}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.isotope.min.js"></script>
@@ -15,7 +16,26 @@
 
     {% if flash.message %}
     <script type="text/javascript">
-        var flashMessage = '{{ flash.message }}';
+    var flashMessage = '{{ flash.message }}';
+    function fb_login(){
+        var next = window.location.href.split('?next=',2);
+        if (next[1] == null){next = '{% url index %}';}
+        else{next = next[1];}
+        FB.login(function(response) {
+            if (response.authResponse) {
+                FB.api('/me', function(response) {
+                    if(!response || response.error){
+                        alert('Facebook API 錯誤，請重新嘗試或手動登入');
+                    }
+                    else{
+                        $.post('{% url member-facebook-verify %}', response, function(data) {
+                            data == 'True'?location.href=next:location.href='{% url member-facebook-connect %}';
+                        });
+                    }
+                });
+            }
+        }, {scope: 'offline_access,user_birthday,email,user_likes,user_relationships,publish_actions'});
+    };
     </script>
     {% endif %}
     {% block js %}{% endblock %}
@@ -38,7 +58,7 @@
     </div>
     {% if request.user.is_authenticated %}
     <div class="menu_textbox b_box">
-        <a href="{% url member-logout %}">{% trans 'LOGOUT' %}</a> ／ <a href="{% url member-profile request.user.username %}">{% trans 'MY ACCOUNT' %}</a>
+        <a href="{% url member-logout %}">{% trans 'LOGOUT' %}</a> ／ <a href="">{% trans 'MY ACCOUNT' %}</a>
     </div>
     {% else %}
     <div class="menu_textbox b_box">
@@ -71,5 +91,24 @@
 <div id="content_pane" {% if popup %}style="display:block;" class="itemup"{% endif %}>
     {% block popup %}{% endblock %}
 </div>
+<div id="fb-root"></div>
+<script type="text/javascript">
+    window.fbAsyncInit = function() {
+            FB.init({
+            appId      : '478172468880633', // App ID
+            status     : true, // check login status
+            cookie     : true, // enable cookies to allow the server to access the session
+            oauth      : true, // enable OAuth 2.0
+            xfbml      : true  // parse XFBML
+            });
+
+};
+    (function(d){
+        var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+        js = d.createElement('script'); js.id = id; js.async = true;
+        js.src = "//connect.facebook.net/zh_TW/all.js";
+        d.getElementsByTagName('head')[0].appendChild(js);
+        }(document));
+</script>
 </body>
 </html>

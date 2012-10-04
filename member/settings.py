@@ -5,4 +5,9 @@ COUNTRY_CHOICES = (
     (1, _('China')),
 )
 
+GENDER_CHOICES = (
+    (0, _('Male')),
+    (1, _('Female')),
+)
+
 RESERVED_KEYWORD = ('empor', 'EMPOR', 'EMPOR-TW', 'empor-tw')

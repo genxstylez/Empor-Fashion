@@ -1,0 +1,18 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+<div class="inside_itembox itemopen center">
+    <h1>Sign In</h1>
+    <div class="content">
+        <h3>{{ profile.name }} 您好，您已使用 Facebook 帳號登入！</h3>
+        <div class="content_box left">
+            <h3>【新加入會員】</h3>
+            <h3><small>如果你是第一次登入，在建立 EMPOR 帳號完成註冊後，便可開始使用 Facebook 帳號來登入 EMPOR。</small></h3>
+            <div class="form-actions"><a href="{% url member-facebook-connect-new %}" class="button">註冊會員</a></div>
+        </div>
+        <div class="content_box right">
+            <h3>【已是 EMPOR 會員】</h3>
+            <h3><small>如果你已是 EMPOR 會員，確認對應你的 EMPOR 會員帳號後，便可開始使用 Facebook 帳號來登入 EMPOR 。</small></h3>
+            <div class="form-actions"><a href="{% url member-facebook-connect-exist %}" class="button">確認帳號</a></div>
+        </div>
+    </div>
+</div>
