@@ -45,23 +45,22 @@ $.Isotope.prototype._masonryGetContainerSize = function() {
 
 function show_content() {
     var height = $('.itemopen').height();
-    var center_left = position.left - (($(window).width() - 840)/2);
-    var center_top = position.top - (($(window).height() - height + 20)/2);
-    $('.itemopen').appendTo(target).show();
-    $('div.large').height($('div.large img').height());
-    target.animate({
+    var center_left = positionx.left - (($(window).width() - 840)/2);
+    var center_top = positionx.top - (($(window).height() - height + 20)/2);
+    $('.itemopen').appendTo(content_pane).show();
+    content_pane.animate({
         'left': '-='+center_left,
         'width': '840px',
         }, 400, function() {
-            target.removeClass().addClass('itemup');
-            var target_offset = target.offset()
-            target.css('left', target_offset.left / $(window).width() * 100 + '%');
-            target.css('top', target_offset.top / $(window).height() * 100 + '%');
+            content_pane.removeClass().addClass('itemup');
+            var target_offset = content_pane.offset()
+            content_pane.css('left', target_offset.left / $(window).width() * 100 + '%');
+            content_pane.css('top', target_offset.top / $(window).height() * 100 + '%');
         }
     ); 
 }
 
-$(function () {
+function init(){
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
             position: 'bottom-right'
@@ -149,35 +148,33 @@ $(function () {
         var that = $(this).parent();
         var img = $('.itemimg img', that)
         var url = $(this).attr('href');
-        window.target = $('#content_pane');
-        window.position = that.offset();
 
-        target.css({
-            'left': position.left,
+        window.positionx = that.offset();
+
+        content_pane.css({
+            'left': positionx.left,
             'width': that.width(),
         });
 
-        target.addClass('index_itembox');
+        content_pane.addClass('index_itembox');
         that.hide();
-        target.show();
+        content_pane.show();
         $('#modal_overlay').show();
-
-        $.get(url, function(response) {
-            $(response).hide().insertAfter(target);
-            setTimeout("show_content()", 40);
-        });
-
+        var state = History.getState();
+        History.pushState(null, null, url);
         $('#content_pane .close').livequery('click', function() {
-            $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
+            content_pane.fadeOut(100, function() { $(this).children().remove(); });
             $('#modal_overlay').hide();
             that.show();
+            History.pushState(null, null, state.hash);
         });
-    return false;
+        return false;
     });
 
     $('#content_pane .close').livequery('click', function() {
         $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
         $('#modal_overlay').hide();
+        History.pushState(null, null, '/products/');
     });
     
     $('.index_itembox').on('mouseenter', function() {
@@ -259,6 +256,6 @@ $(function () {
         });
     return false;
     });
-});
+}
 
 

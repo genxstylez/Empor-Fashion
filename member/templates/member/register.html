@@ -31,7 +31,7 @@ $(function() {
             <label class="control-label">{{ field.label }}</label>
             <div class="controls">{{ field }}</div> {{ field.errors }}
         </div>
-        {% if field.name == 'billing_country' %}
+        {% if field.name == 'billing_street2' %}
         <div class="control-group">
             <div class="controls">
                 <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}

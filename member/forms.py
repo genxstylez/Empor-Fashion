@@ -31,12 +31,10 @@ class RegisterForm(forms.ModelForm):
         self.fields.keyOrder = new_order
 
     def clean_username(self):
-        # 限制使用者帳號格式
         if not re.match('^[a-zA-Z]{1}[a-zA-Z0-9_]{2,15}$', self.cleaned_data['username']):
             raise forms.ValidationError(_('username can only contain english, numbers and underscore. \
                 Begin with character only.'))
 
-        # 檢查是否已經有帳號存在
         if self.cleaned_data['username'] in RESERVED_KEYWORD:
             raise forms.ValidationError(_('this username is not allowed'))
         elif User.objects.filter(username=self.cleaned_data['username']):
@@ -45,7 +43,6 @@ class RegisterForm(forms.ModelForm):
         return self.cleaned_data['username']
 
     def clean_password(self):
-        # 限制密碼格式
         if not re.match('\S{3,12}', self.cleaned_data['password']):
             raise forms.ValidationError(_('this password is not valid'))
 
@@ -62,7 +59,6 @@ class RegisterForm(forms.ModelForm):
         return self.cleaned_data['passconf']
 
     def clean_email(self):
-        # 檢查是否已有相同 email
         if User.objects.filter(email__iexact=self.cleaned_data['email']):
             raise forms.ValidationError(_('This email address is already in use. Please supply another email address.'))
         elif UserTemp.objects.filter(email__iexact=self.cleaned_data['email']):

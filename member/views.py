@@ -311,6 +311,7 @@ def facebook_connect_new(request):
         gender = profile.get('gender', 0)
         first_name = profile.get('first_name', '')
         last_name = profile.get('last_name', '')
+        email = profile.get('email', '')
 
         form = RegisterForm(initial={
             'username': username, 
@@ -318,6 +319,7 @@ def facebook_connect_new(request):
             'gender': gender,
             'first_name': first_name,
             'last_name': last_name,
+            'email': email,
         })
 
     return render(request, 'member/facebook/new.html', {'profile': profile, 'form': form})

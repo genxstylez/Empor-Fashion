@@ -105,7 +105,7 @@ class Product(models.Model):
         return self.collection.products.filter(parent=None).exclude(id=self.id)
 
     def get_main_image(self):
-        return self.images.get(main=True).image
+        return self.images.get(main=True)
 
     def get_gender(self):
         if self.gender.count() == 2:
@@ -201,9 +201,11 @@ def sku(sender, instance, **kwargs):
 class ProductThumb(models.Model):
 
     def thumbnail_path(self, filename):
-        return '%s/%s/%s/thumbnails/%s_thumbnail.%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
+        return '%s/%s/%s/thumbnails/%s_thumbnail.%s' % (self.product.brand.name, self.product.collection.name, \
+            self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
     def original_path(self, filename):
-        return '%s/%s/%s/thumbnails/%s_original.%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
+        return '%s/%s/%s/thumbnails/%s_original.%s' % (self.product.brand.name, self.product.collection.name, \
+            self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
 
     product = models.OneToOneField(Product, verbose_name=_('Product'), related_name="thumb", null=True, blank=True)
     original = models.ImageField(upload_to=original_path, storage=empor_storage)

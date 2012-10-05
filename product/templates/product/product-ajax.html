@@ -2,8 +2,8 @@
 <div class="itemopen" style="float:left;">
     <span class="close">×</span>
     <div class="left">
-        <div class="large">
-            <img src="{{ focus_product.get_main_image.medium.url }}" rel="{{ focus_product.get_main_image.small.url }}" />
+        <div class="large" style="height:{{ focus_product.get_main_image.medium_height }}px;">
+            <img src="{{ focus_product.get_main_image.image.medium.url }}" rel="{{ focus_product.get_main_image.image.small.url }}" />
         </div>
         <div class="small">
             {% for image in focus_product.images.all %}
@@ -29,6 +29,17 @@
         <div class="data">{{ focus_product.description }}</div>
         <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
         <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
+        <div class="data"><label>{% trans 'Gender' %}：</label>
+            <span>
+            {% if focus_product.get_gender == 3 %}
+                <i class="l_icon-gender unisex"></i>
+            {% elif focus_product.get_gender == 1 %}
+                <i class="l_icon-gender men"></i>
+            {% else %}
+                <i class="l_icon-gender women"></i>
+            {% endif %}
+            </span>
+        </div>
         {% if focus_product.has_options %}
         <div class="data"><label>{{ focus_product.option_group.name }}：</label>
              <ul class="size_select">

@@ -35,7 +35,7 @@ div#modal_overlay {
     height:100%;
     width: 100%;
     background: white;
-    position: absolute;
+    position: fixed;
     display: none;
     z-index: 1001;
     top: 0px;
@@ -48,12 +48,13 @@ div#content_pane {
     display: none;
     background: white;
     overflow: hidden;
-    position: absolute;
+    position: fixed;
     top: 8%;
     width: 840px;
     min-height: 500px;
     margin: 0 auto;
     height: auto;
+    left: 28%;
 }
 
 .errorlist li {

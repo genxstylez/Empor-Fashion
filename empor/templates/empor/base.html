@@ -13,6 +13,7 @@
     <script src="{{ STATIC_URL }}js/jquery.livequery.js"></script> 
     <script src="{{ STATIC_URL }}js/app.js"></script>
     <script src="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl_minimized.js"></script>
+    <script src="{{ STATIC_URL }}js/history.js/scripts/bundled/html4+html5/jquery.history.js"></script>
 
     {% if flash.message %}
     <script type="text/javascript">
@@ -42,6 +43,24 @@
             }
         }, {scope: 'offline_access,user_birthday,email,user_likes,user_relationships,publish_actions'});
     };
+    </script>
+    <script type="text/javascript">
+    (function (window, undefined) {
+        $(function() {
+            init();
+            window.content_pane = $('#content_pane');
+        });
+        var History = window.History;
+        History.Adapter.bind(window, 'statechange', function () {
+            /*_gaq.push(['_trackPageview', state.hash]);*/
+            var state = History.getState();
+            $.get(state.hash, function(response) {
+                $(response).hide().insertAfter(content_pane);
+                setTimeout("show_content()", 40);
+            });
+            return false;
+        });
+    }) (window);
     </script>
     {% block js %}{% endblock %}
 </head>
