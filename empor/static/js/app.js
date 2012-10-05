@@ -198,6 +198,13 @@ function init(){
             return false;
         $(this).addClass('selected');
         $(this).siblings().removeClass('selected');
+        var data = $(this).children().attr('data');
+        $.post('/products/_check_stock/', {'product_id': data }, function(response) {
+            if (response.success)
+                $('.help-inline').html('<i class="s_icon-ok"></i>'+response.message);
+            else
+                $('.help-inline').html('<i class="s_icon-error"></i>'+response.message);
+        });
         return false;
     });
 
