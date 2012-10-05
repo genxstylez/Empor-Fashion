@@ -1195,24 +1195,19 @@ h3 .l_icon-gender {
 #login-form,
 #register-form,
 #member-form,
-#confirm-form {
-	float: left;
-	margin-top: 20px;
-}
+#confirm-form,
+#password-form,
 #forgot-form,
 #reactivate-form {
 	float: left;
 	margin-top: 20px;
-	width: 500px;
 }
 #login-form input {
 	margin-right:10px;
 }
-#forgot-form .control-label,
 #reactivate-form .control-label {
-	width: 40px;
+	width: 55px;
 }
-#forgot-form .controls,
 #reactivate-form .controls {
 	margin-left:60px;
 }
