@@ -1,0 +1,15 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>Reactivate</h1>
+    <h3><small>
+        {% trans 'We have sent an email containing the details to the email provided'%}
+        {% trans 'Please check your email and follow the instructions to proceed' %}
+        {# 查詢結果已寄出至bl**********@hotmail.com 。請檢查您的信箱。#}
+    </small></h3>
+    <h3>{% trans 'Account' %}：{{ request.GET.username }}</h3>
+    <h3>{% trans 'Email' %}：{{ request.GET.email }}</h3>
+    {# ※若您仍有問題請聯繫客服中心，謝謝！#}
+</div>
+{% endblock %}

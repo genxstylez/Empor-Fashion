@@ -1,0 +1,11 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>Success</h1>
+    <h3><small>{% trans 'Your Account is now active and ready to use' %}{# 你的會員帳已經啓動成功了！#}</small></h3>
+    <h3>{% trans 'Account' %}：{{ request.GET.username }}</h3>
+    <h3>{% trans 'Email' %}：{{ request.GET.email }}</h3>
+    <div class="form-actions"><a href="{% url member-profile %}" class="button">{% trans 'My Account' %}</a></div>
+</div>
+{% endblock %}

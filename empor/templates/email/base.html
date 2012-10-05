@@ -1,0 +1,55 @@
+{% load i18n %}
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>EMPOR</title>
+<style type="text/css">
+div {
+    display:block;
+}
+body {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size:12px;
+    color:#29201b;
+}
+a:link, a:visited {
+    text-decoration:underline;
+    color:#29201b;
+
+}
+a:hover {
+    text-decoration:underline;
+    color:#413735;
+}
+
+</style>
+</head>
+<div style="font-family: Arial, Helvetica,sans-serif; color:#29201b font-size:12px">
+<table cellpadding="5" style="width:700px; background:#ececec;border-spacing: 0px;">
+    <thead>
+        <tr>
+            <th style="text-align:center;padding-top:20px;"><img src="http://{{ host }}{{ STATIC_URL }}images/EMPOR_logo_b.png"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr style="font-size:13px;padding:10px 7px 7px 7px">
+          <td style="line-height: 18px; text-align: left; vertical-align: top; padding: 30px 50px;">
+            {% block content %}
+            {% endblock %}
+            <p style="line-height: 18px;">
+                ※ {% trans 'This is an automated mail from the system, please do not reply! Shall you have any questions please contact' %}
+                <a href="http://{{ host }}{% url service-center %}">{% trans 'Service-Center' %}</a>{% trans ', Thanks!' %}
+            </p>
+            {# 此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫客服中心，謝謝！#}
+          </td>
+        </tr>
+        <tr style="background:#29201b; color:#ffffff;text-align: center; line-height: 18px;">
+            <td>COPYRIGHT© 2012 EMPOR</td>
+        </tr>
+    </tbody>
+</table>
+
+
+</body>

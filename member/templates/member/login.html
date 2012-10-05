@@ -14,7 +14,7 @@
         {% if field.name == 'remember_me' %}
         <div class="control-group">
             <div class="controls">
-                {{ field }}{{ field.label }} │ <a href="{% url member-register %}">{% trans 'Join Us' %}</a> | <a href="forgot.html">忘記密碼 ?</a> 
+                {{ field }}{{ field.label }} │ <a href="{% url member-register %}">{% trans 'Join Us' %}</a> | <a href="{% url member-forgot-password %}">{% trans 'Forgot password ?' %}</a> 
             </div>
          </div> 
         {% else %}

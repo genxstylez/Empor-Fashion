@@ -16,7 +16,7 @@ from django.core.mail import EmailMessage
 from empor.shortcuts import JsonResponse
 from member.models import UserProfile, FacebookProfile, UserTemp
 from member.forms import LoginForm, RegisterForm, ReActivateForm, FacebookBindingForm, \
-    PromptResetForm, ResetPasswordForm, ForgotPasswordForm
+    ChangePasswordForm, ResetPasswordForm, ForgotPasswordForm, ProfileForm
 import random
 from datetime import datetime, date
 
@@ -51,8 +51,7 @@ def login(request):
                     user_temp = UserTemp.objects.get(username=username, password=password)
                     request.session['reactivate_username'] = user_temp.username
                     return reactivate(request)
-
-                except User.DoesNotExist:
+                except UserTemp.DoesNotExist:
                     next = request.GET.get('next', None)
                     next = urlquote_plus(next)
                     request.flash['message'] = _('Please input correct username / password')
@@ -80,7 +79,6 @@ def register(request):
         if form.is_valid():
             data = form.cleaned_data
 
-            # 產生認證碼
             salt = sha_constructor(str(random.random())).hexdigest()[:5]
             activation_code = sha_constructor(salt+data['username']).hexdigest()
 
@@ -88,11 +86,11 @@ def register(request):
             user_temp.activation_code = activation_code
             user_temp.save()
 
-             # 發送註冊信件, 通知啟用
             html_content = render_to_string('email/activate.html', {
                 'host': request.get_host(),
                 'STATIC_URL': settings.STATIC_URL,
                 'activation_code': activation_code,
+                'name': user_temp.first_name,
                 'username': user_temp.username,
                 'password': user_temp.password
             })
@@ -111,32 +109,37 @@ def register(request):
     return render(request, 'member/register.html', {'form': form})
 
 def register_complete(request):
-    ''' 帳號申請完成 '''
-
     username = request.GET.get('username')
     email = request.GET.get('email')
 
     return render(request, 'member/register_complete.html', {'username': username, 'email': email})
 
-def activate(request, activation_code):
-    ''' 帳號啟用頁 '''
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        form.save()
+    profile = UserProfile.objects.get(user=request.user)
+    form = ProfileForm(instance=profile)
+    return render(request, 'member/profile.html', {'form': form})
 
+
+def activate(request, activation_code):
     user_temp = get_object_or_404(UserTemp, activation_code=activation_code)
 
-    # 建立使用者
     try:
         user = User.objects.get(username=user_temp.username, email=user_temp.email)
     except User.DoesNotExist:
         user = User.objects.create_user(user_temp.username, user_temp.email, user_temp.password)
         user.save()
 
-    # 建立使用者的會員資料 ( user profile )
     try:
         profile = UserProfile.objects.get(user=user)
     except UserProfile.DoesNotExist:
         profile = UserProfile(
             user = user,
             phone = user_temp.phone,
+            birthday = user_temp.birthday,
             billing_recipient = user_temp.billing_recipient,
             billing_street1 = user_temp.billing_street1,
             billing_street2 = user_temp.billing_street2,
@@ -149,21 +152,19 @@ def activate(request, activation_code):
             shipping_city = user_temp.shipping_city,
             shipping_post_code = user_temp.shipping_post_code,
             shipping_country = user_temp.shipping_country,
-            activation_code = activation_code,
         )
         profile.save()
-    # 登入使用者
     user = auth.authenticate(username=user_temp.username, password=user_temp.password)
     if user:
         auth.login(request, user)
 
     # 刪除認證用的暫存資料 (user temp)
     user_temp.delete()
+    url = "%s?username=%s&email=%s" % (reverse('member-reactivate-done'), user.username, user.email)
+    return redirect(url)
 
-    return activation_done(request)
-
-def activation_done(request):
-    return render(request, 'member/activation_done.html')
+def activate_done(request):
+    return render(request, 'member/activate_done.html')
 
 def reactivate(request):
     ''' 重新發送認證信 '''
@@ -205,6 +206,99 @@ def reactivate_done(request):
     ''' 重新認證信件發送成功 '''
     return render(request, 'member/reactivate_done.html') 
 
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data['old_password']
+            user = request.user
+            user_obj = auth.authenticate(username=user.username, password=old_password)
+            if user_obj:
+                new_password = form.cleaned_data['new_password']
+                user.set_password(new_password)
+                user.save()
+                request.flash['message'] = _('Your password has been changed')
+                return redirect('member-profile') 
+    form = ChangePasswordForm()
+    return render(request, 'member/change_password.html', {'form': form})
+
+def reset_password(request, reset_code):
+    try:
+        profile = UserProfile.objects.get(reset_code=reset_code)
+        if request.method == 'POST':
+            form = ResetPasswordForm(request.POST)
+            if form.is_valid():
+                user = profile.user
+                new_password = form.cleaned_data['password']
+                user.set_password(new_password)
+                user.save()
+                user_obj = auth.authenticate(username=user.username, password=new_password)
+                if user_obj:
+                    auth.login(request, user_obj)
+                profile.reset_code = ''
+                profile.save()
+                request.flash['message'] = _('You password has been reset')
+                return redirect('member-profile')
+        form = ResetPasswordForm()
+        return render(request, 'member/change_password.html', {'form': form})
+    except UserProfile.DoesNotExist:
+        raise Http404
+    
+def forgot_password(request):
+    ''' 忘記密碼 '''
+
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            value = form.cleaned_data['value']
+
+            try:
+                if value.find('@') > 0:
+                    user = User.objects.get(email=value)
+                else:
+                    user = User.objects.get(username__iexact=value)
+            except User.DoesNotExist:
+                request.flash['message']  = _("Can't find this account!")
+                return render(request, 'member/forgot_password.html', {'form': form})
+
+            # activation code
+            salt = sha_constructor(str(random.random())).hexdigest()[:5]
+            reset_code = sha_constructor(salt+user.username).hexdigest()
+
+            html_content = render_to_string('email/reset_password.html', {
+                'host': request.get_host(),
+                'STATIC_URL': settings.STATIC_URL,
+                'user': user,
+                'reset_code': reset_code
+            })
+            subject = _('EMPOR, Password reset request')
+
+            msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+            msg.content_subtype = "html"
+            msg.send()
+
+            # store reset code
+            profile = UserProfile.objects.get(user=user)
+            profile.reset_code = reset_code
+            profile.save()
+
+            # for display encrypt email address
+            email_username, email_domain = str(user.email).split('@')
+            encrypt_username = email_username[0] + email_username[1]
+            email_username_amount = len(email_username)-2
+            while email_username_amount > 0:
+                encrypt_username += "*"
+                email_username_amount -= 1
+            
+            return render(request, 'member/forgot_password_sent.html', {
+                'form': form,
+                'encrypt_username': encrypt_username,
+                'email_domain': email_domain,
+            })
+    form = ForgotPasswordForm()
+
+    return render(request, 'member/forgot_password.html', {'form': form})
 
 #client-side verify
 def facebook_verify(request):
@@ -378,99 +472,4 @@ def facebook_unbind(request):
 
     return HttpResponse('done')
 
-@login_required
-def prompt_reset(request):
-    user = request.user
-
-    if request.method == 'POST':
-        form = PromptResetForm(request.POST)
-        if form.is_valid():
-            password = form.cleaned_data['password']
-            auth_user = auth.authenticate(username=user.username, password=password)
-            if auth_user:
-                request.session['prompt_reset'] = True
-                return reset_password(request)
-    form = PromptResetForm()
-    return render(request, 'member/prompt-reset.html', {'form': form})
-
-@login_required
-def reset_password(request):
-    prompt = request.session.get('prompt_reset', None)
-    if prompt:
-        if request.method == 'POST':
-            form = ResetPasswordForm(request.POST)
-            if form.is_valid():
-                user = request.user
-                new_password = form.cleaned_data['password']
-                user.set_password(new_password)
-                user.save()
-                return render(request, 'member/reset-done.html')
-        form = ResetPasswordForm()
-        return render(request, 'member/reset-password.html', {'form': form})
-    else:
-        raise Http404
-
-def reset_password_code(request, reset_code):
-    try:
-        profile = UserProfile.objects.get(reset_code=reset_code)
-        request.session['prompt_reset'] = True
-        auth.login(request, profile.user) 
-        return reset_password(request)
-    except UserProfile.DoesNotExist:
-        raise Http404
-    
-def forgot_password(request):
-    ''' 忘記密碼 '''
-
-    if request.method == 'POST':
-        form = ForgotPasswordForm(request.POST)
-        if form.is_valid():
-            value = form.cleaned_data['value']
-
-            try:
-                if value.find('@') > 0:
-                    user = User.objects.get(username__iexact=value)
-                else:
-                    user = User.objects.get(email=value)
-            except User.DoesNotExist:
-                request.flash['message']  = _("Can't find this account!")
-                return forgot_password(request)
-
-            # activation code
-            salt = sha_constructor(str(random.random())).hexdigest()[:5]
-            reset_code = sha_constructor(salt+user.username).hexdigest()
-
-            html_content = render_to_string('email/reset_password.html', {
-                'host': request.get_host(),
-                'STATIC_URL': settings.STATIC_URL,
-                'user': user,
-                'reset_code': reset_code
-            })
-            subject = _('Streetvoice.com, request reset your password.')
-
-            msg = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, [user.email])
-            msg.content_subtype = "html"
-            msg.send()
-
-            # store reset code
-            profile = UserProfile.objects.get(user=user)
-            profile.password_code = reset_code
-            profile.save()
-
-            # for display encrypt email address
-            email_username, email_domain = str(user.email).split('@')
-            encrypt_username = email_username[0] + email_username[1]
-            email_username_amount = len(email_username)-2
-            while email_username_amount > 0:
-                encrypt_username += "*"
-                email_username_amount -= 1
-            
-            return render(request, 'member/forgot_password_sent.html', {
-                'form': form,
-                'encrypt_username': encrypt_username,
-                'email_domain': email_domain,
-            })
-    form = ForgotPasswordForm()
-
-    return render(request, 'member/forgot_password.html', {'form': form})
  

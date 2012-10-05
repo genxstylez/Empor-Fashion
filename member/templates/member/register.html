@@ -28,8 +28,9 @@ $(function() {
         <h4>{% trans 'Shipping Information' %}</h4>
         {% endif %}
         <div class="control-group">
+            {{ field.errors }}
             <label class="control-label">{{ field.label }}</label>
-            <div class="controls">{{ field }}</div> {{ field.errors }}
+            <div class="controls">{{ field }}</div>
         </div>
         {% if field.name == 'billing_street2' %}
         <div class="control-group">

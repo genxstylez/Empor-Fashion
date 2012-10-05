@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from service.forms import QuestionForm
 
 @csrf_protect
-def index(request):
+def center(request):
     spam = request.POST.get('spam', None)
     if spam:
         return HttpResponse('spam')
@@ -35,7 +35,7 @@ def index(request):
         send_mail(subject, question.content, settings.DEFAULT_FROM_EMAIL, group_email, fail_silently=False)
         request.flash['message'] = _('Your email has been sent!')
         
-    return render(request, 'service/index.html', {'form': form})
+    return render(request, 'service/center.html', {'form': form})
     
 def faq(request):
     return render(request, 'service/faq.html')

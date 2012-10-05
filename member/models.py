@@ -21,7 +21,7 @@ class UserTemp(models.Model):
     first_name = models.CharField(_('first name'), max_length=30, blank=True)
     last_name = models.CharField(_('last name'), max_length=30, blank=True)
     gender = models.PositiveSmallIntegerField(_('Gender'), choices=GENDER_CHOICES, default=0)
-    birthday = models.DateTimeField(_('Birthday'))
+    birthday = models.DateField(_('Birthday'))
     phone = models.CharField(_('Phone'), max_length=50, blank=True)
     billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
     billing_country = models.PositiveIntegerField(_('Billing Country'), choices=COUNTRY_CHOICES, default=0)
@@ -39,27 +39,32 @@ class UserTemp(models.Model):
     last_modified = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __unicode__(self):
+        return self.email
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, verbose_name=_('User'), related_name='profile', unique=True)
-    phone = models.CharField(_('Phone'), max_length=50, blank=True)
     gender = models.PositiveSmallIntegerField(_('Gender'), choices=GENDER_CHOICES, default=0)
-    birthday = models.DateTimeField(_('Birthday'))
+    birthday = models.DateField(_('Birthday'))
+    phone = models.CharField(_('Phone'), max_length=50, blank=True)
     billing_recipient = models.CharField(_('Billing recipient'), max_length=100)
-    billing_street1 = models.CharField(_('Billing Street 1'), max_length=100)
-    billing_street2 = models.CharField(_('Billing Street 2'), max_length=100, blank=True)
+    billing_country = models.PositiveIntegerField(_('Billing Country'), choices=COUNTRY_CHOICES, default=0)
     billing_city = models.CharField(_('Billing City'), max_length=100)
     billing_post_code = models.CharField(_('Billing Post Code'), max_length=100)
-    billing_country = models.PositiveIntegerField(_('Billing Country'), choices=COUNTRY_CHOICES, default=0)
+    billing_street1 = models.CharField(_('Billing Street 1'), max_length=100)
+    billing_street2 = models.CharField(_('Billing Street 2'), max_length=100, blank=True)
     shipping_recipient = models.CharField(_('Shipping recipient'), max_length=100)
-    shipping_street1 = models.CharField(_('Shipping Street 1'), max_length=100)
-    shipping_street2 = models.CharField(_('Shipping Street 2'), max_length=100, blank=True)
+    shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
     shipping_city = models.CharField(_('Shipping City'), max_length=100)
     shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=100)
-    shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
-    activation_code = models.CharField(max_length=40, db_index=True)
+    shipping_street1 = models.CharField(_('Shipping Street 1'), max_length=100)
+    shipping_street2 = models.CharField(_('Shipping Street 2'), max_length=100, blank=True)
     reset_code = models.CharField(max_length=40, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __unicode__(self):
+        return "%s's Profile" % self.user
 
 class FacebookProfile(models.Model):
     uid = models.BigIntegerField(primary_key=True)

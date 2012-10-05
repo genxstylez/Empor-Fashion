@@ -109,6 +109,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'djangoflash.middleware.FlashMiddleware',
 )
 
@@ -217,7 +218,7 @@ AWS_HEADERS = {
 
 THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
-DEFAULT_FROM_EMAIL = 'webmaster@empor.com'
+DEFAULT_FROM_EMAIL = 'EMPOR <webmaster@empor.com.tw>'
 #EMAIL_HOST = 'localhost'
 
 EMAIL_USE_TLS = True

@@ -1,13 +1,10 @@
+{% extends 'email/base.html' %}
 {% load i18n %}
-{% trans 'Dear' %} {{ nickname }}：<br/><br/>
-{% trans 'Welcome to StreetVoice, here is your member information :' %}<br/><br/>
-{% trans 'Account :' %}{#帳號 :#} {{ username }} <br/>
-{% trans 'Password :' %}{#密碼 :#} {{ password }} <br/><br/>
-{% trans 'Click this url to active your account :' %}{#請直接點擊下列網址開通您的帳號：#} <br/><br/>
-<a target="_blank" href="http://{{ host }}/accounts/activate/{{ activation_code }}">
-http://{{ host }}/accounts/activate/{{ activation_code }}</a> <br/><br/>
-{% trans "If you can't click it and please copy and paste above url to your browser to visit it." %}
-{#若您無法直接點擊，請自行將上列網址複製到瀏覽器中。#}<br/><br/><br/>
-<p><br/>
-{% trans "Please don't reply this mail. If you have any problems please" %} <a href="http://www.streetvoice.com/users/webmaster/">{% trans "contact us." %}</a>
-{#請勿直接回覆此信，如果您有任何的疑問，請上網站與我們連繫。#}
+{% block content %}
+<p style="line-height: 18px">{% trans 'Dear' %} {{ name }}：</p>
+<p style="line-height: 18px">{% trans 'Welcome to EMPOR, please verify your details and click the link below to activate your account' %}：</p>
+<p style="line-height: 18px">{% trans 'Account' %}: {{ username }}</p>
+<p style="line-height: 18px">{% trans 'Password' %}: {{ password }}</p>
+<p style="line-height: 18px"><a href="http://{{ host }}{% url member-activate activation_code %}" target="_blank">http://{{ host }}{% url member-activate activation_code %}</a></p>
+<p style="line-height: 18px">{% trans 'Please copy the link to your browser if the link is broken' %}</p>
+{% endblock %}

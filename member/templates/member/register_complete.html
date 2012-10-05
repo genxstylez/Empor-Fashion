@@ -1,18 +1,18 @@
+{% extends 'empor/base.html' %}
 {% load i18n %}
-<h2>{% trans 'Sign Up Complete' %}</h2>
-<p>
-    {% trans "Welcome to Streetvoice. We'll sent a member activation code to you. Please check your email address just input and click link to activate your account." %}
-    {# 歡迎您加入StreetVoice網站會員，系統已寄發「會員帳號認證函」給您，請隨即查看您註冊用的電子信箱，並點選信中的網址正式開通您的帳號。 #}
-</p>
-<div class="content_wrapper">
-    <h3>{% trans 'Username' %} ： {{ username }}</h3>
-    <h3>email ：{{ email }}</h3>
-    <p>
-        {% trans "Please activate your account to access our service completely." %}
-        {# 請務必開通您的會員帳號，否則將無法使用本網站的各項服務哦！ #}
-    </p>
-    <p>
-        <i class="s_icon-question"></i>
-        <a href="{% url member-reactivate %}" class="dynamic">{% trans "Did not receive"%}『{% trans 'Member activation letter'%}』{% trans 'yet' %}?</a>
-    </p>
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>Welcome</h1>
+    <h3>
+        <small>
+        {% trans "Welcome to EMPOR. We have sent a member activation letter to you. Please check your email address and click the link provided to activate your account." %}
+        </small>
+        {# 歡迎您加入EMPOR，系統已寄發「會員帳號認證函」給您，請隨即查看您註冊用的電子信箱，並點選信中的網址正式開通您的帳號。 #}
+    </h3>
+    <h3>{% trans 'Account' %} ： {{ username }}</h3>
+    <h3>{% trans 'email' %} ：{{ email }}</h3>
+    <div class="form-actions">
+        <a href="{% url member-reactivate %}">trans "Did not receive"%}『{% trans 'Member activation letter'%}』{% trans 'yet' %}?</a>
+    </div>
 </div>
+{% endblock %}

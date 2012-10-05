@@ -45,20 +45,15 @@
     };
     </script>
     <script type="text/javascript">
-    (function (window, undefined) {
+    (function(window, undefined) {
         $(function() {
             init();
             window.content_pane = $('#content_pane');
+            window.positionx = 1;
         });
         var History = window.History;
         History.Adapter.bind(window, 'statechange', function () {
-            /*_gaq.push(['_trackPageview', state.hash]);*/
-            var state = History.getState();
-            $.get(state.hash, function(response) {
-                $(response).hide().insertAfter(content_pane);
-                setTimeout("show_content()", 40);
-            });
-            return false;
+            /*_gaq.push(['_trackPageview', state.url]);*/
         });
     }) (window);
     </script>
@@ -75,7 +70,7 @@
     <!-- /logo -->
     <!-- menu_iconbox -->
     <div class="menu_iconbox b_box">
-        <a href="{% url service-index %}"><i class="m_icon-contact"></i></a>
+        <a href="{% url service-center %}"><i class="m_icon-contact"></i></a>
     </div>
     <div class="menu_iconbox b_box cart_box">
         {% cart_count request %}
@@ -83,7 +78,7 @@
     </div>
     {% if request.user.is_authenticated %}
     <div class="menu_textbox b_box">
-        <a href="{% url member-logout %}">{% trans 'LOGOUT' %}</a> ／ <a href="">{% trans 'MY ACCOUNT' %}</a>
+        <a href="{% url member-logout %}">{% trans 'LOGOUT' %}</a> ／ <a href="{% url member-profile %}">{% trans 'MY ACCOUNT' %}</a>
     </div>
     {% else %}
     <div class="menu_textbox b_box">

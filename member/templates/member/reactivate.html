@@ -1,0 +1,20 @@
+{% extends 'empor/base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="inside_itembox itemopen center">
+    <h1>ReActivate</h1>
+    <h3><small>
+        {% trans 'Please confirm your email is correct, we will be sending the Account activation letter again!' %} 
+        {# 請確認你的電子郵件地址是否正確，我們將再次寄出「會員帳號認證函」！#}
+    </small></h3>
+    <form id="reactivate-form" method="post" class="form-inline">
+         <div class="control-group">
+            {% for field in form %}
+            <label class="control-label">{{ field.label }}</label>
+            {{ field }}
+            <input type="submit" class="button">{% trans 'Confirm' %}</a>
+         </div>
+         
+    </form>
+</div>
+{% endblock %}

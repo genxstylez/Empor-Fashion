@@ -3,26 +3,24 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import auth
 from django.contrib.auth.models import User
-from member.settings import COUNTRY_CHOICES, RESERVED_KEYWORD
-from member.models import UserTemp
+from member.settings import RESERVED_KEYWORD
+from member.models import UserTemp, UserProfile
 import re
 
 class RegisterForm(forms.ModelForm):
     username = forms.CharField(min_length=3, max_length=20)
     password = forms.CharField(widget=forms.PasswordInput())
     passconf = forms.CharField(label=_('Confrim password'), widget=forms.PasswordInput())
+    birthday = forms.DateField(input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
 
     class Meta:
         model = UserTemp
         exclude = ('activation_code', 'activated')
-        widgets = {
-            'birthday': forms.DateInput(format='%Y/%m/%d', attrs={'class': 'birthday' }),
-        }
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if field == 'shipping_country' or field == 'billing_country' or field == 'birthday':
+            if field == 'shipping_country' or field == 'billing_country' or field == 'birthday' or field == 'gender':
                 pass
             else:
                 self.fields[field].widget.attrs['class'] = 'input-xxxlarge'
@@ -66,22 +64,19 @@ class RegisterForm(forms.ModelForm):
                 Please activate directly and doesn't need to register again."))
         return self.cleaned_data['email']   
  
-class ProfileForm(forms.Form):
-    first_name = forms.CharField(label=_('First name'), max_length=30, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    last_name = forms.CharField(label=_('Last name'), max_length=30, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    phone = forms.CharField(label=_('Phone'), max_length=50, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    billing_recipient = forms.CharField(label=_('Billing Recipient'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    billing_street1 = forms.CharField(label=_('Street 1'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    billing_street2 = forms.CharField(label=_('Street 2'), max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    billing_city = forms.CharField(label=_('City'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    billing_post_code = forms.CharField(label=_('Post Code'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    billing_country = forms.ChoiceField(label=_('Country'), choices=COUNTRY_CHOICES)
-    shipping_recipient = forms.CharField(label=_('Shipping Recipient'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    shipping_street1 = forms.CharField(label=_('Street 1'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    shipping_street2 = forms.CharField(label=_('Street 2'), max_length=100, required=False, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    shipping_city = forms.CharField(label=_('City'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    shipping_post_code = forms.CharField(label=_('Post Code'), max_length=100, widget=forms.TextInput(attrs={'class': 'input-xxxlarge'}))
-    shipping_country = forms.ChoiceField(label=_('Country'), choices=COUNTRY_CHOICES)
+class ProfileForm(forms.ModelForm):
+    birthday = forms.DateField(input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
+    class Meta:
+        model = UserProfile
+        exclude = ('activation_code', 'reset_code', 'user')
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            if field == 'shipping_country' or field == 'billing_country' or field == 'birthday' or field == 'gender':
+                pass
+            else:
+                self.fields[field].widget.attrs['class'] = 'input-xxxlarge' 
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label=_('Account'), 
@@ -133,12 +128,36 @@ class FacebookBindingForm(forms.Form):
 
         return cleaned_data
 
-class PromptResetForm(forms.Form):
-    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}))
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    new_password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    passconf = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    
+    def clean_old_password(self):
+        if not re.match('\S{3,12}', self.cleaned_data['old_password']):
+            raise forms.ValidationError(_('this password is not valid'))
+
+        return self.cleaned_data['old_password']
+
+    def clean_new_password(self):
+        if not re.match('\S{3,12}', self.cleaned_data['new_password']):
+            raise forms.ValidationError(_('this password is not valid'))
+
+        return self.cleaned_data['new_password']
+
+    def clean_passconf(self):
+        new_password = self.cleaned_data.get('new_password', None)
+        passconf = self.cleaned_data.get('passconf')
+
+        if new_password:
+            if passconf != new_password:
+                raise forms.ValidationError(_('Password does not match'))
+
+        return self.cleaned_data['passconf']
 
 class ResetPasswordForm(forms.Form):
-    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}))
-    passconf = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xlarge'}))
+    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    passconf = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
     
     def clean_password(self):
         if not re.match('\S{3,12}', self.cleaned_data['password']):

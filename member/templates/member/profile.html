@@ -1,13 +1,28 @@
 {% extends 'empor/base.html' %}
 {% load i18n %}
+{% block css %}
+<link href="{{ STATIC_URL }}widgets/css/datepicker.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+{% block js %}
+<script src="{{ STATIC_URL }}widgets/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('.birthday').datepicker();
+});
+</script>
+{% endblock %}
 {% block content %}
 <div class="inside_itembox itemopen center">
     <div class="menu">
-        <a href="{% url member-profile request.user.username %}" style="text-decoration: underline;">{% trans 'Member Information' %}</a> ／ 
-        <a href="{% url order-orders %}">{% trans 'Orders Tracking' %}</a>
+        <a href="{% url member-profile %}" style="text-decoration: underline;">{% trans 'Member Information' %}</a> ／ 
+        <a href="{% url order-orders %}">{% trans 'Orders Tracking' %}</a> ／
+        <a href="{% url member-change-password %}">{% trans 'Change password' %}</a>
     </div>
     <h1>{% trans 'Member' %}</h1>
     <form id="register-form" method="post" class="form-inline">
+        <div class="control-group">
+            <label class="control-label">{% trans 'Account' %}</label>
+            <div class="controls">{{ request.user.username }}</div>
         {% csrf_token %}
         {{ form.errors }}
         {% for field in form %}
@@ -21,7 +36,7 @@
             <label class="control-label">{{ field.label }}</label>
             <div class="controls">{{ field }}</div>
         </div>
-        {% if field.name == 'billing_country' %}
+        {% if field.name == 'billing_street2' %}
         <div class="control-group">
             <div class="controls">
                 <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
