@@ -2,7 +2,7 @@
 <div class="itemopen" style="float:left;">
     <span class="close">×</span>
     <div class="left">
-        <div class="large" style="height:{{ focus_product.get_main_image.medium_height }}px;">
+        <div class="large" style="height:{{ focus_product.get_main_image|fitin }}px;">
             <img src="{{ focus_product.get_main_image.image.medium.url }}" rel="{{ focus_product.get_main_image.image.small.url }}" />
         </div>
         <div class="small">
@@ -17,7 +17,6 @@
         
         <div class="data">
             <h3>
-                <label>{% trans 'Price' %}：</label>
                 {% if focus_product.discountable %}
                 <strike>{{ focus_product.price|currency }}</strike>
                 <span class="discount">{{ focus_product.get_discounted_price|currency }} ( -{{ focus_product.get_discount_value|currency }} )</span>

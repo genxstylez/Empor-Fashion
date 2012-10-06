@@ -1045,7 +1045,7 @@ h3 .l_icon-gender {
     cursor: pointer;
 	height: 65px;
 	float: left;
-	margin: 0 0 5px 10px;
+    margin: 10 10 0 0;
 }
 .itemopen img {
 	filter:alpha(opacity=60);

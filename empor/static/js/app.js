@@ -43,21 +43,6 @@ $.Isotope.prototype._masonryGetContainerSize = function() {
     };  
 };
 
-function show_content() {
-    var height = $('.itemopen').height();
-    var center_left = positionx.left - (($(window).width() - 840)/2);
-    var center_top = positionx.top - (($(window).height() - height + 20)/2);
-    $('.itemopen').appendTo(content_pane).show();
-    content_pane.animate({
-        'left': '-='+center_left,
-        'width': '840px',
-        }, 400, function() {
-            content_pane.removeClass().addClass('itemup');
-            var target_offset = content_pane.offset()
-        }
-    ); 
-}
-
 function init(){
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
@@ -179,7 +164,7 @@ function init(){
     $('#content_pane .close').livequery('click', function() {
         $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
         $('#modal_overlay').hide();
-        $('.index_itembox:hidden').show();
+        $('.index_itembox:hidden').fadeIn(100);
         History.back();
         return false;
     });

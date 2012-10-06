@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from product.models import Brand, Category
 from empor.settings import STATIC_URL
 from cart.views import get_cart
+import math
 
 register = template.Library()
 
@@ -25,3 +26,7 @@ def cart_count(request):
 @register.filter
 def currency(str):
     return 'NT$%s' % str
+
+@register.filter
+def fitin(obj):
+    return math.ceil(330 / (float(obj.medium_width) / obj.medium_height))

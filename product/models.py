@@ -94,9 +94,9 @@ class Product(models.Model):
     
     def __unicode__(self):
         if self.option:
-            return self.brand.name + ' - ' + self.name + ' - ' + self.option.name
+            return self.name + ' - ' + self.option.name
             
-        return self.brand.name + ' - ' + self.name
+        return self.name
 
     def get_name(self):
         return self.__unicode__()
