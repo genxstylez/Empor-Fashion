@@ -144,7 +144,7 @@ function init(){
             that.hide();
             $(image).animate({
                 'left': $(window).width() / 2 - 345,
-                'top': $(window).height() * 0.08 + 15,
+                'top': $(window).height() * 0.08 + 25,
                 'height': height,
                 'width': '330px',
             }, 400,  function() {
