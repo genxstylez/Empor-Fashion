@@ -143,8 +143,8 @@ function init(){
             var height = parseInt(330 / img.width() * img.height())
             that.hide();
             $(image).animate({
-                'left': $(window).width() / 2 - 345,
-                'top': $(window).height() * 0.08 + 21,
+                'left': $(window).width() / 2 - 350,
+                'top': $(window).height() * 0.08 + 20,
                 'height': height,
                 'width': '330px',
             }, 400,  function() {
