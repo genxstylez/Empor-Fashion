@@ -142,9 +142,8 @@ function init(){
             $('#modal_overlay').fadeIn();
             var height = parseInt(330 / img.width() * img.height())
             that.hide();
-            $(image).delay(100).animate({
-                'position': 'fixed',
-                'left': $(window).width() / 2 - 400,
+            $(image).animate({
+                'left': $(window).width() / 2 - 350,
                 'top': $(window).height() * 0.08 + 20,
                 'height': height,
                 'width': '330px',
@@ -153,7 +152,6 @@ function init(){
                 content_pane.show();
                 $.get(url, function(response) {
                     $(response).appendTo(content_pane);
-                    $(image).remove();
                 });
             });
         }
