@@ -152,6 +152,7 @@ function init(){
                 content_pane.show();
                 $.get(url, function(response) {
                     $(response).appendTo(content_pane);
+                    $(image).remove();
                 });
             });
         }
