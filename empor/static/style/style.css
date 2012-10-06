@@ -1010,13 +1010,12 @@ h3 .l_icon-gender {
 .itemopen .left {
     width: 330px;
 	float:left;
-	padding:15px;
+	padding:20px;
 }
 .itemopen .right {
     width: 430px;
-	padding:15px;
+	padding:20px;
 	float:left;
-	margin-left:20px;
 }
 .itemopen .imgbox {
 	overflow:hidden;
@@ -1030,7 +1029,6 @@ h3 .l_icon-gender {
 .itemopen .large {
     width: 330px;
 	float: left;
-	margin: 10px;
 }
 .itemopen .large img{
     position: absolute;
@@ -1077,7 +1075,6 @@ h3 .l_icon-gender {
 .itemopen h2,
 .itemopen h3,
 .itemopen .brand {
-	margin-top: 10px;
 }
 .itemopen .brand img {
 	filter:alpha(opacity=100); 
