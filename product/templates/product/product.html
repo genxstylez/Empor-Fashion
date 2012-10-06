@@ -54,7 +54,7 @@
         <div class="form-actions_left"><a href="cart.html" class="button">{% trans 'Add to Cart' %}</a></div>
         <div class="data">
             {% for sibling in focus_product.get_siblings %}
-            <span class="other"><a href="#"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
+            <span class="other"><a href="{{ sibling.get_absolute_url }}"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
             {% endfor %}
         </div>
     </div>
