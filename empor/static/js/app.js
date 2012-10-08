@@ -82,9 +82,9 @@ function init(){
 
     $(window).scroll(function () {
         if ($(this).scrollTop() > 100) {
-            $('#back-top').fadeIn(1000);
+            $('#back-top').fadeIn(400);
         } else {
-            $('#back-top').fadeOut(1000);
+            $('#back-top').fadeOut(400);
         }
     });
 

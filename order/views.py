@@ -112,7 +112,7 @@ def paypal(request):
     if order.user != request.user:
         raise Http404
 
-    return render(request, 'order/paypal.html', {'order': order, 'items': items})
+    return render(request, 'order/paypal.html', {'order': order, 'items': items, 'debug': settings.DEBUG})
 
 @login_required
 def success(request):

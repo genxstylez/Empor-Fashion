@@ -8,10 +8,10 @@ from member.models import UserTemp, UserProfile
 import re
 
 class RegisterForm(forms.ModelForm):
-    username = forms.CharField(min_length=3, max_length=20)
-    password = forms.CharField(widget=forms.PasswordInput())
+    username = forms.CharField(min_length=3, max_length=20, label=_('Username'))
+    password = forms.CharField(widget=forms.PasswordInput(), label=_('Password'))
     passconf = forms.CharField(label=_('Confrim password'), widget=forms.PasswordInput())
-    birthday = forms.DateField(input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
+    birthday = forms.DateField(label=_('Birthday'), input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
 
     class Meta:
         model = UserTemp
@@ -100,12 +100,12 @@ class ReActivateForm(forms.Form):
     def clean_email(self):
         user = User.objects.filter(email=self.cleaned_data['email'])
         if user.count() >= 1:
-            raise forms.ValidationError(_('there is another user register with this email'))
+            raise forms.ValidationError(_('This email address is already in use. Please supply another email address.'))
 
         usertemp = UserTemp.objects.filter(email=self.cleaned_data['email'])
         usertemp = usertemp.exclude(username=self.cleaned_data['username'])
         if usertemp.count() >= 1:
-            raise forms.ValidationError(_('there is another user register with this email'))
+            raise forms.ValidationError(_('This email address is already in use. Please supply another email address.'))
 
         return self.cleaned_data['email']
 
