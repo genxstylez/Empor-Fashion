@@ -855,7 +855,7 @@ table {
 }
 .index_itembox {
 	overflow: hidden;
-	border: 1px solid #eee;
+	border: 1px solid #D3CDC9;
 	background:#fff;
 }
 .b_box {
@@ -980,6 +980,10 @@ h3 .l_icon-gender {
     width: 400px;
 	margin: 10px auto;
 	min-height:200px;
+    position: absolute;
+    z-index:2;
+    top: 50px;
+    right: 10px;
 }
 .itemopen h1 {
 	font-size:100px;

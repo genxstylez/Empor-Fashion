@@ -217,8 +217,7 @@ function init(){
             alert('please choose a size');
             return false;
         }
-        $('#content_pane').hide();
-        $('#modal_overlay').hide();
+        closeBox();
         var item = $('.size_select .selected a').attr('data');
         if(!item)
             item = $(this).attr('data');
@@ -227,24 +226,24 @@ function init(){
             if (xhr.status == 200) {
                 var badge = $('.cart_box span.badge');
                 if(badge.length > 0) {
-                    badge.html(parseInt(badge.html())+1);
+                    badge.html($('#items_count').val());
                 } else {
-                    $('.cart_box').append('<span class="badge">1</span>');
+                    $('.cart_box').append('<span class="badge">' + $('#items_count').val() + '</span>');
                 }
                 $(response).hide().appendTo('body').fadeIn();
-                $('.cart_s .close').livequery('click', function() {
-                    $('.cart_s').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
-                    $('.index_itembox').fadeIn(200);
-                });
-                $('.cart_s #continue').livequery('click', function() {
-                    $('.cart').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
-                    $('.index_itembox').fadeIn(200);
-                });
-                $('#content_pane > *').remove();
             }
         });
         return false;
     }); 
+
+    $('.cart_s .close').livequery('click', function() {
+        $('.cart_s').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
+    });
+
+    $('.cart_s #continue').livequery('click', function() {
+        $('.cart_s').fadeOut(200, function() { $(this).remove(); $('#modal_overlay').hide(); });
+        return false;
+    });
     
     //remove from cart
     $('a.remove_btn').livequery('click', function() {
@@ -254,8 +253,8 @@ function init(){
         $.post('/cart/remove/', {'cart': data}, function(response) {
             if(response.success) {
                 var badge = $('.cart_box span.badge');
-                if(badge.html() != '1') {
-                    badge.html(parseInt(badge.html())-1);
+                if(parseInt(badge.html()) > 1) {
+                    badge.html($('#items_count').val());
                 } else {
                     badge.remove();
                 }
