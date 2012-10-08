@@ -224,13 +224,14 @@ function init(){
         var qty = $('#quantity').val();
         $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response, textStatus, xhr) {
             if (xhr.status == 200) {
-                var badge = $('.cart_box span.badge');
-                if(badge.length > 0) {
-                    badge.html($('#items_count').val());
-                } else {
-                    $('.cart_box').append('<span class="badge">' + $('#items_count').val() + '</span>');
-                }
-                $(response).hide().appendTo('body').fadeIn();
+                $(response).hide().appendTo('body').fadeIn(function() {
+                    var badge = $('.cart_box span.badge');
+                    if(badge.length > 0) {
+                        badge.html($('#items_count').val());
+                    } else {
+                        $('.cart_box').append('<span class="badge">' + $('#items_count').val() + '</span>');
+                    }
+                });
             }
         });
         return false;

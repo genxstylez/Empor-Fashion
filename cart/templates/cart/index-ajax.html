@@ -19,12 +19,12 @@
                 <td>
                     <a href="{{ item.product.get_absolute_url }}">
                         {% if item.product.parent %}
-                        <img src="{{ item.product.parent.get_main_image.small.url }}" class="itemphoto" 
-                            width="{{ item.product.parent.get_main_image.small_width }}" height="{{ item.product.parent.get_main_image.small_height }}" />
+                        <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" 
+                            width="{{ item.product.parent.get_main_image.image.small_width }}" height="{{ item.product.parent.get_main_image.image.small_height }}" />
                         {% else %}
-                        <img src="{{ item.product.get_main_image.small.url }}" class="itemphoto" 
-                            width="{{ item.product.get_main_image.small_width }}" height="{{ item.product.get_main_image.small_height }}" />
-                        {% endif %}
+                        <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" 
+                            width="{{ item.product.get_main_image.image.small_width }}" height="{{ item.product.get_main_image.image.small_height }}" />
+                        {% endif %} 
                     </a>
                 </td>
                 <td><a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a></td>
