@@ -18,6 +18,7 @@ def index(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
+            cart = archive_cart(cart)
             order = form.save(commit=False)
             order.discount_total = cart.discount_total
             order.gross_total = cart.gross_total
@@ -38,7 +39,6 @@ def index(request):
                 order_item.save()
                 request.session.save()
                 request.session['order_id']  = order.id
-            archive_cart(cart)
             if order.payment_method == 0: 
                 return redirect('order-paypal')
             else:
