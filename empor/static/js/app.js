@@ -223,7 +223,9 @@ function init(){
             item = $(this).attr('data');
         var qty = $('#quantity').val();
         $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response, textStatus, xhr) {
-            if (xhr.status == 200) {
+            if (response.message) {
+                alert(response.message);
+            } else {
                 $(response).hide().appendTo('body').fadeIn(function() {
                     var badge = $('.cart_box span.badge');
                     if(badge.length > 0) {

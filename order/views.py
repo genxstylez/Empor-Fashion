@@ -38,6 +38,7 @@ def index(request):
                 order_item.save()
                 request.session.save()
                 request.session['order_id']  = order.id
+            archive_cart(cart)
             if order.payment_method == 0: 
                 return redirect('order-paypal')
             else:
@@ -118,7 +119,6 @@ def paypal(request):
 def success(request):
     order_id = request.session['order_id']
     from order.utils import generate_order_pdf
-    from django.conf import settings
     from django.template.loader import render_to_string
     from django.core.mail import EmailMessage
 
@@ -126,13 +126,17 @@ def success(request):
     if order.user != request.user:
         raise Http404
 
-    cart = get_cart(request)
-    archive_cart(cart)
     order.status = 1
     order.save()
 
     pdf = generate_order_pdf(request, order) 
     items = OrderItem.objects.filter(order=order)
+
+    #Update sold figure
+    for item in items:
+        item.product.sold += item.quantity
+        item.product.save()
+
     subject = _('EMPOR Order Confirmation')
     content = render_to_string('order/email.html', {'order': order, 'items': items, 
         'STATIC_URL': settings.STATIC_URL, 'domain': request.get_host()

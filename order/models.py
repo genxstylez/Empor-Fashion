@@ -95,10 +95,3 @@ class OrderItem(models.Model):
     net_total = models.PositiveIntegerField(_('Total'), default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
-
-    def save(self):
-        self.product.stock = self.product.stock - self.quantity
-        self.product.save()
-        super(OrderItem, self).save()
-
-
