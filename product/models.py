@@ -192,10 +192,12 @@ def calculate_stock(sender, instance, **kwargs):
 @receiver(post_save, sender=Product)
 def sku(sender, instance, **kwargs):
     if not instance.sku:
-        if instance.parent: 
-            instance.sku = instance.brand.name[:3].upper() + '%04d%04d%04d' % (instance.collection.id , instance.parent.id, instance.id)
+        if instance.parent:
+            value = Product.objects.filter(parent=instance.parent).count() + 1
+            instance.sku = instance.parent.sku + '%04d' % value
         else:
-            instance.sku = instance.brand.name[:3].upper() + '%04d%04d' % (instance.collection.id , instance.id)
+            value = Product.objects.filter(parent=None, brand=instance.brand).count() + 1
+            instance.sku = instance.brand.name[:3].upper() + '%04d%04d' % (instance.collection.id , value)
         instance.save()
 
 class ProductThumb(models.Model):
