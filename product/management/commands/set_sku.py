@@ -10,6 +10,6 @@ class Command(BaseCommand):
             product.save()
             children = Product.objects.filter(parent=product)
             for child in children:
-                child.sku = product.sku + '-%s' % self.option.name
+                child.sku = product.sku + '-%s' % child.option.name
                 child.save()
 
