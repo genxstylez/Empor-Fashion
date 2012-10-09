@@ -193,10 +193,10 @@ def calculate_stock(sender, instance, **kwargs):
 def sku(sender, instance, **kwargs):
     if not instance.sku:
         if instance.parent:
-            value = Product.objects.filter(parent=instance.parent).count() + 1
+            value = Product.objects.filter(parent=instance.parent).count()
             instance.sku = instance.parent.sku + '%04d' % value
         else:
-            value = Product.objects.filter(parent=None, brand=instance.brand, collection=instance.collection).count() + 1
+            value = Product.objects.filter(parent=None, brand=instance.brand, collection=instance.collection).count()
             instance.sku = instance.brand.name[:3].upper() + '%04d%04d' % (instance.collection.id , value)
         instance.save()
 
