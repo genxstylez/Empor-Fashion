@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from empor.shortcuts import JsonResponse
 from cart.utils import archive_cart
-from cart.models import CartItem
+from cart.models import CartItem, ArchivedCartItem
 from cart.views import get_cart
 from order.models import OrderItem, Order
 from order.forms import OrderForm
@@ -25,8 +25,9 @@ def index(request):
             order.net_total = cart.net_total
             order.cart = cart
             order.user = request.user
-            order.shipping = get_shipping(request, order.country)
+            order.shipping = 0
             order.save()
+            items = ArchivedCartItem.objects.filter(archived_cart=cart)
             for item in items:
                 order_item = OrderItem()
                 order_item.order = order
@@ -37,8 +38,8 @@ def index(request):
                 order_item.gross_total = item.gross_total
                 order_item.net_total = item.net_total
                 order_item.save()
-                request.session.save()
-                request.session['order_id']  = order.id
+            request.session.save()
+            request.session['order_id']  = order.id
             if order.payment_method == 0: 
                 return redirect('order-paypal')
             else:

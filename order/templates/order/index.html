@@ -22,9 +22,9 @@
                     <td>
                         <a href="{{ item.product.get_absolute_url }}">
                             {% if item.product.parent %}
-                            <img src="{{ item.product.parent.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                            <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" />
                             {% else %}
-                            <img src="{{ item.product.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                            <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" />
                             {% endif %}
                         </a>
                     </td>
