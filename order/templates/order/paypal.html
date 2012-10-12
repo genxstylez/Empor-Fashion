@@ -3,9 +3,9 @@
 {% block content %}
 <h3>{% trans 'Redirecting to' %} PayPal</h3>
 {% if debug %}
-<form action="https://www.paypal.com/cgi-bin/webscr" name="paypal" method="post">
-{% else %}
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" name="paypal" method="post">
+{% else %}
+<form action="https://www.paypal.com/cgi-bin/webscr" name="paypal" method="post">
 {% endif %}
 
     <input type="hidden" name="cmd" value="_cart" />

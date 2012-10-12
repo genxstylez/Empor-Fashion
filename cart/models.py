@@ -1,8 +1,10 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from product.models import Product
 from discount.models import Discount
+from cart.settings import ARCHIVED_TYPE
 
 class Cart(models.Model):
     user = models.OneToOneField(User, verbose_name=_('User'), related_name='cart', null=True, blank=True)
@@ -29,6 +31,7 @@ class ArchivedCart(models.Model):
     user = models.ForeignKey(User, verbose_name=_('User'), related_name='archived_cart', null=True, blank=True)
     session = models.CharField(_('Session'), max_length=100, blank=True)
     items = models.ManyToManyField(Product, verbose_name=_('Items'), through='ArchivedCartItem')
+    type = models.PositiveSmallIntegerField(_('Type'), choices=ARCHIVED_TYPE, default=0)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     gross_total = models.PositiveIntegerField(_('Gross Total'), default=0)
     net_total = models.PositiveIntegerField(_('Net Total'), default=0)

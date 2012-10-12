@@ -9,6 +9,9 @@ def archive_cart(cart, revert=None):
     Acart.net_total = cart.net_total
     Acart.created_at = cart.created_at
     Acart.last_modified = cart.last_modified
+    if revert:
+        Acart.type = 1
+
     Acart.save()
 
     items = CartItem.objects.filter(cart=cart)
