@@ -12,5 +12,6 @@ def clean_carts():
         archive_cart(cart, 'revert')
     message = '%s Carts Expired' % (carts.count())
     group = Group.objects.get(name='Admin').user_set.only('email')
-    group_mail = [ user.email for user in group ]
-    send_mail('Daily Orders Clean Up', message, settings.DEFAULT_FROM_EMAIL, group_mail , fail_silently=False)
+    if carts.count() > 0:
+        group_mail = [ user.email for user in group ]
+        send_mail('Hourly Carts Clean Up', message, settings.DEFAULT_FROM_EMAIL, group_mail , fail_silently=False)
