@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_extensions',
+    'django_crontab',
     'empor',
     'product',
     'cart',
@@ -199,6 +200,11 @@ THUMBNAIL_ALIASES = {
         'large': {'size': (800, 800), 'crop': 'scale'}
     }
 }
+
+CRONJOBS = [
+    ('*/1 * * * *', 'empor.cart.cron.clean_carts'),
+    ('*/1 * * * *', 'empor.cart.cron.clean_orders'),
+]
 
 SHIPPING_DEFAULT_COST = 100
 SHIPPING_OVERSEAS_COST = 500
