@@ -203,7 +203,7 @@ THUMBNAIL_ALIASES = {
 
 CRONJOBS = [
     ('* */1 * * *', 'cart.cron.clean_carts'),
-    ('* */1 * * *', 'order.cron.clean_orders'),
+    ('0 0 * * *', 'order.cron.clean_orders'),
 ]
 
 SHIPPING_DEFAULT_COST = 100
