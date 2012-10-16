@@ -87,7 +87,7 @@ def register(request):
             user_temp.save()
 
             html_content = render_to_string('email/activate.html', {
-                'host': request.get_host(),
+                'host': request.META['HTTP_ORIGIN'],
                 'STATIC_URL': settings.STATIC_URL,
                 'activation_code': activation_code,
                 'name': user_temp.first_name,
@@ -182,7 +182,7 @@ def reactivate(request):
 
             # 發送註冊信件, 通知啟用
             html_content = render_to_string('member/activate.html', {
-                'host': request.get_host(),
+                'host': request.META['HTTP_ORIGIN'], 
                 'activation_code': user_temp.activation_code,
                 'username': user_temp.username,
                 'password': user_temp.password,
@@ -267,7 +267,7 @@ def forgot_password(request):
             reset_code = sha_constructor(salt+user.username).hexdigest()
 
             html_content = render_to_string('email/reset_password.html', {
-                'host': request.get_host(),
+                'host': request.META['HTTP_ORIGIN'], 
                 'STATIC_URL': settings.STATIC_URL,
                 'user': user,
                 'reset_code': reset_code

@@ -33,7 +33,7 @@
                     <td>{% if item.discount_total > 0 %}{{ item.product.get_discounted_price }}{% else %}-{% endif %}</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.net_total|currency }}</td>
-                    <td><a href="{% url cart-remove %}" class="remove_btn"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
+                    <td><a href="{% url cart-remove %}" class="remove_btn" data="{{ item.id }}"><img src="{{ STATIC_URL }}images/remove.png"></a></td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -42,11 +42,11 @@
             {% csrf_token %}
             <div class="control-group">
                 <label class="control-label">{% trans 'Product Total' %}</label>
-                <div class="controls">{{ cart.gross_total|currency }}</div>
+                <div class="controls"><span id="gross_total">{{ cart.gross_total|currency }}</span></div>
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Discount Total' %}</label>
-                <div class="controls">{{ cart.discount_total|currency }}</div>
+                <div class="controls"><span id="discount_total">{{ cart.discount_total|currency }}</span></div>
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Shipping' %}</label>
@@ -54,7 +54,7 @@
             </div>
             <div class="control-group">
                 <label class="control-label">{% trans 'Total' %}</label>
-                <div class="controls">{{ order.net_total|currency }}</div>
+                <div class="controls"><span id="net_total">{{ cart.net_total|currency }}</span></div>
             </div>
             <hr />
             <div class="control-group">

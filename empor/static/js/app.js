@@ -262,7 +262,9 @@ function init(){
                     badge.remove();
                 }
                 item.fadeOut(200, function() { 
-                    $('span#total').text('NT$'+response.total);
+                    $('#gross_total').text('NT$'+response.gross_total);
+                    $('#discount_total').text('NT$'+response.discount_total);
+                    $('#net_total').text('NT$'+response.net_total);
                     $(this).remove(); 
                 });
             }

@@ -98,6 +98,6 @@ def remove_item(request):
         except IntegrityError:
             return JsonResponse({'success': False})
             
-        return JsonResponse({'success': True, 'total': cart.net_total})
+        return JsonResponse({'success': True, 'gross_total': cart.gross_total, 'discount_total': cart.discount_total, 'net_total': cart.net_total})
 
     raise Http404
