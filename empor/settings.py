@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django_extensions',
     'django_crontab',
+    'gunicorn',
     'empor',
     'product',
     'cart',
