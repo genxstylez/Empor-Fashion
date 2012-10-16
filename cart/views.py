@@ -9,27 +9,20 @@ from cart.models import Cart, CartItem
 from cart.utils import archive_cart
 
 def get_cart(request):
-    try:
-        cart_id = request.session['cart_id']
-    except KeyError:
-        cart_id = 0
-
-    try:
-        cart = Cart.objects.get(id=cart_id)
+    if 'cart' in request.session:
+        cart = request.session['cart']
         if request.user.is_authenticated():
-            if cart != request.user.cart:
+            if Cart.objects.filter(user=request.user) and cart != request.user.cart:
                 archive_cart(request.user.cart)
             cart.user = request.user
             cart.save()
-
-    except Cart.DoesNotExist:
-        request.session.save()
+    else:
         if request.user.is_authenticated():
             cart, created  = Cart.objects.get_or_create(user=request.user)
         else:
             cart, created = Cart.objects.get_or_create(session=request.session.session_key)
 
-        request.session['cart_id']  = cart.id
+        request.session['cart'] = cart
 
     return cart
 
