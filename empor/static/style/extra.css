@@ -2,7 +2,7 @@
     display: block;
 }
 
-#footer.small .note.small, #footer.open .open_btn {
+#footer.open .note.small, #footer.open .open_btn {
     display: none;
 }
 
