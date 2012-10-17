@@ -36,7 +36,6 @@ TIME_ZONE = 'Asia/Taipei'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'zh-TW'
 
-
 ugettext = lambda s: s # dummy ugettext function, as django's docs say
 
 LANGUAGES = (
