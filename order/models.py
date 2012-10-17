@@ -7,7 +7,7 @@ from django.utils.translation import ugettext_lazy as _
 from product.models import Product
 from discount.models import Discount
 from cart.models import ArchivedCart, ArchivedCartItem
-from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES
+from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES, RECIEPT_TYPE_CHOICES, DISPATCH_TIME_CHOICES
 from member.settings import COUNTRY_CHOICES
 from datetime import datetime
 
@@ -18,11 +18,13 @@ class Order(models.Model):
     items = models.ManyToManyField(Product, verbose_name='items', through='OrderItem')
     new = models.BooleanField(_('New'), default=True)
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
-    payment_method = models.PositiveSmallIntegerField(_('Payment method'), max_length=1, choices=PAYMENT_METHOD_CHOICES)
+    payment_method = models.PositiveSmallIntegerField(_('Payment method'), choices=PAYMENT_METHOD_CHOICES)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
     net_total = models.PositiveIntegerField(_('Net Total'), default=0) 
-    shipping_discount = models.PositiveIntegerField(_('Shipping Discount'), default=0)
+    reciept_type = models.PositiveSmallIntegerField(_('Reciept Type'), default=0, choices=RECIEPT_TYPE_CHOICES)
+    uni_no = models.PositiveIntegerField(_('Uni No.',), null=True, blank=True)
+    company_title = models.CharField(_('Company Title'), max_length=50, null=True, blank=True)
     billing_recipient = models.CharField(_('Billing Recipient'), max_length=100)
     billing_phone = models.CharField(_('Billing Phone'), max_length=50)
     billing_street1 = models.CharField(_('Billing Street 1'), max_length=100)
@@ -37,6 +39,7 @@ class Order(models.Model):
     shipping_city = models.CharField(_('Shipping City'), max_length=100)
     shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=100)
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
+    dispatch_time = models.PositiveSmallIntegerField(_('Dispatch time'), choices=DISPATCH_TIME_CHOICES, default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
     dispatched_date = models.DateTimeField(_('Dispatched Date'), null=True, blank=True)

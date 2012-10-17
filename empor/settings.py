@@ -104,9 +104,9 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'djangoflash.middleware.FlashMiddleware',
@@ -116,6 +116,7 @@ ROOT_URLCONF = 'empor.urls'
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
+    'django.contrib.messages.context_processors.messages',
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
@@ -149,6 +150,8 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django_extensions',
+    'django_crontab',
+    'gunicorn',
     'empor',
     'product',
     'cart',
@@ -199,6 +202,11 @@ THUMBNAIL_ALIASES = {
         'large': {'size': (800, 800), 'crop': 'scale'}
     }
 }
+
+CRONJOBS = [
+    ('* */1 * * *', 'cart.cron.clean_carts'),
+    ('0 0 * * *', 'order.cron.clean_orders'),
+]
 
 SHIPPING_DEFAULT_COST = 100
 SHIPPING_OVERSEAS_COST = 500

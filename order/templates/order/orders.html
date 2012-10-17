@@ -3,7 +3,7 @@
 {% block content %}
 <div class="inside_itembox itemopen center">
         <div class="menu">
-            <a href="{% url member-profile request.user.username %}">{% trans 'Member Information' %}</a> ／
+            <a href="{% url member-profile %}">{% trans 'Member Information' %}</a> ／
             <a href="{% url order-orders %}" style="text-decoration: underline;">{% trans 'Orders Tracking' %}</a> ／
             <a href="{% url member-change-password %}">{% trans 'Change password' %}</a>
         </div>

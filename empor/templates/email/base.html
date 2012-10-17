@@ -40,7 +40,7 @@ a:hover {
             {% endblock %}
             <p style="line-height: 18px;">
                 ※ {% trans 'This is an automated mail from the system, please do not reply! Shall you have any questions please contact' %}
-                <a href="http://{{ host }}{% url service-center %}">{% trans 'Service-Center' %}</a>{% trans ', Thanks!' %}
+                <a href="{{ host }}{% url service-center %}">{% trans 'Service-Center' %}</a>{% trans ', Thanks!' %}
             </p>
             {# 此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫客服中心，謝謝！#}
           </td>

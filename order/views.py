@@ -18,28 +18,15 @@ def index(request):
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
-            cart = archive_cart(cart)
             order = form.save(commit=False)
             order.discount_total = cart.discount_total
             order.gross_total = cart.gross_total
             order.net_total = cart.net_total
-            order.cart = cart
             order.user = request.user
             order.shipping = 0
-            order.save()
-            items = ArchivedCartItem.objects.filter(archived_cart=cart)
-            for item in items:
-                order_item = OrderItem()
-                order_item.order = order
-                order_item.discount = item.discount
-                order_item.product = item.product
-                order_item.quantity = item.quantity
-                order_item.discount_total = item.discount_total
-                order_item.gross_total = item.gross_total
-                order_item.net_total = item.net_total
-                order_item.save()
             request.session.save()
-            request.session['order_id']  = order.id
+            request.session['order'] = order
+            
             if order.payment_method == 0: 
                 return redirect('order-paypal')
             else:
@@ -67,6 +54,84 @@ def index(request):
     
     return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items})
 
+
+@login_required
+def orders(request):
+    orders = Order.objects.filter(user=request.user)
+
+    return render(request, 'order/orders.html', {'orders': orders})
+    
+@login_required
+def info(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    items = OrderItem.objects.filter(order=order)
+
+    if order.user != request.user:
+        raise Http404
+
+    return render(request, 'order/order.html', {'order': order, 'items': items})
+
+@login_required
+def paypal(request):
+    try:
+        order = request.session['order']
+    except KeyError:
+        raise Http404
+    if order.user != request.user:
+        raise Http404
+    cart = get_cart(request)
+    items = CartItem.objects.filter(cart=cart)
+    
+    return render(request, 'order/paypal.html', {'order': order, 'items': items, 'debug': settings.DEBUG})
+
+@login_required
+def success(request):
+    from order.utils import generate_order_pdf
+    from django.template.loader import render_to_string
+    from django.core.mail import EmailMessage
+    try:
+        order = request.session['order']
+    except KeyError:
+        raise Http404
+    if order.user != request.user:
+        raise Http404
+
+    cart = get_cart(request)
+    cart = archive_cart(cart)
+    order.cart = cart
+    order.save()
+
+    items = ArchivedCartItem.objects.filter(archived_cart=cart)
+    for item in items:
+        order_item = OrderItem()
+        order_item.order = order
+        order_item.discount = item.discount
+        order_item.product = item.product
+        order_item.quantity = item.quantity
+        order_item.discount_total = item.discount_total
+        order_item.gross_total = item.gross_total
+        order_item.net_total = item.net_total
+        order_item.save()
+        #Update sold figure
+        item.product.sold += item.quantity
+        item.product.save()
+
+    order.status = 1
+    order.save()
+
+    pdf = generate_order_pdf(request, order) 
+
+    subject = _('EMPOR Order Confirmation')
+    content = render_to_string('order/email.html', {'order': order, 'items': items, 
+        'STATIC_URL': settings.STATIC_URL, 'domain': request.get_host()
+    })
+    message = EmailMessage(subject, content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
+    filename = order.order_id
+    message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
+    message.content_subtype = "html"
+    message.send()
+    return render(request, 'order/thankyou.html', {'order': order})
+
 @login_required
 def get_shipping(request, country_id):
     country_id = int(country_id)
@@ -90,61 +155,3 @@ def get_shipping(request, country_id):
             return JsonResponse({'success': True, 'shipping': settings.SHIPPING_DEFAULT_COST})
         return settings.SHIPPING_DEFAULT_COST
 
-@login_required
-def orders(request):
-    orders = Order.objects.filter(user=request.user)
-
-    return render(request, 'order/orders.html', {'orders': orders})
-    
-@login_required
-def info(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    items = OrderItem.objects.filter(order=order)
-
-    if order.user != request.user:
-        raise Http404
-
-    return render(request, 'order/order.html', {'order': order, 'items': items})
-
-@login_required
-def paypal(request):
-    order_id = request.session['order_id']
-    order = get_object_or_404(Order, id=order_id)
-    items = OrderItem.objects.filter(order=order)
-    if order.user != request.user:
-        raise Http404
-
-    return render(request, 'order/paypal.html', {'order': order, 'items': items, 'debug': settings.DEBUG})
-
-@login_required
-def success(request):
-    order_id = request.session['order_id']
-    from order.utils import generate_order_pdf
-    from django.template.loader import render_to_string
-    from django.core.mail import EmailMessage
-
-    order = get_object_or_404(Order, id=order_id)
-    if order.user != request.user:
-        raise Http404
-
-    order.status = 1
-    order.save()
-
-    pdf = generate_order_pdf(request, order) 
-    items = OrderItem.objects.filter(order=order)
-
-    #Update sold figure
-    for item in items:
-        item.product.sold += item.quantity
-        item.product.save()
-
-    subject = _('EMPOR Order Confirmation')
-    content = render_to_string('order/email.html', {'order': order, 'items': items, 
-        'STATIC_URL': settings.STATIC_URL, 'domain': request.get_host()
-    })
-    message = EmailMessage(subject, content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
-    filename = order.order_id
-    message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
-    message.content_subtype = "html"
-    message.send()
-    return render(request, 'order/thankyou.html', {'order': order})

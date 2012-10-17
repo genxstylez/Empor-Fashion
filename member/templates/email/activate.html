@@ -5,6 +5,6 @@
 <p style="line-height: 18px">{% trans 'Welcome to EMPOR, please verify your details and click the link below to activate your account' %}：</p>
 <p style="line-height: 18px">{% trans 'Account' %}: {{ username }}</p>
 <p style="line-height: 18px">{% trans 'Password' %}: {{ password }}</p>
-<p style="line-height: 18px"><a href="http://{{ host }}{% url member-activate activation_code %}" target="_blank">http://{{ host }}{% url member-activate activation_code %}</a></p>
+<p style="line-height: 18px"><a href="{{ host }}{% url member-activate activation_code %}" target="_blank">{{ host }}{% url member-activate activation_code %}</a></p>
 <p style="line-height: 18px">{% trans 'Please copy the link to your browser if the link is broken' %}</p>
 {% endblock %}

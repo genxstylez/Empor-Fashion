@@ -1,8 +1,9 @@
+# -*- coding: utf-8 -*-
 from django import template
 from django.template.loader import render_to_string
 from product.models import Brand, Category
 from empor.settings import STATIC_URL
-from cart.views import get_cart
+from cart.models import Cart
 import math
 
 register = template.Library()
@@ -17,8 +18,17 @@ def menu(request):
 
 @register.simple_tag
 def cart_count(request):
-    cart = get_cart(request)
-    if cart.items.count() > 0:
+    if request.user.is_authenticated():
+        try:
+            cart = Cart.objects.get(user=request.user)
+        except Cart.DoesNotExist:
+            cart = None
+    else:
+        try:
+            cart = Cart.objects.get(session=request.session.session_key)
+        except Cart.DoesNotExist:
+            cart = None 
+    if cart and cart.items.count() > 0:
         return '<span class="badge">%s</span>' % cart.items.count()
     else:
         return ''

@@ -1,10 +1,10 @@
-{% extends 'order/site/orders.html' %}
+{% extends 'order/orders.html' %}
 {% load i18n thumbnail common %}
 {% block order_content %}
 <div id="order_detail_content">
     <div class="control-group">
         <label class="control-label">{% trans 'Order ID' %}</label>
-        <div class="controls">{{ order.transation_id }}</div>
+        <div class="controls">{{ order.order_id }}</div>
     </div>
     <div class="control-group">
         <label class="control-label">{% trans 'Order Status' %}</label>
@@ -37,10 +37,6 @@
     <div class="control-group">
         <label class="control-label">{% trans 'Gross Total' %}</label>
         <div class="controls">{{ order.gross_total|currency }}</div>
-    </div>
-    <div class="control-group">
-        <label class="control-label">Shipping</label>
-        <div class="controls">£ 40.00</div>
     </div>
     <div class="control-group">
         <label class="control-label">{% trans 'Net Total' %}</label>
@@ -97,9 +93,9 @@
                 <td>
                     <a href="{{ item.product.get_absolute_url }}">
                         {% if item.product.parent %}
-                        <img src="{{ item.product.parent.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                        <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" />
                         {% else %}
-                        <img src="{{ item.product.get_main_image|thumbnail_url:'small' }}" class="itemphoto" />
+                        <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" />
                         {% endif %}
                     </a>
                 </td>
@@ -107,7 +103,7 @@
                 <td>{{ item.product.price|currency }}</td>
                 <td>{% if item.discount_total > 0 %} {{ item.product.get_discounted_price|currency }} {% else %} - {% endif %}</td>
                 <td>{{ item.quantity }}</td>
-                <td>{{ item.total|currency }}</td>
+                <td>{{ item.net_total|currency }}</td>
             </tr>
             {% endfor %}
             <tr>
