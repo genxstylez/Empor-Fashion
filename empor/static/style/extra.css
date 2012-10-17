@@ -1,8 +1,8 @@
-#footer .note.small, #footer.small .open_btn {
+#footer.small .note.small, #footer.small .open_btn {
     display: block;
 }
 
-#footer .note.small, #footer.open .open_btn {
+#footer.small .note.small, #footer.open .open_btn {
     display: none;
 }
 
@@ -10,7 +10,7 @@
     display: block;
 }
 
-#footer .note.open {
+#footer.small .note.open {
     display: none;
 }
 
