@@ -20,9 +20,6 @@ def product_view(request, brand_slug, product_slug):
     except Product.DoesNotExist:
         raise Http404
 
-    if request.is_ajax():
-        return render(request, 'product/product-ajax.html', {'focus_product': focus_product})
-    
     products = Product.objects.filter(parent=None).prefetch_related('brand', 'option_group')
     box_class = ['a11', 'a12', 'a21', 'a22']
 

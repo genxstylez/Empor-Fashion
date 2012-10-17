@@ -60,6 +60,19 @@ function init(){
     $('form[name="paypal"]').livequery(function() {
         $(this).submit();
     });
+    
+    //lazyload
+    $('img.lazy').lazyload({
+        effect: 'fadeIn'
+    });
+
+    $('.open_btn').click(function() {
+        if($('#footer').hasClass('small')) {
+            $('#footer').removeClass('small').toggleClass('open', 200, function() {
+                $('.note.open').hide().fadeIn(600);
+            });
+        }
+    });
 
     //same as billing checkbox
     $('input[name="copy_address"]').click(function() {
@@ -158,7 +171,7 @@ function init(){
                 $('#content_pane').addClass('index_itembox');
                 $('#content_pane').fadeIn(100);
                 $.get(url, function(response) {
-                    $(response).appendTo(content_pane);
+                    $(response).find('.itemopen').appendTo($('#content_pane'));
                     $(image).remove();
                 });
             });

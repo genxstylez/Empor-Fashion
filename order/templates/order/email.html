@@ -7,7 +7,7 @@
     <thead>
         <tr>
             <th style="background:#29201b; text-align:left;">
-                <img src="http://{{ domain }}{{ STATIC_URL }}images/EMPOR_logo_back.png">
+                <img src="http://{{ host }}{{ STATIC_URL }}images/EMPOR_logo_back.png">
             </th>
         </tr>
     </thead>
@@ -92,7 +92,7 @@
                     <tbody>
                     {% for item in items %}
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
-                            <td><img src="{{ item.product.get_main_image|thumbnail_url:'small' }}"></td>
+                            <td><img src="http://{{ host }}{{ item.product.get_main_image.image.small.url }}"></td>
                             <td>{{ item.product }}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total|currency }}</td>
@@ -110,7 +110,7 @@
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Shipping Cost' %}</td>
-                            <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span style="color:#900;">{% trans 'No Shipping Cost' %}</span>{% endif %}</td>
+                            <td><span style="color:#900;">{% trans 'Shipping Free' %}</span></td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Order Net Total' %}</td>

@@ -1,3 +1,19 @@
+#footer .note.small, #footer.small .open_btn {
+    display: block;
+}
+
+#footer .note.small, #footer.open .open_btn {
+    display: none;
+}
+
+#footer.open .note.open {
+    display: block;
+}
+
+#footer .note.open {
+    display: none;
+}
+
 div#isotope_list {
     margin: 0 auto 50px;
 }

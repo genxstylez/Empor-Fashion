@@ -12,13 +12,13 @@ from empor.thumbs import thumb_resize, generate_crop
 
 @staff_member_required
 def index(request):
-    collections = Collection.objects.all()
+    collections = Collection.objects.order_by('name')
     return render(request, 'staff/index.html', {'collections': collections})
 
 @staff_member_required
 def collection(request, collection_id):   
     collection = get_object_or_404(Collection, id=collection_id)
-    products = collection.products.filter(parent=None)
+    products = collection.products.filter(parent=None).order_by
     return render(request, 'staff/collection.html', {'collection': collection, 'products': products})
 
 @staff_member_required

@@ -10,6 +10,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.isotope.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.lazyload.min.js"></script>
     <script src="{{ STATIC_URL }}js/jquery.livequery.js"></script> 
     <script src="{{ STATIC_URL }}js/app.js"></script>
     <script src="{{ STATIC_URL }}js/jGrowl/jquery.jgrowl_minimized.js"></script>
@@ -48,8 +49,6 @@
     (function(window, undefined) {
         $(function() {
             init();
-            window.content_pane = $('#content_pane');
-            window.positionx = 1;
         });
         var History = window.History;
         History.Adapter.bind(window, 'statechange', function () {
@@ -99,10 +98,51 @@
 {% endblock %}
 </div>
 <div id="back-top"></div>
-<div id="footer">
-    <a href="{% url service-faq %}"><i class="s_icon-info"></i></a>
-    <a href="https://www.facebook.com/pages/EMPOR/220960498003255"><i class="s_icon-fb"></i></a>
+<div id="footer" class="{% block footer_class %}small{% endblock %}">
+    <div class="note open">
+        <a class="icon_box" href="about_us.html">
+            <i class="f_icon-info"></i>關於我們
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#pay">
+            <i class="f_icon-paypal"></i>PayPal 付款
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#delivery">
+            <i class="f_icon-bcat"></i>黑貓宅配
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#delivery">
+            <i class="f_icon-free"></i>全國免運
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#delivery">
+            <i class="f_icon-fast"></i>快速到貨
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#return">
+            <i class="f_icon-365"></i>一年鑑賞
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#return">
+            <i class="f_icon-service"></i>售後服務
+        </a>
+        <a class="icon_box" href="{% url service-faq %}#brand">
+            <i class="f_icon-star"></i>嚴選品牌
+        </a>
+        <a class="icon_box" href="https://www.facebook.com/pages/EMPOR/220960498003255" target="_blank">
+            <i class="f_icon-fb"></i>粉絲專頁
+        </a>
+        <br clear="all">
+    </div>
+    <div class="note small">
+        <a class="icon_box" href="about_us.html">
+            <i class="s_icon-info"></i>
+        </a>
+        <a class="icon_box" href="{% url service-faq %}">
+            <i class="s_icon-help"></i>
+        </a>
+        <a class="icon_box" href="https://www.facebook.com/pages/EMPOR/220960498003255" target="_blank">
+            <i class="s_icon-fb"></i>
+        </a>
+        <br clear="all">
+    </div>
     <div class="text">COPYRIGHT© 2012 EMPOR</div>
+    <div class="open_btn">．．．</div>
 </div>
 <div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>
 <div id="content_pane" {% if popup %}style="display:block;" class="itemup"{% endif %}>

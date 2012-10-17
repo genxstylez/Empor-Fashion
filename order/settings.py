@@ -10,6 +10,7 @@ ORDER_STATUS_CHOICES = (
 PAYMENT_METHOD_CHOICES = (
     (0, _('PayPal')),
     (1, _('COD')),
+    (2, _('Card on Delivery')),
 )
 
 RECIEPT_TYPE_CHOICES = (
