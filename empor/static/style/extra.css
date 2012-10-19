@@ -1,16 +1,8 @@
-#footer.small .note.small, #footer.small .open_btn {
-    display: block;
-}
-
-#footer.open .note.small, #footer.open .open_btn {
+#footer.open .small, #footer.open .open_btn {
     display: none;
 }
 
-#footer.open .note.open {
-    display: block;
-}
-
-#footer.small .note.open {
+#footer.small .open {
     display: none;
 }
 

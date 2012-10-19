@@ -67,9 +67,23 @@ function init(){
     });
 
     $('.open_btn').click(function() {
-        if($('#footer').hasClass('small')) {
-            $('#footer').removeClass('small').toggleClass('open', 200, function() {
-                $('.note.open').hide().fadeIn(600);
+        $('#footer').animate({
+            'height': '107px',
+        }, 400, function() {
+            $('#footer').removeClass('small').addClass('open');
+            $('#footer .text').hide().fadeIn(400);
+            $('.note.open').hide().fadeIn(400, function() { $(this).removeAttr('style') });
+        });
+    });
+    
+    $('#footer').livequery('mouseleave', function() {
+        if($('#footer').hasClass('open')) {
+            $('#footer').animate({
+                'height': '16px',
+            }, 400, function() {
+                $('#footer').removeClass('open').addClass('small');
+                $('#footer .text').hide().fadeIn(400);
+                $('.note.small').hide().fadeIn(400, function() { $(this).removeAttr('style') });
             });
         }
     });

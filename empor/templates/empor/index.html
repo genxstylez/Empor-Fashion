@@ -2,6 +2,7 @@
 {% block js %}
 <script src="{{ STATIC_URL }}js/jquery.backstretch.min.js"></script>
 <script type="text/javascript">
+window.footer = 'opened';
 $(function() {
     $.backstretch([
         {% for impression in impressions %}

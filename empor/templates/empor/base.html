@@ -52,11 +52,12 @@
         });
         var History = window.History;
         History.Adapter.bind(window, 'statechange', function () {
-            /*_gaq.push(['_trackPageview', state.url]);*/
+            _gaq.push(['_trackPageview', state.url]);
         });
     }) (window);
     </script>
     {% block js %}{% endblock %}
+    {% include 'empor/gaq.html' %}
 </head>
 <body>
 <div id="content_wrapper">
@@ -81,7 +82,7 @@
     </div>
     {% else %}
     <div class="menu_textbox b_box">
-        <a href="{% url member-register %}">{% trans 'JOIN US' %}</a> ／ <a href="{% url member-login %}">{% trans 'LOGIN' %}</a>
+        <a onclick="_gaq.push(['_trackEvent', 'Member', 'Signup']);" href="{% url member-register %}">{% trans 'JOIN US' %}</a> ／ <a onclick="_gaq.push(['_trackEvent', 'Member', 'Login']);" href="{% url member-login %}">{% trans 'LOGIN' %}</a>
     </div>
     {% endif %}
     <!-- /menu_iconbox -->
@@ -141,7 +142,7 @@
         </a>
         <br clear="all">
     </div>
-    <div class="text">COPYRIGHT© 2012 EMPOR</div>
+    <div class="text">COPYRIGHT© 2012 EMPOR. All RIGHTS RESERVED.</div>
     <div class="open_btn">．．．</div>
 </div>
 <div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>
