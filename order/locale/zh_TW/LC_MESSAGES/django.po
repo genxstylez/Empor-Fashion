@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-27 12:01+0000\n"
+"POT-Creation-Date: 2012-10-20 03:44-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,6 +18,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
+#: forms.py:28
+msgid "Please enter company title"
+msgstr "請輸入公司抬頭"
+
+#: forms.py:33
+msgid "Please enter uni no"
+msgstr "請輸入統一編號"
+
 #: models.py:15 templates/order/email-pdf.html:110
 #: templates/order/email.html:28 templates/order/order.html:6
 #: templates/order/orders.html:15
@@ -26,7 +34,7 @@ msgstr "訂單編號"
 
 #: models.py:19
 msgid "New"
-msgstr ""
+msgstr "新"
 
 #: models.py:20 templates/order/orders.html:17
 msgid "Status"
@@ -37,116 +45,128 @@ msgstr "狀態"
 msgid "Payment method"
 msgstr "付款方式"
 
-#: models.py:22 models.py:93 templates/order/email-pdf.html:189
-#: templates/order/email.html:108 templates/order/index.html:48
-#: templates/order/order.html:118
+#: models.py:22 models.py:94 templates/order/email-pdf.html:189
+#: templates/order/email.html:108 templates/order/index.html:50
+#: templates/order/order.html:114
 msgid "Discount Total"
 msgstr "折扣總計"
 
-#: models.py:23 models.py:94
+#: models.py:23 models.py:95
 msgid "Gross Totoal"
 msgstr "商品總計"
 
-#: models.py:24 templates/order/order.html:46
+#: models.py:24 templates/order/order.html:42
 msgid "Net Total"
 msgstr "總計"
 
 #: models.py:25
-msgid "Shipping Discount"
-msgstr ""
+msgid "Reciept Type"
+msgstr "發票方式"
 
 #: models.py:26
+msgid "Uni No."
+msgstr "統一編號"
+
+#: models.py:27
+msgid "Company Title"
+msgstr "公司抬頭"
+
+#: models.py:28
 msgid "Billing Recipient"
 msgstr "購買人"
 
-#: models.py:27
+#: models.py:29
 msgid "Billing Phone"
 msgstr "購買人電話"
 
-#: models.py:28
-msgid "Billing Street 1"
-msgstr "帳單地址 1"
-
-#: models.py:29
-msgid "Billing Street 2"
-msgstr "帳單地址 2"
-
 #: models.py:30
+msgid "Billing Street 1"
+msgstr "帳單地址 第一行"
+
+#: models.py:31
+msgid "Billing Street 2"
+msgstr "帳單地址 第二行 "
+
+#: models.py:32
 msgid "Billing City"
 msgstr "帳單城市"
 
-#: models.py:31
+#: models.py:33
 msgid "Billing Post Code"
 msgstr "帳單郵遞區號"
 
-#: models.py:32
+#: models.py:34
 msgid "Billing Country"
 msgstr "帳單國家"
 
-#: models.py:33
+#: models.py:35
 msgid "Shipping recipient"
 msgstr "收件人"
 
-#: models.py:34
+#: models.py:36
 msgid "Shipping Phone"
 msgstr "收件人電話"
 
-#: models.py:35
-msgid "Shipping Street 1"
-msgstr "收件地址 1"
-
-#: models.py:36
-msgid "Shipping Street 2"
-msgstr "收件地址 2"
-
 #: models.py:37
+msgid "Shipping Street 1"
+msgstr "收件地址 第一行"
+
+#: models.py:38
+msgid "Shipping Street 2"
+msgstr "收件地址 第二行"
+
+#: models.py:39
 msgid "Shipping City"
 msgstr "收件城市"
 
-#: models.py:38
+#: models.py:40
 msgid "Shipping Post Code"
 msgstr "收件郵遞區號"
 
-#: models.py:39
+#: models.py:41
 msgid "Shipping Country"
 msgstr "收件國家"
 
-#: models.py:40 models.py:96
+#: models.py:42
+msgid "Dispatch time"
+msgstr "指定配送時間"
+
+#: models.py:43 models.py:97
 msgid "Created at"
 msgstr "建立日期"
 
-#: models.py:41 models.py:97
+#: models.py:44 models.py:98
 msgid "Last modified"
 msgstr "最後更改"
 
-#: models.py:42 templates/order/order.html:33 templates/order/orders.html:18
+#: models.py:45 templates/order/order.html:33 templates/order/orders.html:18
 msgid "Dispatched Date"
 msgstr "出貨日期"
 
-#: models.py:89
+#: models.py:90
 msgid "Order"
 msgstr "訂單"
 
-#: models.py:90 templates/order/email-pdf.html:166
+#: models.py:91 templates/order/email-pdf.html:166
 #: templates/order/email.html:85
 msgid "Product"
 msgstr "商品"
 
-#: models.py:91 templates/order/email-pdf.html:169
-#: templates/order/email.html:88 templates/order/index.html:13
-#: templates/order/order.html:89
+#: models.py:92 templates/order/email-pdf.html:169
+#: templates/order/email.html:88 templates/order/index.html:16
+#: templates/order/order.html:85
 msgid "Discount"
 msgstr "折扣"
 
-#: models.py:92 templates/order/email-pdf.html:167
+#: models.py:93 templates/order/email-pdf.html:167
 #: templates/order/email.html:86
 msgid "Quantity"
 msgstr "數量"
 
-#: models.py:95 templates/order/email-pdf.html:170
-#: templates/order/email.html:89 templates/order/index.html:15
-#: templates/order/index.html.py:56 templates/order/order.html:91
-#: templates/order/order.html.py:126
+#: models.py:96 templates/order/email-pdf.html:170
+#: templates/order/email.html:89 templates/order/index.html:17
+#: templates/order/index.html.py:60 templates/order/order.html:87
+#: templates/order/order.html.py:122
 msgid "Total"
 msgstr "總計"
 
@@ -174,7 +194,39 @@ msgstr ""
 msgid "COD"
 msgstr "貨到付款"
 
-#: views.py:136
+#: settings.py:13
+msgid "Card on Delivery"
+msgstr "貨到刷卡"
+
+#: settings.py:17
+msgid "Donate"
+msgstr "公益捐贈"
+
+#: settings.py:18
+msgid "Three way reciept"
+msgstr "三聯式發票"
+
+#: settings.py:22
+msgid "Unspecified"
+msgstr "不指定"
+
+#: settings.py:23
+msgid "Before noon"
+msgstr "中午以前"
+
+#: settings.py:24
+msgid "12 to 17"
+msgstr "12時至17時"
+
+#: settings.py:25
+msgid "17 to 20"
+msgstr "17時至20時"
+
+#: settings.py:26
+msgid "20 to 21"
+msgstr "20時至21時"
+
+#: views.py:126
 msgid "EMPOR Order Confirmation"
 msgstr "EMPOR 訂單確認"
 
@@ -184,39 +236,39 @@ msgid "Order Date"
 msgstr "訂單日期"
 
 #: templates/order/email-pdf.html:118 templates/order/email.html:36
-#: templates/order/order.html:50
+#: templates/order/order.html:46
 msgid "Buyer"
 msgstr "購買人"
 
 #: templates/order/email-pdf.html:122 templates/order/email.html:40
-#: templates/order/index.html:65 templates/order/order.html:54
+#: templates/order/index.html:72 templates/order/order.html:50
 msgid "Email"
 msgstr "電子郵件"
 
 #: templates/order/email-pdf.html:126 templates/order/email-pdf.html.py:149
 #: templates/order/email.html:44 templates/order/email.html.py:68
-#: templates/order/index.html:69 templates/order/order.html:58
-#: templates/order/order.html.py:75
+#: templates/order/index.html:76 templates/order/order.html:54
+#: templates/order/order.html.py:71
 msgid "Phone"
 msgstr "電話"
 
 #: templates/order/email-pdf.html:130 templates/order/email.html:48
-#: templates/order/order.html:62
+#: templates/order/order.html:58
 msgid "Billing Address"
 msgstr "帳單地址"
 
 #: templates/order/email-pdf.html:145 templates/order/email.html:64
-#: templates/order/order.html:71
+#: templates/order/order.html:67
 msgid "Recipient"
 msgstr "收件人"
 
 #: templates/order/email-pdf.html:153 templates/order/email.html:72
-#: templates/order/order.html:79
+#: templates/order/order.html:75
 msgid "Shipping Address"
 msgstr "收件地址"
 
 #: templates/order/email-pdf.html:168 templates/order/email.html:87
-#: templates/order/index.html:12 templates/order/order.html:88
+#: templates/order/index.html:15 templates/order/order.html:84
 msgid "Price"
 msgstr "價格"
 
@@ -225,60 +277,64 @@ msgid "Order Gross Total"
 msgstr "商品總計"
 
 #: templates/order/email-pdf.html:193 templates/order/email.html:112
-#: templates/order/order.html:122
+#: templates/order/index.html:55 templates/order/order.html:118
 msgid "Shipping Cost"
-msgstr ""
+msgstr "運費"
 
 #: templates/order/email-pdf.html:194 templates/order/email.html:113
-#: templates/order/order.html:123
-msgid "No Shipping Cost"
-msgstr ""
+#: templates/order/index.html:56 templates/order/order.html:119
+msgid "Free Shipping"
+msgstr "免運費"
 
 #: templates/order/email-pdf.html:197 templates/order/email.html:116
 msgid "Order Net Total"
 msgstr "訂單總計"
 
-#: templates/order/index.html:6
-msgid "Confirm"
-msgstr "確認"
-
-#: templates/order/index.html:11 templates/order/order.html:87
+#: templates/order/index.html:12 templates/order/order.html:83
 msgid "Item"
 msgstr "商品"
 
-#: templates/order/index.html:14 templates/order/order.html:90
+#: templates/order/index.html:13
+msgid "Size"
+msgstr "尺寸"
+
+#: templates/order/index.html:14 templates/order/order.html:86
 msgid "Qty"
 msgstr "數量"
 
-#: templates/order/index.html:44 templates/order/order.html:114
+#: templates/order/index.html:45 templates/order/order.html:110
 msgid "Product Total"
 msgstr "商品總計"
 
-#: templates/order/index.html:52
-msgid "Shipping"
-msgstr ""
+#: templates/order/index.html:66
+msgid "Memeber Information"
+msgstr "會員資料"
 
-#: templates/order/index.html:61
+#: templates/order/index.html:68
 msgid "Name"
 msgstr "姓名"
 
-#: templates/order/index.html:76
+#: templates/order/index.html:83
+msgid "Reciept Post"
+msgstr "發票寄送"
+
+#: templates/order/index.html:86
 msgid "Billing Information"
 msgstr "購買人資訊"
 
-#: templates/order/index.html:79
+#: templates/order/index.html:89
 msgid "Shipping Information"
 msgstr "收件人資訊"
 
-#: templates/order/index.html:89
+#: templates/order/index.html:102
 msgid "Shipping same as billing?"
 msgstr "收件人資訊與購買人相同"
 
-#: templates/order/index.html:119
+#: templates/order/index.html:132
 msgid "Back"
 msgstr "返回"
 
-#: templates/order/index.html:120
+#: templates/order/index.html:133
 msgid "Next"
 msgstr "下一步"
 
@@ -290,17 +346,25 @@ msgstr "訂單狀態"
 msgid "Gross Total"
 msgstr "商品總計"
 
-#: templates/order/order.html:132
+#: templates/order/order.html:62
+msgid "Payment Method"
+msgstr "付款方式"
+
+#: templates/order/order.html:128
 msgid "Back to Orders List"
 msgstr "返回訂單列表"
 
-#: templates/order/orders.html:8
+#: templates/order/orders.html:6
 msgid "Member Information"
 msgstr "會員資料"
 
-#: templates/order/orders.html:9
+#: templates/order/orders.html:7
 msgid "Orders Tracking"
 msgstr "訂單查詢"
+
+#: templates/order/orders.html:8
+msgid "Change password"
+msgstr "更改密碼"
 
 #: templates/order/orders.html:19 templates/order/orders.html.py:44
 msgid "Details"

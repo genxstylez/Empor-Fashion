@@ -15,6 +15,11 @@ class Cart(models.Model):
     net_total = models.PositiveIntegerField(_('Net Total'), default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+
+    def __unicode__(self):
+        if self.user:
+            return "%s's Cart" % self.user.username
+        return "%s's Cart" % self.session
     
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, verbose_name=_('Cart'))

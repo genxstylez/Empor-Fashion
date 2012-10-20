@@ -52,6 +52,7 @@
         });
         var History = window.History;
         History.Adapter.bind(window, 'statechange', function () {
+            state = History.getState();
             _gaq.push(['_trackPageview', state.url]);
         });
     }) (window);

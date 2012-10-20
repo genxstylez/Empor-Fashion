@@ -13,7 +13,7 @@ def get_cart(request):
         cart = request.session['cart']
         if request.user.is_authenticated():
             if Cart.objects.filter(user=request.user) and cart != request.user.cart:
-                archive_cart(request.user.cart)
+                archive_cart(request.user.cart, 'expired')
             cart.user = request.user
             cart.save()
     else:
@@ -22,7 +22,7 @@ def get_cart(request):
         else:
             cart, created = Cart.objects.get_or_create(session=request.session.session_key)
 
-        request.session['cart'] = cart
+    request.session['cart'] = cart
 
     return cart
 
@@ -32,9 +32,8 @@ def index(request):
     return render(request, 'cart/index.html', {'cart': cart, 'items': items})
 
 def add_item(request):
-    cart = get_cart(request)
     if request.method == 'POST' and request.is_ajax():
-
+        cart = get_cart(request)
         product_id = request.POST.get('product_id', None)
         quantity = request.POST.get('quantity', 1)
         quantity = int(quantity)
@@ -87,7 +86,7 @@ def remove_item(request):
             cart.gross_total -= gross_total
             cart.net_total -= net_total
             cart.save()
-             
+            
         except IntegrityError:
             return JsonResponse({'success': False})
             

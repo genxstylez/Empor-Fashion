@@ -48,7 +48,9 @@ def index(request):
                 'shipping_city': profile.shipping_city,
                 'shipping_post_code': profile.shipping_post_code,
                 'shipping_country': profile.shipping_country,
-                'payment_method': '0'
+                'payment_method': '0',
+                'reciept_type': 0,
+                'dispatch_time': 0,
             }
         )
     
@@ -130,6 +132,9 @@ def success(request):
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
     message.content_subtype = "html"
     message.send()
+    
+    del request.session['cart']
+
     return render(request, 'order/thankyou.html', {'order': order})
 
 @login_required

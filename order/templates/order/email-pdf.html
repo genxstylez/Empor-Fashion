@@ -191,7 +191,7 @@ a:hover {
                         </tr>
                         <tr>
                             <td colspan="5">{% trans 'Shipping Cost' %}</td>
-                            <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span style="color:#900;">{% trans 'No Shipping Cost' %}</span>{% endif %}</td>
+                            <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span style="color:#900;">{% trans 'Free Shipping' %}</span>{% endif %}</td>
                         </tr>
                         <tr>
                             <td colspan="5">{% trans 'Order Net Total' %}</td>

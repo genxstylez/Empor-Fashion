@@ -55,8 +55,6 @@ class Order(models.Model):
                     discount.save()
 
         if self.status == 1:
-            if self.items.count() > 1:
-                self.shipping_discount = self.shipping.cost
             for product in self.items.all():
                 if product.discountable:
                     discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount

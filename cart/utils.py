@@ -1,6 +1,6 @@
 from cart.models import ArchivedCart, ArchivedCartItem, CartItem
 
-def archive_cart(cart, revert=None):
+def archive_cart(cart, expired=None):
     items = CartItem.objects.filter(cart=cart)
     if items:
         Acart = ArchivedCart()
@@ -11,7 +11,7 @@ def archive_cart(cart, revert=None):
         Acart.net_total = cart.net_total
         Acart.created_at = cart.created_at
         Acart.last_modified = cart.last_modified
-        if revert:
+        if expired:
             Acart.type = 1
 
         Acart.save()
@@ -22,7 +22,7 @@ def archive_cart(cart, revert=None):
             ACitem.product = item.product
             ACitem.archived_cart = Acart
             ACitem.quantity = item.quantity
-            if revert:
+            if expired:
                 item.product.stock += item.quantity
                 item.product.save()
             ACitem.discount_total = item.discount_total

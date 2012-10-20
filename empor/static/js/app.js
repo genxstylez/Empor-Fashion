@@ -248,7 +248,7 @@ function init(){
         var item = $('.size_select .selected a').attr('data');
         if(!item)
             item = $(this).attr('data');
-        var qty = $('#quantity').val();
+        var qty = $('input[name="quantity"]').val();
         $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response, textStatus, xhr) {
             if (response.message) {
                 alert(response.message);

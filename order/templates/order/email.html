@@ -16,8 +16,8 @@
             <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px dotted; padding: 5px 15px;">
                 <p>{{ order.user.get_name }}先生/小姐您好，感謝您在EMPOR訂購商品，我們已收到您的資料。</p>
                 <p>EMPOR保留接受您的訂單與否之權利。</p>
-                <p>以下為您的訂購清單，若您無法閱讀此信，請<a href="http://{{ domain }}{% url order-info order.id %}" target="_blank">按此連結</a>，查看訂購明細！</p>
-                <p>※此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫<a href="http://blueduck.vodka.com.tw/EMPOR/contact.html" target="_blank">客服中心</a>，謝謝！</p>
+                <p>以下為您的訂購清單，若您無法閱讀此信，請<a href="http://{{ host }}{% url order-info order.id %}" target="_blank">按此連結</a>，查看訂購明細！</p>
+                <p>※此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫<a href="http://{{ host }}{% url service-center %}" target="_blank">客服中心</a>，謝謝！</p>
             </td>
         </tr>
         <tr>
@@ -110,7 +110,7 @@
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Shipping Cost' %}</td>
-                            <td><span style="color:#900;">{% trans 'Shipping Free' %}</span></td>
+                            <td><span style="color:#900;">{% trans 'Free Shipping' %}</span></td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td colspan="5">{% trans 'Order Net Total' %}</td>
