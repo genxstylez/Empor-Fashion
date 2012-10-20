@@ -7,9 +7,9 @@ from order.settings import PAYMENT_METHOD_CHOICES, DISPATCH_TIME_CHOICES, RECIEP
 
 class OrderForm(ModelForm):
     required_css_class = 'required'
-    reciept_type = forms.ChoiceField(widget=forms.RadioSelect(), choices=RECIEPT_TYPE_CHOICES)
-    payment_method = forms.ChoiceField(widget=forms.RadioSelect(), choices=PAYMENT_METHOD_CHOICES)
-    dispatch_time = forms.ChoiceField(widget=forms.RadioSelect(), choices=DISPATCH_TIME_CHOICES)
+    reciept_type = forms.ChoiceField(label=_('Reciept Type'), widget=forms.RadioSelect(), choices=RECIEPT_TYPE_CHOICES)
+    payment_method = forms.ChoiceField(label=_('Payment Method'), widget=forms.RadioSelect(), choices=PAYMENT_METHOD_CHOICES)
+    dispatch_time = forms.ChoiceField(label=_('Dispatch time'), widget=forms.RadioSelect(), choices=DISPATCH_TIME_CHOICES)
 
     class Meta:
         model = Order
