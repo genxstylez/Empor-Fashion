@@ -124,8 +124,11 @@ def success(request):
     pdf = generate_order_pdf(request, order) 
 
     subject = _('EMPOR Order Confirmation')
-    content = render_to_string('order/email.html', {'order': order, 'items': items, 
-        'STATIC_URL': settings.STATIC_URL, 'domain': request.get_host()
+    content = render_to_string('order/email.html', {
+        'order': order, 
+        'items': items, 
+        'STATIC_URL': settings.STATIC_URL, 
+        'host': request.get_host()
     })
     message = EmailMessage(subject, content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
     filename = order.order_id
