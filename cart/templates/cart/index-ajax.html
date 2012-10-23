@@ -6,11 +6,10 @@
         <thead>
           <tr>
             <th class="span2"></th>
-            <th>{% trans 'Item' %}</th>
-            <th class="span1 t_right">{% trans 'Price' %}</th>
-            <th class="span1 t_right">{% trans 'Discount' %}</th>
+            <th>{% trans 'Product' %}</th>
+            <th class="span1 t_right">{% trans 'Size' %}</th>
             <th class="span1 t_right">{% trans 'Qty' %}</th>
-            <th class="span1 t_right">{% trans 'Total' %}</th>
+            <th class="span1 t_right">{% trans 'Price' %}</th>
           </tr>
         </thead>
         <tbody>
@@ -34,15 +33,14 @@
                     <a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a>
                     {% endif %}
                 </td>
-                <td class="t_right">{{ item.gross_total|currency }}</td>
-                <td class="t_right">{% if item.discount_total > 0 %} {{ item.product.get_discount_price|currency }} {% else %} - {% endif %}</td>
+                <td class="t_right">{% if item.product.has_options %}{{ item.product.option.name }}{% else %} - {% endif %}</td>
                 <td class="t_right">{{ item.quantity }}</td>
                 <td class="t_right item_total">{{ item.net_total|currency }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-    <h3>{% trans 'Shopping Total' %}：<span id="total">{{ cart.net_total|currency }}</span></h3>
+    <h3>{% trans 'Net Total' %}：<span id="total">{{ cart.net_total|currency }}</span></h3>
     <div class="form-actions">
         <a id="continue" href="#" class="button">{% trans 'Continue Shopping' %}</a>　
         {% if cart.items.count > 0 %}<a href="{% url order-index %}" class="button">{% trans 'Checkout and Payment' %}</a>{% endif %}

@@ -9,12 +9,12 @@
             <thead>
                 <tr>
                     <th class="span2"></th>
-                    <th>{% trans 'Item' %}</th>
+                    <th>{% trans 'Product' %}</th>
                     <th class="span2 t_right">{% trans 'Size' %}</th>
                     <th class="span2 t_right">{% trans 'Qty' %}</th>
                     <th class="span2 t_right">{% trans 'Price' %}</th>
                     <th class="span2 t_right">{% trans 'Discount' %}</th>
-                    <th class="span2 t_right">{% trans 'Total' %}</th>
+                    <th class="span2 t_right">{% trans 'Gross Total' %}</th>
                     <th></th>
                 </tr>
             </thead>
@@ -66,7 +66,7 @@
         <h4>{% trans 'Memeber Information' %}</h4>
         <div class="control-group">
             <label class="control-label">{% trans 'Name' %}</label>
-            <div class="controls">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+            <div class="controls">{{ request.user.get_name }}</div>
         </div>
         <div class="control-group">
             <label class="control-label">{% trans 'Email' %}</label>
@@ -74,7 +74,7 @@
         </div>
         <div class="control-group">
             <label class="control-label">{% trans 'Phone' %}</label>
-            <div class="controls">{{ request.user.phone }}</div>
+            <div class="controls">{{ request.user.profile.phone }}</div>
         </div>
         <hr />
         {% for field in form %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-07 20:04+0000\n"
+"POT-Creation-Date: 2012-10-23 20:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,83 +18,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
-#: models.py:8 models.py:29
+#: models.py:10 models.py:36
 msgid "User"
 msgstr "使用者"
 
-#: models.py:9 models.py:30
+#: models.py:11 models.py:37
 msgid "Session"
 msgstr ""
 
-#: models.py:10 models.py:31
+#: models.py:12 models.py:38
 msgid "Items"
 msgstr "物品"
 
-#: models.py:11 models.py:22 models.py:32 models.py:43
+#: models.py:13 models.py:29 models.py:40 models.py:51
 msgid "Discount Total"
 msgstr "折扣合計"
 
-#: models.py:12 models.py:23 models.py:33 models.py:44
+#: models.py:14 models.py:30 models.py:41 models.py:52
+#: templates/cart/index.html:15
 msgid "Gross Total"
-msgstr "商品合計"
+msgstr "小計"
 
-#: models.py:13 models.py:24 models.py:34 models.py:45
+#: models.py:15 models.py:31 models.py:42 models.py:53
+#: templates/cart/index-ajax.html:43 templates/cart/index.html:50
 msgid "Net Total"
-msgstr "總合計"
+msgstr "總計"
 
-#: models.py:14 models.py:25 models.py:35 models.py:46
+#: models.py:16 models.py:32 models.py:43 models.py:54
 msgid "Created at"
 msgstr "建立日期"
 
-#: models.py:15 models.py:26 models.py:36 models.py:47
+#: models.py:17 models.py:33 models.py:44 models.py:55
 msgid "Last modified"
 msgstr "更改日期"
 
-#: models.py:18 templates/cart/index-ajax.html:5 templates/cart/index.html:6
+#: models.py:25
 msgid "Cart"
 msgstr "購物車"
 
-#: models.py:19 models.py:40
+#: models.py:26 models.py:48 templates/cart/index-ajax.html:9
+#: templates/cart/index.html:10
 msgid "Product"
 msgstr "產品"
 
-#: models.py:20 models.py:41 templates/cart/index-ajax.html:12
-#: templates/cart/index.html:13
+#: models.py:27 models.py:49 templates/cart/index.html:14
 msgid "Discount"
 msgstr "折扣"
 
-#: models.py:21 models.py:42
+#: models.py:28 models.py:50
 msgid "Quantity"
 msgstr "數量"
 
 #: models.py:39
+msgid "Type"
+msgstr ""
+
+#: models.py:47
 msgid "Archived Cart"
 msgstr "購物車(存)"
 
+#: settings.py:5
+msgid "Bought"
+msgstr ""
+
+#: settings.py:6
+msgid "Expired"
+msgstr ""
+
+#: views.py:69
+msgid "This item has sold out"
+msgstr ""
+
 #: templates/cart/index-ajax.html:10 templates/cart/index.html:11
-msgid "Item"
-msgstr "物品"
+msgid "Size"
+msgstr ""
 
 #: templates/cart/index-ajax.html:11 templates/cart/index.html:12
-msgid "Price"
-msgstr "價格"
-
-#: templates/cart/index-ajax.html:13 templates/cart/index.html:14
 msgid "Qty"
 msgstr "數量"
 
-#: templates/cart/index-ajax.html:14 templates/cart/index.html:15
-msgid "Total"
-msgstr "合計"
+#: templates/cart/index-ajax.html:12 templates/cart/index.html:13
+msgid "Price"
+msgstr "價格"
 
-#: templates/cart/index-ajax.html:40 templates/cart/index.html:41
-msgid "Shopping Total"
-msgstr "購物合計"
-
-#: templates/cart/index-ajax.html:42 templates/cart/index.html:44
+#: templates/cart/index-ajax.html:45 templates/cart/index.html:53
 msgid "Continue Shopping"
 msgstr "繼續購物"
 
-#: templates/cart/index-ajax.html:43 templates/cart/index.html:45
+#: templates/cart/index-ajax.html:46 templates/cart/index.html:54
 msgid "Checkout and Payment"
 msgstr "結帳"

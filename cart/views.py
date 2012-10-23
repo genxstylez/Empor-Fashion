@@ -11,6 +11,11 @@ from cart.utils import archive_cart
 def get_cart(request):
     if 'cart' in request.session:
         cart = request.session['cart']
+        if cart.items.count() == 0:
+            cart.net_total = 0
+            cart.gross_total = 0
+            cart.discount_total = 0
+            cart.save()
         if request.user.is_authenticated():
             if Cart.objects.filter(user=request.user) and cart != request.user.cart:
                 archive_cart(request.user.cart, 'expired')

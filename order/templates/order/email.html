@@ -3,17 +3,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title></title>
 <body>
-<table cellpadding="5" id="order_box">
+<table cellpadding="5" style="width:700px; background:#ececec;border-spacing: 0px; margin: 0 auto;">
     <thead>
         <tr>
-            <th style="background:#29201b; text-align:left;">
-                <img src="http://{{ host }}{{ STATIC_URL }}images/EMPOR_logo_back.png">
+            <th style="text-align:center; padding-top:20px;">
+                <img src="http://{{ host }}{{ STATIC_URL }}images/EMPOR_logo_b.png">
             </th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px dotted; padding: 5px 15px;">
+            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solide; padding: 5px 15px;">
                 <p>{{ order.user.get_name }}先生/小姐您好，感謝您在EMPOR訂購商品，我們已收到您的資料。</p>
                 <p>EMPOR保留接受您的訂單與否之權利。</p>
                 <p>以下為您的訂購清單，若您無法閱讀此信，請<a href="http://{{ host }}{% url order-info order.id %}" target="_blank">按此連結</a>，查看訂購明細！</p>
@@ -21,43 +21,40 @@
             </td>
         </tr>
         <tr>
-            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px dotted; padding: 5px 15px;">
+            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solid; padding: 5px 15px;">
                 <table border="0" cellpadding="5" style="width:100%">
-                  <tbody>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Order ID' %}</th>
-                    <td>{{ order.order_id }}</td>
-                  </tr>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Order Date' %}</th>
-                    <td>{{ order.created_at|date:"Y/m/d" }}</td>
-                  </tr>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Buyer' %}</th>
-                    <td>{{ order.billing_recipient }}</td>
-                  </tr>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Email' %}</th>
-                    <td>{{ order.user.email }}</td>
-                  </tr>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Phone' %}</th>
-                    <td>{{ order.billing_phone }}</td>
-                  </tr>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Billing Address' %}</th>
-                    <td>{{ order.get_billing_address }}</td>
-                  </tr>
-                  <tr>
-                    <th style="text-align:right; width:100px;">{% trans 'Payment method' %}</th>
-                    <td>{{ order.get_payment_method_display }}</td>
-                  </tr>
-                </tbody>
-               </table>
-          </td>
+                    <tbody>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Order ID' %}</th>
+                            <td>{{ order.order_id }}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Order Date' %}</th>
+                            <td>{{ order.created_at|date:"Y/m/d" }}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Buyer' %}</th>
+                            <td>{{ order.billing_recipient }}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Email' %}</th>
+                            <td>{{ order.user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Phone' %}</th>
+                            <td>{{ order.billing_phone }}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Billing Address' %}</th>
+                            <td>{{ order.get_billing_address }}</td>
+                        </tr>
+                      
+                    </tbody>
+                </table>
+            </td>
         </tr>
         <tr>
-            <td>
+            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solid; padding: 5px 15px;">
                 <table border="0" cellpadding="5" style="width:100%">
                     <tbody>
                         <tr>
@@ -72,17 +69,48 @@
                             <th style="text-align:right; width:100px;">{% trans 'Shipping Address' %}</th>
                             <td>{{ order.get_shipping_address }}</td>
                         </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Dispatch Time' %}</th>
+                            <td>{{ order.get_dispatch_time_display }}</td>
+                        </tr>
                     </tbody>
                 </table>
-          </td>
+            </td>
+        </tr>
+        <tr>
+            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solid; padding: 5px 15px;">
+                <table border="0" cellpadding="5" style="width:100%">
+                    <tbody>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Reciept' %}</th>
+                            <td>{{ order.get_reciept_type_display }}</td>
+                        </tr>
+                        {% if order.uni_no %}
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Uni No.' %}</th>
+                            <td>{{ order.uni_no }}</td>
+                        </tr>
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Company Title' %}</th>
+                            <td>{{ order.company_title }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th style="text-align:right; width:100px;">{% trans 'Payment method' %}</th>
+                            <td>{{ order.get_payment_method_display }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
         </tr>
         <tr>
             <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px dotted; padding: 5px 15px;">
-                <table border="0" cellpadding="5" style="background:#fff; border-collapse:collapse; text-align:left; width:660px; margin:20px;">
+                <table border="0" cellpadding="5" style="background:#ececec;; border-collapse:collapse; text-align:left; width:660px; margin:20px;">
                     <thead>
-                        <tr style="color:#29201b; border-bottom:2px solid #29201b; padding:8px; background:#fff;">
+                        <tr style="color:#29201b; border-bottom:2px solid #29201b; padding:8px;"> 
                             <th></th>
                             <th>{% trans 'Product' %}</th>
+                            <th>{% trans 'Size' %}</th>
                             <th>{% trans 'Quantity' %}</th>
                             <th>{% trans 'Price' %}</th>
                             <th>{% trans 'Discount' %}</th>
@@ -92,8 +120,9 @@
                     <tbody>
                     {% for item in items %}
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
-                            <td><img src="http://{{ host }}{{ item.product.get_main_image.image.small.url }}"></td>
+                            <td><img src="{{ item.product.get_main_image.image.small.url }}"></td>
                             <td>{{ item.product }}</td>
+                            <td>{% if item.has_options %}{{ item.option.name }}{% else %} - {% endif %}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total|currency }}</td>
                             <td>{{ item.discount_total|currency }}</td>
@@ -101,25 +130,28 @@
                         </tr>
                     {% endfor %}
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
-                            <td colspan="5">{% trans 'Order Gross Total' %}</td>
+                            <td colspan="6">{% trans 'Order Gross Total' %}</td>
                             <td>{{ order.gross_total|currency }}</td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
-                            <td colspan="5">{% trans 'Discount Total' %}</td>
+                            <td colspan="6">{% trans 'Discount Total' %}</td>
                             <td>{{ order.discount_total|currency }}</td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
-                            <td colspan="5">{% trans 'Shipping Cost' %}</td>
+                            <td colspan="6">{% trans 'Shipping Cost' %}</td>
                             <td><span style="color:#900;">{% trans 'Free Shipping' %}</span></td>
                         </tr>
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
-                            <td colspan="5">{% trans 'Order Net Total' %}</td>
+                            <td colspan="6">{% trans 'Order Net Total' %}</td>
                             <td>{{ order.net_total|currency }}</td>
                         </tr>
                     </tbody>
                 </table>
             </td>
-        </tr>     
+        </tr>
+        <tr style="background:#29201b; color:#ffffff;text-align: center; line-height: 18px;">
+            <td>COPYRIGHT© 2012 EMPOR. All RIGHTS RESERVED.</td>
+        </tr>
     </tbody>
 </table>
 

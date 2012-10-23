@@ -91,6 +91,7 @@ function init(){
     //same as billing checkbox
     $('input[name="copy_address"]').click(function() {
         if($(this).is(':checked')) {
+            $('input#id_shipping_phone').val($('input#id_billing_phone').val());
             $('input#id_shipping_recipient').val($('input#id_billing_recipient').val());
             $('input#id_shipping_street1').val($('input#id_billing_street1').val());
             $('input#id_shipping_street2').val($('input#id_billing_street2').val());
@@ -253,6 +254,7 @@ function init(){
             if (response.message) {
                 alert(response.message);
             } else {
+                window.a = $(response);
                 $(response).hide().appendTo('body').fadeIn(function() {
                     var badge = $('.cart_box span.badge');
                     if(badge.length > 0) {
