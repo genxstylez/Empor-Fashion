@@ -13,6 +13,6 @@ class ViewSitemap(Sitemap):
     
 product = {'queryset': Product.on_site.all(), 'date_field': 'last_modified'}
 sitemaps = {
-    'views': ViewSitemap,
     'products': GenericSitemap(product, priority=0.8, changefreq='daily'),
+    'views': ViewSitemap,
 }
