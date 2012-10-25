@@ -66,7 +66,7 @@ a:hover {
 #order_box #item_list {
     border-collapse:collapse;
     text-align:left;
-    width:100%;
+    width:500px;
 }
 #order_box #item_list th {
     color:#29201b;
@@ -190,17 +190,17 @@ a:hover {
                     <thead>
                         <tr>
                             <th>{% trans 'Product' %}</th>
-                            <th>{% trans 'Size' %}</th>
-                            <th>{% trans 'Quantity' %}</th>
+                            <th width="100px">{% trans 'Size' %}</th>
+                            <th width="100px">{% trans 'Quantity' %}</th>
                             <th>{% trans 'Price' %}</th>
                             <th>{% trans 'Discount' %}</th>
-                            <th style="width:150px">{% trans 'Total' %}</th>
+                            <th>{% trans 'Gross Total' %}</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for item in items %}
                         <tr>
-                            <td>{{ item.product.name }}</td>
+                            <td><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></td>
                             <td>{% if item.has_options %}{{ item.option.name }}{% else %} - {% endif %}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total|currency }}</td>
@@ -209,7 +209,7 @@ a:hover {
                         </tr>
                     {% endfor %}
                         <tr>
-                            <td class="left" colspan="5">{% trans 'Order Gross Total' %}</td>
+                            <td class="left" colspan="5">{% trans 'Product Gross Total' %}</td>
                             <td>{{ order.gross_total|currency }}</td>
                         </tr>
                         <tr>
@@ -221,7 +221,7 @@ a:hover {
                             <td><span style="color:#900;">{% trans 'Free Shipping' %}</span></td>
                         </tr>
                         <tr>
-                            <td class="left" colspan="5">{% trans 'Order Net Total' %}</td>
+                            <td class="left" colspan="5">{% trans 'Net Total' %}</td>
                             <td>{{ order.net_total|currency }}</td>
                         </tr>
                     </tbody>
