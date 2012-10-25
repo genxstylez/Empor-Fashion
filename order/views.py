@@ -90,7 +90,7 @@ def paypal(request):
 def success(request):
     from order.utils import generate_order_pdf
     from django.template.loader import render_to_string
-    from django.core.mail import EmailMessage
+    from django.core.mail import EmailMultiAlternatives
     try:
         order = request.session['order']
     except KeyError:
@@ -124,16 +124,21 @@ def success(request):
     pdf = generate_order_pdf(request, order) 
 
     subject = _('EMPOR Order Confirmation')
-    content = render_to_string('order/email.html', {
+    html_content = render_to_string('order/email.html', {
         'order': order, 
         'items': items, 
         'STATIC_URL': settings.STATIC_URL, 
         'host': request.get_host()
     })
-    message = EmailMessage(subject, content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
+    text_content = render_to_string('order/email.txt', {
+        'order': order,
+        'items': items,
+        'host': request.get_host()
+    })
+    message = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
+    message.attach_alternative(html_content, 'text/html')
     filename = order.order_id
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
-    message.content_subtype = "html"
     message.send()
     
     del request.session['cart']

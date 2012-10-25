@@ -13,7 +13,7 @@ def generate_order_pdf(request, order):
     html = render_to_string('order/email-pdf.html', {
             'order': order,
             'items': items,
-            'domain': request.get_host(),
+            'host': request.get_host(),
             'STATIC_URL': settings.STATIC_URL
     })
     result = StringIO.StringIO()

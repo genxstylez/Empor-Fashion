@@ -1,8 +1,9 @@
 {% extends 'empor/base.html' %}
-{% load i18n thumbnail common %}
+{% load i18n thumbnail common cache %}
 {% block content %}
 <div id="isotope_list">
     {% for product in products %}
+    {% cache 500 product.name %}
     {% with box_class|random as class %}
     <div class="index_itembox {{ class }}"> 
             <div class="itemimg"><img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}"></div>
@@ -24,6 +25,7 @@
             </a>
     </div>
     {% endwith %}
+    {% endcache %}
     {% endfor %}
 </div>
 {% endblock %}

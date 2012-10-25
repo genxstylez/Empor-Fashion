@@ -38,17 +38,18 @@ a:hover {
     color:#413735;
 }
 #order_box {
-    width:600px;
+    width:700px;
+    background: #ececec;
+    border-spacing: 0px;
 }
 #order_box thead th{
-    background:#29201b;
-    text-align:left;
+    text-align:center;
+    padding-top:20px;
 }
 #order_box td{
     line-height: 18px;
     text-align: left;
     vertical-align: top;
-    border-bottom:#ccc 1px dotted;
     padding: 5px 15px;
 }
 .data_box {
@@ -58,11 +59,8 @@ a:hover {
     text-align:right;
     width:250px;
 }
-#order_box .data_box td{
-    border-bottom:0px;
-}
 #order_box #item_list {
-    background:#fff;
+    background:#ececec;
     border-collapse:collapse;
     text-align:left;
     width:660px;
@@ -75,12 +73,12 @@ a:hover {
     color:#29201b;
     border-bottom:2px solid #29201b;
     padding:8px;
-    background:#fff;
+    text-align:right;
 }
 #order_box #item_list td{
     padding: 8px;
     line-height: 18px;
-    text-align: left;
+    text-align:right;
     vertical-align: top;
     border-bottom: 1px solid #dddddd;
 }
@@ -92,50 +90,48 @@ a:hover {
 <table cellpadding="5" id="order_box">
     <thead>
         <tr>
-            <th><img src="/home/samliu/projects/EMPOR_ENV/asset/images/EMPOR_logo_back.png"></th>
+            <th><img src="/home/samliu/projects/EMPOR_ENV/asset/images/EMPOR_logo_b.png"></th>
         </tr>
     </thead>
     <tbody>
         <tr>
           <td><p>{{ order.user.get_name }}先生/小姐您好，感謝您在EMPOR訂購商品，我們已收到您的資料。</p>
               <p>EMPOR保留接受您的訂單與否之權利。</p>
-              <p>以下為您的訂購清單，若您無法閱讀此信，請<a href="http://{{ domain }}{% url order-info order.id %}" target="_blank">按此連結</a>，查看訂購明細！</p>
-              <p>※此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫<a href="http://blueduck.vodka.com.tw/EMPOR/contact.html" target="_blank">客服中心</a>，謝謝！</p>
+              <p>以下為您的訂購清單，若您無法閱讀此信，請<a href="http://{{ host }}{% url order-info order.id %}" target="_blank">按此連結</a>，查看訂購明細！</p>
+              <p>※此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫<a href="http://{{ host }}{% url service-center %}" target="_blank">客服中心</a>，謝謝！</p>
           </td>
         </tr>
         <tr>
             <td>
                 <table border="0" cellpadding="5" class="data_box">
-                  <tbody><tr>
-                    <th>{% trans 'Order ID' %}</th>
-                    <td>{{ order.order_id }}</td>
-                  </tr>
-                  <tr>
-                    <th>{% trans 'Order Date' %}</th>
-                    <td>{{ order.created_at|date:"Y/m/d" }}</td>
-                  </tr>
-                  <tr>
-                    <th>{% trans 'Buyer' %}</th>
-                    <td>{{ order.billing_recipient }}</td>
-                  </tr>
-                  <tr>
-                    <th>{% trans 'Email' %}</th>
-                    <td>{{ order.user.email }}</td>
-                  </tr>
-                  <tr>
-                    <th>{% trans 'Phone' %}</th>
-                    <td>{{ order.billing_phone }}</td>
-                  </tr>
-                  <tr>
-                    <th>{% trans 'Billing Address' %}</th>
-                    <td>{{ order.get_billing_address }}</td>
-                  </tr>
-                  <tr>
-                    <th>{% trans 'Payment method' %}</th>
-                    <td>{{ order.get_payment_method_display }}</td>
-                  </tr>
-                </tbody></table>
-          </td>
+                    <tbody>
+                        <tr>
+                            <th>{% trans 'Order ID' %}</th>
+                            <td>{{ order.order_id }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Order Date' %}</th>
+                            <td>{{ order.created_at|date:"Y/m/d" }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Buyer' %}</th>
+                            <td>{{ order.billing_recipient }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Email' %}</th>
+                            <td>{{ order.user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Phone' %}</th>
+                            <td>{{ order.billing_phone }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Billing Address' %}</th>
+                            <td>{{ order.get_billing_address }}</td>
+                        </tr> 
+                    </tbody>
+                </table>
+            </td>
         </tr>
         <tr>
             <td>
@@ -153,28 +149,54 @@ a:hover {
                             <th>{% trans 'Shipping Address' %}</th>
                             <td>{{ order.get_shipping_address }}</td>
                         </tr>
+                        <tr>
+                            <th>{% trans 'Dispatch Time' %}</th>
+                            <td>{{ order.get_dispatch_time_display }}</td>
                     </tbody>
                 </table>
-          </td>
+                <table border="0" cellpadding="5" class="data_box">
+                    <tbody>
+                        <tr>
+                            <th>{% trans 'Reciept' %}</th>
+                            <td>{{ order.get_reciept_type_display }}</td>
+                        </tr>
+                        {% if order.reciept_type == 3 %}
+                        <tr>
+                            <th>{% trans 'Uni No.' %}</th>
+                            <td>{{ order.uni_no }}</td>
+                        </tr>
+                        <tr>
+                            <th>{% trans 'Company title' %}</th>
+                            <td>{{ order.company_title }}</td>
+                        </tr>
+                        {% endif %}
+                        <tr>
+                            <th>{% trans 'Payment Method' %}</th>
+                            <td>{{ order.get_payment_method_display }}</td>
+                    </tbody>
+                </table>
+            </td>
         </tr>
         <tr>
             <td>
                 <table border="0" cellpadding="5" id="item_list">
                     <thead>
                         <tr>
-                            <th></th>
+                            <th style="width:60px;"></th>
                             <th>{% trans 'Product' %}</th>
-                            <th>{% trans 'Quantity' %}</th>
-                            <th>{% trans 'Price' %}</th>
-                            <th>{% trans 'Discount' %}</th>
-                            <th>{% trans 'Total' %}</th>
+                            <th style="width:50px;">{% trans 'Size' %}</th>
+                            <th style="width:50px;">{% trans 'Quantity' %}</th>
+                            <th style="width:70px;">{% trans 'Price' %}</th>
+                            <th style="width:70px;">{% trans 'Discount' %}</th>
+                            <th style="width:70px;">{% trans 'Total' %}</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for item in items %}
                         <tr>
-                            <td><img src="{{ item.product.get_main_image|thumbnail_url:'small' }}"></td>
+                            <td><img src="{{ item.product.get_main_image.image.small.url }}"></td>
                             <td>{{ item.product }}</td>
+                            <td>{% if item.has_options %}{{ item.option.name }}{% else %} - {% endif %}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total|currency }}</td>
                             <td>{{ item.discount_total|currency }}</td>
@@ -182,25 +204,28 @@ a:hover {
                         </tr>
                     {% endfor %}
                         <tr>
-                            <td colspan="5">{% trans 'Order Gross Total' %}</td>
+                            <td colspan="6">{% trans 'Order Gross Total' %}</td>
                             <td>{{ order.gross_total|currency }}</td>
                         </tr>
                         <tr>
-                            <td colspan="5">{% trans 'Discount Total' %}</td>
+                            <td colspan="6">{% trans 'Discount Total' %}</td>
                             <td>{{ order.discount_total|currency }}</td>
                         </tr>
                         <tr>
-                            <td colspan="5">{% trans 'Shipping Cost' %}</td>
-                            <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost }}{% else %}<span style="color:#900;">{% trans 'Free Shipping' %}</span>{% endif %}</td>
+                            <td colspan="6">{% trans 'Shipping Cost' %}</td>
+                            <td><span style="color:#900;">{% trans 'Free Shipping' %}</span></td>
                         </tr>
                         <tr>
-                            <td colspan="5">{% trans 'Order Net Total' %}</td>
+                            <td colspan="6">{% trans 'Order Net Total' %}</td>
                             <td>{{ order.net_total|currency }}</td>
                         </tr>
                     </tbody>
                 </table>
             </td>
         </tr>     
+        <tr style="background:#29201b; color:#ffffff; text-align:center; line-height: 18px;">
+            <td>COPYRIGHT© 2012 EMPOR. All RIGHTS RESERVED.</td>
+        </tr>
     </tbody>
 </table>
 

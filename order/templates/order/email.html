@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         <tr>
-            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solide; padding: 5px 15px;">
+            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solid; padding: 5px 15px;">
                 <p>{{ order.user.get_name }}先生/小姐您好，感謝您在EMPOR訂購商品，我們已收到您的資料。</p>
                 <p>EMPOR保留接受您的訂單與否之權利。</p>
                 <p>以下為您的訂購清單，若您無法閱讀此信，請<a href="http://{{ host }}{% url order-info order.id %}" target="_blank">按此連結</a>，查看訂購明細！</p>
@@ -48,7 +48,6 @@
                             <th style="text-align:right; width:100px;">{% trans 'Billing Address' %}</th>
                             <td>{{ order.get_billing_address }}</td>
                         </tr>
-                      
                     </tbody>
                 </table>
             </td>
@@ -96,7 +95,7 @@
                         </tr>
                         {% endif %}
                         <tr>
-                            <th style="text-align:right; width:100px;">{% trans 'Payment method' %}</th>
+                            <th style="text-align:right; width:100px;">{% trans 'Payment Method' %}</th>
                             <td>{{ order.get_payment_method_display }}</td>
                         </tr>
                     </tbody>
@@ -104,7 +103,7 @@
             </td>
         </tr>
         <tr>
-            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px dotted; padding: 5px 15px;">
+            <td style="line-height: 18px; text-align: left; vertical-align: top; border-bottom:#ccc 1px solid; padding: 5px 15px;">
                 <table border="0" cellpadding="5" style="background:#ececec;; border-collapse:collapse; text-align:left; width:660px; margin:20px;">
                     <thead>
                         <tr style="color:#29201b; border-bottom:2px solid #29201b; padding:8px;"> 

@@ -1,0 +1,40 @@
+{% load thumbnail i18n common %}
+======================================================EMPOR======================================================
+{{ order.user.get_name }}先生/小姐您好，感謝您在EMPOR訂購商品，我們已收到您的資料。
+EMPOR保留接受您的訂單與否之權利。
+以下為您的訂購清單，若您無法閱讀此信，請至http://{{ host }}{% url order-info order.id %}，查看訂購明細！
+※此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請至http://{{ host }}{% url service-center %}，謝謝！
+=================================================================================================================
+{% trans 'Order ID' %}  : {{ order.order_id }}
+{% trans 'Order Date' %}    : {{ order.created_at|date:"Y/m/d" }}
+{% trans 'Buyer' %} : {{ order.billing_recipient }}
+{% trans 'Email' %} : {{ order.user.email }}
+{% trans 'Phone' %} : {{ order.billing_phone }}
+{% trans 'Billing Address' %}   : {{ order.get_billing_address }}
+=================================================================================================================
+{% trans 'Recipient' %} : {{ order.shipping_recipient }}
+{% trans 'Phone' %} : {{ order.shipping_phone }}
+{% trans 'Shipping Address' %}  : {{ order.get_shipping_address }}
+{% trans 'Dispatch Time' %} : {{ order.get_dispatch_time_display }}
+=================================================================================================================
+{% trans 'Reciept' %}   : {{ order.get_reciept_type_display }}
+{% if order.uni_no %}
+{% trans 'Uni No.' %}   : {{ order.uni_no }}
+{% trans 'Company Title' %} : {{ order.company_title }}
+{% endif %}
+{% trans 'Payment Method' %}    : {{ order.get_payment_method_display }}
+================================================================================================================
+{% for item in items %}
+{% trans 'Product' %}   : {{ item.product.name }}   
+{% trans 'Size' %}  : {% if item.has_options %}{{ item.option.name }}{% else %} - {% endif %}
+{% trans 'Quantity' %}  : {{ item.quantity }}   
+{% trans 'Price' %} : {{ item.gross_total|currency }}
+{% trans 'Discount' %}  : {{ item.discount_total|currency }}
+{% trans 'Total' %} : {{ item.net_total|currency }}
+{% endfor %}
+{% trans 'Order Gross Total' %} : {{ order.gross_total|currency }}
+{% trans 'Discount Total' %}    : {{ order.discount_total|currency }}
+{% trans 'Shipping Cost' %} : {% trans 'Free Shipping' %}
+{% trans 'Order Net Total' %}   : {{ order.net_total|currency }}
+=================================================================================================================
+COPYRIGHT© 2012 EMPOR. All RIGHTS RESERVED.

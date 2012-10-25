@@ -29,6 +29,6 @@ class OrderForm(ModelForm):
         return self.cleaned_data['uni_no']
 
     def clean_company_title(self):
-        if self.cleaned_data['company_title'] and not self.cleaned_data['uni_no']:
+        if self.cleaned_data['company_title'] and not self.data['uni_no']:
             raise forms.ValidationError(_('Please enter uni no'))
         return self.cleaned_data['company_title']
