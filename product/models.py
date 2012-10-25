@@ -67,6 +67,12 @@ class Option(models.Model):
     def __unicode__(self):
         return self.option_group.name + ' - ' + self.name
 
+class ProductManager(models.Manager):
+    def get_query_set(self):
+        queryset = super(ProductManager, self).get_query_set()
+        queryset = queryset.filter(parent=None)
+        return queryset
+
 class Product(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     sku = models.CharField(_('SKU'), max_length=20, db_index=True)
@@ -88,6 +94,8 @@ class Product(models.Model):
     has_options = models.BooleanField(_('Has options'), default=False)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+    objects = models.Manager()
+    on_site = ProductManager()
 
     class Meta:
         unique_together = ('slug', 'brand', 'option')

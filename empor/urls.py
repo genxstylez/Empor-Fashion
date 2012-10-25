@@ -1,5 +1,7 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from empor.sitemap import sitemaps
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -13,4 +15,6 @@ urlpatterns = patterns('',
     url(r'^discount/', include('discount.urls')),
     url(r'^order/', include('order.urls')),
     url(r'^service/', include('service.urls')),
+
+    (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps})
 )
