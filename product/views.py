@@ -8,9 +8,9 @@ from product.models import Product, Gender
 def products(request, gender_type=None):
     if gender_type:
         gender = Gender.objects.get(name=gender_type)
-        products = gender.products.filter(parent=None)
+        products = Product.on_site.filter(gender=gender)
     else:
-        products = Product.objects.filter(parent=None)
+        products = Product.on_site.all()
     box_class = ['a11', 'a12', 'a21', 'a22']
     return render(request, 'product/products.html', {'products': products, 'box_class': box_class })
 

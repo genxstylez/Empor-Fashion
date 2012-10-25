@@ -88,6 +88,7 @@ class Product(models.Model):
     option = models.ForeignKey(Option, verbose_name=_('Option'), related_name='products', null=True, blank=True)
     price = models.PositiveIntegerField(_('Price'), default=0)
     composition = models.CharField(_('Composition'), max_length=100, blank=True)
+    remark = models.CharField(_('Remark'), max_length=100, blank=True),
     gender = models.ManyToManyField(Gender, related_name='products')
     discountable = models.BooleanField(_('Discountable'), default=False)
     featured = models.BooleanField(_('Featured'), default=False)
