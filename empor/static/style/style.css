@@ -692,6 +692,9 @@ a.button {
 	padding: 15px 30px;
 	font-weight:bold;
 }
+.button.soldout {
+	background-color: #900;
+}
 /*table*/
 table {
   max-width: 100%;
