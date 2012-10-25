@@ -32,13 +32,19 @@ def index(request):
     return render(request, 'cart/index.html', {'cart': cart, 'items': items})
 
 def add_item(request):
+    product_id = request.POST.get('product_id', None)
+    product = get_object_or_404(Product, id=product_id)
     if request.method == 'POST' and request.is_ajax():
+
+        if product.has_options and product.parent == None:
+            return JsonResponse({'message': _('Please choose a size')})
+
         cart = get_cart(request)
-        product_id = request.POST.get('product_id', None)
-        quantity = request.POST.get('quantity', 1)
+        quantity = request.POST.get('quantity')
+        if not quantity:
+            quantity = 1
         quantity = int(quantity)
 
-        product = get_object_or_404(Product, id=product_id)
         if product.stock >= quantity:
             try:
                 item = CartItem.objects.get(product=product, cart=cart)

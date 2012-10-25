@@ -27,9 +27,12 @@
             </h3>
         </div> 
         <div class="data"><p>{{ focus_product.description }}</p></div>
+        {% if focus_product.remark %}
+        <div class="data help-inline"><p>{{ focus_product.remark }}<p></div>
+        {% endif %}
         <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
         <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
-          <div class="data"><label>{% trans 'Gender' %}：</label>
+        <div class="data"><label>{% trans 'Gender' %}：</label>
             <span>
             {% if focus_product.get_gender == 3 %}
                 <i class="l_icon-gender unisex"></i>
@@ -44,12 +47,12 @@
         <div class="data"><label>{{ focus_product.option_group.name }}：</label>
              <ul class="size_select">
                 {% for child in focus_product.children.all %}
-               <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#">{{ child.option.name }}</a></li>
+               <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#" data="{{ child.id }}">{{ child.option.name }}</a></li>
                 {% endfor %}
              </ul>
         </div>
         {% endif %}
-        <div class="data help-inline"></div>
+        <div class="data help-inline error"></div>
         <div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
         <div class="form-actions_left">
             {% csrf_token %}

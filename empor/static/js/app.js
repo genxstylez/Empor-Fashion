@@ -232,29 +232,33 @@ function init(){
         var data = $(this).children().attr('data');
         $.post('/products/_check_stock/', {'product_id': data }, function(response) {
             if (response.success)
-                $('.help-inline').html('<i class="s_icon-ok"></i>'+response.message);
+                $('input[name="quantity"]').attr('max', response.item_count);
             else
-                $('.help-inline').html('<i class="s_icon-error"></i>'+response.message);
+                $('.help-inline.error').html('<i class="s_icon-error"></i>'+response.message);
         });
         return false;
     });
 
     // add to cart
     $('a#add_cart').livequery('click', function() {
-        if($('.size_select').length > 0 && $('.size_select .selected').length == 0) {
-            alert('please choose a size');
+        var qty = $('input[name="quantity"]').val();
+
+        /*if($('.size_select').length > 0 && $('.size_select .selected').length == 0) {
+            $('.help-inline.error').html('<i class="s_icon-error"></i>' + gettext('Please choose a size'));
             return false;
         }
-        closeBox();
+        if(qty == '') {
+            $('.help-inline.error').html('<i class="s_icon-error"></i>' + gettext('Please enter quantity'));
+            return false;
+        }
+        */
         var item = $('.size_select .selected a').attr('data');
         if(!item)
             item = $(this).attr('data');
-        var qty = $('input[name="quantity"]').val();
-        $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response, textStatus, xhr) {
+        $.post('/cart/add/', {'product_id': item, 'quantity': qty}, function(response) {
             if (response.message) {
-                alert(response.message);
+                $('.help-inline.error').html('<i class="s_icon-error"></i>' + response.message);
             } else {
-                window.a = $(response);
                 $(response).hide().appendTo('body').fadeIn(function() {
                     var badge = $('.cart_box span.badge');
                     if(badge.length > 0) {
@@ -263,6 +267,7 @@ function init(){
                         $('.cart_box').append('<span class="badge">' + $('#items_count').val() + '</span>');
                     }
                 });
+                closeBox();
             }
         });
         return false;
@@ -301,5 +306,3 @@ function init(){
     return false;
     });
 }
-
-

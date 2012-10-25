@@ -32,7 +32,7 @@ def _check_stock(request):
             product = get_object_or_404(Product, id=product_id)
             if product.stock > 0 :
                 message = _('This item is available!')
-                return JsonResponse({'success': True, 'message': message})
+                return JsonResponse({'success': True, 'message': message, 'item_count': product.stock})
             else:
                 message = _('This item has sold out')
                 return JsonResponse({'success': False, 'message': message})

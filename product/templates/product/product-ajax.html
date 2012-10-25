@@ -26,6 +26,9 @@
             </h3>
         </div>
         <div class="data">{{ focus_product.description }}</div>
+        {% if focus_product.remark %}
+        <div class="data help-inline"><p>{{ focus_product.remark }}<p></div>
+        {% endif %}
         <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
         <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
         <div class="data"><label>{% trans 'Gender' %}：</label>

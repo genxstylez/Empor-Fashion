@@ -15,7 +15,8 @@ PAYMENT_METHOD_CHOICES = (
 
 RECIEPT_TYPE_CHOICES = (
     (0, _('Donate')),
-    (1, _('Three way reciept')),
+    (1, _('Two way reciept')),
+    (2, _('Three way reciept')),
 )
 
 DISPATCH_TIME_CHOICES = (
