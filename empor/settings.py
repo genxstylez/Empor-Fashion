@@ -204,6 +204,13 @@ THUMBNAIL_ALIASES = {
     }
 }
 
+CACHES = {
+  'default': {
+      'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+      'LOCATION': '127.0.0.1:11211'
+  }
+}
+
 CRONJOBS = [
     ('* */1 * * *', 'cart.cron.clean_carts'),
     ('0 0 * * *', 'order.cron.clean_orders'),

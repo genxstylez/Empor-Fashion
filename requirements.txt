@@ -9,3 +9,4 @@ django-flash
 mysql-python
 gunicorn
 django-crontab
+python-memcached
