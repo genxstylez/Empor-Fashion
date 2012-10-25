@@ -3,7 +3,7 @@
 {% block content %}
 <div id="isotope_list">
     {% for product in products %}
-    {% cache 10 product product.id %}
+    {% cache 600 product product.id %}
     {% with box_class|random as class %}
     <div class="index_itembox {{ class }}"> 
             <div class="itemimg"><img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}"></div>
