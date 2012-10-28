@@ -249,6 +249,7 @@ AWS_SECRET_ACCESS_KEY = 'SfUd0Is/QrQnhTmh2m54ITL1fGhQ2wWImdHphlEk'
 AWS_STORAGE_BUCKET_NAME = 'emportest'
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
 AWS_HEADERS = {
     'Expires': 'Thu, 31 Dec 2020 23:59:59 GMT',
     'Cache-Control': 'max-age=99999',
