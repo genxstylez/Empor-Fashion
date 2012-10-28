@@ -247,12 +247,12 @@ class ProductImage(models.Model):
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
     def delete(self):
-        if empor_storage.exists(self.image.file.name):
-	    try:
+	try:
+            if empor_storage.exists(self.image.file.name):
 	        empor_storage.delete(self.image.file.name)
 		empor_storage.delete(self.image['small'].file.name)
 		empor_storage.delete(self.image['medium'].file.name)
 		empor_storage.delete(self.image['large'].file.name)
-	    except IOError:
-		pass
+	except IOError:
+            pass
         super(ProductImage,self).delete()
