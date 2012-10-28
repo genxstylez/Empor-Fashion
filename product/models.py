@@ -248,9 +248,11 @@ class ProductImage(models.Model):
 
     def delete(self):
         if empor_storage.exists(self.image.file.name):
-            print True
-            empor_storage.delete(self.image.file.name)
-            empor_storage.delete(self.image['small'].file.name)
-            empor_storage.delete(self.image['medium'].file.name)
-            empor_storage.delete(self.image['large'].file.name)
+	    try:
+	        empor_storage.delete(self.image.file.name)
+		empor_storage.delete(self.image['small'].file.name)
+		empor_storage.delete(self.image['medium'].file.name)
+		empor_storage.delete(self.image['large'].file.name)
+	    except IOError:
+		pass
         super(ProductImage,self).delete()
