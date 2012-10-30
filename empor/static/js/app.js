@@ -164,7 +164,7 @@ $(function() {
     
     $('a.dynamic').livequery('click', function() {
         if (!History.enabled) {
-            return 
+            return false; 
         }
         var that = $(this).parent();
         var img = $('.itemimg img', that);
