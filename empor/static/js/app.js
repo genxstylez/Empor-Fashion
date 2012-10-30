@@ -68,7 +68,7 @@ function init() {
 
     $('.open_btn').click(function() {
         $('#footer').animate({
-            'height': '107px',
+            'height': '107px'
         }, 400, function() {
             $('#footer').removeClass('small').addClass('open');
             $('#footer .text').hide().fadeIn(400);
@@ -181,7 +181,7 @@ function init() {
                 'left': $(window).width() / 2 - 399,
                 'top': $(window).height() * 0.08 + 21,
                 'height': height,
-                'width': '330px',
+                'width': '330px'
             }, 400,  function() {
                 $('#content_pane').addClass('index_itembox');
                 $('#content_pane').fadeIn(100);
