@@ -50,7 +50,7 @@ function closeBox() {
     History.back();
 }
 
-function init() {
+$(function() {
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
             position: 'bottom-right'
