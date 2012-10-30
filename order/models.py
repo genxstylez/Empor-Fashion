@@ -16,7 +16,6 @@ class Order(models.Model):
     user = models.ForeignKey(User, related_name='orders')
     cart = models.OneToOneField(ArchivedCart, related_name='order')
     items = models.ManyToManyField(Product, verbose_name='items', through='OrderItem')
-    new = models.BooleanField(_('New'), default=True)
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
     payment_method = models.PositiveSmallIntegerField(_('Payment method'), choices=PAYMENT_METHOD_CHOICES)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)

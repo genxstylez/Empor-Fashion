@@ -50,7 +50,7 @@ function closeBox() {
     History.back();
 }
 
-function init(){
+function init() {
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
             position: 'bottom-right'
@@ -79,7 +79,7 @@ function init(){
     $('#footer').livequery('mouseleave', function() {
         if($('#footer').hasClass('open')) {
             $('#footer').animate({
-                'height': '16px',
+                'height': '16px'
             }, 400, function() {
                 $('#footer').removeClass('open').addClass('small');
                 $('#footer .text').hide().fadeIn(400);
