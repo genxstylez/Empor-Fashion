@@ -163,36 +163,35 @@ $(function() {
     });
     
     $('a.dynamic').livequery('click', function() {
-        if (!History.enabled) {
-            return false; 
-        }
-        var that = $(this).parent();
-        var img = $('.itemimg img', that);
-        var url = $(this).attr('href');
-        image = new Image();
-        $(image).attr({'src': img.attr('src'), 'width': img.width()});
-        $(image).css({'position' : 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
-        $(image).appendTo('body');
-        image.onload = function() {
-            $('#modal_overlay').fadeIn();
-            var height = parseInt(330 / img.width() * img.height())
-            that.hide();
-            $(image).animate({
-                'left': $(window).width() / 2 - 399,
-                'top': $(window).height() * 0.08 + 21,
-                'height': height,
-                'width': '330px'
-            }, 400,  function() {
-                $('#content_pane').addClass('index_itembox');
-                $('#content_pane').fadeIn(100);
-                $.get(url, function(response) {
-                    $(response).find('.itemopen').appendTo($('#content_pane'));
-                    $(image).remove();
+        if (History.enabled) {
+            var that = $(this).parent();
+            var img = $('.itemimg img', that);
+            var url = $(this).attr('href');
+            image = new Image();
+            $(image).attr({'src': img.attr('src'), 'width': img.width()});
+            $(image).css({'position' : 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
+            $(image).appendTo('body');
+            image.onload = function() {
+                $('#modal_overlay').fadeIn();
+                var height = parseInt(330 / img.width() * img.height())
+                that.hide();
+                $(image).animate({
+                    'left': $(window).width() / 2 - 399,
+                    'top': $(window).height() * 0.08 + 21,
+                    'height': height,
+                    'width': '330px'
+                }, 400,  function() {
+                    $('#content_pane').addClass('index_itembox');
+                    $('#content_pane').fadeIn(100);
+                    $.get(url, function(response) {
+                        $(response).find('.itemopen').appendTo($('#content_pane'));
+                        $(image).remove();
+                    });
                 });
-            });
+            }
+            History.pushState(null, null, url);
+            return false;
         }
-        History.pushState(null, null, url);
-        return false;
     });
 
     $(document).keyup(function(e) {
