@@ -18,7 +18,7 @@ body {
 	padding: 0;
 	margin: 0;
 	border: 0;
-	font-family: font_a, font_b, sans-serif;
+	font-family: font_a, font_b, Arial,Helvetica,sans-serif;;
 	background-image: url(../images/a06.png);
 	background-repeat: repeat;
 	font-size:12px;
@@ -1197,7 +1197,7 @@ h3 .l_icon-gender {
     cursor: pointer;
 	height: 65px;
 	float: left;
-    margin: 10 10 0 0;
+    margin: 10px 10px 0 0;
 }
 .itemopen img {
 	filter:alpha(opacity=60);
@@ -1905,23 +1905,16 @@ strike {
 	float: left;
 	width: 100%;
 }
-
-.tos_list {
-	margin-left: 20px;
-	margin-top:10px;
-	line-height:24px;
-}
-.tos_list li {
-	list-style-type: decimal;
-}
-.tos_list_s {
-	margin-left: -20px;
-	margin-top:0px;
-}
-.tos_list_s li {
-	list-style-type: disc;
-}
 .inside_itembox h4 {
 	margin-bottom:10px;
 	margin-top:10px;
+}
+.privacy li,
+.tos li {
+	list-style:decimal;
+	margin-left:20px;
+}
+.tos ol li {
+	list-style:disc;
+	margin-left:0px;
 }
