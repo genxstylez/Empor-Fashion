@@ -18,7 +18,7 @@ from member.models import UserProfile, FacebookProfile, UserTemp
 from member.forms import LoginForm, RegisterForm, ReActivateForm, FacebookBindingForm, \
     ChangePasswordForm, ResetPasswordForm, ForgotPasswordForm, ProfileForm
 import random
-from datetime import datetime, date
+from datetime import datetime
 
 def login(request):
     if request.method == 'POST':
@@ -146,12 +146,6 @@ def activate(request, activation_code):
             billing_city = user_temp.billing_city,
             billing_post_code = user_temp.billing_post_code,
             billing_country = user_temp.billing_country,
-            shipping_recipient = user_temp.shipping_recipient,
-            shipping_street1 = user_temp.shipping_street1,
-            shipping_street2 = user_temp.shipping_street2,
-            shipping_city = user_temp.shipping_city,
-            shipping_post_code = user_temp.shipping_post_code,
-            shipping_country = user_temp.shipping_country,
         )
         profile.save()
     user = auth.authenticate(username=user_temp.username, password=user_temp.password)
@@ -326,7 +320,7 @@ def facebook_connect(request):
     if not email:
         return redirect('/')
 
-    # if user's email already exist in SV
+    # if user's email already exist
     email_exists = User.objects.filter(email=email).exists()
     if email_exists:
         return redirect('member-facebook-connect-exist')
@@ -368,12 +362,6 @@ def facebook_connect_new(request):
                 billing_city = user_temp.billing_city,
                 billing_post_code = user_temp.billing_post_code,
                 billing_country = user_temp.billing_country,
-                shipping_recipient = user_temp.shipping_recipient,
-                shipping_street1 = user_temp.shipping_street1,
-                shipping_street2 = user_temp.shipping_street2,
-                shipping_city = user_temp.shipping_city,
-                shipping_post_code = user_temp.shipping_post_code,
-                shipping_country = user_temp.shipping_country,
                 activation_code = activation_code,
             )
             user_profile.save()
@@ -402,6 +390,9 @@ def facebook_connect_new(request):
     else:
         username = profile.get('username', '')
         birthday = profile.get('birthday', None)
+        if birthday:
+            birthday = birthday.split('/')
+            birthday = birthday[2] + '/' + birthday[1] + '/' + birthday[0]
         gender = profile.get('gender', 0)
         first_name = profile.get('first_name', '')
         last_name = profile.get('last_name', '')

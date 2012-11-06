@@ -73,7 +73,7 @@ class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if field == 'shipping_country' or field == 'billing_country' or field == 'birthday' or field == 'gender':
+            if field == 'billing_country' or field == 'birthday' or field == 'gender':
                 pass
             else:
                 self.fields[field].widget.attrs['class'] = 'input-xxxlarge' 

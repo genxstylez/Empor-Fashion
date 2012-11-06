@@ -129,6 +129,19 @@ $(function() {
         masonry: {columnWidth: 170}
     });
 
+    // order reciept
+    $('input[name="reciept_type"]').livequery('click', function() {
+        alert('sdsds');
+        var input = $(this);
+        if(input.val() == 2) {
+            $('#id_uni_no').removeAttr('disabled');
+            $('#id_company_title').removeAttr('disabled');
+        } else {
+            $('#id_uni_no').attr('disabled', 'disabled');
+            $('#id_company_title').attr('disabled', '');
+        }
+    });
+
     //menu button binding
  /*   $('div.menu_button a').on('click', function() {
         $('div.menu_pop').fadeIn();

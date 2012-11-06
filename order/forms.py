@@ -10,8 +10,8 @@ class OrderForm(ModelForm):
     reciept_type = forms.ChoiceField(label=_('Reciept Type'), widget=forms.RadioSelect(), choices=RECIEPT_TYPE_CHOICES)
     payment_method = forms.ChoiceField(label=_('Payment Method'), widget=forms.RadioSelect(), choices=PAYMENT_METHOD_CHOICES)
     dispatch_time = forms.ChoiceField(label=_('Dispatch Time'), widget=forms.RadioSelect(), choices=DISPATCH_TIME_CHOICES)
-    uni_no = forms.CharField(label=_('Uni No.'), widget=forms.TextInput(attrs={'disabled': 'disabled'}))
-    company_title = forms.CharField(label=_('Uni No.'), widget=forms.TextInput(attrs={'disabled': 'disabled'}))
+    uni_no = forms.CharField(label=_('Uni No.'), required=False, widget=forms.TextInput(attrs={'disabled': 'disabled'}))
+    company_title = forms.CharField(label=_('Company Title'), required=False, widget=forms.TextInput(attrs={'disabled': 'disabled'}))
 
     class Meta:
         model = Order
@@ -24,7 +24,16 @@ class OrderForm(ModelForm):
         for field in self:
             if field.field.widget.__class__.__name__ == 'TextInput':
                 field.field.widget.attrs['class'] = 'input-xxxlarge'
+    """    
+    def clean(self):
+        if self.cleaned_data['reciept_type'] == 2:
+            if self.cleand_data['uni_no'] and not self.cleaned_data['company_title']:
+                raise forms.ValidationError(_('Please enter company title'))
+            if self.cleaned_data['company_title'] and not self.cleaned_data['uni_no']:
+                raise forms.ValidationError(_('Please enter uni no'))
 
+        return self.cleaned_data
+    """
     def clean_uni_no(self):
         if self.cleaned_data['uni_no'] and not self.data['company_title']:
             raise forms.ValidationError(_('Please enter company title'))

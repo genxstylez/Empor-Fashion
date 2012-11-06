@@ -1,5 +1,9 @@
 {% extends 'product/products.html' %}
 {% load i18n thumbnail common %}
+{% block facebook_meta %}
+<meta property="og:title" content="{{ focus_product.name }}" />
+<meta property="og:image" content="{{ focus_product.get_main_image.small.url }}" />
+{% endblock %}
 {% block popup %}
 <div class="itemopen">
     <span class="close">×</span>

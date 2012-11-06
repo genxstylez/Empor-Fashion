@@ -32,13 +32,6 @@ $(function() {
             <label class="control-label">{{ field.label }}</label>
             <div class="controls">{{ field }}</div>
         </div>
-        {% if field.name == 'billing_street2' %}
-        <div class="control-group">
-            <div class="controls">
-                <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
-            </div>
-        </div>
-        {% endif %}
         {% endfor %}
         <div class="form-actions">
             <input type="submit" class="button" value="{% trans 'Confirm' %}" />
