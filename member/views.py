@@ -256,7 +256,7 @@ def forgot_password(request):
                 request.flash['message']  = _("Can't find this account!")
                 return render(request, 'member/forgot_password.html', {'form': form})
 
-            # activation code
+            # reset code
             salt = sha_constructor(str(random.random())).hexdigest()[:5]
             reset_code = sha_constructor(salt+user.username).hexdigest()
 
@@ -347,9 +347,6 @@ def facebook_connect_new(request):
             user.last_name = user_temp.last_name
             user.save()
 
-            salt = sha_constructor(str(random.random())).hexdigest()[:5]
-            activation_code = sha_constructor(salt+user_temp.username).hexdigest()
-
             # user profile
             user_profile = UserProfile(
                 user = user,
@@ -362,7 +359,6 @@ def facebook_connect_new(request):
                 billing_city = user_temp.billing_city,
                 billing_post_code = user_temp.billing_post_code,
                 billing_country = user_temp.billing_country,
-                activation_code = activation_code,
             )
             user_profile.save()
 
