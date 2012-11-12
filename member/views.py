@@ -337,7 +337,7 @@ def facebook_connect_new(request):
             user_temp = form.save(commit=False)
 
             # create user
-            user = User.objects.create_user(user_temp.username, profile['email'], user_temp.password)
+            user = User.objects.create_user(user_temp.username, profile['email'], form.passconf)
             user.first_name = user_temp.first_name
             user.last_name = user_temp.last_name
             user.save()
