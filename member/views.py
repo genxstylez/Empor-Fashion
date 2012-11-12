@@ -336,11 +336,8 @@ def facebook_connect_new(request):
         if form.is_valid():
             user_temp = form.save(commit=False)
 
-            # random password
-            password = User.objects.make_random_password()
-
             # create user
-            user = User.objects.create_user(user_temp.username, profile['email'], password)
+            user = User.objects.create_user(user_temp.username, profile['email'], user_temp.password)
             user.first_name = user_temp.first_name
             user.last_name = user_temp.last_name
             user.save()
@@ -383,7 +380,7 @@ def facebook_connect_new(request):
         birthday = profile.get('birthday', None)
         if birthday:
             birthday = birthday.split('/')
-            birthday = birthday[2] + '/' + birthday[1] + '/' + birthday[0]
+            birthday = birthday[2] + '/' + birthday[0] + '/' + birthday[1]
         gender = profile.get('gender', 0)
         first_name = profile.get('first_name', '')
         last_name = profile.get('last_name', '')

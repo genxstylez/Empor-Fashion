@@ -77,14 +77,15 @@ class RegisterForm(forms.ModelForm):
  
 class ProfileForm(forms.ModelForm):
     birthday = forms.DateField(input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
+    post_code = forms.CharField(label=_('Post Code'), widget=forms.TextInput(attrs={'class': 'input-small', 'placeholder': _('Post Code')}))
     class Meta:
         model = UserProfile
-        exclude = ('activation_code', 'reset_code', 'user')
+        exclude = ('reset_code', 'user', 'country')
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if field == 'billing_country' or field == 'birthday' or field == 'gender':
+            if field in ['birthday', 'gender', 'post_code']:
                 pass
             else:
                 self.fields[field].widget.attrs['class'] = 'input-xxxlarge' 

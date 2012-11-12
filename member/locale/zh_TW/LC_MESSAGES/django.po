@@ -82,7 +82,7 @@ msgstr "密碼"
 
 #: forms.py:124
 msgid "Please enter correct username and password"
-msgstr "請輸入正確的email與密碼."
+msgstr "請輸入正確的帳號與密碼."
 
 #: forms.py:154
 msgid "Password does not match"

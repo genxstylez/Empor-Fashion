@@ -18,34 +18,41 @@ $(function() {
         <a href="{% url order-orders %}">{% trans 'Orders Tracking' %}</a> ／
         <a href="{% url member-change-password %}">{% trans 'Change password' %}</a>
     </div>
-    <h1>{% trans 'Member' %}</h1>
+    <h1>Member</h1>
     <form id="register-form" method="post" class="form-inline">
         <div class="control-group">
             <label class="control-label">{% trans 'Account' %}</label>
             <div class="controls">{{ request.user.username }}</div>
+        </div>
         {% csrf_token %}
-        {{ form.errors }}
         {% for field in form %}
-        {% if field.name == 'billing_recipient' %}
-        <h4>{% trans 'Billing Information' %}</h4>
-        {% endif %}
-        {% if field.name == 'shipping_recipient' %}
-        <h4>{% trans 'Shipping Information' %}</h4>
-        {% endif %}
+        {% if field.name != 'address' and field.name != 'post_code' and field.name != 'tos' %}
         <div class="control-group">
+            {{ field.errors }}
             <label class="control-label">{{ field.label }}</label>
             <div class="controls">{{ field }}</div>
         </div>
-        {% if field.name == 'billing_street2' %}
-        <div class="control-group">
-            <div class="controls">
-                <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
-            </div>
-        </div>
         {% endif %}
         {% endfor %}
+        <div class="control-group">
+            {% if form.address.errors %}
+                {{ form.address.errors }}
+            {% else %}
+                {{ form.post_code.errors }}
+            {% endif %}
+            <label class="control-label">{{ form.address.label }}</label>
+            <div class="controls">{{ form.post_code }}</div>
+            <div class="controls">{{ form.address }}</div>
+        </div>
+
+        <div class="control-group">
+            {{ form.tos.errors }}
+            <div class="controls">
+                <input id="id_tos" name="tos" type="checkbox">{% trans 'I have read and agree' %}<a href="{% url service-tos %}">{% trans 'TOS' %}</a>
+            </div>
+        </div>
         <div class="form-actions">
-            <input type="submit" class="button" value="{% trans 'Save' %}" />
+            <input type="submit" class="button" value="{% trans 'Confirm' %}" />
         </div>
     </form>
 </div>
