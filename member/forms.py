@@ -11,22 +11,33 @@ class RegisterForm(forms.ModelForm):
     username = forms.CharField(min_length=3, max_length=20, label=_('Username'))
     password = forms.CharField(widget=forms.PasswordInput(), label=_('Password'))
     passconf = forms.CharField(label=_('Confrim password'), widget=forms.PasswordInput())
-    birthday = forms.DateField(label=_('Birthday'), input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
+    birthday = forms.DateField(label=_('Birthday'), input_formats=['%Y/%m/%d',], \
+        widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
+    post_code = forms.CharField(label=_('Post Code'), widget=forms.TextInput(attrs={'class': 'input-small', 'placeholder': _('Post Code')}))
+    phone = forms.IntegerField(label=_('Phone'), widget=forms.TextInput(attrs={'class': 'input-large'}))
+    address = forms.CharField(label=_('Address'), widget=forms.TextInput(attrs={'class': 'input-xxlarge'}))
+    tos = forms.BooleanField(widget=forms.CheckboxInput())
 
     class Meta:
         model = UserTemp
-        exclude = ('activation_code', 'activated')
+        exclude = ('activation_code', 'country')
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         for field in self.fields:
-            if field == 'shipping_country' or field == 'billing_country' or field == 'birthday' or field == 'gender':
+            if field in ['post_code', 'birthday', 'gender', 'address', 'phone']:
                 pass
             else:
                 self.fields[field].widget.attrs['class'] = 'input-xxxlarge'
         new_order = self.fields.keyOrder[:-1]
         new_order.insert(2, 'passconf')
         self.fields.keyOrder = new_order
+
+    def clean_tos(self):
+        if not self.cleaned_data['tos']:
+            raise forms.ValidationError(_('You must agree TOS to register'))
+
+        return self.cleaned_data['tos']
 
     def clean_username(self):
         if not re.match('^[a-zA-Z]{1}[a-zA-Z0-9_]{2,15}$', self.cleaned_data['username']):

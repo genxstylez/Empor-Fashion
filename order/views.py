@@ -34,13 +34,11 @@ def index(request):
     else:
         profile = request.user.profile
         form = OrderForm(initial={
-                'billing_recipient': profile.billing_recipient,
+                'billing_recipient': request.user.get_name(),
                 'billing_phone' : profile.phone,
-                'billing_street1': profile.billing_street1,
-                'billing_street2': profile.billing_street2,
-                'billing_city': profile.billing_city,
-                'billing_post_code': profile.billing_post_code, 
-                'billing_country': profile.billing_country,
+                'billing_post_code': profile.post_code,
+                'billing_address': profile.address,
+                'billing_country': profile.country,
                 'payment_method': '0',
                 'reciept_type': 0,
                 'dispatch_time': 0,

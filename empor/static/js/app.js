@@ -93,9 +93,7 @@ $(function() {
         if($(this).is(':checked')) {
             $('input#id_shipping_phone').val($('input#id_billing_phone').val());
             $('input#id_shipping_recipient').val($('input#id_billing_recipient').val());
-            $('input#id_shipping_street1').val($('input#id_billing_street1').val());
-            $('input#id_shipping_street2').val($('input#id_billing_street2').val());
-            $('input#id_shipping_city').val($('input#id_billing_city').val());
+            $('input#id_shipping_address').val($('input#id_billing_address').val());
             $('input#id_shipping_post_code').val($('input#id_billing_post_code').val());
             $('select#id_shipping_country').val($('select#id_billing_country').val());
         }
@@ -131,7 +129,6 @@ $(function() {
 
     // order reciept
     $('input[name="reciept_type"]').livequery('click', function() {
-        alert('sdsds');
         var input = $(this);
         if(input.val() == 2) {
             $('#id_uni_no').removeAttr('disabled');

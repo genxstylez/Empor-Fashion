@@ -138,14 +138,12 @@ def activate(request, activation_code):
     except UserProfile.DoesNotExist:
         profile = UserProfile(
             user = user,
+            gender = user_temp.gender,
             phone = user_temp.phone,
             birthday = user_temp.birthday,
-            billing_recipient = user_temp.billing_recipient,
-            billing_street1 = user_temp.billing_street1,
-            billing_street2 = user_temp.billing_street2,
-            billing_city = user_temp.billing_city,
-            billing_post_code = user_temp.billing_post_code,
-            billing_country = user_temp.billing_country,
+            country = user_temp.country,
+            post_code = user_temp.post_code,
+            address = user_temp.address,
         )
         profile.save()
     user = auth.authenticate(username=user_temp.username, password=user_temp.password)
@@ -350,15 +348,12 @@ def facebook_connect_new(request):
             # user profile
             user_profile = UserProfile(
                 user = user,
-                phone = user_temp.phone,
                 gender = user_temp.gender,
+                phone = user_temp.phone,
                 birthday = user_temp.birthday,
-                billing_recipient = user_temp.billing_recipient,
-                billing_street1 = user_temp.billing_street1,
-                billing_street2 = user_temp.billing_street2,
-                billing_city = user_temp.billing_city,
-                billing_post_code = user_temp.billing_post_code,
-                billing_country = user_temp.billing_country,
+                country = user_temp.country,
+                post_code = user_temp.post_code,
+                address = user_temp.address,
             )
             user_profile.save()
 

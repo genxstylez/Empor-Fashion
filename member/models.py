@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from member.settings import COUNTRY_CHOICES, GENDER_CHOICES, CITY_CHOICES, AREA_CHOICES
+from member.settings import COUNTRY_CHOICES, GENDER_CHOICES
 
 class UserExtend(object):
     def is_authenticated(self):
@@ -23,12 +23,11 @@ class UserTemp(models.Model):
     gender = models.PositiveSmallIntegerField(_('Gender'), choices=GENDER_CHOICES, default=0)
     birthday = models.DateField(_('Birthday'))
     phone = models.CharField(_('Phone'), max_length=50)
-    billing_recipient = models.CharField(_('Recipient'), max_length=100)
-    billing_country = models.PositiveIntegerField(_('Country'), choices=COUNTRY_CHOICES, default=0)
-    billing_city = models.PositiveIntegerField(_('City'), choices=CITY_CHOICES, default=0)
-    billing_area = models.PositiveIntegerField(_('Area'), choices=AREA_CHOICES, default=0)
-    billing_address = models.CharField(_('Address'), max_length=100)
+    country = models.PositiveIntegerField(_('Country'), choices=COUNTRY_CHOICES, default=0)
+    post_code = models.PositiveIntegerField(_('Post Code'))
+    address = models.CharField(_('Address'), max_length=100)
     activation_code = models.CharField(max_length=40, db_index=True)
+    tos = models.BooleanField(_('TOS'), default=False)
     last_modified = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -40,11 +39,9 @@ class UserProfile(models.Model):
     gender = models.PositiveSmallIntegerField(_('Gender'), choices=GENDER_CHOICES, default=0)
     birthday = models.DateField(_('Birthday'))
     phone = models.CharField(_('Phone'), max_length=50)
-    billing_recipient = models.CharField(_('Recipient'), max_length=100)
-    billing_country = models.PositiveIntegerField(_('Country'), choices=COUNTRY_CHOICES, default=0)
-    billing_city = models.PositiveIntegerField(_('City'), choices=CITY_CHOICES, default=0)
-    billing_area = models.PositiveIntegerField(_('Area'), choices=AREA_CHOICES, default=0)
-    billing_address = models.CharField(_('Address'), max_length=100)
+    country = models.PositiveIntegerField(_('Country'), choices=COUNTRY_CHOICES, default=0)
+    post_code = models.PositiveIntegerField(_('Post Code'))
+    address = models.CharField(_('Address'), max_length=100)
     reset_code = models.CharField(max_length=40, blank=True)
     last_modified = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
