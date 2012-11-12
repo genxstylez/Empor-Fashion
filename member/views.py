@@ -369,7 +369,7 @@ def facebook_connect_new(request):
             fbprofile.save()
 
             # login user
-            user = auth.authenticate(username=user.username, password=password)
+            user = auth.authenticate(username=user.username, password=user.password)
             auth.login(request, user)
 
             request.session['fb_connect_type'] = 'new'
