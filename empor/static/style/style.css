@@ -156,12 +156,12 @@ input[type="password"] {
 	font-size: 12px;
 }
 .input-mini {width:40px;}
-.input-small {width:80px;}
+.input-small {width:85px;}
 .input-medium {width:110px;}
 .input-large {width:190px;}
 .input-xlarge {width:250px;}
-.input-xxlarge {width:350px;}
-.input-xxxlarge {width:460px;}
+.input-xxlarge {width:400px;}
+.input-xxxlarge {width:500px;}
 .input-xxxxlarge {width:530px;}
 .input-xxxxxlarge {width:800px;}
 select {
@@ -1322,12 +1322,12 @@ h3 .l_icon-gender {
 }
 .control-label {
 	float: left;
-	width: 120px;
+	width: 80px;
 	text-align: right;
 	font-weight:bold;
 }
 .controls {
-	margin-left: 140px;
+	margin-left: 100px;
 }
 .controls a {
 	color:#413735;
@@ -1365,11 +1365,6 @@ h3 .l_icon-gender {
 }
 .control-group .button {
 	margin:0 0 0 10px;
-}
-#contact-form {
-	float: left;
-	width: 700px;
-	margin-left:60px;
 }
 #register-form h4,
 #guestcheckout-form h4 {
@@ -1911,7 +1906,6 @@ strike {
 }
 .inside_itembox h4 {
 	margin-bottom:10px;
-	margin-top:10px;
 }
 .privacy li,
 .tos li {
@@ -1921,4 +1915,17 @@ strike {
 .tos ol li {
 	list-style:disc;
 	margin-left:0px;
+}
+#SocialShare {
+	position: fixed;
+	left: 50%;
+	top: 220px;
+	width: 150px;
+	margin-left: 430px;
+}
+#SocialShare li {
+	display: block;
+	margin: 10px 0;
+	padding: 0 0 2px;
+	list-style: none;
 }
