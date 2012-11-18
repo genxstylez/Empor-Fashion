@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'django_extensions',
     'django_crontab',
+    'south',
     'gunicorn',
     'empor',
     'product',
