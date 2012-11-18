@@ -176,7 +176,8 @@ $(function() {
         var url = $(this).attr('href');
         $.get(url, function(response) {
             $('body').append(response);
-        }
+        });
+        return false;
     });
     
     $('a.dynamic').livequery('click', function() {
