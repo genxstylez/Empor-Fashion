@@ -1,0 +1,51 @@
+{% extends 'empor/base.html' %}
+{% load i18n thumbnail common cache %}
+{% block content %}
+<div id="left_menu_wrapper">
+    <div class="brand"><img src="{{ brand.image.url }}"></div>
+    <ul class="nav nav-list">
+        <li class="nav-header"><a href="{% url brand-products-gender brand.name 'MEN' %}">MEN</a></li>
+        {% for category in brand.get_men_categories %}
+        <li><a href="{% url brand-products-gender-category brand.name 'MEN' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <ul class="nav nav-list">
+        <li class="nav-header"><a href="{% url brand-products-gender brand.name 'WOMEN' %}">WOMEN</a></li>
+        {% for category in brand.get_women_categories %}
+        <li><a href="{% url brand-products-gender brand.name 'WOMEN' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+<div id="isotope_list">
+    <div class="index_itembox a41">
+        <a class="brand_banner" href="{{ brand.get_absolute.url }}">
+            <img src="{{ brand.story.image.url }}" alt="{{ brand.name }} {% trans 'Brand Story' %}">
+        </a>
+    </div>
+    {% for product in products %}
+    {% cache 600 product product.id %}
+    {% with box_class|random as class %}
+    <div class="index_itembox {{ class }}"> 
+            <div class="itemimg"><img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}"></div>
+            <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
+            <div class="content">
+                <div class="brand"><img src="{{ product.brand.image.url }}"></div>
+                <div class="itemname">{{ product.name }}</div>
+                <div class="price">{{ product.price|currency }}</div>
+            </div>
+            {% with product.get_gender as gender %}
+                {% if gender == 3 %}
+                <i class="l_icon-gender unisex"></i>
+                {% elif gender == 2 %}
+                <i class="l_icon-gender women"></i>
+                {% else %}
+                <i class="l_icon-gender men"></i>
+                {% endif %}
+            {% endwith %}
+            </a>
+    </div>
+    {% endwith %}
+    {% endcache %}
+    {% endfor %}
+</div>
+{% endblock %}

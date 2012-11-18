@@ -9,6 +9,8 @@ from cart.models import Cart, CartItem
 from cart.utils import archive_cart
 
 def get_cart(request):
+    if 'session_key' not in request.session:
+        request.session.save()
     if 'cart' in request.session:
         cart = request.session['cart']
         if request.user.is_authenticated():

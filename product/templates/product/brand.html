@@ -1,0 +1,14 @@
+{% extends 'product/brand-products.html' %}
+{% load i18n thumbnail common %}
+{% block facebook_meta %}
+<meta property="og:title" content="{{ brand.name }}" />
+<meta property="og:description" content="{{ brand.description|safe }}" />
+<meta property="og:image" content="{{ brand.image.url }}" />
+{% endblock %}
+{% block popup %}
+<div class="itemopen">
+    <span class="close">×</span>
+    <div class="brand_banner"><img src="{{ brand.story.url }}" /></div>
+    {{ brand.description }}
+</div>
+{% endblock %}

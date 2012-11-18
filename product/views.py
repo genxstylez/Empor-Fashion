@@ -1,18 +1,38 @@
-# -*- coding: utf-8 -*_
+# -*- coding: utf-8 -*-
 from django.utils.translation import ugettext as _
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from empor.shortcuts import JsonResponse
-from product.models import Product, Gender
+from product.models import Product, Gender, Brand, Category
 
-def products(request, gender_type=None):
+def brands(request):
+    brands = Brand.objects.all()
+    return render(request, 'product/brands.html', {'brands': brands})
+
+def brand(request, brand_slug):
+    brand = Brand.objects.get(slug=brand_slug) 
+    products = Product.on_site.filter(brand=brand)
+    box_class = ['a11', 'a12', 'a21', 'a22']
+    return render(request, 'product/brand.html', {'brand': brand, 'products': products, 'box_class': box_class})
+
+def brand_products(request, brand, gender_type=None, category=None):
+    brand = Brand.objects.get(slug=brand)
     if gender_type:
         gender = Gender.objects.get(name=gender_type)
-        products = Product.on_site.filter(gender=gender)
+        products = Product.on_site.filter(gender=gender, brand=brand)
+        if category:
+            category = Category.objects.get(id=category)
+            products = products.filter(category=category)
     else:
-        products = Product.on_site.all()
+        products = Product.on_site.filter(brand=brand)
     box_class = ['a11', 'a12', 'a21', 'a22']
-    return render(request, 'product/products.html', {'products': products, 'box_class': box_class })
+    return render(request, 'product/brand-products.html', {'products': products, 'box_class': box_class, 'brand': brand})
+
+def gender_products(request, gender_type):
+    gender = Gender.objects.get(name=gender_type)
+    products = Product.on_site.filter(gender=gender)
+    box_class = ['a11', 'a12', 'a21', 'a22']
+    return render(request, 'product/gender-products.html', {'products': products, 'box_class': box_class, 'gender': gender })
 
 def product_view(request, brand_slug, product_slug):
     try:
@@ -20,7 +40,7 @@ def product_view(request, brand_slug, product_slug):
     except Product.DoesNotExist:
         raise Http404
 
-    products = Product.objects.filter(parent=None).prefetch_related('brand', 'option_group')
+    products = Product.on_site.filter(brand__slug=brand_slug).prefetch_related('brand', 'option_group')
     box_class = ['a11', 'a12', 'a21', 'a22']
 
     return render(request, 'product/product.html', {'products': products, 'focus_product': focus_product, 'box_class': box_class, 'popup': True})

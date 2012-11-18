@@ -10,3 +10,4 @@ mysql-python
 gunicorn
 django-crontab
 python-memcached
+south

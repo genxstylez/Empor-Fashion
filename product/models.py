@@ -26,17 +26,32 @@ class Category(models.Model):
 
 class Brand(models.Model):
     def brand_path(self, filename):
-        return 'brand_images/%s/%s' % (self.name, filename)
+        return 'brand_images/%s/image.%s' % (self.name, filename.split('.')[1])
+    
+    def brand_w_path(self, filename):
+        return 'brand_images/%s/image_w.%s' % (self.name, filename.split('.')[1])
+
+    def story_path(self, filename):
+        return 'brand_images/%s/story.%s' % (self.name, filename.split('.')[1])
+
     name = models.CharField(_('Name'), max_length=100)
-    image = models.ImageField(_('Image'), upload_to=brand_path, storage=empor_storage)
+    image = models.ImageField(_('Image (Original)'), upload_to=brand_path, storage=empor_storage)
+    w_image = models.ImageField(_('Image (White)'), upload_to=brand_w_path, storage=empor_storage)
+    story = models.ImageField(_('Story'), upload_to=story_path, storage=empor_storage)
     slug = models.SlugField(_('Slug'), db_index=True)
     description = models.TextField(_('Description'))
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, related_name='brands')
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
     def __unicode__(self):
         return self.name 
+
+    def get_men_categories(self):
+        return self.categories.filter(gender__id=1)
+
+    def get_women_categories(self):
+        return self.categories.filter(gender__id=2)
 
 class Collection(models.Model):
     name = models.CharField(_('Name'), max_length=100)

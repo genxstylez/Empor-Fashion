@@ -163,6 +163,7 @@ INSTALLED_APPS = (
     'storages',
     'staff',
     'service',
+    'south',
 )
 
 # A sample logging configuration. The only tangible logging
