@@ -65,9 +65,17 @@ div#content_pane {
     left: 50%;
     margin-left: -420px;
 }
+.errorlist {
+	margin-left: 100px;
+	display: inline-block;
+}
+#confirm-form .errorlist {
+	margin-left: 10px;
+}
 
 .errorlist li {
-    color: red;
+    color: #B94A48;
+	line-height: 28px;
 }
 
 /**** Isotope Filtering ****/
