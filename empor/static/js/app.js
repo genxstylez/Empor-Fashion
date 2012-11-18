@@ -171,6 +171,13 @@ $(function() {
     $('div.black_bg').on('click', function() {
         $('div.menu_pop').fadeOut();
     });
+
+    $('a.ajax').livequery('click', function() {
+        var url = $(this).attr('href');
+        $.get(url, function(response) {
+            $('body').append(response);
+        }
+    });
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
