@@ -58,7 +58,7 @@ div#content_pane {
     min-height: 500px;
     margin: 0 auto;
     height: auto;
-    left: 51%;
+    left: 50%;
     margin-left: -420px;
 }
 .errorlist {

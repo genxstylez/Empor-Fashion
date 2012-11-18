@@ -212,6 +212,11 @@ $(function() {
         return false;
     });
     
+    $('#content_pane .close_button').livequery('click', function() {
+        closeBox();
+        return false;
+    });
+    
     $('.index_itembox').on('mouseenter', function() {
         $('.hide', this).show();
     });
