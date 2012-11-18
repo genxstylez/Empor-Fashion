@@ -150,9 +150,9 @@ $(function() {
                 $(image).animate({
                     'left': $(window).width()/ 2 -399,
                     'top': $(window).height() * 0.08 + 21,
-                    'height': $(img).attr('real_he');
-                    'width': $(img).attr('real_wid');
-                }, 400 function() {
+                    'height': $(img).attr('real_he'),
+                    'width': $(img).attr('real_wid'),
+                }, 400, function() {
                     $('#content_pane').addClass('index_itembox');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
