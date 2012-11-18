@@ -4,15 +4,15 @@
 <div id="left_menu_wrapper">
     <div class="brand"><img src="{{ brand.image.url }}"></div>
     <ul class="nav nav-list">
-        <li class="nav-header"><a href="{% url brand-products-gender brand.name 'MEN' %}">MEN</a></li>
+        <li class="nav-header"><a href="{% url brand-products-gender brand.slug'MEN' %}">MEN</a></li>
         {% for category in brand.get_men_categories %}
-        <li><a href="{% url brand-products-gender-category brand.name 'MEN' category.id %}">{{ category.name }}</a></li>
+        <li><a href="{% url brand-products-gender-category brand.slug'MEN' category.id %}">{{ category.name }}</a></li>
         {% endfor %}
     </ul>
     <ul class="nav nav-list">
-        <li class="nav-header"><a href="{% url brand-products-gender brand.name 'WOMEN' %}">WOMEN</a></li>
+        <li class="nav-header"><a href="{% url brand-products-gender brand.slug'WOMEN' %}">WOMEN</a></li>
         {% for category in brand.get_women_categories %}
-        <li><a href="{% url brand-products-gender brand.name 'WOMEN' category.id %}">{{ category.name }}</a></li>
+        <li><a href="{% url brand-products-gender brand.slug 'WOMEN' category.id %}">{{ category.name }}</a></li>
         {% endfor %}
     </ul>
 </div>
