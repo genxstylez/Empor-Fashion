@@ -1,6 +1,20 @@
 {% extends 'empor/base.html' %}
 {% load i18n thumbnail common cache %}
 {% block content %}
+<div id="left_menu_wrapper">
+    <ul class="nav nav-list">
+        <li class="nav-header">PRODUCT</li>
+        {% for category in gender.categories.all %}
+        <li><a href="{% url gender-products-category 'MEN' category.id %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    <ul class="nav nav-list">
+        <li class="nav-header">BRANDS</li>
+        {% for brand in brands %}
+        <li><a href="{% url brand-products-gender brand.slug gender.name %}">{{ brand.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
 <div id="isotope_list">
     {% for product in products %}
     {% cache 600 product product.id %}
