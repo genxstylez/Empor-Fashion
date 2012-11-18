@@ -1,0 +1,17 @@
+<div id="menuopen_wrapper">
+    <!-- menu_content -->
+    <div class="black_bg" style=" display:block;"></div>
+    <div class="menu_content" style=" display:block; ">
+        <!-- menu_box_men -->
+        <div class="menu_box">
+            <h2>BRANDS</h2>
+            <ul>
+                {% for brand in brands %}
+                <li><a href="{% url brand-products brand.slug %}"><img src="{{ brand.w_image.url }}" alt="{{ brand.name }}"></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- /menu_box_men -->
+    </div>
+    <!-- /menu_content -->
+</div>
