@@ -141,8 +141,8 @@ $(function() {
             var url = $(this).attr('href');
             var image = new Image();
             var img = $('img', this);
-            image.attr('src': img.attr('src'), 'width': img.width()});
-            $(image).css('position': 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
+            image.attr({'src': img.attr('src'), 'width': img.width()});
+            $(image).css({'position': 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
             $(image).appendTo('body');
             image.onload = function () {
                 $('#modal_overlay').fadeIn();
@@ -165,7 +165,6 @@ $(function() {
             return false;
         }
     });
-                
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
