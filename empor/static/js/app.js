@@ -1,4 +1,4 @@
-$.Isotope.prototype._getCenteredMasonryColumns = function() {    this.width = this.element.width();
+/*$.Isotope.prototype._getCenteredMasonryColumns = function() {    this.width = this.element.width();
     var parentWidth = this.element.parent().width();
         // i.e. options.masonry && options.masonry.columnWidth    
     var colW = this.options.masonry && this.options.masonry.columnWidth ||                  
@@ -42,7 +42,7 @@ $.Isotope.prototype._masonryGetContainerSize = function() {
         width : (this.masonry.cols - unusedCols) * this.masonry.columnWidth        
     };  
 };
-
+*/
 function closeBox() {
     $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
     $('#modal_overlay').hide();

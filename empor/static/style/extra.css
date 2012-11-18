@@ -7,7 +7,8 @@
 }
 
 div#isotope_list {
-    margin: 0 auto 50px;
+    float: left;
+    /*margin: 0 auto 50px;*/
 }
 
 div.menu_pop {
