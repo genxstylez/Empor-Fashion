@@ -2,7 +2,7 @@ from django.conf.urls.defaults import url, patterns
 
 urlpatterns = patterns('product.views',
     url(r'^brands/$', 'brands', name='brands'),
-    url(r'^brands/(?P<brand_slug>[-\w]+)/$', 'brand', name='brand'),
+    url(r'^brands/(?P<brand_slug>[-\w]+)/$', 'brand', name='brand-view'),
     url(r'^_check_stock/$', '_check_stock', name='product-check-stock'),
     url(r'^(?P<gender_type>MEN|WOMEN)/$', 'gender_products', name='gender-products'),
     url(r'^(?P<gender_type>MEN|WOMEN)/(?P<category>\d+)/$', 'gender_products', name='gender-products-category'),

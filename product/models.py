@@ -55,7 +55,7 @@ class Brand(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('brand', [self.slug])
+        return ('brand-view', [self.slug])
 
 class Collection(models.Model):
     name = models.CharField(_('Name'), max_length=100)
