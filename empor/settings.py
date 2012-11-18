@@ -152,6 +152,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     'django_extensions',
     'django_crontab',
+    'south',
     'gunicorn',
     'empor',
     'product',
@@ -163,7 +164,6 @@ INSTALLED_APPS = (
     'storages',
     'staff',
     'service',
-    'south',
 )
 
 # A sample logging configuration. The only tangible logging
