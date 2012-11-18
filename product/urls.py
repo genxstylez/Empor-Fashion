@@ -7,6 +7,6 @@ urlpatterns = patterns('product.views',
     url(r'^(?P<gender_type>MEN|WOMEN)/$', 'gender_products', name='gender-products'),
     url(r'^(?P<brand_slug>[-\w]+)/$', 'brand_products', name='brand-products'),
     url(r'^(?P<brand_slug>[-\w]+)/(?P<gender_type>MEN|WOMEN)/$', 'brand_products', name='brand-products-gender'),
-    url(r'^(?P<brand_slug>[-\w]+)/(?P<gender_type>MEN|WOMEN)/(?P<category>\d+)/$', 'brand_products', name='brand-products-gender'),
+    url(r'^(?P<brand_slug>[-\w]+)/(?P<gender_type>MEN|WOMEN)/(?P<category>\d+)/$', 'brand_products', name='brand-products-gender-category'),
     url(r'^(?P<brand_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$', 'product_view', name='product-view'),
 )
