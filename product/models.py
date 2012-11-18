@@ -53,6 +53,10 @@ class Brand(models.Model):
     def get_women_categories(self):
         return self.categories.filter(gender__id=2)
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('brand', [self.slug])
+
 class Collection(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     description = models.TextField(_('Description'), blank=True)
