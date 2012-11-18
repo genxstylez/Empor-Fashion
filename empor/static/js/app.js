@@ -136,6 +136,7 @@ $(function() {
     });
 
     $('a.brand_dynamic').livequery('click', function() {
+        alert('sdsd');
         if (History.enabled) {
             var that = $(this).parent();
             var url = $(this).attr('href');
