@@ -134,13 +134,45 @@ $(function() {
         });
         return false;
     });
+
+    $('a.brand_dynamic').livequery('click', function() {
+        if (History.enabled) {
+            var that = $(this).parent();
+            var url = $(this).attr('href');
+            var image = new Image();
+            var img = $('img', this);
+            image.attr('src': img.attr('src'), 'width': img.width()});
+            $(image).css('position': 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
+            $(image).appendTo('body');
+            image.onload = function () {
+                $('#modal_overlay').fadeIn();
+                that.hide();
+                $(image).animate({
+                    'left': $(window).width()/ 2 -399,
+                    'top': $(window).height() * 0.08 + 21,
+                    'height': $(img).attr('real_he');
+                    'width': $(img).attr('real_wid');
+                }, 400 function() {
+                    $('#content_pane').addClass('index_itembox');
+                    $('#content_pane').fadeIn(100);
+                    $.get(url, function(response) {
+                        $(response).find('.itemopen').appendTo($('#content_pane'));
+                        $(image).remove();
+                    });
+                });
+            }
+            History.pushState(null, null, url);
+            return false;
+        }
+    });
+                
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
             var that = $(this).parent();
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
-            image = new Image();
+            var image = new Image();
             $(image).attr({'src': img.attr('src'), 'width': img.width()});
             $(image).css({'position' : 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
             $(image).appendTo('body');

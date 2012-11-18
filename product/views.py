@@ -8,8 +8,8 @@ from product.models import Product, Gender, Brand, Category
 def brands(request):
     brands = Brand.objects.all()
     if request.is_ajax():
-        return render(request, 'product/brands-ajax.html', {'brands': brands})
-    return render(request, 'product/brands.html', {'brands': brands})
+        return render(request, 'product/brands-ajax.html', {'brands': brands, 'popup': True})
+    return render(request, 'product/brands.html', {'brands': brands, 'popup': True})
 
 def brand(request, brand_slug):
     brand = Brand.objects.get(slug=brand_slug) 
