@@ -7,7 +7,7 @@
             <h2>BRANDS</h2>
             <ul>
                 {% for brand in brands %}
-                <li><a href="{% url brand brand.name %}"><img src="{{ brand.w_image.url }}" alt="{{ brand.name }}"></a></li>
+                <li><a href="{% url brand-products brand.slug %}"><img src="{{ brand.w_image.url }}" alt="{{ brand.name }}"></a></li>
                 {% endfor %}
             </ul>
         </div>
