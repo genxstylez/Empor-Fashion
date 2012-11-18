@@ -12,7 +12,7 @@
     <ul class="nav nav-list">
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'WOMEN' %}">WOMEN</a></li>
         {% for category in brand.get_women_categories %}
-        <li><a href="{% url brand-products-gender brand.slug 'WOMEN' category.id %}">{{ category.name }}</a></li>
+        <li><a href="{% url brand-products-gender-category brand.slug 'WOMEN' category.id %}">{{ category.name }}</a></li>
         {% endfor %}
     </ul>
 </div>
