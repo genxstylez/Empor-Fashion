@@ -36,8 +36,8 @@ class Brand(models.Model):
 
     name = models.CharField(_('Name'), max_length=100)
     image = models.ImageField(_('Image (Original)'), upload_to=brand_path, storage=empor_storage)
-    w_image = models.ImageField(_('Image (White)'), upload_to=brand_w_path, storage=empor_storage)
-    story = models.ImageField(_('Story'), upload_to=story_path, storage=empor_storage)
+    w_image = models.ImageField(_('Image (White)'), upload_to=brand_w_path, storage=empor_storage, blank=True)
+    story = models.ImageField(_('Story'), upload_to=story_path, storage=empor_storage, blank=True)
     slug = models.SlugField(_('Slug'), db_index=True)
     description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category, related_name='brands')
