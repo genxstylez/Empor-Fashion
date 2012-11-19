@@ -8,14 +8,14 @@ from product.models import Product, Gender, Brand, Category
 def brands(request):
     brands = Brand.objects.all()
     if request.is_ajax():
-        return render(request, 'product/brands-ajax.html', {'brands': brands, 'popup': True})
+        return render(request, 'product/brands-ajax.html', {'brands': brands})
     return render(request, 'product/brands.html', {'brands': brands})
 
 def brand(request, brand_slug):
     brand = Brand.objects.get(slug=brand_slug) 
     products = Product.on_site.filter(brand=brand)
     box_class = ['a11', 'a12', 'a21', 'a22']
-    return render(request, 'product/brand.html', {'brand': brand, 'products': products, 'box_class': box_class, 'popup': True})
+    return render(request, 'product/brand.html', {'brand': brand, 'products': products, 'box_class': box_class})
 
 def brand_products(request, brand_slug, gender_type=None, category=None):
     brand = Brand.objects.get(slug=brand_slug)
@@ -40,9 +40,9 @@ def gender_products(request, gender_type, category=None):
     box_class = ['a11', 'a12', 'a21', 'a22']
     return render(request, 'product/gender-products.html', {'products': products, 'box_class': box_class, 'gender': gender, 'brands': brands})
 
-def product_view(request, brand_slug, product_slug):
+def product_view(request, brand_slug, gender_type, product_slug):
     try:
-        focus_product = Product.objects.prefetch_related('brand', 'option_group').get(brand__slug=brand_slug, slug=product_slug, parent=None)
+        focus_product = Product.on_site.prefetch_related('brand', 'option_group').get(brand__slug=brand_slug, slug=product_slug)
     except Product.DoesNotExist:
         raise Http404
 
