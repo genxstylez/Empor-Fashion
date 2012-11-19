@@ -54,7 +54,13 @@ def product_view(request, brand_slug, gender_type, product_slug, category=None):
 
     box_class = ['a11', 'a12', 'a21', 'a22']
 
-    return render(request, 'product/product.html', {'products': products, 'focus_product': focus_product, 'box_class': box_class, 'popup': True})
+    return render(request, 'product/product.html', {
+        'products': products, 
+        'focus_product': focus_product, 
+        'box_class': box_class, 
+        'popup': True,
+        'brand': focus_product.brand
+    })
 
 def _check_stock(request):
     if request.method == 'POST' and request.is_ajax():
