@@ -57,6 +57,14 @@ class Brand(models.Model):
     def get_absolute_url(self):
         return ('brand-view', [self.slug])
 
+class SizeConversion(models.Model): 
+    def size_path(self, filename):
+        import uuid
+        return 'brand_images/size/%s.%s' % (str(uuid.uuid4()), filename.split('.')[1])
+    image = models.ImageField(_('Image'), upload_to=size_path, storage=empor_storage)
+    brand = models.ForeignKey(Brand)
+    category = models.ForeignKey(Category)
+
 class Collection(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     description = models.TextField(_('Description'), blank=True)
@@ -206,7 +214,7 @@ class Product(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('product-view', [self.brand.slug, self.slug])
+        return ('product-view', [self.brand.slug, self.gender.all()[0], self.slug])
 
 @receiver(post_save, sender=Product)
 def calculate_stock(sender, instance, **kwargs):
@@ -249,7 +257,6 @@ class ProductThumb(models.Model):
         return '<%s> %s' % (self.product.collection.name , self.product.name)
 
 class ProductImage(models.Model):
-    from empor.storage import empor_storage
     def product_image_path(self, filename):
         return '%s/%s/%s/images/%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename)
 
