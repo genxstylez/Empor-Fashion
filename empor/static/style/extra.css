@@ -6,6 +6,10 @@
     display: none;
 }
 
+div#isotope_list {
+    margin: 0 auto 50px;
+}
+
 div.menu_pop {
     display: none;
 }
@@ -21,8 +25,8 @@ div.menu_pop {
     width: 100%;
 }
 div.index_itembox {
-    margin-left: 8px;
-    margin-top: 8px;
+    margin-left: 10px;
+    margin-top: 10px;
 }
 
 div.outer_box {
