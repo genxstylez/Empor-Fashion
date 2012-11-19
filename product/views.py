@@ -40,13 +40,18 @@ def gender_products(request, gender_type, category=None):
     box_class = ['a11', 'a12', 'a21', 'a22']
     return render(request, 'product/gender-products.html', {'products': products, 'box_class': box_class, 'gender': gender, 'brands': brands})
 
-def product_view(request, brand_slug, gender_type, product_slug):
+def product_view(request, brand_slug, gender_type, product_slug, category=None):
+    gender = Gender.objects.get(name=gender_type)
     try:
         focus_product = Product.on_site.prefetch_related('brand', 'option_group').get(brand__slug=brand_slug, slug=product_slug)
     except Product.DoesNotExist:
         raise Http404
 
-    products = Product.on_site.filter(brand__slug=brand_slug).prefetch_related('brand', 'option_group')
+    products = Product.on_site.filter(brand__slug=brand_slug, gender=gender).prefetch_related('brand', 'option_group')
+
+    if category:
+        products.filter(category=category)
+
     box_class = ['a11', 'a12', 'a21', 'a22']
 
     return render(request, 'product/product.html', {'products': products, 'focus_product': focus_product, 'box_class': box_class, 'popup': True})
