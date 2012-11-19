@@ -153,7 +153,7 @@ $(function() {
                 $('#modal_overlay').fadeIn();
                 that.hide();
                 $(image).animate({
-                    'left': $(window).width()/ 2 - 379,
+                    'left': $(window).width()/ 2 - 419,
                     'top': $(window).height() * 0.08,
                     'height': $(img).attr('real_he'),
                     'width': $(img).attr('real_wid'),
