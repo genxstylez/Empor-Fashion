@@ -24,6 +24,11 @@ class Category(models.Model):
             return '%s:%s' % (self.parent, self.name)
         return self.name
 
+    def get_parent(self):
+        if self.parent:
+            self.get_parent()
+        return self
+
 class Brand(models.Model):
     def brand_path(self, filename):
         return 'brand_images/%s/image.%s' % (self.name, filename.split('.')[1])
@@ -136,6 +141,10 @@ class Product(models.Model):
 
     def get_name(self):
         return self.__unicode__()
+
+    def get_size_conversion(self):
+        category = self.category.get_parent()
+        return SizeConversion.objects.get(category=category, brand=self.brand)
 
     def get_siblings(self):
         return self.collection.products.filter(parent=None).exclude(id=self.id)

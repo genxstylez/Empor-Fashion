@@ -23,28 +23,29 @@ $(function() {
         {% for field in form %}
         {% if field.name != 'address' and field.name != 'post_code' and field.name != 'tos' %}
         <div class="control-group">
-            {{ field.errors }}
             <label class="control-label">{{ field.label }}</label>
             <div class="controls">{{ field }}</div>
+            {{ field.errors }}
         </div>
         {% endif %}
         {% endfor %}
         <div class="control-group">
-            {% if form.address.errors %}
+			<label class="control-label">{{ form.address.label }}</label>
+            <div class="controls">{{ form.post_code }}</div>
+            <div class="controls">{{ form.address }}</div>
+			{% if form.address.errors %}
                 {{ form.address.errors }}
             {% else %}
                 {{ form.post_code.errors }}
             {% endif %}
-            <label class="control-label">{{ form.address.label }}</label>
-            <div class="controls">{{ form.post_code }}</div>
-            <div class="controls">{{ form.address }}</div>
+
         </div>
 
         <div class="control-group">
-            {{ form.tos.errors }}
             <div class="controls">
                 <input id="id_tos" name="tos" type="checkbox">{% trans 'I have read and agree' %}<a href="{% url service-tos %}">{% trans 'TOS' %}</a>
             </div>
+            {{ form.tos.errors }}
         </div>
         <div class="form-actions">
             <input type="submit" class="button" value="{% trans 'Confirm' %}" />

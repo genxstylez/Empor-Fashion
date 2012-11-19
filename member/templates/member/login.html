@@ -9,7 +9,6 @@
     <div class="intermission">{% trans 'OR' %}</div>
     <form id="login-form" method="post" class="form-inline offset2 span6">
         {% csrf_token %}
-        {{ form.errors }}
         {% for field in form %}
         {% if field.name == 'remember_me' %}
         <div class="control-group">
@@ -19,9 +18,10 @@
          </div> 
         {% else %}
          <div class="control-group">
-           <label class="control-label">{{ field.label }}</label>
-           <div class="controls">{{ field }}</div>
+			<label class="control-label">{{ field.label }}</label>
+			<div class="controls">{{ field }}</div>
          </div>
+		 {{ field.errors }}
         {% endif %}
         {% endfor %}
 
