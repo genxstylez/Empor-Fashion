@@ -2,7 +2,12 @@ function closeBox() {
     $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
     $('#modal_overlay').hide();
     $('.index_itembox:hidden').fadeIn(100);
-    History.back();
+    if(history.length > 1)
+        History.back();
+    else {
+        a = location.pathname.split('/');
+        History.pushState(null, null, a.splice(0, a.length-2).join('/'));
+    }
 }
 
 $(function() {
