@@ -475,6 +475,10 @@ label, input, button, select, textarea {
 	*zoom:1;
 	margin:10px 0;
 }
+.form-actions_left .social_btn {
+	float:right;
+	margin-top:5px;
+}
 .form-actions a,
 .form-actions_right a,
 .form-actions_left a {
