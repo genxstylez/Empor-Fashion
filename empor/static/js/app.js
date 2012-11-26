@@ -228,7 +228,7 @@ $(function() {
 			$(this).removeClass('isotope-item');
 			$('.index_itembox').not(this).animate({
 				'opacity': 0.4
-			}, 200);
+			}, 10);
 		}
 		return false;
     });
@@ -239,7 +239,7 @@ $(function() {
 			$(this).addClass('isotope-item');
 			$('.index_itembox').not(this).animate({
 				'opacity': 1
-			}, 200);
+			}, 10);
 		}
 		return false;
     });

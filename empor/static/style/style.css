@@ -1037,7 +1037,7 @@ table {
 	left:0;
 	margin-right: auto;
 	margin-left: auto;
-	margin-top:-80px;
+	margin-top:-90px;
 }
 .index_itembox.a11:hover .itemimg,
 .index_itembox.a12:hover .itemimg,
@@ -1047,7 +1047,7 @@ table {
 	width: 65%;
 }
 .a22 .itemimg {
-	margin-top:-180px;
+	margin-top:-160px;
 }
 .index_itembox .itemimg img,
 .index_itembox.a21:hover .itemimg img {
