@@ -28,7 +28,13 @@ def brand_products(request, brand_slug, gender_type=None, category=None):
     else:
         products = Product.on_site.filter(brand=brand)
     box_class = ['a11', 'a12', 'a21', 'a22']
-    return render(request, 'product/brand-products.html', {'products': products, 'box_class': box_class, 'brand': brand})
+    return render(request, 'product/brand-products.html', {
+		'products': products, 
+		'box_class': box_class, 
+		'brand': brand, 
+		'category_id':category, 
+		'gender': gender_type
+	})
 
 def gender_products(request, gender_type, category=None):
     gender = Gender.objects.get(name=gender_type)

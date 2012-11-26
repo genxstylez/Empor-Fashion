@@ -6,6 +6,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/plupload/js/plupload.full.js"></script>
         <script src="{{ STATIC_URL }}js/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+		<script src="{{ STATIC_URL }}js/tiny_mce/tiny_mce.js"></script>
+		<script type="text/javascript">
+			tinyMCE.init({
+				mode : 'textareas',
+				theme: 'simple',
+			});
+		</script>
         {% block js %}{% endblock %}
     </head>
     <body>

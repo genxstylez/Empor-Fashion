@@ -3,16 +3,20 @@
 {% block content %}
 <div id="left_menu_wrapper">
     <div class="brand"><img src="{{ brand.image.url }}"></div>
-    <ul class="nav nav-list">
+    <ul class="nav nav-list {% if gender == 'MEN' %}visible{% endif %}">
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'MEN' %}">MEN</a></li>
         {% for category in brand.get_men_categories %}
-        <li><a href="{% url brand-products-gender-category brand.slug 'MEN' category.id %}">{{ category.name }}</a></li>
+        <li {% if category.id == category_id and gender == 'MEN' %}class="active" {% endif %}>
+			<a href="{% url brand-products-gender-category brand.slug 'MEN' category.id %}">{{ category.name }}</a>
+		</li>
         {% endfor %}
     </ul>
-    <ul class="nav nav-list">
+    <ul class="nav nav-list {% if gender == 'WOMEN' %}visible{% endif %}">
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'WOMEN' %}">WOMEN</a></li>
         {% for category in brand.get_women_categories %}
-        <li><a href="{% url brand-products-gender-category brand.slug 'WOMEN' category.id %}">{{ category.name }}</a></li>
+        <li {% if category.id == category_id and gender == 'WOMEN' %}class="active"{% endif %}>
+			<a href="{% url brand-products-gender-category brand.slug 'WOMEN' category.id %}">{{ category.name }}</a>
+		</li>
         {% endfor %}
     </ul>
 </div>
@@ -25,13 +29,20 @@
     {% for product in products %}
     {% cache 600 product product.id %}
     {% with box_class|random as class %}
-    <div class="index_itembox {{ class }}"> 
+    <a class="dynamic" href="{{ product.get_absolute_url }}">
+		<div class="index_itembox {{ class }}"> 
             <div class="itemimg"><img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}"></div>
-            <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
             <div class="content">
-                <div class="brand"><img src="{{ product.brand.image.url }}"></div>
-                <div class="itemname">{{ product.name }}</div>
-                <div class="price">{{ product.price|currency }}</div>
+                <h5>{{ product.brand.name|upper }}</h5>
+                <h6>{{ product.name }}</h6>
+				<h6>
+					{% if product.discountable %}
+					<strike>{{ focus_product.price|currency }}</strike>
+					<span class="discount">{{ focus_product.get_discounted_price|currency }} ( -{{ focus_product.get_discount_value|currency }} )</span>
+					{% else %}
+					<span>{{ focus_product.price|currency }}</span>
+					{% endif %}
+				</h6>
             </div>
             {% with product.get_gender as gender %}
                 {% if gender == 3 %}
@@ -42,8 +53,8 @@
                 <i class="l_icon-gender men"></i>
                 {% endif %}
             {% endwith %}
-            </a>
-    </div>
+		</div>
+	</a>
     {% endwith %}
     {% endcache %}
     {% endfor %}

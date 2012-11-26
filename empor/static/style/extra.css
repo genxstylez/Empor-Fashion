@@ -14,6 +14,10 @@ div.menu_pop {
     display: none;
 }
 
+.visible {
+	opacity: 1;
+}
+
 .backstretch::after { 
     content: '';
     background: transparent url(../images/pattern.png) repeat top left; 

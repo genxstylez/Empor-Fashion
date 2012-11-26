@@ -24,10 +24,12 @@ class Category(models.Model):
             return '%s:%s' % (self.parent, self.name)
         return self.name
 
-    def get_parent(self):
-        if self.parent:
-            self.get_parent()
-        return self
+    def get_size(self, brand):
+		try:
+			size = SizeConversion.objects.get(category=self, brand=brand)
+			return size
+		except SizeConversion.DoesNotExist:
+			self.parent.get_size(brand)
 
 class Brand(models.Model):
     def brand_path(self, filename):
@@ -143,8 +145,7 @@ class Product(models.Model):
         return self.__unicode__()
 
     def get_size_conversion(self):
-        category = self.category.get_parent()
-        return SizeConversion.objects.get(category=category, brand=self.brand)
+		return self.category.get_size(self.brand)
 
     def get_siblings(self):
         return self.collection.products.filter(parent=None).exclude(id=self.id)
