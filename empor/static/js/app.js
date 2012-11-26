@@ -224,7 +224,8 @@ $(function() {
     
     $('.index_itembox').on('mouseenter', function() {
 		if(!$(this).hasClass('focus_item')) {
-			$(this).toggleClass('focus_item');
+			$(this).addClass('focus_item');
+			$(this).removeClass('isotope-item');
 			$('.index_itembox').not(this).animate({
 				'opacity': 0.4
 			}, 200);
@@ -234,7 +235,8 @@ $(function() {
 
     $('.index_itembox').on('mouseleave', function() {
 		if($(this).hasClass('focus_item')) {
-			$(this).toggleClass('focus_item');
+			$(this).removeClass('focus_item');
+			$(this).addClass('isotope-item');
 			$('.index_itembox').not(this).animate({
 				'opacity': 1
 			}, 200);
