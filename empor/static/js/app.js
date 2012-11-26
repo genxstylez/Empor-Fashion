@@ -231,7 +231,7 @@ $(function() {
     });
 
     $('.index_itembox').on('mouseleave', function() {
-		$(this).effect('scale', {'percent' : 110}, 100);
+		$(this).effect('scale', {'percent' : 100}, 100);
 		$('.index_itembox').not(this).animate({
 			'opacity': 0.4
 		}, 100);
