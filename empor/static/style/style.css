@@ -1139,14 +1139,9 @@ h3 .l_icon-gender {
 .a12:hover,
 .a21:hover,
 .a22:hover {
+	z-index:99;
 	width: 328px;
 	height: 328px;
-	-webkit-transform: scale(1.1);
-	-moz-transform: scale(1.1);
-	-o-transform: scale(1.1);
-	-ms-transform: scale(1.1);
-	transform: scale(1.1);
-	
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
