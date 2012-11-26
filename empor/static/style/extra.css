@@ -60,7 +60,7 @@ div#content_pane {
     display: none;
     background: white;
     overflow: hidden;
-    position: fixed;
+    position: absolute;
     top: 8%;
     width: 840px;
     min-height: 500px;
