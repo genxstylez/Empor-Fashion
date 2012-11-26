@@ -226,6 +226,9 @@ $(function() {
 		if(!$(this).hasClass('focus_item')) {
 			$(this).addClass('focus_item');
 			$(this).removeClass('isotope-item');
+			$('.index_itembox').not(this).animate({
+				'opacity': 0.4
+			}, 10);
 		}
 		return false;
     });
@@ -234,6 +237,9 @@ $(function() {
 		if($(this).hasClass('focus_item')) {
 			$(this).removeClass('focus_item');
 			$(this).addClass('isotope-item');
+			$('.index_itembox').not(this).animate({
+				'opacity': 1
+			}, 10);
 		}
 		return false;
     });
