@@ -535,6 +535,20 @@ input[type="radio"] {
 	opacity: 0.4;
 	cursor:pointer;
 }
+.menu_content .close {
+	font-size:40px;
+	color:#fff;
+	text-shadow:none;
+	filter:alpha(opacity=20);
+	-moz-opacity: 0.2;
+	opacity: 0.2;
+}
+.menu_content .close:hover {
+	color:#fff;
+	filter:alpha(opacity=40);
+	-moz-opacity: 0.4;
+	opacity: 0.4;
+}
 /* icon */
 [class^="xs_icon-"],
 [class*=" xs_icon-"],
@@ -1017,9 +1031,8 @@ table {
 	background-color: #29201b;
 	border: 1px solid #29201b;
 }
-.spring {-webkit-transform: scale(.98,.98); -webkit-transition: 0.03s all ease-out; -webkit-perspective: 1000;}
 .index_itembox .itemimg {
-	width: 90%;
+	width: 80%;
 	height: auto;
 	position:absolute;
 	top:50%;
@@ -1033,9 +1046,8 @@ table {
 .index_itembox.a12:hover .itemimg,
 .index_itembox.a21:hover .itemimg,
 .index_itembox.a22:hover .itemimg {
-	margin-top:-200px;
-	width: 55%;
-	margin-left: 15px;
+	margin-top:-180px;
+	width: 65%;
 }
 .a22 .itemimg {
 	margin-top:-200px;
@@ -1066,25 +1078,20 @@ table {
 }
 .index_itembox:hover .content {
 	display:block;
-	width: 40%;
 	position:absolute;
-	top:80px;
-	right:5px;
-	color: #29201b;
+	bottom:10px;
+	left:10px;
+	right:10px;
+	text-align:left;
+	padding:5px;
+	background:rgba(255,255,255,.4);
 }
-.index_itembox .content .brand,
-.index_itembox .content h5,
-.index_itembox .content h6  {
-	margin-bottom:10px;
-	line-height:20px;
+.index_itembox .content h5 {
+	color: #29201B;
 }
-.index_itembox .content .brand {
-	width:100%;
-}
-.index_itembox .content .brand img {
-	width:100px;
-	height:auto;
-	margin-left: 0px;	
+.index_itembox .content h6 {
+	color: #29201B;
+	font-weight:normal;
 }
 .itemopen .brand_banner {
 	margin:0;
@@ -1094,13 +1101,6 @@ table {
 	-moz-opacity: 1;
 	opacity: 1;
 	width:840px;
-}
-.index_itembox .content .itemname {
-	font-weight:bold;
-	margin-top:5px;
-}
-.index_itembox .content .price {
-	margin-top:5px;
 }
 .index_itembox .l_icon-gender {
 	display:none;
@@ -1142,13 +1142,13 @@ h3 .l_icon-gender {
 .a12:hover,
 .a21:hover,
 .a22:hover {
-	width: 550px;
+	width: 328px;
 	height: 328px;
-	-webkit-transform: scale(1.05);
-	-moz-transform: scale(1.05);
-	-o-transform: scale(1.05);
-	-ms-transform: scale(1.05);
-	transform: scale(1.05);
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	transform: scale(1.1);
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
@@ -1158,11 +1158,11 @@ h3 .l_icon-gender {
 	height: 158px;
 }
 .a41:hover {
-	-webkit-transform: scale(1.05);
-	-moz-transform: scale(1.05);
-	-o-transform: scale(1.05);
-	-ms-transform: scale(1.05);
-	transform: scale(1.05);
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	transform: scale(1.1);
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
