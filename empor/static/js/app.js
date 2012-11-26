@@ -223,7 +223,7 @@ $(function() {
     });
     
     $('.index_itembox').on('mouseenter', function() {
-		if(!$(this).hasClass('focus_item') {
+		if(!$(this).hasClass('focus_item')) {
 			$(this).toggleClass('focus_item', 400);
 			$('.index_itembox').not(this).animate({
 				'opacity': 0.4
@@ -233,7 +233,7 @@ $(function() {
     });
 
     $('.index_itembox').on('mouseleave', function() {
-		if($(this).hasClass('focus_item') {
+		if($(this).hasClass('focus_item')) {
 			$(this).toggleClass('focus_item', 400);
 			$('.index_itembox').not(this).animate({
 				'opacity': 1
