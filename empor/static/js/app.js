@@ -223,18 +223,22 @@ $(function() {
     });
     
     $('.index_itembox').on('mouseenter', function() {
-		$(this).toggleClass('focus_item', 100);
-		$('.index_itembox').not(this).animate({
-			'opacity': 0.4
-		}, 400);
+		if(!$(this).hasClass('focus_item') {
+			$(this).toggleClass('focus_item', 400);
+			$('.index_itembox').not(this).animate({
+				'opacity': 0.4
+			}, 400);
+		}
 		return false;
     });
 
     $('.index_itembox').on('mouseleave', function() {
-		$(this).toggleClass('focus_item', 100);
-		$('.index_itembox').not(this).animate({
-			'opacity': 1
-		}, 400);
+		if($(this).hasClass('focus_item') {
+			$(this).toggleClass('focus_item', 400);
+			$('.index_itembox').not(this).animate({
+				'opacity': 1
+			}, 400);
+		}
 		return false;
     });
 
