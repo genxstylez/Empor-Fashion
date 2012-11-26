@@ -224,20 +224,20 @@ $(function() {
     
     $('.index_itembox').on('mouseenter', function() {
 		if(!$(this).hasClass('focus_item')) {
-			$(this).toggleClass('focus_item', 400);
+			$(this).toggleClass('focus_item');
 			$('.index_itembox').not(this).animate({
 				'opacity': 0.4
-			}, 400);
+			}, 200);
 		}
 		return false;
     });
 
     $('.index_itembox').on('mouseleave', function() {
 		if($(this).hasClass('focus_item')) {
-			$(this).toggleClass('focus_item', 400);
+			$(this).toggleClass('focus_item');
 			$('.index_itembox').not(this).animate({
 				'opacity': 1
-			}, 400);
+			}, 200);
 		}
 		return false;
     });
