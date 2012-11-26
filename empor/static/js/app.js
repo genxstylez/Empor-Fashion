@@ -223,7 +223,7 @@ $(function() {
     });
     
     $('.index_itembox').on('mouseenter', function() {
-		$(this).effect('scale', {'percent' : 110}, 100);
+		$(this).toggleClass('focus_item', 100);
 		$('.index_itembox').not(this).animate({
 			'opacity': 0.4
 		}, 100);
@@ -231,9 +231,9 @@ $(function() {
     });
 
     $('.index_itembox').on('mouseleave', function() {
-		$(this).effect('scale', {'percent' : 90.9090909}, 100);
+		$(this).toggleClass('focus_item', 100);
 		$('.index_itembox').not(this).animate({
-			'opacity': 1
+			'opacity': 0.1
 		}, 100);
 		return false;
     });
