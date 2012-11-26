@@ -223,18 +223,18 @@ $(function() {
     });
     
     $('.index_itembox').on('mouseenter', function() {
-		$(this).toggleClass('focus_item', 800);
+		$(this).toggleClass('focus_item', 400);
 		$(this).siblings().animate({
 			'opacity': 0.4
-		}, 800);
+		}, 400);
 		return false;
     });
 
     $('.index_itembox').on('mouseleave', function() {
-		$(this).toggleClass('focus_item', 800);
+		$(this).toggleClass('focus_item', 400);
 		$(this).slibings().animate({
 			'opacity': 0.4
-		}, 800);
+		}, 400);
 		return false;
     });
 
