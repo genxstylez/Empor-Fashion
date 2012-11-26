@@ -19,13 +19,22 @@
     {% for product in products %}
     {% cache 600 product product.id %}
     {% with box_class|random as class %}
-    <div class="index_itembox {{ class }}"> 
-            <div class="itemimg"><img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}"></div>
-            <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
-            <div class="content">
-                <div class="brand"><img src="{{ product.brand.image.url }}"></div>
-                <div class="itemname">{{ product.name }}</div>
-                <div class="price">{{ product.price|currency }}</div>
+    <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
+		<div class="index_itembox {{ class }}"> 
+            <div class="itemimg">
+				<img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}">
+			</div>
+			<div class="content">
+                <h5>{{ product.brand.name|upper }}</h5>
+                <h6>{{ product.name }}</h6>
+                <h6>
+                    {% if product.discountable %}
+                    <strike>{{ product.price|currency }}</strike>
+                    <span class="discount">{{ product.get_discounted_price|currency }} ( -{{ product.get_discount_value|currency }} )</span>
+                    {% else %}
+                    <span>{{ product.price|currency }}</span>
+                    {% endif %}
+                </h6>
             </div>
             {% with product.get_gender as gender %}
                 {% if gender == 3 %}
@@ -37,7 +46,8 @@
                 {% endif %}
             {% endwith %}
             </a>
-    </div>
+		</div>
+	</a>
     {% endwith %}
     {% endcache %}
     {% endfor %}
