@@ -1135,29 +1135,30 @@ h3 .l_icon-gender {
 	width: 328px;
 	height: 328px;
 }
-/*.a11:hover,
+.a11:hover,
 .a12:hover,
 .a21:hover,
 .a22:hover {
 	width: 328px;
 	height: 328px;
-	-webkit-transform: scale(1.1);
+	/*-webkit-transform: scale(1.1);
 	-moz-transform: scale(1.1);
 	-o-transform: scale(1.1);
 	-ms-transform: scale(1.1);
 	transform: scale(1.1);
+	*/
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
-}*/
-.focus_item {
+}
+/*.focus_item {
 	z-index:99;
 	width: 360.8px;
 	height: 360.8px;
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
-}
+}*/
 
 .a41 {
 	width: 668px;

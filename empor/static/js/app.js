@@ -223,16 +223,16 @@ $(function() {
     });
     
     $('.index_itembox').on('mouseenter', function() {
-		$(this).toggleClass('focus_item', 100);
-		$(this).siblings().find('.index_itembox').animate({
+		$(this).effect('scale', {'percent' : 110}, 100);
+		$('.index_itembox').not(this).animate({
 			'opacity': 0.4
 		}, 100);
 		return false;
     });
 
     $('.index_itembox').on('mouseleave', function() {
-		$(this).toggleClass('focus_item', 100);
-		$(this).siblings().find('.index_itembox').animate({
+		$(this).effect('scale', {'percent' : 110}, 100);
+		$('.index_itembox').not(this).animate({
 			'opacity': 0.4
 		}, 100);
 		return false;
