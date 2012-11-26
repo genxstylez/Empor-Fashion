@@ -142,7 +142,7 @@ $(function() {
 
     $('a.brand_dynamic').livequery('click', function() {
         if (History.enabled) {
-            var that = $(this).parent();
+            var that = $(this).find('.index_itembox');
             var url = $(this).attr('href');
             var image = new Image();
             var img = $('img', this);
@@ -173,7 +173,7 @@ $(function() {
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
-            var that = $(this).parent();
+            var that = $(this).find('.index_itembox');
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
             var image = new Image();
@@ -183,7 +183,7 @@ $(function() {
             image.onload = function() {
                 $('#modal_overlay').fadeIn();
                 var height = parseInt(330 / img.width() * img.height())
-                that.hide();
+				that.hide();
                 $(image).animate({
                     'left': $(window).width() / 2 - 399,
                     'top': $(window).height() * 0.08 + 21,
