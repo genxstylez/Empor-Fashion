@@ -223,11 +223,19 @@ $(function() {
     });
     
     $('.index_itembox').on('mouseenter', function() {
-        $('.hide', this).show();
+		$(this).toggleClass('focus_item', 800);
+		$(this).siblings().animate({
+			'opacity': 0.4
+		}, 800);
+		return false;
     });
 
     $('.index_itembox').on('mouseleave', function() {
-        $('.hide', this).hide();
+		$(this).toggleClass('focus_item', 800);
+		$(this).slibings().animate({
+			'opacity': 0.4
+		}, 800);
+		return false;
     });
 
     // cart link

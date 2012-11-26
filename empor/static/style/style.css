@@ -1138,7 +1138,7 @@ h3 .l_icon-gender {
 	width: 328px;
 	height: 328px;
 }
-.a11:hover,
+/*.a11:hover,
 .a12:hover,
 .a21:hover,
 .a22:hover {
@@ -1152,7 +1152,15 @@ h3 .l_icon-gender {
 	filter:alpha(opacity=100);
 	-moz-opacity: 1;
 	opacity: 1;
+}*/
+.focus_item {
+	width: 360.8px;
+	height: 360.8px;
+	filter:alpha(opacity=100);
+	-moz-opacity: 1;
+	opacity: 1;
 }
+
 .a41 {
 	width: 668px;
 	height: 158px;
