@@ -226,15 +226,15 @@ $(function() {
 		$(this).toggleClass('focus_item', 100);
 		$('.index_itembox').not(this).animate({
 			'opacity': 0.4
-		}, 100);
+		}, 400);
 		return false;
     });
 
     $('.index_itembox').on('mouseleave', function() {
 		$(this).toggleClass('focus_item', 100);
 		$('.index_itembox').not(this).animate({
-			'opacity': 0.1
-		}, 100);
+			'opacity': 1
+		}, 400);
 		return false;
     });
 
