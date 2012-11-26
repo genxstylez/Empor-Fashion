@@ -232,7 +232,7 @@ $(function() {
 
     $('.index_itembox').on('mouseleave', function() {
 		$(this).toggleClass('focus_item', 400);
-		$(this).slibings().animate({
+		$(this).siblings().animate({
 			'opacity': 0.4
 		}, 400);
 		return false;
