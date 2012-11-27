@@ -8,12 +8,18 @@
 <div class="itemopen">
     <span class="close">×</span>
     <div class="left">
-        <div class="large" style="height:{{ focus_product.get_main_image|fitin }}px;">
-            <img src="{{ focus_product.get_main_image.image.medium.url }}" rel="{{ focus_product.get_main_image.image.small.url }}" />
+		{% with focus_product.get_main_image as m_image %}
+        <div class="large" style="height:{{ m_image|fitin }}px;">
+			<a class="fancybox-thumb" rel="fancybox-thumb" href="{{ m_image.image.large.url }}">
+				<img src="{{ m_image.image.medium.url }}" rel="{{ m_image.image.small.url }}" />
+			</a>
         </div>
         <div class="small">
             {% for image in focus_product.images.all %}
-            <img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" medium_width="{{ image.medium_width }}" medium_height="{{ image.medium_height }}" />
+			<a rel="fancybox-thumb" href="{{ image.image.large.url }}">
+				<img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" 
+					medium_width="{{ image.medium_width }}" medium_height="{{ image.medium_height }}" />
+			</a>
             {% endfor %}
         </div>  
     </div>
