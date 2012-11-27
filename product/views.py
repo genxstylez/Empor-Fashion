@@ -14,7 +14,7 @@ def brands(request):
 def brand(request, brand_slug):
     brand = Brand.objects.get(slug=brand_slug) 
     products = Product.on_site.filter(brand=brand)
-    box_class = ['a11', 'a12', 'a21', 'a22']
+    box_class = ['a11', 'a12', 'a21']
     return render(request, 'product/brand.html', {'brand': brand, 'products': products, 'box_class': box_class, 'popup': True})
 
 def brand_products(request, brand_slug, gender_type=None, category=None):
@@ -27,7 +27,7 @@ def brand_products(request, brand_slug, gender_type=None, category=None):
             products = products.filter(category=category)
     else:
         products = Product.on_site.filter(brand=brand)
-    box_class = ['a11', 'a12', 'a21', 'a22']
+    box_class = ['a11', 'a12', 'a21']
     return render(request, 'product/brand-products.html', {
 		'products': products, 
 		'box_class': box_class, 
@@ -43,7 +43,7 @@ def gender_products(request, gender_type, category=None):
         category = Category.objects.get(id=category)
         products = products.filter(category=category)
     brands = Brand.objects.all()
-    box_class = ['a11', 'a12', 'a21', 'a22']
+    box_class = ['a11', 'a12', 'a21']
     return render(request, 'product/gender-products.html', {'products': products, 'box_class': box_class, 'gender': gender, 'brands': brands})
 
 def product_view(request, brand_slug, gender_type, product_slug, category=None):
@@ -58,7 +58,7 @@ def product_view(request, brand_slug, gender_type, product_slug, category=None):
     if category:
         products.filter(category=category)
 
-    box_class = ['a11', 'a12', 'a21', 'a22']
+    box_class = ['a11', 'a12', 'a21']
 
     return render(request, 'product/product.html', {
         'products': products, 

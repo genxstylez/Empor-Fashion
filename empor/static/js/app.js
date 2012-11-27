@@ -222,7 +222,7 @@ $(function() {
         return false;
     });
     
-    $('.index_itembox').on('mouseenter', function() {
+    /*$('.index_itembox').on('mouseenter', function() {
 		if(!$(this).hasClass('focus_item')) {
 			$(this).addClass('focus_item');
 			$(this).removeClass('isotope-item');
@@ -238,7 +238,7 @@ $(function() {
 			$('.index_itembox').not(this).css('opacity', 1);
 		}
 		return false;
-    });
+    });*/
 
     // cart link
     // default quantity
