@@ -14,6 +14,7 @@
 				<img src="{{ m_image.image.medium.url }}" rel="{{ m_image.image.small.url }}" />
 			</a>
         </div>
+		{% endwith %}
         <div class="small">
             {% for image in focus_product.images.all %}
 			<a rel="fancybox-thumb" href="{{ image.image.large.url }}">

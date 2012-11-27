@@ -20,7 +20,7 @@
     {% cache 600 product product.id %}
     {% with box_class|random as class %}
     <a class="coverbox hide dynamic" href="{{ product.get_absolute_url }}">
-		<div class="index_itembox {{ class }}"> 
+		<div class="index_itembox {{ class }}">
             <div class="itemimg">
 				<img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}">
 			</div>
