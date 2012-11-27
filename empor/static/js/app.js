@@ -25,6 +25,20 @@ $(function() {
     $('img.lazy').lazyload({
         effect: 'fadeIn'
     });
+	
+	$(".fancybox-thumb").fancybox({
+		prevEffect	: 'none',
+		nextEffect	: 'none',
+		helpers	: {
+			title	: {
+				type: 'outside'
+			},
+			thumbs	: {
+				width	: 75,
+				height	: 75,
+			}
+		}
+	});
 
     $('.open_btn').click(function() {
         $('#footer').animate({
