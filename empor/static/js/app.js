@@ -26,19 +26,35 @@ $(function() {
         effect: 'fadeIn'
     });
 	
-	$(".fancybox-thumb").fancybox({
-		prevEffect	: 'none',
-		nextEffect	: 'none',
-		helpers	: {
-			title	: {
-				type: 'outside'
-			},
-			thumbs	: {
-				width	: 75,
-				height	: 75,
-			}
-		}
-	});
+	$("a.gallery").livequery('click', function() {
+        var imgs;
+        /*$('.fancybox-thumb').each(function() {
+            imgs += { href : $(this).data('thumb') },
+        });*/
+
+        $.fancybox(
+            $('.fancybox-thumb'),
+            {
+            prevEffect	: 'fade',
+            nextEffect	: 'fade',
+            helpers	: {
+                title	: {
+                    type: 'outside'
+                },
+                thumbs	: {
+                    width	: 75,
+                    height	: 75,
+                    source  : function(current) {
+                        return $(current.element).data('thumb');
+                    }
+                }
+            }
+        });
+    });
+
+    $('a.not').livequery('click', function() {
+        return false;
+    });
 
     $('.open_btn').click(function() {
         $('#footer').animate({
@@ -98,7 +114,7 @@ $(function() {
     //isotope for index
     $('#isotope_list').isotope({
         itemSelector: '.index_itembox',
-        masonry: {columnWidth: 170}
+        masonry: {columnWidth: 230}
     });
 
     // order reciept
@@ -199,8 +215,8 @@ $(function() {
                 var height = parseInt(330 / img.width() * img.height())
 				that.hide();
                 $(image).animate({
-                    'left': $(window).width() / 2 - 399,
-                    'top': $(window).height() * 0.08 + 21,
+                    'left': $(window).width() / 2 - 400,
+                    'top': $(window).height() * 0.0355 + 21,
                     'height': height,
                     'width': '330px'
                 }, 400,  function() {
