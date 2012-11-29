@@ -76,19 +76,21 @@ class RegisterForm(forms.ModelForm):
         return self.cleaned_data['email']   
  
 class ProfileForm(forms.ModelForm):
-    birthday = forms.DateField(input_formats=['%Y/%m/%d',], widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
-    post_code = forms.CharField(label=_('Post Code'), widget=forms.TextInput(attrs={'class': 'input-small', 'placeholder': _('Post Code')}))
-    class Meta:
-        model = UserProfile
-        exclude = ('reset_code', 'user', 'country')
+	birthday = forms.DateField(label=_('Birthday'), input_formats=['%Y/%m/%d',], \
+		widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
+	post_code = forms.CharField(label=_('Post Code'), widget=forms.TextInput(attrs={'class': 'input-small', 'placeholder': _('Post Code')}))
 
-    def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            if field in ['birthday', 'gender', 'post_code']:
-                pass
-            else:
-                self.fields[field].widget.attrs['class'] = 'input-xxxlarge' 
+	class Meta:
+		model = UserProfile
+		exclude = ('reset_code', 'user', 'country')
+
+	def __init__(self, *args, **kwargs):
+		super(ProfileForm, self).__init__(*args, **kwargs)
+		for field in self.fields:
+			if field in ['birthday', 'gender', 'post_code']:
+				pass
+			else:
+				self.fields[field].widget.attrs['class'] = 'input-xxxlarge' 
 
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=20, label=_('Account'), 

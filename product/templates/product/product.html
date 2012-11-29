@@ -10,9 +10,8 @@
     <div class="left">
 		{% with focus_product.get_main_image as m_image %}
         <div class="large" style="height:{{ m_image|fitin }}px;">
-            <a class="gallery" href="#">
-				<img src="{{ m_image.image.medium.url }}" rel="{{ m_image.image.small.url }}" />
-            </a>
+			<a class="gallery bigimg_box" href="#"><i class="s_icon-bigimg"></i>看大圖</a>
+			<img src="{{ m_image.image.medium.url }}" rel="{{ m_image.image.small.url }}" />
         </div>
 		{% endwith %}
         <div class="small">
