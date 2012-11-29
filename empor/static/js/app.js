@@ -27,14 +27,7 @@ $(function() {
     });
 	
 	$("a.gallery").livequery('click', function() {
-        var imgs;
-        /*$('.fancybox-thumb').each(function() {
-            imgs += { href : $(this).data('thumb') },
-        });*/
-
-        $.fancybox(
-            $('.fancybox-thumb'),
-            {
+        $.fancybox($('.fancybox-thumb'), {
             prevEffect	: 'fade',
             nextEffect	: 'fade',
             helpers	: {
@@ -50,6 +43,7 @@ $(function() {
                 }
             }
         });
+        return false;
     });
 
     $('a.not').livequery('click', function() {
