@@ -253,7 +253,13 @@ $(function() {
             $(this).remove();
         });
 	});
-    
+
+	$('.menu_content').livequery('click', function() {
+		$('.menuopen_wrapper').fadeOut(400, function() {
+            $(this).remove();
+        });
+	});
+
     // default quantity
     $('#quantity').livequery(function() {
         $(this).val(1);

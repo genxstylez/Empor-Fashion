@@ -922,23 +922,22 @@ table {
 } 
 #menuopen_wrapper {
 	position: absolute;
-	top: 0px;
+	top: 0;
 	width: 100%;
-	left: 0;
 	z-index: 2000000;
 }
 #menuopen_wrapper .menu_content {
 	position: absolute;
-	right: 0;
-	left: 0;
 	top: 0;
 	bottom: 0;
 	width: 100%;
+	height: 100%;
 }
 .menu_box {
 	z-index: 1000;
 	padding: 50px;
 	width:740px;
+	height: 100%;
 	margin: 0 auto;
 }
 .menu_box h2 {
