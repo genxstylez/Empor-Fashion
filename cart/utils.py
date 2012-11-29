@@ -16,7 +16,6 @@ def archive_cart(cart, expired=None):
 
         Acart.save()
 
-        
         for item in items:
             ACitem = ArchivedCartItem()
             ACitem.product = item.product
