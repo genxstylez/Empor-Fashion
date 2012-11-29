@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from product.models import Product
 from discount.models import Discount
-from cart.models import ArchivedCart, ArchivedCartItem
+from cart.models import ArchivedCartItem
 from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES, RECIEPT_TYPE_CHOICES, DISPATCH_TIME_CHOICES
 from member.settings import COUNTRY_CHOICES
 from datetime import datetime
@@ -14,7 +14,7 @@ from datetime import datetime
 class Order(models.Model):
     order_id = models.CharField(_('Order ID'), max_length=20, blank=True)
     user = models.ForeignKey(User, related_name='orders')
-    cart = models.OneToOneField(ArchivedCart, related_name='order')
+    cart = models.PositiveIntegerField(_('Archived Cart'), default=0)
     items = models.ManyToManyField(Product, verbose_name='items', through='OrderItem')
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
     payment_method = models.PositiveSmallIntegerField(_('Payment method'), choices=PAYMENT_METHOD_CHOICES)
@@ -45,14 +45,14 @@ class Order(models.Model):
                 product.stock += OrderItem.objects.get(product=product, order=self).quantity
                 product.save()
                 if product.discountable:
-                    discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
+                    discount = ArchivedCartItem.objects.get(archived_cart__id=self.cart, product=product).discount
                     discount.numUses -= 1
                     discount.save()
 
         if self.status == 1:
             for product in self.items.all():
                 if product.discountable:
-                    discount = ArchivedCartItem.objects.get(archived_cart=self.cart, product=product).discount
+                    discount = ArchivedCartItem.objects.get(archived_cart__id=self.cart, product=product).discount
                     discount.numUses += 1
                     discount.save()
         super(Order, self).save()

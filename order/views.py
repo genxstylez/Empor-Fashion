@@ -91,7 +91,7 @@ def success(request):
 
     cart = get_cart(request)
     cart = archive_cart(cart)
-    order.cart = cart
+    order.cart = cart.id
     order.save()
 
     items = ArchivedCartItem.objects.filter(archived_cart=cart)
