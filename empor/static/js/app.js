@@ -137,6 +137,8 @@ $(function() {
 */
     // image gallery
     $('div.small img').livequery('click', function () {
+		var parent = $(this).parent();
+		parent.insertBefore('div.small a.fancybox-thumb:first');
         var src = $(this).attr('src');
         var large_src = $(this).attr('rel');
         var current_img = $('div.large img');
