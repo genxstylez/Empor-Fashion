@@ -29,8 +29,8 @@
     {% for product in products %}
     {% cache 600 product product.id %}
     {% with box_class|random as class %}
-    <a class="dynamic" href="{{ product.get_absolute_url }}">
-		<div class="index_itembox {{ class }}"> 
+	<div class="index_itembox {{ class }}"> 
+		<a class="dynamic" href="{{ product.get_absolute_url }}">
             <div class="itemimg">
 				<img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}">
 			</div>
@@ -55,8 +55,8 @@
                 <i class="l_icon-gender men"></i>
                 {% endif %}
             {% endwith %}
-		</div>
-	</a>
+		</a>
+	</div>
     {% endwith %}
     {% endcache %}
     {% endfor %}

@@ -1,6 +1,6 @@
 from django.utils.translation import ugettext as _
 from product.models import Brand, Category, Product, ProductImage, \
-Collection, OptionGroup, Option, Gender, ProductThumb
+	Collection, OptionGroup, Option, Gender, ProductThumb, SizeConversion
 from django.contrib import admin
 
 class ProductAdmin(admin.ModelAdmin):
@@ -33,6 +33,7 @@ admin.site.register(Category)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Collection)
 admin.site.register(ProductImage, ProductImageAdmin)
+admin.site.register(SizeConversion)
 admin.site.register(ProductThumb)
 admin.site.register(OptionGroup)
 admin.site.register(Option)

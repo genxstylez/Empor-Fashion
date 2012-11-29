@@ -172,7 +172,7 @@ $(function() {
 
     $('a.brand_dynamic').livequery('click', function() {
         if (History.enabled) {
-            var that = $(this).find('.index_itembox');
+            var that = $(this).parent();
             var url = $(this).attr('href');
             var image = new Image();
             var img = $('img', this);
@@ -203,7 +203,7 @@ $(function() {
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
-            var that = $(this).find('.index_itembox');
+            var that = $(this).parent();
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
             var image = new Image();
