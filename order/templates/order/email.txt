@@ -26,7 +26,7 @@ EMPOR保留接受您的訂單與否之權利。
 ================================================================================================================
 {% for item in items %}
 {% trans 'Product' %}   : {{ item.product.name }}   
-{% trans 'Size' %}  : {% if item.has_options %}{{ item.option.name }}{% else %} - {% endif %}
+{% trans 'Size' %}  : {% if item.product.has_options %}{{ item.product.option.name }}{% else %} - {% endif %}
 {% trans 'Quantity' %}  : {{ item.quantity }}   
 {% trans 'Price' %} : {{ item.gross_total|currency }}
 {% trans 'Discount' %}  : {{ item.discount_total|currency }}

@@ -121,7 +121,7 @@
                         <tr style="padding: 8px; line-height: 18px; text-align: left; vertical-align: top; border-bottom: 1px solid #dddddd;">
                             <td><img src="{{ item.product.get_main_image.image.small.url }}"></td>
                             <td>{{ item.product }}</td>
-                            <td>{% if item.has_options %}{{ item.option.name }}{% else %} - {% endif %}</td>
+                            <td>{% if item.product.has_options %}{{ item.product.option.name }}{% else %} - {% endif %}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total|currency }}</td>
                             <td>{{ item.discount_total|currency }}</td>
