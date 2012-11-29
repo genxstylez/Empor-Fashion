@@ -249,13 +249,13 @@ $(function() {
     });
 
 	$('.menu_content .close').livequery('click', function() {
-        $('.menuopen_wrapper').fadeOut(400, function() {
+        $('#menuopen_wrapper').fadeOut(400, function() {
             $(this).remove();
         });
 	});
 
 	$('.menu_content').livequery('click', function() {
-		$('.menuopen_wrapper').fadeOut(400, function() {
+		$('#menuopen_wrapper').fadeOut(400, function() {
             $(this).remove();
         });
 	});
