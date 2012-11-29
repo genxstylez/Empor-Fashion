@@ -247,26 +247,13 @@ $(function() {
         closeBox();
         return false;
     });
+
+	$('.menu_content .close').livequery('click', function() {
+        $('.menuopen_wrapper').fadeOut(400, function() {
+            $(this).remove();
+        });
+	});
     
-    /*$('.index_itembox').on('mouseenter', function() {
-		if(!$(this).hasClass('focus_item')) {
-			$(this).addClass('focus_item');
-			$(this).removeClass('isotope-item');
-			$('.index_itembox').not(this).css('opacity', 0.4);
-		}
-		return false;
-    });
-
-    $('.index_itembox').on('mouseleave', function() {
-		if($(this).hasClass('focus_item')) {
-			$(this).removeClass('focus_item');
-			$(this).addClass('isotope-item');
-			$('.index_itembox').not(this).css('opacity', 1);
-		}
-		return false;
-    });*/
-
-    // cart link
     // default quantity
     $('#quantity').livequery(function() {
         $(this).val(1);
