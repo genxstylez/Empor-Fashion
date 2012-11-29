@@ -161,7 +161,7 @@ $(function() {
     $('a.ajax').livequery('click', function() {
         var url = $(this).attr('href');
         $.get(url, function(response) {
-            $('body').append(response);
+            $('body').append(response).hide().fadeIn(400);
         });
         return false;
     });
