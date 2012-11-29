@@ -12,12 +12,12 @@ from member.settings import COUNTRY_CHOICES
 from datetime import datetime
 
 class Order(models.Model):
-    order_id = models.CharField(_('Order ID'), max_length=20, blank=True)
+    order_id = models.CharField(_('Order ID'), max_length=20, null=True, blank=True)
     user = models.ForeignKey(User, related_name='orders')
     cart = models.PositiveIntegerField(_('Archived Cart'), default=0)
     items = models.ManyToManyField(Product, verbose_name='items', through='OrderItem')
     status = models.PositiveSmallIntegerField(_('Status'), max_length=1, choices=ORDER_STATUS_CHOICES, default=0)
-    payment_method = models.PositiveSmallIntegerField(_('Payment method'), choices=PAYMENT_METHOD_CHOICES)
+    payment_method = models.PositiveSmallIntegerField(_('Payment method'), choices=PAYMENT_METHOD_CHOICES, default=0)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
     net_total = models.PositiveIntegerField(_('Net Total'), default=0) 
@@ -39,7 +39,7 @@ class Order(models.Model):
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
     dispatched_date = models.DateTimeField(_('Dispatched Date'), null=True, blank=True)
 
-    def save(self):
+    def save(self, *args, **kwargs):
         if self.status == 2:
             for product in self.items.all():
                 product.stock += OrderItem.objects.get(product=product, order=self).quantity
@@ -55,24 +55,19 @@ class Order(models.Model):
                     discount = ArchivedCartItem.objects.get(archived_cart__id=self.cart, product=product).discount
                     discount.numUses += 1
                     discount.save()
-        super(Order, self).save()
+
+        super(Order, self).save(*args, **kwargs)
 
     def get_billing_address(self):
         address = self.billing_post_code + ' '
-        address += self.get_billing_country_display()
-        address += self.billing_city
-        address += self.billing_street1
-        if self.billing_street2:
-            address += self.billing_street2
+        address += self.get_billing_country_display() + ' '
+        address += self.billing_address
         return address
 
     def get_shipping_address(self):
-        address = self.shipping_post_code
-        address += self.get_shipping_country_display()
-        address += self.shipping_city
-        address += self.shipping_street1
-        if self.shipping_street2:
-            address += self.shipping_street2
+        address = self.shipping_post_code + ' '
+        address += self.get_shipping_country_display() + ' '
+        address += self.shipping_address
         return address
 
 @receiver(post_save, sender=Order)

@@ -23,7 +23,7 @@ def index(request):
             order.gross_total = cart.gross_total
             order.net_total = cart.net_total
             order.user = request.user
-            order.shipping = 0
+            order.order_id = ''
             request.session.save()
             request.session['order'] = order
             
@@ -39,7 +39,7 @@ def index(request):
                 'billing_post_code': profile.post_code,
                 'billing_address': profile.address,
                 'billing_country': profile.country,
-                'payment_method': '0',
+                'payment_method': 0,
                 'reciept_type': 0,
                 'dispatch_time': 0,
             }
