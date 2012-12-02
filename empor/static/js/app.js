@@ -186,8 +186,8 @@ $(function() {
                 $('#modal_overlay').fadeIn();
                 that.hide();
                 $(image).animate({
-                    'left': $(window).width()/ 2 - 420,
-                    'top': $(window).height() * 0.08,
+                    'left': $(window).width()/ 2 - 427,
+                    'top': 50,
                     'height': $(img).attr('real_he'),
                     'width': $(img).attr('real_wid'),
                 }, 400, function() {
@@ -220,8 +220,8 @@ $(function() {
                 var height = parseInt(330 / img.width() * img.height())
 				that.hide();
                 $(image).animate({
-                    'left': $(window).width() / 2 - 400,
-                    'top': $(window).height() * 0.03 + 21,
+                    'left': $(window).width() / 2 - 407,
+                    'top': 71,
                     'height': height,
                     'width': '330px'
                 }, 400,  function() {
