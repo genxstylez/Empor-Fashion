@@ -236,12 +236,10 @@ $(function() {
     });
 
 	$('a.dynamic').livequery('dblclick', function() {
-		$(this).click();
 		return false;
 	});
 
 	$('a.brand_dynamic').livequery('dblclick', function() {
-		$(this).click();
 		return false;
 	});
 
