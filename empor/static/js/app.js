@@ -170,6 +170,7 @@ $(function() {
 
     $('a.brand_dynamic').livequery('click', function() {
         if (History.enabled) {
+            History.pushState(null, null, url);
 			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
 			$('#footer').css('margin-right', '15px');
             var that = $(this).parent();
@@ -196,13 +197,13 @@ $(function() {
                     });
                 });
             }
-            History.pushState(null, null, url);
             return false;
         }
     });
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
+            History.pushState(null, null, url);
             var that = $(this).parent();
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
@@ -231,7 +232,6 @@ $(function() {
                     });
                 });
             }
-            History.pushState(null, null, url);
             return false;
         }
     });

@@ -61,7 +61,6 @@
         var History = window.History;
         History.Adapter.bind(window, 'statechange', function () {
             state = History.getState();
-            History.log(null, null, state);
             _gaq.push(['_trackPageview', state.url]);
         });
     }) (window);
