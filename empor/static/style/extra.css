@@ -65,7 +65,7 @@ div#content_pane {
     display: none;
     background: white;
     overflow: hidden;
-    position: absolute;
+    position: relative;
     width: 840px;
     min-height: 500px;
     margin: 50px auto;
