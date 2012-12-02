@@ -1,7 +1,7 @@
 function closeBox() {
     $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
     $('#modal_overlay').hide();
-	$('body').css('overflow': 'auto', 'margin-right': 0});
+	$('body').css({'overflow': 'auto', 'margin-right': 0});
 	$('#footer').css('margin-right', 0);
     $('.index_itembox:hidden').fadeIn(400);
     if(history.length > 1)
