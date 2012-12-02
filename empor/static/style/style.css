@@ -1141,6 +1141,10 @@ h3 .l_icon-gender {
 }
 /*itemopen*/
 .itemopen {
+	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+	background:#fff;
     width: 840px;
 	margin: 0 auto;
 	min-height:480px;
@@ -1266,7 +1270,7 @@ h3 .l_icon-gender {
 	color: #413735;
 	margin-bottom: 10px;
 	width:100%;
-	clear:both;
+	/*clear:both;*/
 }
 .itemopen .data label {
 	float:left;
@@ -1326,11 +1330,7 @@ h3 .l_icon-gender {
 }
 .itemup {
 	position: relative;
-	-webkit-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-	-moz-box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
-	background:#fff;
-	top:30px;
+		top:30px;
 }
 .itemopen .data.help-inline {
 	color: #B94A48;

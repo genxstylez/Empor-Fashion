@@ -5,74 +5,72 @@
 <meta property="og:image" content="{{ focus_product.get_main_image.small.url }}" />
 {% endblock %}
 {% block popup %}
-<div class="itemopen">
-    <span class="close">×</span>
-    <div class="left">
-		{% with focus_product.get_main_image as m_image %}
-        <div class="large" style="height:{{ m_image|fitin }}px;">
-			<a class="gallery bigimg_box" href="#"><i class="s_icon-bigimg"></i>看大圖</a>
-			<img src="{{ m_image.image.medium.url }}" rel="{{ m_image.image.small.url }}" />
-        </div>
-		{% endwith %}
-        <div class="small">
-            {% for image in focus_product.images.all %}
-			<a class="fancybox-thumb not" rel="gallery" data-thumb="{{ image.image.small.url }}" href="{{ image.image.large.url }}">
-				<img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" 
-					medium_width="{{ image.medium_width }}" medium_height="{{ image.medium_height }}" />
-			</a>
-            {% endfor %}
-        </div>  
-    </div>
-    <div class="right">
-        <div class="brand"><img src="{{ focus_product.brand.image.url }}"></div>
-        <h2>{{ focus_product.name }}</h2>
-        <div class="data">
-            <h3>
-                {% if focus_product.discountable %}
-                <strike>{{ focus_product.price|currency }}</strike>
-                <span class="discount">{{ focus_product.get_discounted_price|currency }} ( -{{ focus_product.get_discount_value|currency }} )</span>
-                {% else %}
-                <span>{{ focus_product.price|currency }}</span>
-                {% endif %}
-            </h3>
-        </div> 
-        <div class="data">{{ focus_product.description|safe }}</div>
-        {% if focus_product.remark %}
-        <div class="data help-inline"><p>{{ focus_product.remark }}<p></div>
-        {% endif %}
-        <div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
-        <div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
-        <div class="data"><label>{% trans 'Gender' %}：</label>
-            <span>
-            {% if focus_product.get_gender == 3 %}
-                <i class="l_icon-gender unisex"></i>
-            {% elif focus_product.get_gender == 1 %}
-                <i class="l_icon-gender men"></i>
-            {% else %}
-                <i class="l_icon-gender women"></i>
-            {% endif %} 
-            </span>
-        </div>
-        {% if focus_product.has_options %}
-        <div class="data"><label>{{ focus_product.option_group.name }}：</label>
-             <ul class="size_select">
-                {% for child in focus_product.children.all %}
-               <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#" data="{{ child.id }}">{{ child.option.name }}</a></li>
-                {% endfor %}
-             </ul>
-        </div>
-        {% endif %}
-        <div class="data help-inline error"></div>
-        <div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
-        <div class="form-actions_left">
-            {% csrf_token %}
-            <a href="#" id="add_cart" data="{{ focus_product.id }}" class="button">{% trans 'Add to Cart' %}</a>
-        </div>
-        <div class="data">
-            {% for sibling in focus_product.get_siblings %}
-            <span class="other"><a href="{{ sibling.get_absolute_url }}"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
-            {% endfor %}
-        </div>
-    </div>
+<span class="close">×</span>
+<div class="left">
+	{% with focus_product.get_main_image as m_image %}
+	<div class="large" style="height:{{ m_image|fitin }}px;">
+		<a class="gallery bigimg_box" href="#"><i class="s_icon-bigimg"></i>看大圖</a>
+		<img src="{{ m_image.image.medium.url }}" rel="{{ m_image.image.small.url }}" />
+	</div>
+	{% endwith %}
+	<div class="small">
+		{% for image in focus_product.images.all %}
+		<a class="fancybox-thumb not" rel="gallery" data-thumb="{{ image.image.small.url }}" href="{{ image.image.large.url }}">
+			<img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" 
+				medium_width="{{ image.medium_width }}" medium_height="{{ image.medium_height }}" />
+		</a>
+		{% endfor %}
+	</div>  
+</div>
+<div class="right">
+	<div class="brand"><img src="{{ focus_product.brand.image.url }}"></div>
+	<h2>{{ focus_product.name }}</h2>
+	<div class="data">
+		<h3>
+			{% if focus_product.discountable %}
+			<strike>{{ focus_product.price|currency }}</strike>
+			<span class="discount">{{ focus_product.get_discounted_price|currency }} ( -{{ focus_product.get_discount_value|currency }} )</span>
+			{% else %}
+			<span>{{ focus_product.price|currency }}</span>
+			{% endif %}
+		</h3>
+	</div> 
+	<div class="data">{{ focus_product.description|safe }}</div>
+	{% if focus_product.remark %}
+	<div class="data help-inline"><p>{{ focus_product.remark }}<p></div>
+	{% endif %}
+	<div class="data"><label>{% trans 'Item ID' %}：</label><span>{{ focus_product.sku }}</span></div>
+	<div class="data"><label>{% trans 'Composition' %}：</label><span>{{ focus_product.composition }}</span></div>
+	<div class="data"><label>{% trans 'Gender' %}：</label>
+		<span>
+		{% if focus_product.get_gender == 3 %}
+			<i class="l_icon-gender unisex"></i>
+		{% elif focus_product.get_gender == 1 %}
+			<i class="l_icon-gender men"></i>
+		{% else %}
+			<i class="l_icon-gender women"></i>
+		{% endif %} 
+		</span>
+	</div>
+	{% if focus_product.has_options %}
+	<div class="data"><label>{{ focus_product.option_group.name }}：</label>
+		 <ul class="size_select">
+			{% for child in focus_product.children.all %}
+		   <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#" data="{{ child.id }}">{{ child.option.name }}</a></li>
+			{% endfor %}
+		 </ul>
+	</div>
+	{% endif %}
+	<div class="data help-inline error"></div>
+	<div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
+	<div class="form-actions_left">
+		{% csrf_token %}
+		<a href="#" id="add_cart" data="{{ focus_product.id }}" class="button">{% trans 'Add to Cart' %}</a>
+	</div>
+	<div class="data">
+		{% for sibling in focus_product.get_siblings %}
+		<span class="other"><a href="{{ sibling.get_absolute_url }}"><img src="{{ sibling.thumb.thumb.url }}"></a></span>
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}

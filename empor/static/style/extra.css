@@ -46,13 +46,12 @@ label.required:after {
 div#modal_overlay {
     height:100%;
     width: 100%;
-    background: white;
+    background: rgba(255, 255, 255, 0.8);
     position: fixed;
     display: none;
     z-index: 1001;
     top: 0px;
     bottom: 0px;
-    opacity: 0.8;
 }
 
 div#content_pane {
@@ -61,13 +60,10 @@ div#content_pane {
     background: white;
     overflow: hidden;
     position: absolute;
-    top: 8%;
     width: 840px;
     min-height: 500px;
-    margin: 0 auto;
+    margin: 50px auto;
     height: auto;
-    left: 50%;
-    margin-left: -420px;
 }
 .errorlist {
 	margin-left: 100px;

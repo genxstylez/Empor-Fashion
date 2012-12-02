@@ -155,9 +155,12 @@
     <div class="text">COPYRIGHT© 2012 EMPOR. All RIGHTS RESERVED.</div>
     <div class="open_btn">．．．</div>
 </div>
-<div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}></div>
-<div id="content_pane" {% if popup %}style="display:block;" class="itemup"{% endif %}>
-    {% block popup %}{% endblock %}
+<div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}>
+	<div style="width:840px; margin: 0 auto;">
+		<div id="content_pane" {% if popup %}style="display:block;" class="itemopen"{% endif %}>
+			{% block popup %}{% endblock %}
+		</div>
+	</div>
 </div>
 <div id="fb-root"></div>
 <script type="text/javascript">
