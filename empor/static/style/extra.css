@@ -46,12 +46,18 @@ label.required:after {
 div#modal_overlay {
     height:100%;
     width: 100%;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.5);
     position: fixed;
     display: none;
     z-index: 1001;
     top: 0px;
     bottom: 0px;
+	overflow-y: scroll;
+}
+
+div#content_pane_wrapper {
+	width: 840px;
+	margin: 50px auto;
 }
 
 div#content_pane {
@@ -64,6 +70,7 @@ div#content_pane {
     min-height: 500px;
     margin: 50px auto;
     height: auto;
+	float: left;
 }
 .errorlist {
 	margin-left: 100px;

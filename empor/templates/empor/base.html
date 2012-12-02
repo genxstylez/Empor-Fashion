@@ -156,7 +156,7 @@
     <div class="open_btn">．．．</div>
 </div>
 <div id="modal_overlay" {% if popup %}style="display:block;"{% endif %}>
-	<div style="width:840px; margin: 0 auto;">
+	<div id="content_pane_wrapper">
 		<div id="content_pane" {% if popup %}style="display:block;" class="itemopen"{% endif %}>
 			{% block popup %}{% endblock %}
 		</div>
