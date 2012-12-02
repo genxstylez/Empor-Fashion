@@ -214,11 +214,12 @@ $(function() {
             $(image).appendTo('body');
             image.onload = function() {
                 $('#modal_overlay').fadeIn();
+				$('#modal_overlay').click(function() { closeBox(); });
                 var height = parseInt(330 / img.width() * img.height())
 				that.hide();
                 $(image).animate({
                     'left': $(window).width() / 2 - 400,
-                    'top': $(window).height() * 0.08 + 21,
+                    'top': $(window).height() * 0.03 + 21,
                     'height': height,
                     'width': '330px'
                 }, 400,  function() {
@@ -246,10 +247,6 @@ $(function() {
     $(document).keyup(function(e) {
         if(e.keyCode === 27)
             closeBox();
-    });
-
-    $('#modal_overlay').livequery('click', function() {
-        closeBox();
     });
 
     $('#content_pane .close').livequery('click', function() {
