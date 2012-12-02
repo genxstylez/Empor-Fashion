@@ -219,6 +219,7 @@ $(function() {
                 }, 400,  function() {
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
+						$('#content_pane').addClass('itemopen');
                         $(response).find('.itemopen > *').appendTo($('#content_pane'));
 						$('body').css('overflow', 'hidden');
                         $(image).remove();
