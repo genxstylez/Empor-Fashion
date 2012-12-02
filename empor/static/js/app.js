@@ -1,6 +1,7 @@
 function closeBox() {
     $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
     $('#modal_overlay').hide();
+	$('body').css('overflow', 'auto');
     $('.index_itembox:hidden').fadeIn(400);
     if(history.length > 1)
         History.back();
@@ -219,6 +220,7 @@ $(function() {
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
                         $(response).find('.itemopen > *').appendTo($('#content_pane'));
+						$('body').css('overflow', 'hidden');
                         $(image).remove();
                     });
                 });
@@ -241,6 +243,10 @@ $(function() {
         closeBox();
         return false;
     });
+
+	$('#content_pane').livequery('click', function() {
+		return false;
+	});
     
     $('#content_pane .close_button').livequery('click', function() {
         closeBox();
