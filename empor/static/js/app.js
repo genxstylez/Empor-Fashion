@@ -1,4 +1,5 @@
 function closeBox() {
+	$('img.temp').remove();
 	$('body').css({'overflow': 'auto', 'margin-right': 0});
 	$('#footer').css('margin-right', 0);
     $('#content_pane').children().remove();
@@ -170,14 +171,15 @@ $(function() {
 
     $('a.brand_dynamic').livequery('click', function() {
         if (History.enabled) {
-            History.pushState(null, null, url);
-			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
-			$('#footer').css('margin-right', '15px');
-            var that = $(this).parent();
+			var that = $(this).parent();
             var url = $(this).attr('href');
             var image = new Image();
             var img = $('img', this);
-            $(image).attr({'src': img.attr('src'), 'width': img.width()});
+			History.pushState(null, null, url);
+            $('#modal_overlay').fadeIn();
+			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
+			$('#footer').css('margin-right', '15px');
+            $(image).attr({'src': img.attr('src'), 'width': img.width(), 'class': 'temp'});
             $(image).css({'position': 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
             $(image).appendTo('body');
             image.onload = function () {
@@ -211,7 +213,7 @@ $(function() {
             $('#modal_overlay').fadeIn();
 			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
 			$('#footer').css('margin-right', '15px');
-            $(image).attr({'src': img.attr('src'), 'width': img.width()});
+            $(image).attr({'src': img.attr('src'), 'width': img.width(), 'class': 'temp'});
             $(image).css({'position' : 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
             $(image).appendTo('body');
             image.onload = function() {
@@ -236,15 +238,6 @@ $(function() {
             return false;
         }
     });
-
-	$('a.dynamic').livequery('dblclick', function() {
-		alert('double clicked');
-		return false;
-	});
-
-	$('a.brand_dynamic').livequery('dblclick', function() {
-		return false;
-	});
 
 	$('#modal_overlay').livequery('click', function() {
 		closeBox();
