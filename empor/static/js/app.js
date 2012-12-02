@@ -1,7 +1,8 @@
 function closeBox() {
     $('#content_pane').fadeOut(100, function() { $(this).children().remove(); });
     $('#modal_overlay').hide();
-	$('body').css('overflow', 'auto');
+	$('body').css('overflow': 'auto', 'margin-right': 0});
+	$('#footer').css('margin-right', 0);
     $('.index_itembox:hidden').fadeIn(400);
     if(history.length > 1)
         History.back();
@@ -221,7 +222,8 @@ $(function() {
                     $.get(url, function(response) {
 						$('#content_pane').addClass('itemopen');
                         $(response).find('.itemopen > *').appendTo($('#content_pane'));
-						$('body').css('overflow', 'hidden');
+						$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
+						$('#footer').css('margin-right', '15px');
                         $(image).remove();
                     });
                 });
