@@ -226,6 +226,8 @@ $(function() {
 					$('#content_pane').addClass('itemopen');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
+						if($('#content_pane').children().length > 0)
+							$('#content_pane').children().remove();
                         $(response).find('.itemopen > *').appendTo($('#content_pane'));
 						$(image).remove();
                     });
