@@ -214,7 +214,6 @@ $(function() {
             $(image).appendTo('body');
             image.onload = function() {
                 $('#modal_overlay').fadeIn();
-				$('#modal_overlay').click(function() { closeBox(); });
                 var height = parseInt(330 / img.width() * img.height())
 				that.hide();
                 $(image).animate({
@@ -228,6 +227,7 @@ $(function() {
                     $.get(url, function(response) {
                         $(response).find('.itemopen > *').appendTo($('#content_pane'));
 						$(image).remove();
+						$('#modal_overlay').click(function() { closeBox(); });
                     });
                 });
             }
