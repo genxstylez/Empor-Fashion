@@ -209,6 +209,7 @@ $(function() {
             var image = new Image();
 			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
 			$('#footer').css('margin-right', '15px');
+			$('#modal_overlay').click(function() { return false });
             $(image).attr({'src': img.attr('src'), 'width': img.width()});
             $(image).css({'position' : 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
             $(image).appendTo('body');
