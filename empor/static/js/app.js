@@ -235,6 +235,16 @@ $(function() {
         }
     });
 
+	$('a.dynamic').livequery('dblclick', function() {
+		$(this).click();
+		return false;
+	});
+
+	$('a.brand_dynamic').livequery('dblclick', function() {
+		$(this).click();
+		return false;
+	});
+
     $(document).keyup(function(e) {
         if(e.keyCode === 27)
             closeBox();
