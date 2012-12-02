@@ -216,10 +216,9 @@ $(function() {
                     'height': height,
                     'width': '330px'
                 }, 400,  function() {
-                    $('#content_pane').addClass('itemup');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
-                        $(response).find('.itemopen').appendTo($('#content_pane'));
+                        $(response).find('.itemopen > *').appendTo($('#content_pane'));
                         $(image).remove();
                     });
                 });
