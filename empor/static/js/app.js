@@ -170,6 +170,8 @@ $(function() {
 
     $('a.brand_dynamic').livequery('click', function() {
         if (History.enabled) {
+			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
+			$('#footer').css('margin-right', '15px');
             var that = $(this).parent();
             var url = $(this).attr('href');
             var image = new Image();
@@ -186,8 +188,6 @@ $(function() {
                     'height': $(img).attr('real_he'),
                     'width': $(img).attr('real_wid'),
                 }, 400, function() {
-					$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
-					$('#footer').css('margin-right', '15px');
 					$('#content_pane').addClass('itemopen');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
@@ -207,6 +207,8 @@ $(function() {
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
             var image = new Image();
+			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
+			$('#footer').css('margin-right', '15px');
             $(image).attr({'src': img.attr('src'), 'width': img.width()});
             $(image).css({'position' : 'fixed', 'z-index': '9999', 'top': $(img).offset().top - $(window).scrollTop(), 'left': $(img).offset().left });
             $(image).appendTo('body');
@@ -220,8 +222,6 @@ $(function() {
                     'height': height,
                     'width': '330px'
                 }, 400,  function() {
-					$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
-					$('#footer').css('margin-right', '15px');
 					$('#content_pane').addClass('itemopen');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
