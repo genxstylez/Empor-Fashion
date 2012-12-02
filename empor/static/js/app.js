@@ -203,12 +203,12 @@ $(function() {
     
     $('a.dynamic').livequery('click', function() {
         if (History.enabled) {
-            History.pushState(null, null, url);
-            $('#modal_overlay').fadeIn();
             var that = $(this).parent();
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
             var image = new Image();
+            History.pushState(null, null, url);
+            $('#modal_overlay').fadeIn();
 			$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
 			$('#footer').css('margin-right', '15px');
             $(image).attr({'src': img.attr('src'), 'width': img.width()});
