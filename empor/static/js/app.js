@@ -186,11 +186,13 @@ $(function() {
                     'height': $(img).attr('real_he'),
                     'width': $(img).attr('real_wid'),
                 }, 400, function() {
-                    $('#content_pane').addClass('itemup');
+					$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
+					$('#footer').css('margin-right', '15px');
+					$('#content_pane').addClass('itemopen');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
-                        $(response).find('.itemopen').appendTo($('#content_pane'));
-                        $(image).remove();
+                        $(response).find('.itemopen > *').appendTo($('#content_pane'));
+						$(image).remove();
                     });
                 });
             }
@@ -214,17 +216,17 @@ $(function() {
 				that.hide();
                 $(image).animate({
                     'left': $(window).width() / 2 - 400,
-                    'top': $(window).height() * 0.0355 + 21,
+                    'top': $(window).height() * 0.08 + 21,
                     'height': height,
                     'width': '330px'
                 }, 400,  function() {
+					$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
+					$('#footer').css('margin-right', '15px');
+					$('#content_pane').addClass('itemopen');
                     $('#content_pane').fadeIn(100);
                     $.get(url, function(response) {
-						$('#content_pane').addClass('itemopen');
                         $(response).find('.itemopen > *').appendTo($('#content_pane'));
-						$('body').css({'overflow': 'hidden', 'margin-right': '15px'});
-						$('#footer').css('margin-right', '15px');
-                        $(image).remove();
+						$(image).remove();
                     });
                 });
             }
