@@ -54,13 +54,13 @@
 	</div>
 	{% if focus_product.has_options %}
 	<div class="data"><label>{{ focus_product.option_group.name }}：</label>
-		 <ul class="size_select">
+		<ul class="size_select">
 			{% for child in focus_product.children.all %}
-		   <li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#" data="{{ child.id }}">{{ child.option.name }}</a></li>
+			<li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#" data="{{ child.id }}">{{ child.option.name }}</a></li>
 			{% endfor %}
-		 </ul>
+		</ul>
+		<a id="single" href="{{ focus_product.get_size_conversion }}" class="size_link">尺寸對照表</a>
 	</div>
-	<a id="single" href="{{ focus_product.get_size_conversion }}" class="size_link">尺寸對照表</a>
 	{% endif %}
 	<div class="data help-inline error"></div>
 	<div class="data"><label>{% trans 'Quantity' %}：</label><input type="number" name="quantity" min="1" max="10" /></div>
