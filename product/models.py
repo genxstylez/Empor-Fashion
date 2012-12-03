@@ -146,7 +146,7 @@ class Product(models.Model):
         return self.__unicode__()
 
     def get_size_conversion(self):
-		return self.category.get_size(self.brand)
+		return self.category.get_size(self.brand).image
 
     def get_siblings(self):
         return self.collection.products.filter(parent=None).exclude(id=self.id)
