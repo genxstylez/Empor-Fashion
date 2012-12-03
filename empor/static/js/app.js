@@ -28,8 +28,10 @@ $(function() {
     $('img.lazy').lazyload({
         effect: 'fadeIn'
     });
-	
-	$('#single').fancybox();
+    
+    $('#single').livequery('click', function() {
+        $.fancybox($(this));
+    });
 
 	$("a.gallery").livequery('click', function() {
         $.fancybox($('.fancybox-thumb'), {

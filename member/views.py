@@ -131,6 +131,8 @@ def activate(request, activation_code):
         user = User.objects.get(username=user_temp.username, email=user_temp.email)
     except User.DoesNotExist:
         user = User.objects.create_user(user_temp.username, user_temp.email, user_temp.password)
+        user.first_name = user_temp.first_name
+        user.last_name = user_temp.last_name
         user.save()
 
     try:
@@ -152,7 +154,7 @@ def activate(request, activation_code):
 
     # 刪除認證用的暫存資料 (user temp)
     user_temp.delete()
-    url = "%s?username=%s&email=%s" % (reverse('member-reactivate-done'), user.username, user.email)
+    url = "%s?username=%s&email=%s" % (reverse('member-activate-done'), user.username, user.email)
     return redirect(url)
 
 def activate_done(request):
