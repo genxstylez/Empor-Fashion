@@ -29,6 +29,8 @@ $(function() {
         effect: 'fadeIn'
     });
 	
+	$('#single').fancybox();
+
 	$("a.gallery").livequery('click', function() {
         $.fancybox($('.fancybox-thumb'), {
             prevEffect	: 'fade',
