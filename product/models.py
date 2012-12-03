@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from empor.storage import empor_storage
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
+import re
 
 class Gender(models.Model): 
     name = models.CharField(_('Name'), max_length=30) 
@@ -243,7 +244,7 @@ def sku(sender, instance, **kwargs):
             instance.sku = instance.parent.sku + '%04d' % value
         else:
             value = Product.objects.filter(parent=None, brand=instance.brand, collection=instance.collection).count()
-            instance.sku = instance.brand.name[:3].upper() + '%04d%04d' % (instance.collection.id , value)
+            instance.sku = re.sub(r'[\W_]', '', instance.brand.name)[:3].upper() + '%04d%04d' % (instance.collection.id , value)
         instance.save()
 
 class ProductThumb(models.Model):
