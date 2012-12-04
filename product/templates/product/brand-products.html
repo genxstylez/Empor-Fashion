@@ -40,7 +40,7 @@
 				<h6>
 					{% if product.discountable %}
 					<strike>{{ product.price|currency }}</strike>
-					<span class="discount">{{ product.get_discounted_price|currency }} ( -{{ product.get_discount_value|currency }} )</span>
+					<span class="discount">{{ product.get_discounted_price|currency }}</span>
 					{% else %}
 					<span>{{ product.price|currency }}</span>
 					{% endif %}
