@@ -143,10 +143,13 @@ class Product(models.Model):
             return self.name + ' - ' + self.option.name
             
         return self.name
+
     def save(self, *args, **kwargs):
 
         if not self.discount:
             self.discountable = False
+        else:
+            self.discountable = True
 
         super(Product, self).save(*args, **kwargs)
 
