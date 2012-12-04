@@ -7,6 +7,7 @@ from empor.shortcuts import JsonResponse
 from cart.utils import archive_cart
 from cart.models import CartItem, ArchivedCartItem
 from cart.views import get_cart
+from discount.models import Voucher
 from order.models import OrderItem, Order
 from order.forms import OrderForm
 from django.conf import settings
@@ -93,6 +94,7 @@ def success(request):
     cart = archive_cart(cart)
     order.cart = cart.id
     order.save()
+    del request.session['cart']
 
     items = ArchivedCartItem.objects.filter(archived_cart=cart)
     for item in items:
@@ -131,10 +133,27 @@ def success(request):
     filename = order.order_id
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
     message.send()
-    
-    del request.session['cart']
 
     return render(request, 'order/thankyou.html', {'order': order})
+
+@login_required
+def voucher_check(request):
+    code = request.POST.get('voucher', None)
+    if code:
+        voucher = Voucher.objects.get(code=code)
+        value = voucher.get_value()
+        if voucher.active:
+            cart = get_cart(request)
+            if voucher.percentage:
+                margin = cart.net_total * (1+value)
+                cart.discount_total = margin
+                cart.net_total = cart.net_total - margin
+            else:
+                cart.net_total = cart.net_total - value
+                cart.discount_total += value
+            cart.save()
+            return JsonResponse({'success': True, 'cart': cart}) # TODO
+    return JsonResponse({'success': False})
 
 @login_required
 def get_shipping(request, country_id):

@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from empor.storage import empor_storage
+from discount.models import Discount
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
 import re
@@ -26,11 +27,11 @@ class Category(models.Model):
         return self.name
 
     def get_size(self, brand):
-		try:
-			size = SizeConversion.objects.get(category=self, brand=brand)
-			return size
-		except SizeConversion.DoesNotExist:
-			self.parent.get_size(brand)
+        try:
+            size = SizeConversion.objects.get(category=self, brand=brand)
+            return size
+        except SizeConversion.DoesNotExist:
+            self.parent.get_size(brand)
 
 class Brand(models.Model):
     def brand_path(self, filename):
@@ -125,6 +126,7 @@ class Product(models.Model):
     composition = models.CharField(_('Composition'), max_length=100, blank=True)
     remark = models.CharField(_('Remark'), max_length=100, null=True, blank=True)
     gender = models.ManyToManyField(Gender, related_name='products')
+    discount = models.ForeignKey(Discount, verbose_name=_('Discount'), related_name='products', null=True, blank=True)
     discountable = models.BooleanField(_('Discountable'), default=False)
     featured = models.BooleanField(_('Featured'), default=False)
     has_options = models.BooleanField(_('Has options'), default=False)
@@ -141,12 +143,18 @@ class Product(models.Model):
             return self.name + ' - ' + self.option.name
             
         return self.name
+    def save(self, *args, **kwargs):
+
+        if not self.discount:
+            self.discountable = False
+
+        super(Product, self).save(*args, **kwargs)
 
     def get_name(self):
         return self.__unicode__()
 
     def get_size_conversion(self):
-		return self.category.get_size(self.brand).image.url
+        return self.category.get_size(self.brand).image.url
 
     def get_siblings(self):
         return self.collection.products.filter(parent=None).exclude(id=self.id)
@@ -161,66 +169,19 @@ class Product(models.Model):
             return self.gender.all()[0].id
 
     def get_discount_value(self):
-        dis = None
-        value = 0 
-        for discount in self.discount_set.all():
-            if discount.percentage or discount.amount:
-                if discount.percentage:
-                    value2 = self.price * discount.percentage/100
-
-                else:
-                    value2 = int(discount.amount)
-
-                if value2 > value:
-                    value = value2
-                    dis = discount
-        return dis.percentage if dis.percentage else dis.amount
-
-    def get_best_discount(self):
-        dis = None
-        value = 0 
-        for discount in self.discount_set.all():
-            if discount.percentage or discount.amount:
-                if discount.percentage:
-                    value2 = self.price * discount.percentage/100
-
-                else:
-                    value2 = int(discount.amount)
-
-                if value2 > value:
-                    value = value2
-                    dis = discount
-        return dis
+        return self.discount.get_value()
 
     def get_discount_price(self):
-        value = 0 
-        if self.discountable:
-            for discount in self.discount_set.all():
-                if discount.percentage or discount.amount:
-                    if discount.percentage:
-                        value2 = self.price * discount.percentage/100
-
-                    else:
-                        value2 = int(discount.amount)
-
-                    if value2 > value:
-                        value = value2
+        value = self.discount.get_value()
+        if self.discount.percentage:
+            value = self.price * value
         return value
 
 
     def get_discounted_price(self):
-        value = 0 
-        if self.discountable:
-            for discount in self.discount_set.all():
-                if discount.percentage or discount.amount:
-                    if discount.percentage:
-                        value2 = self.price * discount.percentage/100
-
-                    else:
-                        value2 = int(discount.amount)
-
-                    if value2 > value:
-                        value = value2
+        value = self.discount.get_value()
+        if self.discount.percentage:
+            value = self.price * value
         return self.price - value
 
     @models.permalink
@@ -248,7 +209,6 @@ def sku(sender, instance, **kwargs):
         instance.save()
 
 class ProductThumb(models.Model):
-
     def thumbnail_path(self, filename):
         return '%s/%s/%s/thumbnails/%s_thumbnail.%s' % (self.product.brand.name, self.product.collection.name, \
             self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
@@ -257,8 +217,8 @@ class ProductThumb(models.Model):
             self.product.name.replace(' ', '').replace('/', '-'), filename.split('.')[0], filename.split('.')[1])
 
     product = models.OneToOneField(Product, verbose_name=_('Product'), related_name="thumb", null=True, blank=True)
-    original = models.ImageField(upload_to=original_path, storage=empor_storage)
-    thumb = models.ImageField(upload_to=thumbnail_path, blank=True, storage=empor_storage)
+    original = models.ImageField(upload_to=original_path, storage=empor_storage, max_length=255)
+    thumb = models.ImageField(upload_to=thumbnail_path, blank=True, storage=empor_storage, max_length=255)
     x1 = models.IntegerField(default=0)
     y1 = models.IntegerField(default=0)
     x2 = models.IntegerField(default=0)
@@ -284,12 +244,12 @@ class ProductImage(models.Model):
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
 
     def delete(self):
-	try:
+        try:
             if empor_storage.exists(self.image.file.name):
-	        empor_storage.delete(self.image.file.name)
-		empor_storage.delete(self.image['small'].file.name)
-		empor_storage.delete(self.image['medium'].file.name)
-		empor_storage.delete(self.image['large'].file.name)
-	except IOError:
-            pass
+                empor_storage.delete(self.image.file.name)
+                empor_storage.delete(self.image['small'].file.name)
+                empor_storage.delete(self.image['medium'].file.name)
+                empor_storage.delete(self.image['large'].file.name)
+        except IOError:
+                pass
         super(ProductImage,self).delete()

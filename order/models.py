@@ -41,20 +41,30 @@ class Order(models.Model):
 
     def save(self, *args, **kwargs):
         if self.status == 2:
+            d = []
             for product in self.items.all():
                 product.stock += OrderItem.objects.get(product=product, order=self).quantity
                 product.save()
                 if product.discountable:
-                    discount = ArchivedCartItem.objects.get(archived_cart__id=self.cart, product=product).discount
-                    discount.numUses -= 1
-                    discount.save()
+                    discount = product.discount
+                    if discount in d:
+                        pass
+                    else:
+                        discount.numUses -= 1
+                        discount.save()
+                        d.append(discount)
 
         if self.status == 1:
+            d = []
             for product in self.items.all():
                 if product.discountable:
-                    discount = ArchivedCartItem.objects.get(archived_cart__id=self.cart, product=product).discount
-                    discount.numUses += 1
-                    discount.save()
+                    discount = product.discount
+                    if discount in d:
+                        pass
+                    else:
+                        discount.numUses += 1
+                        discount.save()
+                        d.append(discount)
 
         super(Order, self).save(*args, **kwargs)
 
@@ -79,7 +89,6 @@ def order_id(sender, instance, **kwargs):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, verbose_name=_('Order'))
     product = models.ForeignKey(Product, verbose_name=_('Product'))
-    discount = models.ForeignKey(Discount, verbose_name=_('Discount'), null=True)
     quantity = models.PositiveIntegerField(_('Quantity'), default=0)
     discount_total = models.PositiveIntegerField(_('Discount Total'), default=0)
     gross_total = models.PositiveIntegerField(_('Gross Totoal'), default=0)
