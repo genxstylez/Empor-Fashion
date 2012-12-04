@@ -793,6 +793,16 @@ table {
 	font-weight:bold;
 	color:#29201b;
 }
+.itemopen .table a.button {
+	color: #fff;
+	font-weight: normal;
+	margin-left:5px;
+}
+.itemopen .table .control-group {
+	margin-bottom: 0px;
+	float: right;
+	width: auto;
+}
 .table .t_right {
 	text-align:right;
 }
