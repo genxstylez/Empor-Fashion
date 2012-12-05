@@ -14,6 +14,8 @@ function closeBox() {
 }
 
 $(function() {
+    window.modal_close = true;
+
     if (typeof(flashMessage) != 'undefined') {
         $.jGrowl(flashMessage, {
             position: 'bottom-right'
@@ -244,7 +246,10 @@ $(function() {
     });
 
 	$('#modal_overlay').livequery('click', function() {
-		closeBox();
+        if(modal_close)
+		    closeBox();
+        else
+            modal_close = true;
 	});
 
     $(document).keyup(function(e) {
@@ -258,7 +263,7 @@ $(function() {
     });
 
 	$('#content_pane').livequery('click', function() {
-		return false;
+        modal_close=false;
 	});
     
     $('#content_pane .close_button').livequery('click', function() {
