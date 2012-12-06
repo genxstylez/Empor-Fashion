@@ -55,7 +55,9 @@ def add_item(request):
                 item.cart = cart
                 item.product = product
 
-            discount = product.get_discount_price() * quantity
+            discount = 0
+            if product.discountable:
+                discount = product.get_discount_price() * quantity
             gross = product.price * quantity
             item.quantity += int(quantity)
             item.discount_total += discount
