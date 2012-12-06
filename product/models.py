@@ -126,7 +126,7 @@ class Product(models.Model):
     composition = models.CharField(_('Composition'), max_length=100, blank=True)
     remark = models.CharField(_('Remark'), max_length=100, null=True, blank=True)
     gender = models.ManyToManyField(Gender, related_name='products')
-    discount = models.ForeignKey(Discount, verbose_name=_('Discount'), related_name='products', null=True, blank=True)
+    discount_id = models.PositiveIntegerField(_('Discount'), default=0)
     discountable = models.BooleanField(_('Discountable'), default=False)
     featured = models.BooleanField(_('Featured'), default=False)
     has_options = models.BooleanField(_('Has options'), default=False)
@@ -145,8 +145,7 @@ class Product(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-
-        if not self.discount:
+        if self.discount == 0:
             self.discountable = False
         else:
             self.discountable = True
@@ -172,18 +171,20 @@ class Product(models.Model):
             return self.gender.all()[0].id
 
     def get_discount_value(self):
-        return self.discount.get_value()
+        discount = Discount.objects.get(id=self.discount_id)
+        return discount.get_value()
 
     def get_discount_price(self):
-        value = self.discount.get_value()
-        if self.discount.percentage:
+        discount = Discount.objects.get(id=self.discount_id)
+        value = discount.get_value()
+        if discount.percentage:
             value = self.price * value
         return value
 
-
     def get_discounted_price(self):
-        value = self.discount.get_value()
-        if self.discount.percentage:
+        discount = Discount.objects.get(id=self.discount_id)
+        value = discount.get_value()
+        if discount.percentage:
             value = self.price * value
         return self.price - value
 

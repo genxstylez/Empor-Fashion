@@ -4,9 +4,8 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from product.models import Product
 from discount.models import Discount
-from cart.models import ArchivedCartItem
+from product.models import Product
 from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES, RECIEPT_TYPE_CHOICES, DISPATCH_TIME_CHOICES
 from member.settings import COUNTRY_CHOICES
 from datetime import datetime
@@ -46,7 +45,7 @@ class Order(models.Model):
                 product.stock += OrderItem.objects.get(product=product, order=self).quantity
                 product.save()
                 if product.discountable:
-                    discount = product.discount
+                    discount = Discount.objects.get(id=product.discount_id)
                     if discount in d:
                         pass
                     else:
@@ -58,7 +57,7 @@ class Order(models.Model):
             d = []
             for product in self.items.all():
                 if product.discountable:
-                    discount = product.discount
+                    discount = Discount.objects.get(id=product.discount_id)
                     if discount in d:
                         pass
                     else:
