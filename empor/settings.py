@@ -168,6 +168,7 @@ INSTALLED_APPS = (
     'storages',
     'staff',
     'service',
+    'tinymce',
 )
 
 # A sample logging configuration. The only tangible logging
