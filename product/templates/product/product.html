@@ -28,8 +28,10 @@
 	<div class="data">
 		<h3>
 			{% if focus_product.discountable %}
+            {% with focus_product.discount() as discount %}
 			<strike>{{ focus_product.price|currency }}</strike>
-			<span class="discount">{{ focus_product.get_discounted_price|currency }} ( {% if focus_product.discount.amount %}-{{ focus_product.get_discount_value|currency }}{% else %}{{ focus_product.discount.percentage }}% OFF {% endif %})</span>
+			<span class="discount">{{ focus_product.get_discounted_price|currency }} ( {% if discount.amount %}-{{ focus_product.get_discount_value|currency }}{% else %}{{ discount.percentage }}% OFF {% endif %})</span>
+            {% endwith %}
 			{% else %}
 			<span>{{ focus_product.price|currency }}</span>
 			{% endif %}
