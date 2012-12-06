@@ -227,6 +227,10 @@ SHIPPING_OVERSEAS_COST = 500
 SHIPPING_FREE_ITEM_COUNT = 2
 SHIPPING_FREE_MINIMUM_PURCHASE = None
 
+TINYMCE_JS_URL = os.path.join(STATIC_URL + 'js/tiny_mce/tiny_mce.js')
+
+TINYMCE_DEFAULT_CONFIG = {'theme': 'advanced', 'theme_advanced_buttons1': 'hr, bold, italic, underline, textcolor, undo, redo, cleanup, visualaid fontsizeselect, bullist, numlist, forecolor', 'width': '500', 'height': '400' }
+
 THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 DEFAULT_FROM_EMAIL = 'EMPOR <webmaster@empor.com.tw>'
