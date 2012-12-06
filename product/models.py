@@ -145,7 +145,7 @@ class Product(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if self.discount == 0:
+        if self.discount_id == 0:
             self.discountable = False
         else:
             self.discountable = True
