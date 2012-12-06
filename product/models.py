@@ -144,6 +144,11 @@ class Product(models.Model):
             
         return self.name
 
+    def discount(self):
+        if self.discount_id > 0:
+            return Discount.objects.get(id=self.discount_id)
+        return None
+
     def save(self, *args, **kwargs):
         if self.discount_id == 0:
             self.discountable = False
@@ -171,18 +176,18 @@ class Product(models.Model):
             return self.gender.all()[0].id
 
     def get_discount_value(self):
-        discount = Discount.objects.get(id=self.discount_id)
+        discount = self.discount()
         return discount.get_value()
 
     def get_discount_price(self):
-        discount = Discount.objects.get(id=self.discount_id)
+        discount = self.discount()
         value = discount.get_value()
         if discount.percentage:
             value = self.price * value
         return value
 
     def get_discounted_price(self):
-        discount = Discount.objects.get(id=self.discount_id)
+        discount = self.discount()
         value = discount.get_value()
         if discount.percentage:
             value = self.price * value
