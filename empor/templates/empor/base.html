@@ -68,7 +68,7 @@
     {% block js %}{% endblock %}
     {% include 'empor/gaq.html' %}
 </head>
-<body>
+<body {% if popup %}style="overflow:hidden; margin-right:15px"{% endif %}>
 <div id="content_wrapper">
 <!-- menu_wrapper -->
 <div id="menu_wrapper" {% block menu_class %}{% endblock %}>

@@ -69,6 +69,7 @@
 	<div class="form-actions_left">
 		{% csrf_token %}
 		<a href="#" id="add_cart" data="{{ focus_product.id }}" class="button">{% trans 'Add to Cart' %}</a>
+        {% include 'facebook.html' with request=request %}
 	</div>
 	<div class="data">
 		{% for sibling in focus_product.get_siblings %}
