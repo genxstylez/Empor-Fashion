@@ -5,12 +5,8 @@ function closeBox() {
     $('#content_pane').children().remove();
     $('#modal_overlay').hide();
     $('.index_itembox:hidden').fadeIn(400);
-    if(history.length > 1)
-        History.back();
-    else {
-        a = location.pathname.split('/');
-        History.pushState(null, null, a.splice(0, a.length-2).join('/'));
-    }
+    a = location.pathname.split('/');
+    History.pushState(null, null, a.splice(0, a.length-2).join('/'));
 }
 
 $(function() {
