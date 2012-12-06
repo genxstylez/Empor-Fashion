@@ -2,6 +2,17 @@ from django.utils.translation import ugettext as _
 from product.models import Brand, Category, Product, ProductImage, \
 	Collection, OptionGroup, Option, Gender, ProductThumb, SizeConversion
 from django.contrib import admin
+from django.conf import settings
+
+# we define our resources to add to admin pages
+class CommonMedia:
+    js = (
+        'https://ajax.googleapis.com/ajax/libs/dojo/1.8.1/dojo/dojo.js',
+        settings.STATIC_URL + 'js/dojo/editor.js',
+    )
+    css = {
+        'all': (settings.STATIC_URL + 'js/dojo/editor.css',),
+    }
 
 class ProductAdmin(admin.ModelAdmin):
     def queryset(self, request):
@@ -27,11 +38,11 @@ class ProductImageAdmin(admin.ModelAdmin):
     really_delete_selected.short_description = _("Delete selected entries")
     list_display = ('product', 'small_width', 'small_height', 'medium_width', 'medium_height', 'large_width', 'large_height')
 
-admin.site.register(Brand)
+admin.site.register(Brand, Media=CommonMedia)
 admin.site.register(Gender)
-admin.site.register(Category)
-admin.site.register(Product, ProductAdmin)
-admin.site.register(Collection)
+admin.site.register(Category, Media=CommonMedia)
+admin.site.register(Product, ProductAdmin, Media=CommonMedia)
+admin.site.register(Collection, Media=CommonMedia)
 admin.site.register(ProductImage, ProductImageAdmin)
 admin.site.register(SizeConversion)
 admin.site.register(ProductThumb)

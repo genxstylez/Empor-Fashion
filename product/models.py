@@ -6,7 +6,6 @@ from empor.storage import empor_storage
 from discount.models import Discount
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.utils.translation import ugettext_lazy as _
-from tinymce.models import HTMLField
 import re
 
 class Gender(models.Model): 
@@ -49,7 +48,7 @@ class Brand(models.Model):
     w_image = models.ImageField(_('Image (White)'), upload_to=brand_w_path, storage=empor_storage, blank=True)
     story = models.ImageField(_('Story'), upload_to=story_path, storage=empor_storage, blank=True)
     slug = models.SlugField(_('Slug'), db_index=True)
-    description = HTMLField(_('Description'))
+    description = models.TextField(_('Description'))
     categories = models.ManyToManyField(Category, related_name='brands')
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)

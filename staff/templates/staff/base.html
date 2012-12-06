@@ -3,19 +3,12 @@
         <title>EMPOR</title>
         <link href="{{ STATIC_URL }}/style/style.css" rel="stylesheet" type="text/css" />
         <link href="{{ STATIC_URL }}/style/extra.css" rel="stylesheet" type="text/css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/dojo/1.8.1/dojo/dojo.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
         <script src="{{ STATIC_URL }}js/plupload/js/plupload.full.js"></script>
         <script src="{{ STATIC_URL }}js/plupload/js/jquery.plupload.queue/jquery.plupload.queue.js"></script>
-		<script src="{{ STATIC_URL }}js/tiny_mce/tiny_mce.js"></script>
-		<script type="text/javascript">
-			tinyMCE.init({
-				mode : 'textareas',
-				theme: 'advanced',
-                theme_advanced_buttons1: "hr, bold, italic, underline, textcolor, undo, redo, cleanup, visualaid fontsizeselect, bullist, numlist, forecolor",
-                width: '500',
-                height: '400'
-			});
-		</script>
+        <link href="{{ STATIC_URL }}/js/dojo/editor.css" rel="stylesheet" type="text/css" />
+		<script src="{{ STATIC_URL }}js/dojo/editor.js"></script>
         {% block js %}{% endblock %}
     </head>
     <body>
