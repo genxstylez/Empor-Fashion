@@ -95,6 +95,7 @@ def remove_item(request):
             cart.gross_total -= gross_total
             cart.net_total -= net_total
             cart.save()
+
             request.session['cart'] = cart
 
         except IntegrityError:

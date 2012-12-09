@@ -11,8 +11,6 @@ class ChildProductForm(forms.ModelForm):
         fields = ('option', 'stock', 'price')
 
 class ProductForm(forms.ModelForm):
-    description = forms.CharField(widget=forms.Textarea(attrs={'class': 'input-large', 'row': '10'}))
-
     class Meta:
         model = Product
         fields = ('name', 'slug', 'price', 'gender', 'composition', 'description', 'remark', 'has_options', 'option_group', )

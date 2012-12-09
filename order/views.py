@@ -65,11 +65,12 @@ def orders(request):
 def info(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     items = OrderItem.objects.filter(order=order)
+    voucher = Voucher.objects.get(code=order.voucher_code)
 
     if order.user != request.user:
         raise Http404
 
-    return render(request, 'order/order.html', {'order': order, 'items': items})
+    return render(request, 'order/order.html', {'order': order, 'items': items, 'voucher': voucher})
 
 @login_required
 def paypal(request):
@@ -107,7 +108,6 @@ def success(request):
     for item in items:
         order_item = OrderItem()
         order_item.order = order
-        order_item.discount = item.discount
         order_item.product = item.product
         order_item.quantity = item.quantity
         order_item.discount_total = item.discount_total
@@ -161,9 +161,9 @@ def voucher_check(request):
             value = voucher.get_value()
             if voucher.active:
                 if voucher.percentage:
-                    margin = cart.net_total * value
-                    cart.discount_total = margin
-                    cart.net_total = cart.net_total - margin
+                    margin = int(cart.net_total * value)
+                    cart.discount_total += margin
+                    cart.net_total -= margin
                 else:
                     cart.net_total -= value
                     cart.discount_total += value
@@ -187,12 +187,13 @@ def voucher_reset(request):
         voucher = request.session['voucher']
         value = voucher.get_value()
         if voucher.percentage:
-            margin = cart.net_total / value
-            cart.discount_total = margin
-            cart.net_total = cart.net_total - margin
+            total = int(cart.net_total / float(1 - value))
+            cart.discount_total -= int(total * float(value))
+            cart.net_total = total
         else:
             cart.net_total += value
             cart.discount_total -= value
+
         cart.save()
         request.session['cart'] = cart
         del request.session['voucher']

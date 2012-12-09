@@ -106,20 +106,26 @@
                 <td>{{ item.net_total|currency }}</td>
             </tr>
             {% endfor %}
+            {% if voucher %}
             <tr>
-                <td colspan="5">{% trans 'Product Total' %}</td>
+                <td class="t_right" colspan="5">{{ voucher.name }}</td>
+                <td>{{ voucher.get_display_value }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td class="t_right" colspan="5">{% trans 'Product Total' %}</td>
                 <td>{{ order.gross_total|currency }}</td>
             </tr>
             <tr>
-                <td colspan="5">{% trans 'Discount Total' %}</td>
+                <td class="t_right" colspan="5">{% trans 'Discount Total' %}</td>
                 <td>{{ order.discount_total|currency }}</td>
             </tr>
             <tr>
-                <td colspan="5">{% trans 'Shipping Cost' %}</td>
+                <td class="t_right" colspan="5">{% trans 'Shipping Cost' %}</td>
                 <td>{% if order.shipping_discount > 0 %}{{ order.shipping.cost|currency }}{% else %}<span class="discount">{% trans 'Free Shipping' %}</span>{% endif %}</td>
             </tr>
             <tr>
-                <td colspan="5">{% trans 'Total' %}</td>
+                <td class="t_right" colspan="5">{% trans 'Total' %}</td>
                 <td>{{ order.net_total|currency }}</td>
             </tr>
 
