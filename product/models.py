@@ -86,6 +86,12 @@ class Collection(models.Model):
     def __unicode__(self):
         return self.name
 
+    def product_count(self):
+        count = 0
+        for product in self.products.filter(parent=None):
+            count += product.stock
+        return count
+
 class OptionGroup(models.Model):
     name = models.CharField(_('Option Group'), max_length=100)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)

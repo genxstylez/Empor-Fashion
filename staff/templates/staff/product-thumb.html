@@ -28,6 +28,7 @@ $(function(){
     });
     $('#thumb .button_s').click(function() {
         thumb_uploader.start();
+        $('#loader_image').show();
         return false;
     });
 
@@ -36,7 +37,7 @@ $(function(){
 
     thumb_uploader.bind('FileUploaded', function(up, file, response) {
         response = JSON.parse(response.response);
-        console.log(response.image_url);
+        $('#loader_image').hide();
         $('#img').attr('src', response.image_url);
         $('#thumb input[name="thumb_url"]').val(response.image_url);
         jcrop_api.setImage(response.image_url);
@@ -65,7 +66,8 @@ $(function(){
 <h1>{{ product.collection.name }} >> {% trans 'Add Product' %}</h1>
 <form id="p_edit-form" method="post" class="form-inline">
 {% csrf_token %}
-    <h3>Step 3 - {% trans 'Upload Product Thumbnail' %}</h3>
+    <h3 style="width:200px; float:left;">Step 3 - {% trans 'Upload Product Thumbnail' %}</h3>
+    <img style="float:left; display: none;" id="loader_image" src="{{ STATIC_URL }}images/ajax-loader.gif" />
     <div id="thumb" class="control-group">
         <input class="input-file" id="thumb_button" type="button" value="選擇檔案"/>
         <span class="file_name">{{ thumb.originial.url }}</span>

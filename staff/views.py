@@ -91,51 +91,61 @@ def product_create(request, collection_id):
 
 @staff_member_required
 def product_edit(request, collection_id, product_id):
+    from django.http import HttpResponse
     product = get_object_or_404(Product, id=product_id)
     collection = Collection.objects.get(id=collection_id)
     children = Product.objects.filter(parent=product)
-    ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm, extra=0)
+    if children:
+        ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm, extra=0)
+    else:
+        ChildProductFormSet = modelformset_factory(Product, form=ChildProductForm)
 
     product_form = ProductForm(request.POST or None, instance=product)
-    child_formset = ChildProductFormSet(request.POST or None, prefix='child', queryset=children)
-    if product_form.data.has_key('has_options'):
-        if child_formset.is_valid() and product_form.is_valid():
-            check = True
+    if request.method == 'POST':
+        child_formset = ChildProductFormSet(request.POST, prefix='child')
+
+        if product_form.data.has_key('has_options'):
+            if child_formset.is_valid() and product_form.is_valid():
+                check = True
+            else:
+                check = False
         else:
-            check = False
-    else:
-        if product_form.is_valid():
-            check = True
-        else:
-            check = False
+            if product_form.is_valid():
+                check = True
+            else:
+                check = False
 
-    if check:
-        product = product_form.save()
+        if check:
+            product = product_form.save()
+            if product.has_options:
+                for (counter, form) in enumerate(child_formset.forms):
+                    child = form.save(commit=False)
+                    child.parent = product
+                    child.name = product.name
+                    child.description = product.description
+                    child.brand = product.brand
+                    child.category = product.category
+                    child.has_options = True
+                    child.option_group = product.option_group
+                    if not child.price:
+                        child.price = product.price
+                    child.collection = collection
+                    child.slug = product.slug + '-' + child.option.name
+                    child.save()
+                    child.gender.clear()
+                    for gender in product.gender.all():
+                        child.gender.add(gender)
 
-        if product.has_options:
-            for (counter, form) in enumerate(child_formset.forms):
-                child = form.save(commit=False)
-                child.parent = product
-                child.name = product.name
-                child.description = product.description
-                child.brand = product.brand
-                child.category = product.category
-                child.has_options = True
-                child.option_group = product.option_group
-                if not child.price:
-                    child.price = product.price
-                child.collection = collection
-                child.slug = product.slug + '-' + child.option.name
-                child.save()
-                child.gender.clear()
-                for gender in product.gender.all():
-                    child.gender.add(gender)
+                    children = children.exclude(id=child.id)
 
-        if 'add' in request.POST:   
-            return redirect('staff-product-image', product.id)
-        else:
-            return redirect('staff-collection', collection_id)
+                children.delete()
 
+            if 'add' in request.POST:   
+                return redirect('staff-product-image', product.id)
+            else:
+                return redirect('staff-collection', collection_id)
+
+    child_formset = ChildProductFormSet(prefix='child', queryset=children)
 
     return render(request, 'staff/edit-product.html', {
         'collection': collection,
@@ -286,4 +296,5 @@ def _thumb_upload(request):
         image.original.save(t[0], t[1], save=False)
         image.save()
 
-    return JsonResponse({'success': True, 'image_id': image.id, 'image_url': image.original.url })
+        return JsonResponse({'success': True, 'image_id': image.id, 'image_url': image.original.url })
+    return JsonResponse({'success': True})

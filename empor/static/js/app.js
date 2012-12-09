@@ -29,6 +29,7 @@ $(function() {
     
     $('#single').livequery('click', function() {
         $.fancybox($(this));
+        return false;
     });
 
 	$("a.gallery").livequery('click', function() {

@@ -19,7 +19,7 @@
         <tr>
             <td>{{ collection.name }}</td>
             <td>{{ collection.category }}</td>
-            <td>{{ collection.products.count }}</td>
+            <td>{{ collection.product_count }}</td>
             <td><a href="{% url staff-collection collection.id %}" class="button_s">{% trans 'Details' %}</a></td>
         </tr>
         {% endfor %}

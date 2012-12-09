@@ -26,6 +26,7 @@ $(function(){
 
     uploader.bind('FilesAdded', function(up, files) {
         uploader.start();
+        $('#loader_image').show();
         files_count = files.length;
     });
 
@@ -40,6 +41,7 @@ $(function(){
     });
     
     uploader.bind('UploadComplete', function() {
+        $('#loader_image').hide();
         if($('.item_img input[name="main"]:checked').length == 0)
             $('.item_img:first input[name="main"]').attr('checked', 'checked');
     });
@@ -51,7 +53,8 @@ $(function(){
 {% block content %}
 <h1>{{ collection.name }} >> {% trans 'Add Product' %}</h1>
 <form id="p_edit-form" method="post" class="form-inline well">
-<h3>Step 2 - {% trans 'Product Image' %}</h3>
+<h3 style="float: left; width: 200px">Step 2 - {% trans 'Product Image' %}</h3>
+<img style="float: left;display: none;" id="loader_image" src="{{ STATIC_URL }}images/ajax-loader.gif" />
 {% csrf_token %}
     <div class="control-group">
         <button id="image_button">{% trans 'Browse' %}</button>
