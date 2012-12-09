@@ -17,6 +17,7 @@ def index(request):
     cart = get_cart(request)
     items = CartItem.objects.filter(cart=cart)
     if request.method == 'POST':
+        voucher_code = request.POST.get('voucher_code', None)
         form = OrderForm(request.POST)
         if form.is_valid():
             order = form.save(commit=False)
@@ -24,6 +25,7 @@ def index(request):
             order.gross_total = cart.gross_total
             order.net_total = cart.net_total
             order.user = request.user
+            order.voucher_code = voucher_code
             order.order_id = ''
             request.session.save()
             request.session['order'] = order
@@ -45,8 +47,12 @@ def index(request):
                 'dispatch_time': 0,
             }
         )
-    
-    return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items})
+    try:
+        voucher = request.session['voucher']
+    except KeyError:
+        voucher = None
+
+    return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items, 'voucher': voucher})
 
 
 @login_required
@@ -95,6 +101,7 @@ def success(request):
     order.cart = cart.id
     order.save()
     del request.session['cart']
+    voucher = request.session['voucher']
 
     items = ArchivedCartItem.objects.filter(archived_cart=cart)
     for item in items:
@@ -119,12 +126,14 @@ def success(request):
     subject = _('EMPOR Order Confirmation')
     html_content = render_to_string('order/email.html', {
         'order': order, 
-        'items': items, 
+        'items': items,
+        'voucher': voucher,
         'STATIC_URL': settings.STATIC_URL, 
         'host': request.get_host()
     })
     text_content = render_to_string('order/email.txt', {
         'order': order,
+        'voucher': voucher,
         'items': items,
         'host': request.get_host()
     })
@@ -134,26 +143,68 @@ def success(request):
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
     message.send()
 
+    del request.session['voucher']
+
     return render(request, 'order/thankyou.html', {'order': order})
 
 @login_required
 def voucher_check(request):
-    code = request.POST.get('voucher', None)
-    if code:
-        voucher = Voucher.objects.get(code=code)
-        value = voucher.get_value()
-        if voucher.active:
-            cart = get_cart(request)
-            if voucher.percentage:
-                margin = cart.net_total * (1+value)
-                cart.discount_total = margin
-                cart.net_total = cart.net_total - margin
-            else:
-                cart.net_total = cart.net_total - value
-                cart.discount_total += value
+    try:
+        request.session['voucher']
+        return JsonResponse({'success': False})
+    except KeyError:
+        cart = get_cart(request)
+        code = request.POST.get('voucher_code', None)
+
+        if code:
+            voucher = Voucher.objects.get(code=code)
+            value = voucher.get_value()
+            if voucher.active:
+                if voucher.percentage:
+                    margin = cart.net_total * value
+                    cart.discount_total = margin
+                    cart.net_total = cart.net_total - margin
+                else:
+                    cart.net_total -= value
+                    cart.discount_total += value
             cart.save()
-            return JsonResponse({'success': True, 'cart': cart}) # TODO
-    return JsonResponse({'success': False})
+            request.session['cart'] = cart
+            request.session['voucher'] = voucher
+            return JsonResponse({
+                'success': True, 
+                'gross': cart.gross_total, 
+                'discount': cart.discount_total, 
+                'net': cart.net_total, 
+                'voucher_name': voucher.name,
+                'voucher_value': voucher.get_display_value(),
+            })
+        return JsonResponse({'success': False})
+
+@login_required
+def voucher_reset(request):
+    try:
+        cart = get_cart(request)
+        voucher = request.session['voucher']
+        value = voucher.get_value()
+        if voucher.percentage:
+            margin = cart.net_total / value
+            cart.discount_total = margin
+            cart.net_total = cart.net_total - margin
+        else:
+            cart.net_total += value
+            cart.discount_total -= value
+        cart.save()
+        request.session['cart'] = cart
+        del request.session['voucher']
+
+        return JsonResponse({
+            'success': True,
+            'gross': cart.gross_total, 
+            'discount': cart.discount_total,
+            'net': cart.net_total,
+        })
+    except KeyError:
+        return JsonResponse({'success': False })
 
 @login_required
 def get_shipping(request, country_id):

@@ -366,4 +366,43 @@ $(function() {
         });
     return false;
     });
+
+    //voucher check
+    $('#voucher_check').livequery('click', function() {
+        var that = $(this);
+        $.post('/order/voucher-check/', {'voucher_code': $('input[name="voucher_code"]').val(), 'add': true}, function(response) {
+            if(response.success) { 
+                $('#voucher_item span').html(response.voucher_name);
+                $('#voucher_value').html(response.voucher_value);
+                $('#voucher_label').fadeOut(200);
+                $('#voucher_input').fadeOut(200, function() {
+                    $('#voucher_item').fadeIn(200);
+                });
+                $('span#gross_total').hide().html('NT$' + response.gross).fadeIn(200);
+                $('span#discount_total').hide().html('NT$' + response.discount).fadeIn(200);
+                $('span#net_total').hide().html('NT$' + response.net).fadeIn(200);
+            } else {
+                alert('查無此優惠');
+            }
+        });
+        return false;
+    });
+
+    $('#reset_voucher').livequery('click', function() {
+        $.get('/order/voucher-reset/', function(response) {
+            if(response.success) {
+                $('#voucher_item').fadeOut(200, function () {
+                    $('#voucher_item span').html('');
+                    $('#voucher_value').html('');
+                    $('#voucher_label').fadeIn(200);
+                    $('#voucher_input').fadeIn(200);
+                });
+                $('span#gross_total').hide().html('NT$' + response.gross).fadeIn(200);
+                $('span#discount_total').hide().html('NT$' + response.discount).fadeIn(200);
+                $('span#net_total').hide().html('NT$' + response.net).fadeIn(200);
+            }
+        return false;
+        });
+    });
+
 });

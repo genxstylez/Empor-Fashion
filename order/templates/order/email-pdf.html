@@ -208,6 +208,12 @@ a:hover {
                             <td>{{ item.net_total|currency }}</td>
                         </tr>
                     {% endfor %}
+                        {% if voucher %}
+                        <tr>
+                            <td class="left" colspan="5">{{ voucher.name }}</td>
+                            <td>{{ order.get_display_value }}</td>
+                        </tr>
+                        {% endif %}
                         <tr>
                             <td class="left" colspan="5">{% trans 'Product Gross Total' %}</td>
                             <td>{{ order.gross_total|currency }}</td>

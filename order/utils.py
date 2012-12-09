@@ -9,8 +9,10 @@ def generate_order_pdf(request, order):
     """
     產生ORDER PDF
     """
+    voucher = request.session['voucher']
     items = OrderItem.objects.filter(order=order)
     html = render_to_string('order/email-pdf.html', {
+            'voucher': voucher,
             'order': order,
             'items': items,
             'host': request.get_host(),

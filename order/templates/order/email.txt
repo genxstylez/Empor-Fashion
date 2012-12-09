@@ -32,6 +32,9 @@ EMPOR保留接受您的訂單與否之權利。
 {% trans 'Discount' %}  : {{ item.discount_total|currency }}
 {% trans 'Total' %} : {{ item.net_total|currency }}
 {% endfor %}
+{% if voucher %}
+{{ voucher.name }} : {{ voucher.get_display_value }}
+{% endif %}
 {% trans 'Order Gross Total' %} : {{ order.gross_total|currency }}
 {% trans 'Discount Total' %}    : {{ order.discount_total|currency }}
 {% trans 'Shipping Cost' %} : {% trans 'Free Shipping' %}

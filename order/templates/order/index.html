@@ -42,6 +42,23 @@
                 </tr>
                 {% endfor %}
                 <tr>
+                    <td colspan="6" class="t_right">
+                        <div class="control-group">
+                            <label style="display:{% if voucher %}none{% else %}block{% endif %}" id="voucher_label" class="control-label">{% trans 'Voucher Code' %}</label>
+                            <div id="voucher_input" class="controls" style="display:{% if voucher %}none{% else %}block{% endif %}">
+                                <input id="id_voucher_code" name="voucher_code" type="text" class="input-large">
+                                <a href="#" id="voucher_check" class="button">{% trans 'Update' %}</a>
+                            </div>
+                            <div id="voucher_item" class="controls" style="display:{% if voucher %}block{% else %}none{% endif %}">
+                                <span>{{ voucher.name }}</span>
+                                <a id="reset_voucher" href="#" class="button">重新輸入</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td id="voucher_value" class="t_right">{{ voucher.get_display_value }}</td>
+                    <td class="t_right"></td>
+                </tr>
+                <tr>
                     <td colspan="6" class="t_right">{% trans 'Product Total' %}</td>
                     <td class="t_right"><span id="gross_total">{{ cart.gross_total|currency }}</span></td>
                     <td></td>
@@ -63,6 +80,7 @@
                 </tr>
             </tbody>
         </table>
+        {% comment %}
         <h4>{% trans 'Memeber Information' %}</h4>
         <div class="control-group">
             <label class="control-label">{% trans 'Name' %}</label>
@@ -77,9 +95,11 @@
             <div class="controls">{{ request.user.profile.phone }}</div>
         </div>
         <hr />
+        {% endcomment %}
         {% for field in form %}
         {% if field.name != 'payment_method' %}
             {% if field.name == 'reciept_type' %}
+            <hr />
             <h4>{% trans 'Reciept Post' %}</h4>
             {% endif %}
             {% if field.name == 'billing_recipient' %}
@@ -94,7 +114,6 @@
                 {{ field.errors }}
             </div>
             {% if field.name == 'company_title' %}
-            <hr />
             {% endif %}
             {% if field.name == 'billing_country' %}
             <div class="control-group">
