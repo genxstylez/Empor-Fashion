@@ -61,7 +61,11 @@
 			<li class="{% if child.stock == 0 %}soldout{% endif %}"><a href=#" data="{{ child.id }}">{{ child.option.name }}</a></li>
 			{% endfor %}
 		</ul>
+        {% with focus_product.get_size_conversion as size %}
+        {% if size %}
 		<a id="single" href="{{ focus_product.get_size_conversion }}" class="size_link">尺寸對照表</a>
+        {% endif %}
+        {% endwith %}
 	</div>
 	{% endif %}
 	<div class="data help-inline error"></div>

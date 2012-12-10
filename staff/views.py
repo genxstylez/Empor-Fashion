@@ -12,7 +12,7 @@ from empor.thumbs import thumb_resize, generate_crop
 
 @staff_member_required
 def index(request):
-    collections = Collection.objects.order_by('name')
+    collections = Collection.objects.order_by('brand')
     return render(request, 'staff/index.html', {'collections': collections})
 
 @staff_member_required

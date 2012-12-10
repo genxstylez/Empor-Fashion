@@ -18,6 +18,10 @@ class ProductAdmin(admin.ModelAdmin):
     def queryset(self, request):
         qs = super(ProductAdmin, self).queryset(request)
         return qs.filter(parent=None)
+    list_filter = ('brand',)
+
+class CollectionAdmin(admin.ModelAdmin):
+    list_filter = ('brand',)
 
 class ProductImageAdmin(admin.ModelAdmin):
     actions = ['really_delete_selected']
@@ -42,7 +46,7 @@ admin.site.register(Brand, Media=CommonMedia)
 admin.site.register(Gender)
 admin.site.register(Category, Media=CommonMedia)
 admin.site.register(Product, ProductAdmin, Media=CommonMedia)
-admin.site.register(Collection, Media=CommonMedia)
+admin.site.register(Collection, CollectionAdmin, Media=CommonMedia)
 admin.site.register(ProductImage, ProductImageAdmin)
 admin.site.register(SizeConversion)
 admin.site.register(ProductThumb)
