@@ -22,15 +22,23 @@
                 {% for item in items %}
                 <tr>
                     <td>
-                        <a href="{{ item.product.get_absolute_url }}">
-                            {% if item.product.parent %}
-                            <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" />
-                            {% else %}
-                            <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" />
-                            {% endif %}
+                        {% if item.product.parent %}
+                        <a href="{{ item.product.parent.get_absolute_url }}">
+                        <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" />
                         </a>
+                        {% else %}
+                        <a href="{{ item.product.get_absolute_url }}">
+                        <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" />
+                        </a>
+                        {% endif %}
                     </td>
-                    <td><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></td>
+                    <td>
+                        {% if item.parent %}
+                        <a href="{{ item.parent.product.get_absolute_url }}">{{ item.product.name }}</a>
+                        {% else %}
+                        <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                        {% endif %}
+                    </td>
                     <td class="t_right">{{ item.product.option.name }}</td>
                     <td class="t_right">{{ item.quantity }}</td>
                     <td class="t_right">{{ item.product.price|currency }}</td>

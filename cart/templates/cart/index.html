@@ -31,10 +31,10 @@
                     </a>
                 </td>
                 <td>
-                    {% if item.product.parent %}
-                    <a href="{{ item.parent.product.get_absolute_url }}">{{ item.product }}</a> 
+                    {% if item.parent %}
+                    <a href="{{ item.parent.product.get_absolute_url }}">{{ item.product.name }}</a>
                     {% else %}
-                    <a href="{{ item.product.get_absolute_url }}">{{ item.product }}</a>
+                    <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
                     {% endif %}
                 </td>
                 <td class="t_right">{% if item.product.has_options %}{{ item.product.option.name }}{% else %} - {% endif %}

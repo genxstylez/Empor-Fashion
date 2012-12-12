@@ -200,7 +200,13 @@ a:hover {
                     <tbody>
                     {% for item in items %}
                         <tr>
-                            <td><a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a></td>
+                           <td>
+                                {% if item.parent %}
+                                <a href="{{ item.parent.product.get_absolute_url }}">{{ item.product.name }}</a>
+                                {% else %}
+                                <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                                {% endif %}
+                            </td> 
                             <td>{% if item.product.has_options %}{{ item.product.option.name }}{% else %} - {% endif %}</td>
                             <td>{{ item.quantity }}</td>
                             <td>{{ item.gross_total|currency }}</td>

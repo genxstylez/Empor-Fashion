@@ -143,9 +143,9 @@ class FacebookBindingForm(forms.Form):
         return cleaned_data
 
 class ChangePasswordForm(forms.Form):
-    old_password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
-    new_password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
-    passconf = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    old_password = forms.CharField(label=_('Old Password'), max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    new_password = forms.CharField(label=_('New Password'), max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    passconf = forms.CharField(label=_('Confirm password'), max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
     
     def clean_old_password(self):
         if not re.match('\S{3,12}', self.cleaned_data['old_password']):

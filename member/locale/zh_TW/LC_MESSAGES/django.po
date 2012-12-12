@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-08 18:30+0000\n"
+"POT-Creation-Date: 2012-12-12 11:59-0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,173 +18,161 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0\n"
 
+#: forms.py:11
+msgid "Username"
+msgstr "帳號"
+
+#: forms.py:12 forms.py:128 templates/email/activate.html:7
+msgid "Password"
+msgstr "密碼"
+
 #: forms.py:13
 msgid "Confrim password"
 msgstr "確認密碼"
 
-#: forms.py:33
+#: forms.py:14 forms.py:79 models.py:26 models.py:42
+msgid "Birthday"
+msgstr "生日"
+
+#: forms.py:16 forms.py:81 models.py:29 models.py:45
+msgid "Post Code"
+msgstr "郵遞區號"
+
+#: forms.py:17 models.py:27 models.py:43
+msgid "Phone"
+msgstr "電話"
+
+#: forms.py:18 models.py:30 models.py:46
+msgid "Address"
+msgstr "地址"
+
+#: forms.py:38
+msgid "You must agree TOS to register"
+msgstr "你必須同意使用者條款才可註冊"
+
+#: forms.py:44
 msgid ""
 "username can only contain english, numbers and underscore.                 "
 "Begin with character only."
 msgstr "帳號僅能包含英文、數字以及底線"
 
-#: forms.py:37
+#: forms.py:48
 msgid "this username is not allowed"
 msgstr "該帳號名稱無法使用"
 
-#: forms.py:39
+#: forms.py:50
 msgid "this username has been registered"
 msgstr "此帳號已被註冊"
 
-#: forms.py:45 forms.py:138 forms.py:144 forms.py:164
+#: forms.py:56 forms.py:152 forms.py:158 forms.py:178
 msgid "this password is not valid"
 msgstr "這個密碼無效"
 
-#: forms.py:55 forms.py:174
+#: forms.py:66 forms.py:188
 msgid "Password confirm not equal to password"
 msgstr "密碼與確認密碼不相符"
 
-#: forms.py:61
+#: forms.py:72 forms.py:117 forms.py:122
 msgid ""
 "This email address is already in use. Please supply another email address."
 msgstr "這個電子郵件地址已被使用。請提供其他電子郵件地址。"
 
-#: forms.py:63
+#: forms.py:74
 msgid ""
 "This email address is already registered and waiting for "
 "activate.                 Please activate directly and doesn't need to "
 "register again."
 msgstr "這個郵件已經被註冊並等待啓動中，請直接啓動不需要重復註冊。"
 
-#: forms.py:82 forms.py:113 templates/email/activate.html:6
+#: forms.py:96 forms.py:127 templates/email/activate.html:6
 #: templates/email/reset_password.html:6 templates/member/activate_done.html:7
 #: templates/member/profile.html:24 templates/member/reactivate_done.html:11
 #: templates/member/register_complete.html:12
 msgid "Account"
 msgstr "帳號"
 
-#: forms.py:87 models.py:19
+#: forms.py:101 models.py:21
 msgid "password"
 msgstr "密碼"
 
-#: forms.py:89
+#: forms.py:103
 msgid "Remember me"
 msgstr "記住我"
 
-#: forms.py:93
+#: forms.py:107
 msgid "Account cannot be found, please register"
 msgstr "找不到此帳號，請先註冊"
 
-
-#: forms.py:114 templates/email/activate.html:7
-msgid "Password"
-msgstr "密碼"
-
-#: forms.py:124
+#: forms.py:138
 msgid "Please enter correct username and password"
 msgstr "請輸入正確的帳號與密碼."
 
-#: forms.py:154
+#: forms.py:146
+msgid "Old Password"
+msgstr "舊密碼"
+
+#: forms.py:147
+msgid "New Password"
+msgstr "新密碼"
+
+#: forms.py:148
+msgid "Confirm password"
+msgstr "確認密碼"
+
+#: forms.py:168
 msgid "Password does not match"
 msgstr "密碼與確認密碼不相符"
 
-#: forms.py:179
+#: forms.py:193
 msgid "Account or Email"
 msgstr "帳號或電子郵件"
 
-#: models.py:18
+#: models.py:20
 msgid "username"
 msgstr "帳號"
 
-#: models.py:20 templates/member/register_complete.html:13
+#: models.py:22 templates/member/register_complete.html:13
 msgid "email"
 msgstr "電子郵件"
 
-#: models.py:21
+#: models.py:23
 msgid "first name"
-msgstr "名"
+msgstr "名稱"
 
-#: models.py:22
+#: models.py:24
 msgid "last name"
-msgstr "姓"
+msgstr "姓氏"
 
-#: models.py:23 models.py:47
+#: models.py:25 models.py:41
 msgid "Gender"
 msgstr "性別"
 
-#: models.py:24 models.py:48
-msgid "Birthday"
-msgstr "生日"
+#: models.py:28 models.py:44
+msgid "Country"
+msgstr "國家"
 
-#: models.py:25 models.py:49
-msgid "Phone"
-msgstr "電話"
+#: models.py:32 templates/member/profile.html:51
+#: templates/member/register.html:46 templates/member/facebook/new.html:44
+msgid "TOS"
+msgstr "使用者條款"
 
-#: models.py:26 models.py:50
-msgid "Billing recipient"
-msgstr "購買人"
-
-#: models.py:27 models.py:51
-msgid "Billing Country"
-msgstr "帳單國家"
-
-#: models.py:28 models.py:52
-msgid "Billing City"
-msgstr "帳單城市"
-
-#: models.py:29 models.py:53
-msgid "Billing Post Code"
-msgstr "帳單郵遞區號"
-
-#: models.py:30 models.py:54
-msgid "Billing Street 1"
-msgstr "帳單地址 1"
-
-#: models.py:31 models.py:55
-msgid "Billing Street 2"
-msgstr "帳單地址 2"
-
-#: models.py:32 models.py:56
-msgid "Shipping recipient"
-msgstr "收件人"
-
-#: models.py:33 models.py:57
-msgid "Shipping Country"
-msgstr "收件人國家"
-
-#: models.py:34 models.py:58
-msgid "Shipping City"
-msgstr "收件人城市"
-
-#: models.py:35 models.py:59
-msgid "Shipping Post Code"
-msgstr "收件人郵遞區號"
-
-#: models.py:36 models.py:60
-msgid "Shipping Street 1"
-msgstr "收件人地址 1"
-
-#: models.py:37 models.py:61
-msgid "Shipping Street 2"
-msgstr "收件人地址 2"
-
-#: models.py:46
+#: models.py:40
 msgid "User"
 msgstr "使用者"
 
-#: settings.py:4
+#: settings.py:5
 msgid "Taiwan"
 msgstr "台灣"
 
-#: settings.py:5
+#: settings.py:6
 msgid "China"
 msgstr "中國大陸"
 
-#: settings.py:9
+#: settings.py:10
 msgid "Male"
 msgstr "男"
 
-#: settings.py:10
+#: settings.py:11
 msgid "Female"
 msgstr "女"
 
@@ -200,23 +188,23 @@ msgstr "請輸入正確的帳號/密碼"
 msgid "EMPOR Account Activation"
 msgstr "EMPOR 帳號啟用"
 
-#: views.py:191
+#: views.py:185
 msgid "EMPOR activate confirm"
 msgstr "EMPOR 確認啟用"
 
-#: views.py:221
+#: views.py:215
 msgid "Your password has been changed"
 msgstr "您的密碼已更換完畢"
 
-#: views.py:241
+#: views.py:235
 msgid "You password has been reset"
 msgstr "您的密碼已重置"
 
-#: views.py:262
+#: views.py:256
 msgid "Can't find this account!"
 msgstr "找不到此帳號！"
 
-#: views.py:275
+#: views.py:269
 msgid "EMPOR, Password reset request"
 msgstr "EMPOR 重置密碼要求"
 
@@ -255,10 +243,10 @@ msgstr "電子郵件"
 msgid "My Account"
 msgstr "我的帳號"
 
-#: templates/member/change_password.html:14
-#: templates/member/reactivate.html:15 templates/member/register.html:44
+#: templates/member/change_password.html:14 templates/member/profile.html:55
+#: templates/member/reactivate.html:15 templates/member/register.html:51
 #: templates/member/facebook/exist.html:17
-#: templates/member/facebook/new.html:41
+#: templates/member/facebook/new.html:48
 msgid "Confirm"
 msgstr "確認"
 
@@ -294,11 +282,11 @@ msgstr "，感謝！"
 msgid "OR"
 msgstr ""
 
-#: templates/member/login.html:17
+#: templates/member/login.html:16
 msgid "Join Us"
 msgstr "加入我們"
 
-#: templates/member/login.html:17
+#: templates/member/login.html:16
 msgid "Forgot password ?"
 msgstr "忘記密碼？"
 
@@ -318,28 +306,10 @@ msgstr "訂單查詢"
 msgid "Change password"
 msgstr "更改密碼"
 
-#: templates/member/profile.html:21
-msgid "Member"
-msgstr "會員"
-
-#: templates/member/profile.html:30 templates/member/register.html:25
-#: templates/member/facebook/new.html:23
-msgid "Billing Information"
-msgstr "購買人"
-
-#: templates/member/profile.html:33 templates/member/register.html:28
-#: templates/member/facebook/new.html:26
-msgid "Shipping Information"
-msgstr "收件人"
-
-#: templates/member/profile.html:42 templates/member/register.html:38
-#: templates/member/facebook/new.html:35
-msgid "Shipping same as billing?"
-msgstr "收件人"
-
-#: templates/member/profile.html:48
-msgid "Save"
-msgstr "儲存"
+#: templates/member/profile.html:51 templates/member/register.html:46
+#: templates/member/facebook/new.html:44
+msgid "I have read and agree"
+msgstr "我已詳讀並同意"
 
 #: templates/member/reactivate.html:7
 msgid ""
@@ -360,7 +330,9 @@ msgid ""
 "Welcome to EMPOR. We have sent a member activation letter to you. Please "
 "check your email address and click the link provided to activate your "
 "account."
-msgstr "歡迎加入EMPOR。我們已發送會員啟用信至您的信箱，請查看你的信箱並點擊信內提供的連結來啟用您的帳號"
+msgstr ""
+"歡迎加入EMPOR。我們已發送會員啟用信至您的信箱，請查看你的信箱並點擊信內提供的"
+"連結來啟用您的帳號"
 
 #: templates/member/register_complete.html:15
 msgid "Member activation letter"
@@ -369,27 +341,3 @@ msgstr "會員啟用信"
 #: templates/member/register_complete.html:15
 msgid "yet"
 msgstr "嗎"
-
-#~ msgid "Billing Recipient"
-#~ msgstr "購買人"
-
-#~ msgid "Street 1"
-#~ msgstr "地址 1"
-
-#~ msgid "Street 2"
-#~ msgstr "地址 2"
-
-#~ msgid "City"
-#~ msgstr "城市"
-
-#~ msgid "Post Code"
-#~ msgstr "郵遞區號"
-
-#~ msgid "Country"
-#~ msgstr "國家"
-
-#~ msgid "Please supply your email"
-#~ msgstr "請輸入您的email"
-
-#~ msgid "Recipient"
-#~ msgstr "收件人"

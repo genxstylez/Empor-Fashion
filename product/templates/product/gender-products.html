@@ -3,13 +3,15 @@
 {% block content %}
 <div id="left_menu_wrapper">
     <ul class="nav nav-list">
-        <li class="nav-header">PRODUCT</li>
-        {% for category in gender.categories.all %}
-        <li><a href="{% url gender-products-category gender category.id %}">{{ category.name }}</a></li>
+        <li class="nav-header">PRODUCT / 產品</li>
+        {% for cat in gender.categories.all %}
+        <li {% if cat == category %}class="active"{% endif %}>
+            <a href="{% url gender-products-category gender category.id %}">{{ category.name }}</a>
+        </li>
         {% endfor %}
     </ul>
     <ul class="nav nav-list">
-        <li class="nav-header">BRANDS</li>
+        <li class="nav-header">BRANDS / 品牌</li>
         {% for brand in brands %}
         <li><a href="{% url brand-products-gender brand.slug gender.name %}">{{ brand.name }}</a></li>
         {% endfor %}

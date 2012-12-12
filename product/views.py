@@ -44,7 +44,13 @@ def gender_products(request, gender_type, category=None):
         products = products.filter(category=category)
     brands = Brand.objects.all()
     box_class = ['a11', 'a12', 'a21']
-    return render(request, 'product/gender-products.html', {'products': products, 'box_class': box_class, 'gender': gender, 'brands': brands})
+    return render(request, 'product/gender-products.html', {
+        'products': products, 
+        'box_class': box_class, 
+        'gender': gender, 
+        'brands': brands, 
+        'category': category
+    })
 
 def product_view(request, brand_slug, gender_type, product_slug, category=None):
     gender = Gender.objects.get(name=gender_type)
