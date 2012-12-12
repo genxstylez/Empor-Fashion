@@ -6,7 +6,7 @@
         <li class="nav-header">PRODUCT / 產品</li>
         {% for cat in gender.categories.all %}
         <li {% if cat == category %}class="active"{% endif %}>
-            <a href="{% url gender-products-category gender cat.id %}">{{ category.name }}</a>
+            <a href="{% url gender-products-category gender cat.id %}">{{ cat.name }}</a>
         </li>
         {% endfor %}
     </ul>
