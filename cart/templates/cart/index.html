@@ -31,8 +31,8 @@
                     </a>
                 </td>
                 <td>
-                    {% if item.parent %}
-                    <a href="{{ item.parent.product.get_absolute_url }}">{{ item.product.name }}</a>
+                    {% if item.product.parent %}
+                    <a href="{{ item.product.parent.get_absolute_url }}">{{ item.product.name }}</a>
                     {% else %}
                     <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
                     {% endif %}
