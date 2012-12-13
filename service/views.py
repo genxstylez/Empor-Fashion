@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.mail import send_mail
 from service.forms import QuestionForm
+from django.template.loader import render_to_string
 
 @csrf_protect
 def center(request):
@@ -32,7 +33,8 @@ def center(request):
             subject = 'EMPOR 客服中心 - %s' % question.subject.encode('utf-8')
 
         group_email = [ user.email for user in group ]
-        send_mail(subject, question.content, question.email, group_email, fail_silently=False)
+        html_content = render_to_string('service/email.html', {'question': question})
+        send_mail(subject, html_content, settings.DEFAULT_FROM_EMAIL, group_email, fail_silently=False)
         request.flash['message'] = _('Your email has been sent!')
         
     return render(request, 'service/center.html', {'form': form})

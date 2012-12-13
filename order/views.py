@@ -89,6 +89,7 @@ def paypal(request):
 def success(request):
     from order.utils import generate_order_pdf
     from django.template.loader import render_to_string
+    from django.core import mail
     from django.core.mail import EmailMultiAlternatives, EmailMessage
     from django.contrib.auth.models import Group
     try:
@@ -138,20 +139,26 @@ def success(request):
         'items': items,
         'host': request.get_host()
     })
+
+    connection = mail.get_connection()
+    connection.open()
+
     message = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
     message.attach_alternative(html_content, 'text/html')
     filename = order.order_id
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
-    message.send()
 
     group = Group.objects.get(name='Service').user_set.only('email')
     subject = 'EMPOR - 新訂單 %s' % order.order_id
     group_email = [ user.email for user in group ]
     notification = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, group_email)
-    notification.send()
+    notification.content_subtype = 'html'
+    
+    connection.send_messages([message, notification])
+    connection.close()
 
-
-    del request.session['voucher']
+    if 'voucher' in request.session:
+        del request.session['voucher']
 
     return render(request, 'order/thankyou.html', {'order': order})
 
