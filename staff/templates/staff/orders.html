@@ -1,0 +1,50 @@
+{% extends 'staff/base.html' %}
+{% load common %}
+{% block content %}
+<div class="page-header">
+    <h1>訂單列表</h1>
+</div>
+<table class="table">
+    <thead>
+      <tr>
+        <th>訂單編號</th>
+        <th>訂購日期</th>
+        <th>出貨日期</th>
+        <th>購買人</th>
+        <th>地址</th>
+        <th>價格</th>
+        <th>折扣</th>
+        <th>合計</th>
+        <th>狀態</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for order in orders %}
+        <tr>
+            <td><a href="{% url staff-order order.id %}">{{ order.order_id }}</a></td>
+            <td>{{ order.created_at }}</td>
+            <td>{{ order.dispatched_date }}</td>
+            <td>{{ order.user.get_name }}</td>
+            <td>{{ order.get_shipping_address }}</td>
+            <td>{{ order.gross_total|currency }}</td>
+            <td>-{{ order.discount_total|currency }}</td>
+            <td>{{ order.net_total|currency }}</td>
+            <td>
+                {% if order.status == 0 %}
+                <span class="orange">{{ order.get_status_display }}</span>
+                {% endif %}
+                {% if order.status == 1 %}
+                <span class="blue">{{ order.get_status_display }}</span>
+                {% endif %}
+                {% if order.status == 2 %}
+                <span class="red">{{ order.get_status_display }}</span>
+                {% endif %}
+                {% if order.status == 3 %}
+                <span class="green">{{ order.get_status_display }}</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

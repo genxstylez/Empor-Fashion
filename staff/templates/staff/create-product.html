@@ -69,7 +69,7 @@ $(function(){
 <form id="p_edit-form" method="post" class="form-inline well">
 {% csrf_token %}
 <h3>Step 1 - {% trans 'Product Information' %}</h3>
-{% for field in product_form %}
+    {% for field in product_form %}
     <div class="control-group">
         <label class="control-label">{{ field.label }}</label>
         <div class="controls">{{ field }}</div>

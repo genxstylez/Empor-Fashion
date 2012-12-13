@@ -20,15 +20,19 @@
         {% for item in items %}
             <tr>
                 <td>
-                    <a href="{{ item.product.get_absolute_url }}">
-                        {% if item.product.parent %}
+                    {% if item.product.parent %}
+                    <a href="{{ item.parent.product.get_absolute_url }}">
                         <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" 
-                            width="{{ item.product.parent.get_main_image.image.small_width }}" height="{{ item.product.parent.get_main_image.image.small_height }}" />
-                        {% else %}
-                        <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" 
-                            width="{{ item.product.get_main_image.image.small_width }}" height="{{ item.product.get_main_image.image.small_height }}" />
-                        {% endif %}
+                            width="{{ item.product.parent.get_main_image.image.small_width }}" 
+                            height="{{ item.product.parent.get_main_image.image.small_height }}" />
                     </a>
+                    {% else %}
+                    <a href="{{ item.product.get_absolute_url }}">
+                        <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" 
+                            width="{{ item.product.get_main_image.image.small_width }}" 
+                            height="{{ item.product.get_main_image.image.small_height }}" />
+                    </a>
+                    {% endif %}
                 </td>
                 <td>
                     {% if item.product.parent %}

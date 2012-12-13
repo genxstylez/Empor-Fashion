@@ -8,6 +8,8 @@ urlpatterns = patterns('staff.views',
     url(r'^collection/(?P<collection_id>\d+)/product/edit/(?P<product_id>\d+)/$',    'product_edit',       name='staff-edit-product'),
     url(r'^product/(?P<product_id>\d+)/image/$',        'product_image',       name='staff-product-image'),
     url(r'^product/(?P<product_id>\d+)/thumbnail/$',    'product_thumb',       name='staff-product-thumb'),
+    url(r'^orders/$',                   'orders',       name='staff-orders'),
+    url(r'^orders/(?P<order_id>\d+)/$', 'order',        name='staff-order'),
 
     url(r'^render_options/(?P<group_id>\d+)/$', '_render_options',      name='staff-render-options'),
     url(r'^_upload/$',                          '_upload',              name='staff-upload'),

@@ -1,0 +1,148 @@
+{% extends 'staff/base.html' %}
+{% load common %}
+{% block content %}
+<div class="page-header">
+    <h1>訂單內容</h1>
+</div>
+<div id="order_detail_content">
+    <div class="control-group">
+        <label class="control-label">訂單編號</label>
+        <div class="controls">{{ order.order_id }}</div>
+    </div>
+    <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="control-group">
+        <label class="control-label">訂單狀態</label>
+        <div class="controls">
+            {{ field }}
+        </div>
+        <input type="submit" class="button" />
+    </div>
+    {% endfor %}
+    </form>
+    <div class="control-group">
+        <label class="control-label">訂購日期</label>
+        <div class="controls">{{ order.created_at }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">出貨日期</label>
+        <div class="controls">{{ order.dispatched_date }}</div>
+    </div>
+    <hr>
+    <div class="control-group">
+        <label class="control-label">訂購人姓名</label>
+        <div class="controls">{{ order.billing_recipient }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">電話</label>
+        <div class="controls">{{ order.billing_phone }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">帳單地址</label>
+        <div class="controls">{{ order.get_billing_address }}</div>
+    </div>
+    <hr>
+    <div class="control-group">
+        <label class="control-label">收件人姓名</label>
+        <div class="controls">{{ order.shipping_recipient }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">電話</label>
+        <div class="controls">{{ order.shipping_phone }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">收件地址</label>
+        <div class="controls">{{ order.shipping_address }}</div>
+    </div>
+    <hr>
+    <div class="control-group">
+        <label class="control-label">訂單發票</label>
+        <div class="controls">{{ order.get_reciept_type_display }}</div>
+    </div>
+    {% if order.receipt_type == 2 %}
+    <div class="control-group">
+        <label class="control-label">統一編號</label>
+        <div class="controls">{{ order.uni_no }}</div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">公司抬頭</label>
+        <div class="controls">{{ order.company_title }}</div>
+    </div>
+    {% endif %}
+    <div class="control-group">
+        <label class="control-label">付款方式</label>
+        <div class="controls">{{ order.get_payment_method_display }}</div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="span2"></th>
+                <th>商品</th>
+                <th class="span2 t_right">尺寸</th>
+                <th class="span2 t_right">數量</th>
+                <th class="span2 t_right">價錢</th>
+                <th class="span2 t_right">折扣</th>
+                <th class="span2 t_right">小計</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td>
+                    {% if item.product.parent %}
+                    <a href="{{ item.parent.product.get_absolute_url }}">
+                        <img src="{{ item.product.parent.get_main_image.image.small.url }}" class="itemphoto" 
+                            width="{{ item.product.parent.get_main_image.image.small_width }}"                                                                                          height="{{ item.product.parent.get_main_image.image.small_height }}" />
+                    </a>
+                    {% else %}
+                    <a href="{{ item.product.get_absolute_url }}">
+                        <img src="{{ item.product.get_main_image.image.small.url }}" class="itemphoto" 
+                            width="{{ item.product.get_main_image.image.small_width }}" 
+                            height="{{ item.product.get_main_image.image.small_height }}" />
+                    </a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.product.parent %}
+                    <a href="{{ item.product.parent.get_absolute_url }}">{{ item.product.name }}</a>
+                    {% else %}
+                    <a href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                    {% endif %}
+                </td> 
+                <td class="t_right">{% if item.product.has_options %}{{ item.product.option.name }}{% else %} - {% endif %}</td>
+                <td class="t_right">{{ item.quantity }}</td>
+                <td class="t_right">{{ item.gross_total|currency }}</td>
+                <td class="t_right">- {{ item.discount_total|currency }}</td>
+                <td class="t_right">{{ item.net_total|currency }}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td colspan="6" class="t_right">商品合計</td>
+                <td class="t_right">{{ order.gross_total|currency }}</td>
+            </tr>
+            <tr>
+                <td colspan="6" class="t_right">折扣合計</td>
+                <td class="t_right">- {{ order.discount_total|currency }}</td>
+            </tr>
+            {% if order.voucher_code %}
+            <tr>
+                <td colspan="6" class="t_right">活動促銷碼</td>
+                <td class="t_right">{{ order.get_voucher_display }}</td>
+            </tr>
+            {% endif %}
+            <tr>
+                <td colspan="6" class="t_right">運費</td>
+                <td class="t_right"><span class="discount">免運費</span></td>
+            </tr>
+            <tr>
+                <td colspan="6" class="t_right">總計</td>
+                <td class="t_right">{{ order.net_total|currency }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-actions">
+    <a href="{% url staff-orders %}" class="button">回訂單列表頁</a>
+</div>
+{% endblock %}
