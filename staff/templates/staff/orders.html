@@ -1,3 +1,5 @@
+{% extends 'staff/base.html' %}
+{% load common %}
 {% block content %}
 <div class="page-header">
     <h1>訂單列表</h1>
@@ -24,9 +26,9 @@
             <td>{{ order.dispatched_date }}</td>
             <td>{{ order.user.get_name }}</td>
             <td>{{ order.get_shipping_address }}</td>
-            <td>{{ order.gross_total }}</td>
-            <td>-{{ order.discount_total }}</td>
-            <td>{{ order.net_total }}</td>
+            <td>{{ order.gross_total|currency }}</td>
+            <td>-{{ order.discount_total|currency }}</td>
+            <td>{{ order.net_total|currency }}</td>
             <td>
                 {% if order.status == 0 %}
                 <span class="orange">{{ order.get_status_display }}</span>
@@ -42,6 +44,7 @@
                 {% endif %}
             </td>
         </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}

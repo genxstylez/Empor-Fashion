@@ -1,3 +1,4 @@
+{% extends 'staff/base.html' %}
 {% load common %}
 {% block content %}
 <div class="page-header">
@@ -9,6 +10,7 @@
         <div class="controls">{{ order.order_id }}</div>
     </div>
     <form method="post">
+    {% csrf_token %}
     {% for field in form %}
     <div class="control-group">
         <label class="control-label">訂單狀態</label>
@@ -70,7 +72,7 @@
     {% endif %}
     <div class="control-group">
         <label class="control-label">付款方式</label>
-        <div class="controls">{{ order.get_paymethod_method_display }}</div>
+        <div class="controls">{{ order.get_payment_method_display }}</div>
     </div>
     <table class="table">
         <thead>
@@ -112,16 +114,16 @@
                 <td class="t_right">{{ item.quantity }}</td>
                 <td class="t_right">{{ item.gross_total|currency }}</td>
                 <td class="t_right">- {{ item.discount_total|currency }}</td>
-                <td class="t_right">{{ item.net_total|currecy }}</td>
+                <td class="t_right">{{ item.net_total|currency }}</td>
             </tr>
             {% endfor %}
             <tr>
                 <td colspan="6" class="t_right">商品合計</td>
-                <td class="t_right">{{ order.gross_total }}</td>
+                <td class="t_right">{{ order.gross_total|currency }}</td>
             </tr>
             <tr>
                 <td colspan="6" class="t_right">折扣合計</td>
-                <td class="t_right">- {{ order.discount_total }}</td>
+                <td class="t_right">- {{ order.discount_total|currency }}</td>
             </tr>
             {% if order.voucher_code %}
             <tr>
@@ -135,7 +137,7 @@
             </tr>
             <tr>
                 <td colspan="6" class="t_right">總計</td>
-                <td class="t_right">{{ order.net_total }}</td>
+                <td class="t_right">{{ order.net_total|currency }}</td>
             </tr>
         </tbody>
     </table>

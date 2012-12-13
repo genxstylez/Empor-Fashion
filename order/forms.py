@@ -46,5 +46,5 @@ class OrderForm(ModelForm):
 
 class OrderUpdateForm(ModelForm):
     class Meta:
-        order = Order
+        model = Order
         fields = ('status',)

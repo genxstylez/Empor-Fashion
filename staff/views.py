@@ -31,8 +31,10 @@ def orders(request):
 @staff_member_required
 def order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    form = OrderUpdateForm(instance=order)
     items = OrderItem.objects.filter(order=order)
+    form = OrderUpdateForm(request.POST or None, instance=order)
+    if form.is_valid():
+        form.save(commit=True)
 
     return render(request, 'staff/order.html', {'order': order, 'form': form, 'items': items})
 
