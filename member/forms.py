@@ -14,7 +14,7 @@ class RegisterForm(forms.ModelForm):
     birthday = forms.DateField(label=_('Birthday'), input_formats=['%Y/%m/%d',], \
         widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
     post_code = forms.CharField(label=_('Post Code'), widget=forms.TextInput(attrs={'class': 'input-small', 'placeholder': _('Post Code')}))
-    phone = forms.IntegerField(label=_('Phone'), widget=forms.TextInput(attrs={'class': 'input-large'}))
+    phone = forms.CharField(label=_('Phone'), widget=forms.TextInput(attrs={'class': 'input-large'}))
     address = forms.CharField(label=_('Address'), widget=forms.TextInput(attrs={'class': 'input-xxlarge'}))
     tos = forms.BooleanField(widget=forms.CheckboxInput())
 
