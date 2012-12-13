@@ -102,7 +102,7 @@ def success(request):
     order.cart = cart.id
     order.save()
     del request.session['cart']
-    voucher = request.session['voucher']
+    voucher = request.session['voucher'] if 'voucher' in request.session else None
 
     items = ArchivedCartItem.objects.filter(archived_cart=cart)
     for item in items:
