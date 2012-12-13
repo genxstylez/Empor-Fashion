@@ -6,7 +6,7 @@ function closeBox() {
     $('#modal_overlay').hide();
     $('.index_itembox:hidden').fadeIn(400);
     a = location.pathname.split('/');
-    History.pushState(null, null, a.splice(0, a.length-2).join('/'));
+    History.pushState(null, null, a.splice(0, a.length-2).join('/') + '/');
 }
 
 $(function() {

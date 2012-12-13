@@ -43,3 +43,8 @@ class OrderForm(ModelForm):
         if self.cleaned_data['company_title'] and not self.data['uni_no']:
             raise forms.ValidationError(_('Please enter uni no'))
         return self.cleaned_data['company_title']
+
+class OrderUpdateForm(ModelForm):
+    class Meta:
+        order = Order
+        fields = ('status',)

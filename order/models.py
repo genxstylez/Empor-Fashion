@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
-from discount.models import Discount
+from discount.models import Discount, Voucher
 from product.models import Product
 from order.settings import ORDER_STATUS_CHOICES, PAYMENT_METHOD_CHOICES, RECIEPT_TYPE_CHOICES, DISPATCH_TIME_CHOICES
 from member.settings import COUNTRY_CHOICES
@@ -67,6 +67,9 @@ class Order(models.Model):
                         d.append(discount)
 
         super(Order, self).save(*args, **kwargs)
+
+    def get_voucher(self):
+        return Voucher.objects.get(code=self.voucher_code).name
 
     def get_billing_address(self):
         address = self.billing_post_code + ' '

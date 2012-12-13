@@ -9,6 +9,8 @@ from product.forms import CollectionForm, ChildProductForm, ProductForm, Categor
 from product.models import Product, Option, ProductImage, Collection, ProductThumb
 from empor.shortcuts import JsonResponse
 from empor.thumbs import thumb_resize, generate_crop
+from order.models import Order, OrderItem
+from order.forms import OrderUpdateForm
 
 @staff_member_required
 def index(request):
@@ -20,6 +22,19 @@ def collection(request, collection_id):
     collection = get_object_or_404(Collection, id=collection_id)
     products = collection.products.filter(parent=None).order_by
     return render(request, 'staff/collection.html', {'collection': collection, 'products': products})
+
+@staff_member_required
+def orders(request):
+    orders = Order.objects.order_by('-created_at')
+    return render(request, 'staff/orders.html', {'orders': orders})
+
+@staff_member_required
+def order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    form = OrderUpdateForm(instance=order)
+    items = OrderItem.objects.filter(order=order)
+
+    return render(request, 'staff/order.html', {'order': order, 'form': form, 'items': items})
 
 @staff_member_required
 def collection_create(request):
