@@ -159,6 +159,14 @@ class Product(models.Model):
         return None
 
     def save(self, *args, **kwargs):
+        if not self.parent and self.id:
+            for product in self.children.all():   
+                if product.category != self.category or product.collection != self.collection or product.brand != self.brand:
+                    product.category = self.category
+                    product.collection = self.collection
+                    product.brand = self.brand
+                    product.save()
+
         if self.discount_id == 0:
             self.discountable = False
         else:
@@ -210,7 +218,7 @@ class Product(models.Model):
         return ('product-view', [self.brand.slug, self.gender.all()[0], self.slug])
 
 @receiver(post_save, sender=Product)
-def calculate_stock(sender, instance, **kwargs):
+def hierachy(sender, instance, **kwargs):
     total_stock = 0
     if instance.parent:
         for product in instance.parent.children.all():
@@ -253,7 +261,7 @@ class ProductImage(models.Model):
         return '%s/%s/%s/images/%s' % (self.product.brand.name, self.product.collection.name, self.product.name.replace(' ', '').replace('/', '-'), filename)
 
     product = models.ForeignKey(Product, related_name='images')
-    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, storage=empor_storage)
+    image = ThumbnailerImageField(_('Image'), upload_to=product_image_path, storage=empor_storage, max_length=255)
     small_width = models.PositiveSmallIntegerField(default=0)
     small_height = models.PositiveSmallIntegerField(default=0)
     medium_width = models.PositiveSmallIntegerField(default=0)
