@@ -32,7 +32,7 @@ def center(request):
             subject = 'EMPOR 客服中心 - %s' % question.subject.encode('utf-8')
 
         group_email = [ user.email for user in group ]
-        send_mail(subject, question.content, settings.DEFAULT_FROM_EMAIL, group_email, fail_silently=False)
+        send_mail(subject, question.content, question.email, group_email, fail_silently=False)
         request.flash['message'] = _('Your email has been sent!')
         
     return render(request, 'service/center.html', {'form': form})

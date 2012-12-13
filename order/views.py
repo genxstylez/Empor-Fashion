@@ -89,7 +89,8 @@ def paypal(request):
 def success(request):
     from order.utils import generate_order_pdf
     from django.template.loader import render_to_string
-    from django.core.mail import EmailMultiAlternatives
+    from django.core.mail import EmailMultiAlternatives, EmailMessage
+    from django.contrib.auth.models import Group
     try:
         order = request.session['order']
     except KeyError:
@@ -142,6 +143,13 @@ def success(request):
     filename = order.order_id
     message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
     message.send()
+
+    group = Group.objects.get(name='Service').user_set.only('email')
+    subject = 'EMPOR - 新訂單 %s' % order.order_id
+    group_email = [ user.email for user in group ]
+    notification = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, group_email)
+    notification.send()
+
 
     del request.session['voucher']
 
