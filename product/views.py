@@ -32,7 +32,7 @@ def brand_products(request, brand_slug, gender_type=None, category=None):
 		'products': products, 
 		'box_class': box_class, 
 		'brand': brand, 
-		'category_id': category, 
+		'category': category,
 		'gender': gender_type
 	})
 

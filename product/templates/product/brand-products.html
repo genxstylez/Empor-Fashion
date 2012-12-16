@@ -3,19 +3,19 @@
 {% block content %}
 <div id="left_menu_wrapper">
     <div class="brand"><img src="{{ brand.image.url }}"></div>
-    <ul class="nav nav-list {% if gender == 'MEN' %}visible{% endif %}">
+    <ul class="nav nav-list"> 
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'MEN' %}">MEN</a></li>
-        {% for category in brand.get_men_categories %}
-        <li {% if category.id == category_id and gender == 'MEN' %}class="active"{% endif %}>
-			<a href="{% url brand-products-gender-category brand.slug 'MEN' category.id %}">{{ category.name }}</a>
+        {% for cat in brand.get_men_categories %}
+        <li {% if cat == category and gender == 'MEN' %}class="active"{% endif %}>
+			<a href="{% url brand-products-gender-category brand.slug 'MEN' cat.id %}">{{ cat.name }}</a>
 		</li>
         {% endfor %}
     </ul>
-    <ul class="nav nav-list {% if gender == 'WOMEN' %}visible{% endif %}">
+    <ul class="nav nav-list"> 
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'WOMEN' %}">WOMEN</a></li>
-        {% for category in brand.get_women_categories %}
-        <li {% if category.id == category_id and gender == 'WOMEN' %}class="active"{% endif %}>
-			<a href="{% url brand-products-gender-category brand.slug 'WOMEN' category.id %}">{{ category.name }}</a>
+        {% for cat in brand.get_women_categories %}
+        <li {% if cat == category and gender == 'WOMEN' %}class="active"{% endif %}>
+			<a href="{% url brand-products-gender-category brand.slug 'WOMEN' cat.id %}">{{ cat.name }}</a>
 		</li>
         {% endfor %}
     </ul>
