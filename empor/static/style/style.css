@@ -905,6 +905,12 @@ table {
 #menu_wrapper .menu_button a:hover{
 	text-decoration:underline;
 }
+#menu_wrapper .fb_box {
+	width: auto;
+	padding: 10px;
+	float: left;
+	margin-top: 10px;
+}
 #menu_wrapper .logo_box {
 	padding:30px 40px;
 	float:left;
