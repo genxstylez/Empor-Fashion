@@ -6,7 +6,7 @@
     <ul class="nav nav-list {% if gender == 'MEN' %}visible{% endif %}">
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'MEN' %}">MEN</a></li>
         {% for category in brand.get_men_categories %}
-        <li {% if category.id == category_id and gender == 'MEN' %}class="active" {% endif %}>
+        <li {% if category.id == category_id and gender == 'MEN' %}class="active"{% endif %}>
 			<a href="{% url brand-products-gender-category brand.slug 'MEN' category.id %}">{{ category.name }}</a>
 		</li>
         {% endfor %}
