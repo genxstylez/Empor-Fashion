@@ -15,9 +15,11 @@
     <input type="hidden" name="image_url" value="{{ request.get_host }}{{ STATIC_URL }}images/logo_150.png" />
     <input type="hidden" name="return" value="{{ request.get_host }}{% url order-success %}" />
     <input type="hidden" name="rm" value="0" />
-    <input type="hidden" name="address1" value="{{ order.shipping_street1 }}" />
+    <input type="hidden" name="address1" value="{{ order.get_shipping_address }}" />
+    {% comment %}
     <input type="hidden" name="address2" value="{{ order.shipping_street2 }}" />
     <input type="hidden" name="city" value="{{ order.city }}" />
+    {% endcomment %}
     <input type="hidden" name="country" value="TW" />
     <input type="hidden" name="email" value="{{ order.user.email }}" />
     <input type="hidden" name="first_name" value="{{ order.user.first_name }}" />
