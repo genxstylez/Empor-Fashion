@@ -1977,3 +1977,7 @@ strike {
 	opacity: 1;
 	padding:20px;
 }
+.paypal_box {
+	width:250px;
+	margin:150px auto;
+}
