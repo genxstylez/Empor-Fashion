@@ -31,7 +31,7 @@ msgstr "付款方式"
 #: forms.py:12 templates/order/email-pdf.html:160
 #: templates/order/email.html:72 templates/order/email.txt:18
 msgid "Dispatch Time"
-msgstr "指定配送時間"
+msgstr "指定送達時間"
 
 #: forms.py:13 models.py:36 templates/order/email-pdf.html:172
 #: templates/order/email.html:89 templates/order/email.txt:22
@@ -90,25 +90,25 @@ msgstr "總計"
 
 #: models.py:24
 msgid "Billing Recipient"
-msgstr "購買人"
+msgstr "姓名"
 
 #: models.py:25
 msgid "Billing Phone"
-msgstr "購買人電話"
+msgstr "電話"
 
 #: models.py:26
 msgid "Billing Post Code"
-msgstr "帳單郵遞區號"
+msgstr "郵遞區號"
 
 #: models.py:27 templates/order/email-pdf.html:136
 #: templates/order/email.html:48 templates/order/email.txt:13
 #: templates/order/order.html:58
 msgid "Billing Address"
-msgstr "帳單地址"
+msgstr "地址"
 
 #: models.py:28
 msgid "Billing Country"
-msgstr "帳單國家"
+msgstr "國家"
 
 #: models.py:29
 msgid "Shipping recipient"
@@ -116,25 +116,25 @@ msgstr "收件人"
 
 #: models.py:30
 msgid "Shipping Phone"
-msgstr "收件人電話"
+msgstr "電話"
 
 #: models.py:31
 msgid "Shipping Post Code"
-msgstr "收件郵遞區號"
+msgstr "郵遞區號"
 
 #: models.py:32 templates/order/email-pdf.html:156
 #: templates/order/email.html:68 templates/order/email.txt:17
 #: templates/order/order.html:75
 msgid "Shipping Address"
-msgstr "收件地址"
+msgstr "地址"
 
 #: models.py:33
 msgid "Shipping Country"
-msgstr "收件國家"
+msgstr "國家"
 
 #: models.py:34
 msgid "Dispatch time"
-msgstr "指定配送時間"
+msgstr "指定送達時間"
 
 #: models.py:38 models.py:99
 msgid "Created at"
@@ -242,7 +242,7 @@ msgstr "訂單日期"
 #: templates/order/email-pdf.html:124 templates/order/email.html:36
 #: templates/order/email.txt:10 templates/order/order.html:46
 msgid "Buyer"
-msgstr "購買人"
+msgstr "訂購人"
 
 #: templates/order/email-pdf.html:128 templates/order/email.html:40
 #: templates/order/email.txt:11 templates/order/order.html:50
@@ -330,15 +330,15 @@ msgstr "發票寄送"
 
 #: templates/order/index.html:115
 msgid "Billing Information"
-msgstr "購買人資訊"
+msgstr "訂購人資料"
 
 #: templates/order/index.html:118
 msgid "Shipping Information"
-msgstr "收件人資訊"
+msgstr "收件人資料"
 
 #: templates/order/index.html:130
 msgid "Shipping same as billing?"
-msgstr "收件人資訊與購買人相同"
+msgstr "同訂購人資料?"
 
 #: templates/order/index.html:160
 msgid "Back"
