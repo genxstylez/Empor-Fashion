@@ -9,7 +9,7 @@ from django.conf import settings
 def clean_carts():
     carts = Cart.objects.filter(created_at__lte=datetime.now()-timedelta(hours=12))
     for cart in carts:
-        archive_cart(cart, 'revert')
+        archive_cart(cart, 'expired')
     message = '%s Carts Expired' % (carts.count())
     group = Group.objects.get(name='Admin').user_set.only('email')
     if carts.count() > 0:
