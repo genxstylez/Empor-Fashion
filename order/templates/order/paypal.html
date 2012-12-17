@@ -1,7 +1,10 @@
 {% extends 'empor/base.html' %}
 {% load i18n %}
 {% block content %}
-<h3>{% trans 'Redirecting to' %} PayPal</h3>
+<div class="paypal_box">
+    <h3>正在導向...</h3>
+    <img src="{{ STATIC_URL }}images/paypal_big.png" />
+</div>
 {% if debug %}
 <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" name="paypal" method="post">
 {% else %}
