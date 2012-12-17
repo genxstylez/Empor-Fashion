@@ -11,4 +11,3 @@ gunicorn
 django-crontab
 python-memcached
 south
-django-tinymce
