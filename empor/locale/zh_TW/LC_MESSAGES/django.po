@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-29 12:42-0700\n"
+"POT-Creation-Date: 2012-12-17 18:02+0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -30,27 +30,41 @@ msgstr "啟用"
 msgid "Link"
 msgstr "網址"
 
-#: settings.py:43
+#: settings.py:42
 msgid "Trad. Chinese"
 msgstr "繁體中文"
 
-#: settings.py:44
+#: settings.py:43
 msgid "Simp. Chinese"
 msgstr "簡體中文"
 
-#: templates/empor/base.html:41
+#: templates/email/base.html:42
+msgid ""
+"This is an automated mail from the system, please do not reply! Shall you "
+"have any questions please contact"
+msgstr "此郵件是系統自動傳送，請勿直接回覆！若您仍有問題請聯繫"
+
+#: templates/email/base.html:43
+msgid "Service-Center"
+msgstr "客服中心"
+
+#: templates/email/base.html:43
+msgid ", Thanks!"
+msgstr "，謝謝！"
+
+#: templates/empor/base.html:95
 msgid "LOGOUT"
 msgstr "登出"
 
-#: templates/empor/base.html:41
+#: templates/empor/base.html:95
 msgid "MY ACCOUNT"
 msgstr "我的帳戶"
 
-#: templates/empor/base.html:45
+#: templates/empor/base.html:99
 msgid "JOIN US"
 msgstr "加入"
 
-#: templates/empor/base.html:45
+#: templates/empor/base.html:99
 msgid "LOGIN"
 msgstr "登入"
 
@@ -62,79 +76,41 @@ msgstr ""
 msgid "BRAND"
 msgstr ""
 
-#: templates/userena/password_reset_form.html:6
-msgid "Forgot Password"
-msgstr ""
+#~ msgid "Member Information"
+#~ msgstr "會員資料"
 
-#: templates/userena/password_reset_form.html:7
-msgid ""
-"To obtain a new password, please enter your e-mail address and a link will "
-"be emailed to you."
-msgstr ""
+#~ msgid "Orders Tracking"
+#~ msgstr "訂單查詢"
 
-#: templates/userena/password_reset_form.html:19
-msgid "Send"
-msgstr ""
+#~ msgid "Billing Information"
+#~ msgstr "購買人資料"
 
-#: templates/userena/profile_form.html:6
-msgid "Member Information"
-msgstr "會員資料"
+#~ msgid "Shipping Information"
+#~ msgstr "收件人資料"
 
-#: templates/userena/profile_form.html:7
-msgid "Orders Tracking"
-msgstr "訂單查詢"
+#~ msgid "Shipping same as billing?"
+#~ msgstr "收件人資料同上？"
 
-#: templates/userena/profile_form.html:9
-msgid "Member"
-msgstr ""
+#~ msgid "Save"
+#~ msgstr "儲存"
 
-#: templates/userena/profile_form.html:15
-#: templates/userena/signup_form.html:11
-msgid "Billing Information"
-msgstr "購買人資料"
+#~ msgid "I AM A REGISTERED CUSTOMER"
+#~ msgstr "會員登入"
 
-#: templates/userena/profile_form.html:18
-#: templates/userena/signup_form.html:14
-msgid "Shipping Information"
-msgstr "收件人資料"
+#~ msgid "Please enter your email and password below to log into EMPOR"
+#~ msgstr "請輸入您的Email及密碼登入EMPOR"
 
-#: templates/userena/profile_form.html:27
-#: templates/userena/signup_form.html:23
-msgid "Shipping same as billing?"
-msgstr "收件人資料同上？"
+#~ msgid "Log In"
+#~ msgstr "登入"
 
-#: templates/userena/profile_form.html:33
-msgid "Save"
-msgstr "儲存"
+#~ msgid "I AM A NEW CUSTOMER"
+#~ msgstr "加入會員"
 
-#: templates/userena/signin_form.html:5
-msgid "Sign In"
-msgstr ""
+#~ msgid "If you are still not an EMPOR, please join us."
+#~ msgstr "如果你還不是一名EMPOR，來加入我們吧！"
 
-#: templates/userena/signin_form.html:8
-msgid "I AM A REGISTERED CUSTOMER"
-msgstr "會員登入"
+#~ msgid "Register"
+#~ msgstr "加入EMPOR"
 
-#: templates/userena/signin_form.html:9
-msgid "Please enter your email and password below to log into EMPOR"
-msgstr "請輸入您的Email及密碼登入EMPOR"
-
-#: templates/userena/signin_form.html:29
-msgid "Log In"
-msgstr "登入"
-
-#: templates/userena/signin_form.html:35
-msgid "I AM A NEW CUSTOMER"
-msgstr "加入會員"
-
-#: templates/userena/signin_form.html:36
-msgid "If you are still not an EMPOR, please join us."
-msgstr "如果你還不是一名EMPOR，來加入我們吧！"
-
-#: templates/userena/signin_form.html:37
-msgid "Register"
-msgstr "加入EMPOR"
-
-#: templates/userena/signup_form.html:29
-msgid "Confirm"
-msgstr "確定"
+#~ msgid "Confirm"
+#~ msgstr "確定"

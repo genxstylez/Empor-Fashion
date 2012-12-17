@@ -170,8 +170,8 @@ class ChangePasswordForm(forms.Form):
         return self.cleaned_data['passconf']
 
 class ResetPasswordForm(forms.Form):
-    password = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
-    passconf = forms.CharField(max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    password = forms.CharField(label=_('New Password'), max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
+    passconf = forms.CharField(label=_('Confirm Password'), max_length=16, widget=forms.PasswordInput(attrs={'class': 'input-xxlarge'}))
     
     def clean_password(self):
         if not re.match('\S{3,12}', self.cleaned_data['password']):
