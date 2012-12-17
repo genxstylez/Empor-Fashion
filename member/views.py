@@ -116,13 +116,11 @@ def register_complete(request):
 
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-        form.save()
     profile = UserProfile.objects.get(user=request.user)
-    form = ProfileForm(instance=profile)
+    form = ProfileForm(request.POST or None, instance = profile)
+    if form.is_valid():
+        profile = form.save()
     return render(request, 'member/profile.html', {'form': form})
-
 
 def activate(request, activation_code):
     user_temp = get_object_or_404(UserTemp, activation_code=activation_code)

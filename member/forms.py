@@ -82,7 +82,7 @@ class ProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = UserProfile
-		exclude = ('reset_code', 'user', 'country')
+		exclude = ('reset_code', 'user', 'country', 'tos')
 
 	def __init__(self, *args, **kwargs):
 		super(ProfileForm, self).__init__(*args, **kwargs)

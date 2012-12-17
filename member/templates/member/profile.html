@@ -45,12 +45,6 @@ $(function() {
             <div class="controls">{{ form.address }}</div>
         </div>
 
-        <div class="control-group">
-            {{ form.tos.errors }}
-            <div class="controls">
-                <input id="id_tos" name="tos" type="checkbox">{% trans 'I have read and agree' %}<a href="{% url service-tos %}">{% trans 'TOS' %}</a>
-            </div>
-        </div>
         <div class="form-actions">
             <input type="submit" class="button" value="{% trans 'Confirm' %}" />
         </div>

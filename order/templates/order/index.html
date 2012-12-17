@@ -111,25 +111,24 @@
             <h4>{% trans 'Reciept Post' %}</h4>
             {% endif %}
             {% if field.name == 'billing_recipient' %}
-            <h4>{% trans 'Billing Information' %}</h4>
+             <div class="control-group">
+                <label class="control-label"><h4>{% trans 'Billing Information' %}</h4></label>
+            </div>
+
             {% endif %}
             {% if field.name == 'shipping_recipient' %}
-            <h4>{% trans 'Shipping Information' %}</h4>
+             <div class="control-group">
+                <label class="control-label"><h4>{% trans 'Shipping Information' %}</h4></label>
+                <div class="controls">
+                    <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
+                </div>
+            </div>
             {% endif %}
             <div class="control-group">
                 <label class="control-label {{ field.css_classes }}">{{ field.label }}</label>
                 <div class="controls">{{ field }}</div>
                 {{ field.errors }}
             </div>
-            {% if field.name == 'company_title' %}
-            {% endif %}
-            {% if field.name == 'billing_address' %}
-            <div class="control-group">
-                <div class="controls">
-                    <input name="copy_address" type="checkbox" value="" id="copy_address">{% trans 'Shipping same as billing?' %}
-                </div>
-            </div>
-            {% endif %}
         {% endif %}
         {% endfor %}
         <hr />
