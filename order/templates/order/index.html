@@ -1,5 +1,36 @@
 {% extends 'empor/base.html' %}
 {% load i18n thumbnail common %}
+{% block js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/twzipcode-1.4.1-min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $('.birthday').datepicker();
+    $('#billing_twzipcode').twzipcode({
+        zipcodeSel: {{ request.user.profile.post_code }},
+        countyName: 'billing_county',
+        districtName: 'billing_district',
+        zipcodeName: 'billing_zip',
+    });
+    $('#shipping_twzipcode').twzipcode({
+        countyName: 'shipping_county',
+        districtName: 'shipping_district',
+        zipcodeName: 'shipping_zip',
+    });
+    $('#confirm-form').submit(function() {
+        if($('input[name="billing_zip"]').val() == '') {
+            $('<ul class="errorlist"><li>這個欄位是必須的。</li></ul>').insertAfter($('input[name="billing_zip"]').parent());
+            return false;
+        } 
+        if($('input[name="shipping_zip"]').val() == '') {
+            $('<ul class="errorlist"><li>這個欄位是必須的。</li></ul>').insertAfter($('input[name="shipping_zip"]').parent());
+            return false;
+        }
+        $(this).submit();
+    });
+});
+</script>
+{% endblock %}
+
 {% block content %}
 <div class="inside_itembox itemopen center">
     <h1>Confirm</h1>
@@ -114,7 +145,6 @@
              <div class="control-group">
                 <label class="control-label"><h4>{% trans 'Billing Information' %}</h4></label>
             </div>
-
             {% endif %}
             {% if field.name == 'shipping_recipient' %}
              <div class="control-group">
@@ -125,7 +155,13 @@
             </div>
             {% endif %}
             <div class="control-group">
-                <label class="control-label {{ field.css_classes }}">{{ field.label }}</label>
+                <label class="control-label">{{ field.label }}</label>
+                {% if field.name == 'billing_address' %}
+                    <div class="controls"><div id="billing_twzipcode"></div></div>
+                {% endif %}
+                {% if field.name == 'shipping_address' %}
+                    <div class="controls"><div id="shipping_twzipcode"></div></div>
+                {% endif %}
                 <div class="controls">{{ field }}</div>
                 {{ field.errors }}
             </div>

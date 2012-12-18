@@ -18,6 +18,11 @@ div.menu_pop {
 	opacity: 1;
 }
 
+#twzipcode {
+    margin-left: 8px;
+    float: left;
+}
+
 .backstretch::after { 
     content: '';
     background: transparent url(../images/pattern.png) repeat top left; 

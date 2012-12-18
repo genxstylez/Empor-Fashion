@@ -23,13 +23,17 @@ class Order(models.Model):
     net_total = models.PositiveIntegerField(_('Net Total'), default=0) 
     billing_recipient = models.CharField(_('Billing Recipient'), max_length=100)
     billing_phone = models.CharField(_('Billing Phone'), max_length=50)
-    billing_post_code = models.CharField(_('Billing Post Code'), max_length=100)
+    billing_post_code = models.CharField(_('Billing Post Code'), max_length=5)
+    billing_county = models.CharField(_('Billing County'), max_length=10)
+    billing_district = models.CharField(_('Billing District'), max_length=10)
     billing_address = models.CharField(_('Billing Address'), max_length=100)
     billing_country = models.PositiveIntegerField(_('Billing Country'), choices=COUNTRY_CHOICES, default=0)
     shipping_recipient = models.CharField(_('Shipping recipient'), max_length=100)
     shipping_phone = models.CharField(_('Shipping Phone'), max_length=50)
-    shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=100)
-    shipping_address = models.CharField(_('Shipping Address'), max_length=100, blank=True)
+    shipping_post_code = models.CharField(_('Shipping Post Code'), max_length=5)
+    shipping_county = models.CharField(_('Shipping County'), max_length=10)
+    shipping_district = models.CharField(_('Shipping District'), max_length=10)
+    shipping_address = models.CharField(_('Shipping Address'), max_length=100)
     shipping_country = models.PositiveIntegerField(_('Shipping Country'), choices=COUNTRY_CHOICES, default=0)
     dispatch_time = models.PositiveSmallIntegerField(_('Dispatch time'), choices=DISPATCH_TIME_CHOICES, default=0)
     reciept_type = models.PositiveSmallIntegerField(_('Reciept Type'), default=0, choices=RECIEPT_TYPE_CHOICES)
@@ -72,14 +76,18 @@ class Order(models.Model):
         return Voucher.objects.get(code=self.voucher_code).name
 
     def get_billing_address(self):
-        address = self.billing_post_code + ' '
-        address += self.get_billing_country_display() + ' '
+        address = self.get_billing_country_display() + ' '
+        address += self.billing_post_code + ' '
+        address += self.billing_county + ' '
+        address += self.billing_district + ' '
         address += self.billing_address
         return address
 
     def get_shipping_address(self):
-        address = self.shipping_post_code + ' '
-        address += self.get_shipping_country_display() + ' '
+        address = self.get_shipping_country_display() + ' '
+        address += self.shipping_post_code + ' '
+        address += self.shipping_county + ' '
+        address += self.shipping_district + ' '
         address += self.shipping_address
         return address
 

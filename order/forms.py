@@ -14,9 +14,9 @@ class OrderForm(ModelForm):
 
     class Meta:
         model = Order
-        exclude = ('user', 'cart', 'status', 'total', 'voucher_code',
-            'created_at', 'last_modified', 'items', 'dispatched_date', 'discount_total',
-            'order_id', 'gross_total', 'net_total', 'billing_country', 'shipping_country')
+        exclude = ('user', 'cart', 'status', 'total', 'voucher_code', 'billing_post_code', 'shipping_post_code',
+            'created_at', 'last_modified', 'items', 'dispatched_date', 'discount_total', 'shipping_county', 'shipping_district',
+            'order_id', 'gross_total', 'net_total', 'billing_country', 'shipping_country', 'billing_county', 'billing_district')
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)

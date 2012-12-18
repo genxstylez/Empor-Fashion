@@ -27,6 +27,12 @@ def index(request):
             order.user = request.user
             order.voucher_code = voucher_code
             order.order_id = ''
+            order.billing_post_code = request.POST['billing_zip']
+            order.billing_county = request.POST['billing_county']
+            order.billing_district = request.POST['billing_district']
+            order.shipping_post_code = request.POST['shipping_zip']
+            order.shipping_county = request.POST['shipping_county']
+            order.shipping_district = request.POST['shipping_district']
             request.session.save()
             request.session['order'] = order
             
@@ -39,7 +45,6 @@ def index(request):
         form = OrderForm(initial={
                 'billing_recipient': request.user.get_name(),
                 'billing_phone' : profile.phone,
-                'billing_post_code': profile.post_code,
                 'billing_address': profile.address,
                 'billing_country': profile.country,
                 'payment_method': 0,

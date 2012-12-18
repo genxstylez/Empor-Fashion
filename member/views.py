@@ -84,6 +84,9 @@ def register(request):
 
             user_temp = form.save(commit=False)
             user_temp.activation_code = activation_code
+            user_temp.post_code = request.POST['zipcode']
+            user_temp.county = request.POST['county']
+            user_temp.district = request.POST['district']
             user_temp.save()
 
             html_content = render_to_string('email/activate.html', {
@@ -117,9 +120,16 @@ def register_complete(request):
 @login_required
 def profile(request):
     profile = UserProfile.objects.get(user=request.user)
-    form = ProfileForm(request.POST or None, instance = profile)
-    if form.is_valid():
-        profile = form.save()
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.post_code = request.POST['zipcode']
+            profile.county = request.POST['county']
+            profile.district = request.POST['district']
+            profile.save()
+
+    form = ProfileForm(instance=profile)
     return render(request, 'member/profile.html', {'form': form})
 
 def activate(request, activation_code):
@@ -143,6 +153,8 @@ def activate(request, activation_code):
             birthday = user_temp.birthday,
             country = user_temp.country,
             post_code = user_temp.post_code,
+            county = user_temp.county,
+            district = user_temp.district,
             address = user_temp.address,
         )
         profile.save()

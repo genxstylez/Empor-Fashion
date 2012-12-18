@@ -84,8 +84,12 @@ $(function() {
             $('input#id_shipping_phone').val($('input#id_billing_phone').val());
             $('input#id_shipping_recipient').val($('input#id_billing_recipient').val());
             $('input#id_shipping_address').val($('input#id_billing_address').val());
-            $('input#id_shipping_post_code').val($('input#id_billing_post_code').val());
-            $('select#id_shipping_country').val($('select#id_billing_country').val());
+            $('#shipping_twzipcode').twzipcode({
+                countyName: 'shipping_county',
+                districtName: 'shipping_district',
+                zipcodeName: 'shipping_zip',
+                zipcodeSel: $('input[name="billing_zip"]').val()
+            });
         }
     });
     // ajax setup for csrf

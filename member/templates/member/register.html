@@ -4,10 +4,19 @@
 <link href="{{ STATIC_URL }}widgets/css/datepicker.css" type="text/css" rel="stylesheet" />
 {% endblock %}
 {% block js %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/twzipcode-1.4.1-min.js"></script>
 <script src="{{ STATIC_URL }}widgets/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 $(function() {
     $('.birthday').datepicker();
+    $('#twzipcode').twzipcode();
+    $('#register-form').submit(function() {
+        if($('input[name="zipcode"]').val() == '') {
+            $('<ul class="errorlist"><li>這個欄位是必須的。</li></ul>').insertAfter($('input[name="zipcode"]').parent());
+            return false;
+        }
+        $(this).submit();
+    });
 });
 </script>
 {% endblock %}
@@ -21,7 +30,7 @@ $(function() {
     <form id="register-form" method="post" class="form-inline offset1 span8">
         {% csrf_token %}
         {% for field in form %}
-        {% if field.name != 'address' and field.name != 'post_code' and field.name != 'tos' %}
+        {% if field.name != 'address' and field.name != 'tos' %}
         <div class="control-group">
             <label class="control-label">{{ field.label }}</label>
             <div class="controls">{{ field }}</div>
@@ -31,14 +40,11 @@ $(function() {
         {% endfor %}
         <div class="control-group">
 			<label class="control-label">{{ form.address.label }}</label>
-            <div class="controls">{{ form.post_code }}</div>
+            <div id="twzipcode"></div>
+        </div>
+        <div class="control-group">
             <div class="controls">{{ form.address }}</div>
-			{% if form.address.errors %}
-                {{ form.address.errors }}
-            {% else %}
-                {{ form.post_code.errors }}
-            {% endif %}
-
+            {{ form.address.errors }}
         </div>
 
         <div class="control-group">

@@ -20,7 +20,7 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = UserTemp
-        exclude = ('activation_code', 'country')
+        exclude = ('activation_code', 'country', 'post_code', 'county', 'district')
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
@@ -78,16 +78,15 @@ class RegisterForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
 	birthday = forms.DateField(label=_('Birthday'), input_formats=['%Y/%m/%d',], \
 		widget=forms.DateInput(attrs={'class': 'birthday', 'data-date-format': 'yyyy/mm/dd'}))
-	post_code = forms.CharField(label=_('Post Code'), widget=forms.TextInput(attrs={'class': 'input-small', 'placeholder': _('Post Code')}))
 
 	class Meta:
 		model = UserProfile
-		exclude = ('reset_code', 'user', 'country', 'tos')
+		exclude = ('reset_code', 'user', 'country', 'tos', 'county', 'district', 'post_code')
 
 	def __init__(self, *args, **kwargs):
 		super(ProfileForm, self).__init__(*args, **kwargs)
 		for field in self.fields:
-			if field in ['birthday', 'gender', 'post_code']:
+			if field in ['birthday', 'gender']: 
 				pass
 			else:
 				self.fields[field].widget.attrs['class'] = 'input-xxxlarge' 
