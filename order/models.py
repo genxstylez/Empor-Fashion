@@ -106,3 +106,85 @@ class OrderItem(models.Model):
     net_total = models.PositiveIntegerField(_('Total'), default=0)
     created_at = models.DateTimeField(_('Created at'), auto_now_add=True)
     last_modified = models.DateTimeField(_('Last modified'), auto_now=True)
+
+from paypal.standard.ipn.signals import payment_was_successful, payment_was_flagged
+from order.utils import generate_order_pdf
+from django.template.loader import render_to_string
+from django.core import mail
+from django.conf import settings
+from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.contrib.auth.models import Group
+from django.contrib.auth.models import User
+from discount.models import Voucher
+from cart.utils import archive_cart
+from cart.models import ArchivedCartItem
+
+def confirm_payment(sender, **kwargs):
+    user = User.objects.get(id=sender.custom)
+    cart = archive_cart(user.cart)
+    order = Order.objects.get(id=sender.invoice)
+    order.cart = cart.id
+    order.save()
+    
+    items = ArchivedCartItem.objects.filter(archived_cart=cart)
+    for item in items:
+        order_item = OrderItem()
+        order_item.order = order
+        order_item.product = item.product
+        order_item.quantity = item.quantity
+        order_item.discount_total = item.discount_total
+        order_item.gross_total = item.gross_total
+        order_item.net_total = item.net_total
+        order_item.save()
+        #Update sold figure
+        item.product.sold += item.quantity
+        item.product.save()
+
+    order.status = 1
+    order.save()
+    try: 
+        voucher = Voucher.objects.get(code=order.voucher_code)
+    except Voucher.DoesNotExist:
+        voucher = None
+
+    pdf = generate_order_pdf('empor.com.tw', order, voucher)
+
+    subject = _('EMPOR Order Confirmation')
+    html_content = render_to_string('order/email.html', {
+        'order': order,
+        'items': items,
+        'voucher': voucher,
+        'STATIC_URL': settings.STATIC_URL,
+        'host': 'http://empor.com.tw/'
+    })
+    text_content = render_to_string('order/email.txt', {
+        'order': order,
+        'voucher': voucher,
+        'items': items,
+        'host': 'http://empor.com.tw/'
+    })
+
+    connection = mail.get_connection()
+    connection.open()
+
+    message = EmailMultiAlternatives(subject, text_content, settings.DEFAULT_FROM_EMAIL, [order.user.email])
+    message.attach_alternative(html_content, 'text/html')
+    filename = order.order_id
+    message.attach(filename.encode('utf-8'), pdf, 'application/pdf')
+
+    group = Group.objects.get(name='Service').user_set.only('email')
+    subject = 'EMPOR - 新訂單'.decode('utf-8') + ' '+ order.order_id
+    group_email = [ user.email for user in group ]
+    notification = EmailMessage(subject, html_content, settings.DEFAULT_FROM_EMAIL, group_email)
+    notification.content_subtype = 'html'
+
+    connection.send_messages([message, notification])
+    connection.close()
+ 
+payment_was_successful.connect(confirm_payment)
+
+
+def flag(sender, **kwargs):
+    pass
+
+payment_was_flagged.connect(flag)

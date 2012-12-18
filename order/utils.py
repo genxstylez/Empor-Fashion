@@ -5,17 +5,16 @@ from order.models import OrderItem
 from xhtml2pdf import pisa
 import cStringIO as StringIO
 
-def generate_order_pdf(request, order):
+def generate_order_pdf(request, order, voucher=None):
     """
     產生ORDER PDF
     """
-    voucher = request.session['voucher'] if 'voucher' in request.session else None
     items = OrderItem.objects.filter(order=order)
     html = render_to_string('order/email-pdf.html', {
             'voucher': voucher,
             'order': order,
             'items': items,
-            'host': request.get_host(),
+            'host': request,
             'STATIC_URL': settings.STATIC_URL
     })
     result = StringIO.StringIO()

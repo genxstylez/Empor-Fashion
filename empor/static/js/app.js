@@ -9,6 +9,13 @@ function closeBox() {
     History.pushState(null, null, a.splice(0, a.length-2).join('/') + '/');
 }
 
+$(window).load(function() {
+    //paypal form auto submit
+    $('form[name="paypal"]').livequery(function() {
+        $(this).submit();
+    });
+});
+
 $(function() {
     window.modal_close = true;
 
@@ -17,11 +24,7 @@ $(function() {
             position: 'bottom-right'
         });
     }
-    //paypal form auto submit
-    $('form[name="paypal"]').livequery(function() {
-        $(this).submit();
-    });
-    
+        
     //lazyload
     $('img.lazy').lazyload({
         effect: 'fadeIn'

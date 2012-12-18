@@ -15,8 +15,10 @@
     <input type="hidden" name="upload" value="1" />
     <input type="hidden" name="business" value="sam@empor.com.tw" />
     <input type="hidden" name="currency_code" value="TWD" />
-    <input type="hidden" name="return" value="{{ request.get_host }}{% url order-success %}" />
+    <input type="hidden" name="return" value="http://{{ request.get_host }}{% url order-thankyou %}" />
     <input type="hidden" name="rm" value="0" />
+    <input type="hidden" name="custom" value="{{ order.user.id }}">
+    <input type="hidden" name="invoice" value="{{ order.id }}">
     <input type="hidden" name="address1" value="{{ order.get_shipping_address }}" />
     {% comment %}
     <input type="hidden" name="address2" value="{{ order.shipping_street2 }}" />

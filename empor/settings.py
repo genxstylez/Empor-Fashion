@@ -169,6 +169,7 @@ INSTALLED_APPS = (
     'staff',
     'service',
     'tinymce',
+    'paypal.standard.ipn',
 )
 
 # A sample logging configuration. The only tangible logging
@@ -241,6 +242,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'webmaster@empor.com.tw'
 EMAIL_HOST_PASSWORD = '53780722'
 EMAIL_PORT = 587
+
+PAYPAL_RECEIVER_EMAIL = 'webmaster@empor.com.tw'
 
 AUTH_PROFILE_MODULE = 'member.UserProfile'
 

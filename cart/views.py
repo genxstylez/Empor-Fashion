@@ -24,6 +24,9 @@ def get_cart(request):
         else:
             cart, created = Cart.objects.get_or_create(session=request.session.session_key)
 
+    if cart.items.count() == 0:
+        cart.net_total = 0
+        cart.save()
     request.session['cart'] = cart
 
     return cart

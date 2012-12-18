@@ -1,6 +1,6 @@
 # coding: utf-8
 from django.utils.translation import ugettext as _
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from empor.shortcuts import JsonResponse
@@ -33,6 +33,7 @@ def index(request):
             order.shipping_post_code = request.POST['shipping_zip']
             order.shipping_county = request.POST['shipping_county']
             order.shipping_district = request.POST['shipping_district']
+            order.save()
             request.session.save()
             request.session['order'] = order
             
@@ -58,7 +59,6 @@ def index(request):
         voucher = None
 
     return render(request, 'order/index.html', {'cart': cart, 'form': form, 'items': items, 'voucher': voucher})
-
 
 @login_required
 def orders(request):
@@ -128,7 +128,7 @@ def success(request):
     order.status = 1
     order.save()
 
-    pdf = generate_order_pdf(request, order) 
+    pdf = generate_order_pdf(request.get_host(), order, voucher)
 
     subject = _('EMPOR Order Confirmation')
     html_content = render_to_string('order/email.html', {
@@ -164,7 +164,16 @@ def success(request):
 
     if 'voucher' in request.session:
         del request.session['voucher']
+    return redirect('order-thankyou')
 
+@login_required
+def thankyou(request):
+    if 'order' in request.session:
+        order = request.session['order']
+        if 'cart' in request.session:
+            del request.session['cart']
+    else:
+        order = None
     return render(request, 'order/thankyou.html', {'order': order})
 
 @login_required
