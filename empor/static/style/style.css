@@ -620,9 +620,9 @@ input[type="radio"] {
 .xs_icon-remove {background-position:-20px -80px;filter:alpha(opacity=50); -moz-opacity: 0.5; opacity: 0.5; }
 .xs_icon-remove:hover {filter:alpha(opacity=100); -moz-opacity: 1; opacity: 1; }
 .xs_icon-open {background-position:-80px -80px;margin-left:3px; margin-top:1px;}
-.s_icon-info {background-position:-260px -60px;}
-.s_icon-help {background-position:-280px -60px;}
-.s_icon-fb {background-position:0px -60px;}
+.s_icon-info {background-position:-260px -60px;width:18px; height:18px;}
+.s_icon-help {background-position:-280px -60px;width:18px; height:18px;}
+.s_icon-fb {background-position:0px -60px;width:18px; height:18px;}
 .s_icon-error {background-position:-40px -60px;}
 .s_icon-bigimg {background-position:-100px -80px; margin-right:3px;}
 .m_icon-cart {background-position:0px -40px;}
