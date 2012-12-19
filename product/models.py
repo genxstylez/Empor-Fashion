@@ -161,10 +161,11 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         if not self.parent and self.id:
             for product in self.children.all():   
-                if product.category != self.category or product.collection != self.collection or product.brand != self.brand:
+                if product.category != self.category or product.collection != self.collection or product.brand != self.brand or product.discount_id != self.discount_id:
                     product.category = self.category
                     product.collection = self.collection
                     product.brand = self.brand
+                    product.discount_id = self.discount_id
                     product.save()
 
         if self.discount_id == 0:
@@ -204,14 +205,14 @@ class Product(models.Model):
         value = discount.get_value()
         if discount.percentage:
             value = self.price * value
-        return value
+        return int(value)
 
     def get_discounted_price(self):
         discount = self.discount()
         value = discount.get_value()
         if discount.percentage:
             value = self.price * value
-        return self.price - value
+        return int(self.price - value)
 
     @models.permalink
     def get_absolute_url(self):

@@ -20,6 +20,7 @@ def brand(request, brand_slug):
 def brand_products(request, brand_slug, gender_type=None, category=None):
     brand = Brand.objects.get(slug=brand_slug)
     if gender_type:
+        gender_type = gender_type.upper()
         gender = Gender.objects.get(name=gender_type)
         products = Product.on_site.filter(gender=gender, brand=brand)
         if category:
@@ -37,6 +38,7 @@ def brand_products(request, brand_slug, gender_type=None, category=None):
 	})
 
 def gender_products(request, gender_type, category=None):
+    gender_type = gender_type.upper()
     gender = Gender.objects.get(name=gender_type)
     products = Product.on_site.filter(gender=gender)
     if category:
@@ -53,6 +55,7 @@ def gender_products(request, gender_type, category=None):
     })
 
 def product_view(request, brand_slug, gender_type, product_slug, category=None):
+    gender_type = gender_type.upper()
     gender = Gender.objects.get(name=gender_type)
     try:
         focus_product = Product.on_site.prefetch_related('brand', 'option_group').get(brand__slug=brand_slug, slug=product_slug)

@@ -66,7 +66,7 @@
     (function(window, undefined) {
         var History = window.History;
         History.Adapter.bind(window, 'statechange', function () {
-            state = History.getState();
+            state = History.getHashByState();
             _gaq.push(['_trackPageview', state.url]);
         });
     }) (window);

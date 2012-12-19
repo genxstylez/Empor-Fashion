@@ -347,7 +347,10 @@ def facebook_connect_new(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user_temp = form.save(commit=False)
-
+            user_temp.post_code = request.POST['zipcode']
+            user_temp.county = request.POST['county']
+            user_temp.district = request.POST['district'] 
+            user_temp.save()
             # create user
             user = User.objects.create_user(user_temp.username, profile['email'], user_temp.password)
             user.first_name = user_temp.first_name
@@ -360,6 +363,8 @@ def facebook_connect_new(request):
                 gender = user_temp.gender,
                 phone = user_temp.phone,
                 birthday = user_temp.birthday,
+                county = user_temp.county,
+                district = user_temp.district,
                 country = user_temp.country,
                 post_code = user_temp.post_code,
                 address = user_temp.address,
@@ -383,6 +388,7 @@ def facebook_connect_new(request):
             # login user
             user = auth.authenticate(username=user.username, password=user_temp.password)
             auth.login(request, user)
+            user_temp.delete()
 
             request.session['fb_connect_type'] = 'new'
 

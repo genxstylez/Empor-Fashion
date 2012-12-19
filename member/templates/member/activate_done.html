@@ -1,5 +1,18 @@
 {% extends 'empor/base.html' %}
 {% load i18n %}
+{% block js %}
+{{ block.super }}
+<SCRIPT language="JavaScript" type="text/javascript">
+<!-- Yahoo! Taiwan Inc.
+window.ysm_customData = new Object();
+window.ysm_customData.conversion = "transId=,currency=,amount=";
+var ysm_accountid  = "1N1J7MC39J39GVG6HJF8DE5JO2O";
+document.write("<SCR" + "IPT language='JavaScript' type='text/javascript' " 
++ "SRC=//" + "srv1.wa.marketingsolutions.yahoo.com" + "/script/ScriptServlet" + "?aid=" + ysm_accountid 
++ "></SCR" + "IPT>");
+// -->
+</SCRIPT>
+{% endblock %}
 {% block content %}
 <div class="inside_itembox itemopen center">
     <h1>Success</h1>
