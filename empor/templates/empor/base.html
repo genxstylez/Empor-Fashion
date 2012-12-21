@@ -79,9 +79,7 @@
 <!-- menu_wrapper -->
 <div id="menu_wrapper" {% block menu_class %}{% endblock %}>
     <!-- logo -->
-    <div class="logo_box b_box">
-        <a href="{% url index %}"><img src="{{ STATIC_URL }}images/EMPOR_logo.png" /></a>
-    </div>
+    <a class="logo_box b_box" href="{% url index %}"><img src="{{ STATIC_URL }}images/EMPOR_logo.png" /></a>
     <!-- /logo -->
     <!-- menu_iconbox -->
     <div class="menu_iconbox b_box">

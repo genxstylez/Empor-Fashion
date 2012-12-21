@@ -18,7 +18,8 @@
 	{% endwith %}
 	<div class="small">
 		{% for image in focus_product.images.all %}
-		<a class="fancybox-thumb not" rel="gallery" data-thumb="{{ image.image.small.url }}" href="{{ image.image.large.url }}">
+		<a class="fancybox-thumb not {% if forloop.counter == 1 %}active{% endif %}" rel="gallery" 
+            data-thumb="{{ image.image.small.url }}" href="{{ image.image.large.url }}">
 			<img src="{{ image.image.small.url }}" rel="{{ image.image.medium.url }}" 
 				medium_width="{{ image.medium_width }}" medium_height="{{ image.medium_height }}" />
 		</a>

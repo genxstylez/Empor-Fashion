@@ -24,7 +24,7 @@ def brand_products(request, brand_slug, gender_type=None, category=None):
         gender = Gender.objects.get(name=gender_type)
         products = Product.on_site.filter(gender=gender, brand=brand)
         if category:
-            category = Category.objects.get(id=category)
+            category = get_object_or_404(Category, id=category)
             products = products.filter(category=category)
     else:
         products = Product.on_site.filter(brand=brand)
@@ -42,7 +42,7 @@ def gender_products(request, gender_type, category=None):
     gender = Gender.objects.get(name=gender_type)
     products = Product.on_site.filter(gender=gender)
     if category:
-        category = Category.objects.get(id=category)
+        category = get_object_or_404(Category, id=category)
         products = products.filter(category=category)
     brands = Brand.objects.all()
     box_class = ['a11', 'a12', 'a21']

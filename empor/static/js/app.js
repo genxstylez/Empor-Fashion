@@ -36,7 +36,12 @@ $(function() {
     });
 
 	$("a.gallery").livequery('click', function() {
-        $.fancybox($('.fancybox-thumb'), {
+        items = $('.fancybox-thumb');
+        window.a = items;
+        start = items.splice($('.fancybox-thumb.active').index(), $(items).length)
+        end = items.splice(0, $('.fancybox-thumb.active').index());
+        items = $.merge(start, end)
+        $.fancybox(items, {
             prevEffect	: 'fade',
             nextEffect	: 'fade',
             helpers	: {
@@ -145,8 +150,10 @@ $(function() {
     // image gallery
     $('div.small img').livequery('click', function () {
         var parent = $(this).parent();
-        if(parent.index() != $('div.small a.fancybox-thumb:first').index())
-            parent.insertBefore('div.small a.fancybox-thumb:first');
+        parent.addClass('active');
+        parent.siblings().removeClass('active');
+        //if(parent.index() != $('div.small a.fancybox-thumb:first').index())
+          //  parent.insertBefore('div.small a.fancybox-thumb:first');
         var src = $(this).attr('src');
         var large_src = $(this).attr('rel');
         var current_img = $('div.large img:first');
@@ -155,7 +162,11 @@ $(function() {
         $(image).attr({'src': large_src, 'rel': src});
         $(image).hide().appendTo('div.large');
         image.onload = function() { $(this).fadeIn(800); }
-        current_img.fadeOut(1200, function() { $(this).remove(); });
+        //current_img.fadeOut(1200, function() { 
+         //   console.log($(this));
+           // $(this).remove(); 
+        //});
+        current_img.remove();
         $('div.large').height(large_height);
     });
 

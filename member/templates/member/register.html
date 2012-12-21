@@ -8,6 +8,13 @@
 <script src="{{ STATIC_URL }}widgets/js/bootstrap-datepicker.js"></script>
 <script type="text/javascript">
 $(function() {
+    $('.tos').on('click', function() {
+        $.get($(this).attr('href'), function(response) {
+            $(response).remove('.menu');
+            $.fancybox($('.tos', response));
+        });
+        return false;
+    });
     $('.birthday').datepicker();
     $('#twzipcode').twzipcode();
     $('#register-form').submit(function() {
@@ -49,7 +56,7 @@ $(function() {
 
         <div class="control-group">
             <div class="controls">
-                <input id="id_tos" name="tos" type="checkbox">{% trans 'I have read and agree' %}<a href="{% url service-tos %}">{% trans 'TOS' %}</a>
+                <input id="id_tos" name="tos" type="checkbox">{% trans 'I have read and agree' %}<a class="tos" href="{% url service-tos %}">{% trans 'TOS' %}</a>
             </div>
             {{ form.tos.errors }}
         </div>
