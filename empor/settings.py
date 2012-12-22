@@ -93,7 +93,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
-    'compressor.finders.CompresssorFinder',
+    'compressor.finders.CompressorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -111,11 +111,11 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'djangoflash.middleware.FlashMiddleware',
-    'django.middleware.gzip.GZipMiddleware',
 )
 
 ROOT_URLCONF = 'empor.urls'
@@ -229,10 +229,6 @@ SHIPPING_DEFAULT_COST = 100
 SHIPPING_OVERSEAS_COST = 500
 SHIPPING_FREE_ITEM_COUNT = 2
 SHIPPING_FREE_MINIMUM_PURCHASE = None
-
-TINYMCE_JS_URL = os.path.join(STATIC_URL + 'js/tiny_mce/tiny_mce.js')
-
-TINYMCE_DEFAULT_CONFIG = {'theme': 'advanced', 'theme_advanced_buttons1': 'hr, bold, italic, underline, textcolor, undo, redo, cleanup, visualaid fontsizeselect, bullist, numlist, forecolor', 'width': '500', 'height': '400' }
 
 THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
