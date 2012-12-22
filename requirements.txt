@@ -11,4 +11,5 @@ gunicorn
 django-crontab
 python-memcached
 south
+django-compressor
 -e git://github.com/johnboxall/django-paypal.git#egg=django-paypal

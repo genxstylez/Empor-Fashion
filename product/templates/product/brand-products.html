@@ -59,6 +59,13 @@
 	</div>
     {% endwith %}
     {% endcache %}
+    {% if forloop.counter == 1 %}
+    <a href="{% url member-register %}">
+        <div class="index_itembox a11">
+            <img src="{{ STATIC_URL }}images/banner_220x220.jpg" width="220" height="220">
+        </div>
+    </a>
+    {% endif %}
     {% endfor %}
 </div>
 {% endblock %}

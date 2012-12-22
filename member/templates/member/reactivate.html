@@ -12,6 +12,7 @@
             {% for field in form %}
             <label class="control-label">{{ field.label }}</label>
             {{ field }}
+            {% endfor %}
             <input type="submit" class="button">{% trans 'Confirm' %}</a>
          </div>
          

@@ -93,6 +93,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    'compressor.finders.CompresssorFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -114,6 +115,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'djangoflash.middleware.FlashMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
 )
 
 ROOT_URLCONF = 'empor.urls'
@@ -168,7 +170,7 @@ INSTALLED_APPS = (
     'storages',
     'staff',
     'service',
-    'tinymce',
+    'compressor',
     'paypal.standard.ipn',
 )
 
