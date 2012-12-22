@@ -48,7 +48,7 @@ class RegisterForm(forms.ModelForm):
         elif User.objects.filter(username=self.cleaned_data['username']):
             raise forms.ValidationError(_('this username has been registered'))
 
-        return self.cleaned_data['username']
+        return self.cleaned_data['username'].lower()
 
     def clean_password(self):
         if not re.match('\S{3,12}', self.cleaned_data['password']):
