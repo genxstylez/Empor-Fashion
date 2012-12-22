@@ -1350,8 +1350,12 @@ h3 .l_icon-gender {
 	position: relative;
 		top:30px;
 }
-.itemopen .data.help-inline {
+.data.help-inline {
 	color: #B94A48;
+}
+.data.size_remark {
+	color: #8c7d7a;
+	font-size:12px;
 }
 /*表單頁*/
 .control-group {
