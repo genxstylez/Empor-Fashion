@@ -191,9 +191,9 @@ $(function() {
         return false;
     });
 
-    $(document).on('click', 'a.brand_dynamic', function() {
+    $(document).on('click', 'div.brand_dynamic', function() {
         if (History.enabled) {
-			var that = $(this).parent();
+			var that = $(this);
             var url = $(this).attr('href');
             var image = new Image();
             var img = $('img', this);
@@ -225,9 +225,9 @@ $(function() {
         }
     });
     
-    $(document).on('click', 'a.dynamic', function() {
+    $(document).on('click', 'div.dynamic', function() {
         if (History.enabled) {
-            var that = $(this).parent();
+            var that = $(this);
             var img = $('.itemimg img', that);
             var url = $(this).attr('href');
             var image = new Image();

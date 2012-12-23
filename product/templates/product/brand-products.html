@@ -21,41 +21,37 @@
     </ul>
 </div>
 <div id="isotope_list">
-    <div class="index_itembox a31">
-        <a class="brand_banner brand_dynamic" href="{{ brand.get_absolute_url }}">
-            <img src="{{ brand.story.url }}" alt="{{ brand.name }} {% trans 'Brand Story' %}" width="670px" height="160" real_wid="{{ brand.story.width }}" real_he="{{ brand.story.height }}" />
-        </a>
+    <div class="index_itembox a31 brand_banner brand_dynamic" href="{{ brand.get_absolute_url }}">
+        <img src="{{ brand.story.url }}" alt="{{ brand.name }} {% trans 'Brand Story' %}" width="670px" height="160" real_wid="{{ brand.story.width }}" real_he="{{ brand.story.height }}" />
     </div>
     {% for product in products %}
     {% cache 600 product product.id %}
     {% with box_class|random as class %}
-	<div class="index_itembox {{ class }}"> 
-		<a class="dynamic" href="{{ product.get_absolute_url }}">
-            <div class="itemimg">
-				<img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}">
-			</div>
-            <div class="content">
-                <h5>{{ product.brand.name|upper }}</h5>
-                <h6>{{ product.name }}</h6>
-				<h6>
-					{% if product.discountable %}
-					<strike>{{ product.price|currency }}</strike>
-					<span class="discount">{{ product.get_discounted_price|currency }}</span>
-					{% else %}
-					<span>{{ product.price|currency }}</span>
-					{% endif %}
-				</h6>
-            </div>
-            {% with product.get_gender as gender %}
-                {% if gender == 3 %}
-                <i class="l_icon-gender unisex"></i>
-                {% elif gender == 2 %}
-                <i class="l_icon-gender women"></i>
+	<div class="index_itembox dynamic {{ class }}" href="{{ product.get_absolute_url }}">
+        <div class="itemimg">
+            <img class="lazy" src="{{ STATIC_URL }}images/default.jpg" data-original="{{ product.get_main_image.image.medium.url }}">
+        </div>
+        <div class="content">
+            <h5>{{ product.brand.name|upper }}</h5>
+            <h6>{{ product.name }}</h6>
+            <h6>
+                {% if product.discountable %}
+                <strike>{{ product.price|currency }}</strike>
+                <span class="discount">{{ product.get_discounted_price|currency }}</span>
                 {% else %}
-                <i class="l_icon-gender men"></i>
+                <span>{{ product.price|currency }}</span>
                 {% endif %}
-            {% endwith %}
-		</a>
+            </h6>
+        </div>
+        {% with product.get_gender as gender %}
+            {% if gender == 3 %}
+            <i class="l_icon-gender unisex"></i>
+            {% elif gender == 2 %}
+            <i class="l_icon-gender women"></i>
+            {% else %}
+            <i class="l_icon-gender men"></i>
+            {% endif %}
+        {% endwith %}
 	</div>
     {% endwith %}
     {% endcache %}
