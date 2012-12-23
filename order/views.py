@@ -70,7 +70,10 @@ def orders(request):
 def info(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     items = OrderItem.objects.filter(order=order)
-    voucher = Voucher.objects.get(code=order.voucher_code)
+    try:
+        voucher = Voucher.objects.get(code=order.voucher_code)
+    except Voucher.DoesNotExist:
+        voucher = None
 
     if order.user != request.user:
         raise Http404

@@ -14,7 +14,7 @@ $(function() {
 {% endblock %}
 {% block menu_class %}class="b_bg"{% endblock %}
 {% block content %}
-<div class="index_text"><img src="{{ key.image.url }}"></div>
+{% if key %}<div class="index_text"><img src="{{ key.image.url }}"></div>{% endif %}
 <div class="intro_text">
     <span class="t_box">EMPOR 的名字來自 emporium</span><br>
     <span class="t_box">一個由希臘文 emporos 演變成中古世紀拉丁語的古老名詞</span><br>
