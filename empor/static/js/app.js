@@ -196,6 +196,7 @@ $(function() {
         var url = $(this).attr('href');
         if (!History.enabled) {
             window.location = url;
+            return false;
         }
         var image = new Image();
         var img = $('img', this);
@@ -231,6 +232,7 @@ $(function() {
         var url = $(this).attr('href');
         if (!History.enabled) {
             window.location = url;
+            return false;
         }
         var img = $('.itemimg img', that);
         var image = new Image();
