@@ -12,7 +12,7 @@ class UserExtend(object):
         return False
 
     def get_name(self):
-        return self.first_name + ' ' + self.last_name
+        return self.last_name + ' ' + self.first_name
 
 User.__bases__ += (UserExtend,)
 
