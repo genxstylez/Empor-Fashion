@@ -2,7 +2,7 @@
 {% load i18n thumbnail common %}
 {% block facebook_meta %}
 <meta property="og:title" content="{{ brand.name }}" />
-<meta property="og:description" content="{{ brand.description|safe }}" />
+<meta property="og:description" content="{{ brand.description|striptags|safe }}" />
 <meta property="og:image" content="{{ brand.image.url }}" />
 {% endblock %}
 {% block popup %}
