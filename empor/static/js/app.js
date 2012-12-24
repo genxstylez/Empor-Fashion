@@ -35,6 +35,10 @@ $(function() {
         return false;
     });
 
+    $(document).on('click', '#top-hat-notif .close', function() {
+        $('#top-hat-notif').remove();
+    });
+
 	$(document).on('click', "a.gallery", function() {
         items = $('.fancybox-thumb');
         window.a = items;
