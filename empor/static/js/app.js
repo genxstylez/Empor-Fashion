@@ -27,7 +27,7 @@ $(function() {
         
     //lazyload
     $('img.lazy').lazyload({
-        effect: 'fadeIn'
+        effect: 'fadeIn',
     });
     
     $(document).on('click', '#single', function() {
@@ -37,6 +37,7 @@ $(function() {
 
     $(document).on('click', '#top-hat-notif .close', function() {
         $('#top-hat-notif').remove();
+        $('#content_wrapper').css('top', 0);
     });
 
 	$(document).on('click', "a.gallery", function() {

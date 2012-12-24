@@ -1987,6 +1987,7 @@ strike {
 	margin:150px auto;
 }
 #top-hat-notif {
+    display:none;
 	position:absolute;
 	background: #111;
 	text-align: center;
