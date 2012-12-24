@@ -79,6 +79,12 @@
     {% block js %}{% endblock %}
 </head>
 <body {% if popup %}style="overflow:hidden; margin-right:15px"{% endif %}>
+<!-- [if lte IE8]>
+<div id="top-hat-notif">
+    本網站不支援 IE8 以下瀏覽器，建議使用 <a href="http://www.google.com/intl/zh-TW/chrome/browser/" target="_blank">Google Chrome</a> 瀏覽器。
+    <a class="close">×</a>
+</div>
+<![endif] -->
 <div id="content_wrapper">
 <!-- menu_wrapper -->
 <div id="menu_wrapper" {% block menu_class %}{% endblock %}>
