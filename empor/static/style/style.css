@@ -1986,3 +1986,22 @@ strike {
 	width:250px;
 	margin:150px auto;
 }
+#top-hat-notif {
+	position:absolute;
+	background: #111;
+	text-align: center;
+	border-bottom: solid 1px #2D2D2D;
+	top:0;
+	left:0;
+	right:0;
+	height:30px;
+	color:#fff;
+	line-height:30px;
+}
+#top-hat-notif .close {
+	margin:5px;
+}
+#top-hat-notif a {
+	color:#fff;
+	font-weight:bold;
+}
