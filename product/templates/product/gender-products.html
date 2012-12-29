@@ -4,7 +4,7 @@
 <div id="left_menu_wrapper">
     <ul class="nav nav-list">
         <li class="nav-header">PRODUCT / 產品</li>
-        {% for cat in gender.categories.all %}
+        {% for cat in gender.get_categories %}
         <li {% if cat == category %}class="active"{% endif %}>
             <a href="{% url gender-products-category gender cat.id %}">{{ cat.name }}</a>
         </li>

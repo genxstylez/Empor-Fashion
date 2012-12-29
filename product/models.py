@@ -14,6 +14,13 @@ class Gender(models.Model):
     def __unicode__(self):
         return self.name
 
+    def get_categories(self):
+        cats = self.categories.all()
+        for cat in cats:
+            if not cat.products.filter(gender=self):
+                cats = cats.exclude(id=cat.id)
+        return cats
+                
 class Category(models.Model):
     name = models.CharField(_('Name'), max_length=100)
     parent = models.ForeignKey('self', related_name='children', null=True, blank=True)
@@ -60,10 +67,20 @@ class Brand(models.Model):
         return self.name 
 
     def get_men_categories(self):
-        return self.categories.filter(gender__id=1)
+        gender = Gender.objects.get(id=1)
+        cats = self.categories.filter(gender=gender)
+        for cat in cats:
+            if not cat.products.filter(brand=self, gender=gender):
+                cats = cats.exclude(id=cat.id)
+        return cats 
 
     def get_women_categories(self):
-        return self.categories.filter(gender__id=2)
+        gender = Gender.objects.get(id=2)
+        cats = self.categories.filter(gender=gender)
+        for cat in cats:
+            if not cat.products.filter(brand=self, gender=gender):
+                cats = cats.exclude(id=cat.id)
+        return cats 
 
     @models.permalink
     def get_absolute_url(self):
