@@ -221,9 +221,11 @@ class Product(models.Model):
 @receiver(post_save, sender=Product)
 def hierachy(sender, instance, **kwargs):
     total_stock = 0
+    total_sold = 0
     if instance.parent:
         for product in instance.parent.children.all():
             total_stock += product.stock
+            total_sold += product.sold
         instance.parent.stock = total_stock
         instance.parent.save()
 

@@ -48,6 +48,7 @@ class Order(models.Model):
             d = []
             for product in self.items.all():
                 product.stock += OrderItem.objects.get(product=product, order=self).quantity
+                product.sold -= OrderItem.objects.get(product, order=self).quantity
                 product.save()
                 if product.discountable:
                     discount = Discount.objects.get(id=product.discount_id)
@@ -61,6 +62,7 @@ class Order(models.Model):
         if self.status == 1:
             d = []
             for product in self.items.all():
+                product.sold += OrderItem.objects.get(product, order=self).quantity
                 if product.discountable:
                     discount = Discount.objects.get(id=product.discount_id)
                     if discount in d:
