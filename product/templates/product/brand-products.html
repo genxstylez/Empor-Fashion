@@ -3,22 +3,30 @@
 {% block content %}
 <div id="left_menu_wrapper">
     <div class="brand"><img src="{{ brand.image.url }}"></div>
+    {% with brand.get_men_categories as cats %}
+    {% if cats %}
     <ul class="nav nav-list"> 
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'MEN' %}">MEN</a></li>
-        {% for cat in brand.get_men_categories %}
+        {% for cat in cats %} 
         <li {% if cat == category and gender == 'MEN' %}class="active"{% endif %}>
 			<a href="{% url brand-products-gender-category brand.slug 'MEN' cat.id %}">{{ cat.name }}</a>
 		</li>
         {% endfor %}
     </ul>
+    {% endif %}
+    {% endwith %}
+    {% with brand.get_women_categories as cats %}
+    {% if cats %}
     <ul class="nav nav-list"> 
         <li class="nav-header"><a href="{% url brand-products-gender brand.slug 'WOMEN' %}">WOMEN</a></li>
-        {% for cat in brand.get_women_categories %}
+        {% for cat in cats %} 
         <li {% if cat == category and gender == 'WOMEN' %}class="active"{% endif %}>
 			<a href="{% url brand-products-gender-category brand.slug 'WOMEN' cat.id %}">{{ cat.name }}</a>
 		</li>
         {% endfor %}
     </ul>
+    {% endif %}
+    {% endwith %}
 </div>
 <div id="isotope_list">
     <div class="index_itembox a31 brand_banner brand_dynamic" href="{{ brand.get_absolute_url }}">
