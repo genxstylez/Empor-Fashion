@@ -74,6 +74,10 @@
         <label class="control-label">付款方式</label>
         <div class="controls">{{ order.get_payment_method_display }}</div>
     </div>
+    <div class="control-group">
+        <label class="control-label">指定配送時間</label>
+        <div class="controls">{{ order.get_dispatch_time_display }}</div>
+    </div>
     <table class="table">
         <thead>
             <tr>
