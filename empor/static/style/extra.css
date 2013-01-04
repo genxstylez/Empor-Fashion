@@ -15,11 +15,11 @@ div.menu_pop {
 }
 
 div.dynamic {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 div.brand_dynamic {
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .visible {
@@ -27,8 +27,8 @@ div.brand_dynamic {
 }
 
 #twzipcode {
-    margin-left: 8px;
-    float: left;
+	margin-left: 8px;
+	float: left;
 }
 
 .backstretch::after { 
@@ -59,13 +59,15 @@ label.required:after {
 div#modal_overlay {
     height:100%;
     width: 100%;
-    background: rgba(255, 255, 255, 0.5);
     position: fixed;
     display: none;
     z-index: 1001;
     top: 0px;
     bottom: 0px;
 	overflow-y: scroll;
+	background: rgba(255, 255, 255, 0.5);
+	background-color: #ffffff \9;
+	filter: alpha(opacity=100) \9;
 }
 
 div#content_pane_wrapper {
@@ -137,7 +139,7 @@ div#content_pane {
 }
 */
 
-/**** disabling Isotope CSS3 transitions ***/
+/**** disabling Isotope CSS3 transitions ****/
 
 .isotope.no-transition,
 .isotope.no-transition .isotope-item,

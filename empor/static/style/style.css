@@ -1171,6 +1171,7 @@ h3 .l_icon-gender {
     width: 840px;
 	margin: 0 auto;
 	min-height:480px;
+	border:#ccc 1px solid \9;
 }
 .itemopen.cart_s {
     width: 400px;
