@@ -1846,6 +1846,39 @@ strike {
 	width: 400px;
 	margin: 0 0 0 -200px;
 }
+.index_centermenu {
+	z-index:99999;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	width: 400px;
+	margin: 0 0 0 -200px;
+}
+.index_centermenu a {
+	display:block;
+	width:120px;
+	height:120px;
+	background-image:url("../images/all_icon.png");
+	background-repeat:no-repeat;
+	background-position:-420px 0;
+	float: left;
+	color: #fff;
+	text-align: center;
+	line-height: 120px;
+	font-size: 20px;
+	margin: 0 6px;
+	font-weight:bold;
+}
+.index_centermenu a:hover {
+	background-position:-420px -120px;
+	color:#29201b;
+}
+.intro_text {
+	z-index:99999;
+	position: fixed;
+	bottom: 130px;
+	left: 30px;
+}
 .intro_text {
 	z-index:99999;
 	position: fixed;
