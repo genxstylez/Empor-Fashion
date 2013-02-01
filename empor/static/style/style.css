@@ -1864,14 +1864,28 @@ strike {
 	float: left;
 	color: #fff;
 	text-align: center;
-	line-height: 120px;
 	font-size: 20px;
 	margin: 0 6px;
 	font-weight:bold;
 }
-.index_centermenu a:hover {
+.index_centermenu .centermenu_box:hover {
 	background-position:-420px -120px;
+}
+.index_centermenu a h2 {
+	color:#fff;
+	margin-top:30px;
+	font-size: 23px;
+}
+.index_centermenu a:hover h2 {
 	color:#29201b;
+}
+.index_centermenu a h3 {
+	color:#d3cdc9;
+	font-size:14px;
+	line-height:18px;
+}
+.index_centermenu a:hover h3 {
+	color:#413735;
 }
 .intro_text {
 	z-index:99999;
