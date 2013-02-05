@@ -1841,15 +1841,15 @@ strike {
 .index_text {
 	z-index:99999;
 	position: fixed;
-	top: 25%;
-	left: 50%;
-	width: 400px;
-	margin: 0 0 0 -200px;
+	bottom: 130px;
+	right: 30px;
+	width: auto;
+	margin: 0;
 }
 .index_centermenu {
 	z-index:99999;
 	position: fixed;
-	top: 40%;
+	top: 30%;
 	left: 50%;
 	width: 400px;
 	margin: 0 0 0 -200px;
