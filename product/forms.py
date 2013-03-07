@@ -13,7 +13,7 @@ class ChildProductForm(forms.ModelForm):
 class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'slug', 'price', 'gender', 'composition', 'description', 'remark', 'has_options', 'option_group', )
+        fields = ('name', 'slug', 'price', 'gender', 'composition', 'description', 'remark', 'has_options', 'stock', 'option_group', )
 
     def clean_name(self):
         if not self.cleaned_data['name']:

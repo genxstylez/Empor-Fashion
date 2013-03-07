@@ -200,7 +200,7 @@ def product_thumb(request, product_id):
         y1 = request.POST.get('y1', 0)
         x2 = request.POST.get('x2', 0)
         y2 = request.POST.get('y2', 0)
-        thumb_file = generate_crop(thumb.original.file, thumb.original.name.split('.')[1], int(x1), int(y1), int(x2), int(y2))
+        thumb_file = generate_crop(thumb.original.file, thumb.original.name.split('.')[-1], int(x1), int(y1), int(x2), int(y2))
         thumb.thumb.save(thumb_file[0], thumb_file[1], save=False)
         thumb.x1 = x1
         thumb.y1 = y1
@@ -258,6 +258,7 @@ def _upload(request):
         name = uploaded_file.name
     if uploaded_file:
         filepath = '%s/%s' % (settings.FILE_UPLOAD_TEMP_DIR, name)
+        filepath = filepath.encode('utf-8')
         with open(filepath, ('wb' if chunk == '0' else 'ab')) as f:
             for content in uploaded_file.chunks():
                 f.write(content)
@@ -292,6 +293,7 @@ def _thumb_upload(request):
         name = uploaded_file.name
     if uploaded_file:
         filepath = '%s/%s' % (settings.FILE_UPLOAD_TEMP_DIR, name)
+        filepath = filepath.encode('utf-8')
         with open(filepath, ('wb' if chunk == '0' else 'ab')) as f:
             for content in uploaded_file.chunks():
                 f.write(content)
@@ -300,7 +302,7 @@ def _thumb_upload(request):
         image_file = ContentFile(f.read())
         f.close()
 
-        t = thumb_resize(image_file, name.split('.')[1], 420)
+        t = thumb_resize(image_file, name.split('.')[-1], 420)
 
         try:
             thumb = ProductThumb.objects.get(product=product)

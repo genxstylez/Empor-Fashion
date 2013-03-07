@@ -15,6 +15,25 @@ $(function() {
 {% block menu_class %}class="b_bg"{% endblock %}
 {% block content %}
 {% if key %}<div class="index_text"><img src="{{ key.image.url }}"></div>{% endif %}
+<div class="index_centermenu">
+    <a href="{% url gender-products 'MEN' %}" class="centermenu_box" >
+        <h2>男士</h2>
+        <h3>MEN</h3>
+    </a>
+    <a href="{% url gender-products 'WOMEN' %}" class="centermenu_box">
+        <h2>女士</h2>
+        <h3>WOMEN</h3>
+    </a>
+    <a class="centermenu_box ajax" href="{% url brands %}">
+        <h2>品牌</h2>
+        <h3>BRANDS</h3>
+    </a>
+</div>
+<div class="intro_text">
+    <span class="t_box">EMPOR 細心嚴選來自歐美台各地，質感優秀的新興設計師自創品牌</span><br>
+    <span class="t_box">要給你一個可以任性的解構各種主流與非主流時尚的消費平台！</span><br>
+</div>
+<!--
 <div class="intro_text">
     <span class="t_box">EMPOR 的名字來自 emporium</span><br>
     <span class="t_box">一個由希臘文 emporos 演變成中古世紀拉丁語的古老名詞</span><br>
@@ -24,6 +43,6 @@ $(function() {
     <span class="t_box">讓你的日常穿搭可以任性的解構各種主流與非主流時尚</span><br>
     <span class="t_box">在 EMPOR 你尋找的每一項完美單品，不再需要任何人來定義</span><br>
     <span class="t_box">怎麼呈現，留給你來詮釋</span>
-</div>
+</div>-->
 {% endblock %}
 {% block footer_class %}open{% endblock %}

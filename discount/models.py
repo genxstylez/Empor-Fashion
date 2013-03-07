@@ -24,13 +24,8 @@ class Discount(models.Model):
     def save(self):
         if self.allowUses > 0 and self.numUses == self.allowUses:
             self.active = False
-        else:
-            self.active = True
-        if not self.active:
-            for product in self.products.all():
-                product.discountable = False
-                product.save()
         super(Discount, self).save()
+    
 
 class Voucher(models.Model):
     name = models.CharField(_('Name'), max_length=100)
@@ -61,7 +56,5 @@ class Voucher(models.Model):
     def save(self):
         if self.allowUses > 0 and self.numUses == self.allowUses:
             self.active = False
-        else:
-            self.active = True
         super(Voucher, self).save()
 
