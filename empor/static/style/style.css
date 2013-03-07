@@ -942,12 +942,23 @@ table {
 #menu_wrapper .menu_textbox a:hover {
     text-decoration:underline;
 } 
-#menuopen_wrapper {
+#menuopen_wrapper,
+#loading_wrapper {
 	position: absolute;
 	top: 0;
 	width: 100%;
     height: 100%;
 	z-index: 2000000;
+}
+#loading_wrapper h2 {
+	position: absolute;
+	color:#D3CDC9;
+	left:50%;
+	top:40%;
+	margin-left:-50px;
+	width:100px;
+	text-align: center;
+	font-weight:normal;
 }
 #menuopen_wrapper .menu_content {
 	position: absolute;
