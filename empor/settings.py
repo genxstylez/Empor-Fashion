@@ -107,6 +107,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -116,6 +117,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'djangoflash.middleware.FlashMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'empor.urls'
@@ -171,6 +173,7 @@ INSTALLED_APPS = (
     'staff',
     'service',
     'compressor',
+    'vote',
     'paypal.standard.ipn',
 )
 
@@ -220,6 +223,8 @@ CACHES = {
   }
 }
 
+CACHE_MIDDLEWARE_KEY_PREFIX = 'empor'
+
 CRONJOBS = [
     ('* */1 * * *', 'cart.cron.clean_carts'),
     ('0 0 * * *', 'order.cron.clean_orders'),
@@ -237,16 +242,12 @@ DEFAULT_FROM_EMAIL = 'EMPOR <webmaster@empor.com.tw>'
 
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'webmaster@empor.com.tw'
-EMAIL_HOST_PASSWORD = '53780722'
 EMAIL_PORT = 587
 
 PAYPAL_RECEIVER_EMAIL = 'webmaster@empor.com.tw'
 
 AUTH_PROFILE_MODULE = 'member.UserProfile'
 
-AWS_ACCESS_KEY_ID = 'AKIAJVYZPH6EZHTV7JKQ' 
-AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'empor'
 AWS_S3_SECURE_URLS = False
 AWS_QUERYSTRING_AUTH = False

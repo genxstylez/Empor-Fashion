@@ -1,0 +1,155 @@
+<html lang="en"><head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="SWEAR LONDON SS14 票選"/>
+        <meta property="og:description" content="新一季的 SWEAR LONDON 鞋款來囉！
+        快選出你喜歡的款式，也許你就有機會能穿上它喔！每人限投 15 票！"/>
+        <meta property="og:url" content="http://empor.com.tw/vote/"/>
+        <meta property="og:image" content="http://empor.com.tw{{ STATIC_URL }}images/ss14_meta.jpg"/>
+        <title>SWEAR LONDON SS14 票選</title>
+        <link href="{{ STATIC_URL }}style/bootstrap.css" rel="stylesheet">
+        <link href="{{ STATIC_URL }}style/main.css" rel="stylesheet">
+    </head>
+    
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top" id="sv-navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#"><img src="{{ STATIC_URL }}images/swear-logo.jpg"></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav" id="top-nav">
+                        <li class="active"><a href="#section-1">MEN</a></li>
+                        <li class=""><a href="#section-2">WOMEN</a></li>
+                    </ul>
+                </div><!--/.nav-collapse -->
+            </div>
+        </div>
+        <div class="container">
+            <div class="block text-center" id="top-block">
+                <h1>SWEAR LONDON 2014 春夏新款票選</h1>
+                <h2><small>新一季的 SWEAR LONDON 鞋款來囉！<br>快選出你喜歡的款式，也許你就有機會能穿上它喔！每人限投 15 票！</small></h2>
+            </div><!-- /block -->
+            <form role="form" class="text-center">
+                <div class="block" id="section-1">
+                    <div class="page-header">
+                        <h2>MEN</h2>
+                    </div>
+                        {% csrf_token %}
+                        <div class="row">
+                            {% for item in men_items %}
+                            <div class="form-group col-md-3 col-sm-3">
+                                <img src="{{ item.image.url }}">
+                                <p>{{ item.name }}</p>
+                                <div class="checkbox">
+                                    <label><input class="cb" name="items" value="{{ item.id }}" type="checkbox"></label>
+                                </div>
+                            </div><!-- /col-md-3 -->
+                            {% endfor %}
+                        </div><!-- /row -->
+                </div><!-- /block -->
+                <div class="block" id="section-2">
+                    <div class="page-header">
+                        <h2>WOMEN</h2>
+                    </div>
+                        <div class="row">
+                            {% for item in women_items %} 
+                            <div class="form-group col-md-3 col-sm-3">
+                                <img src="{{ item.image.url }}">
+                                <p>{{ item.name }}</p>
+                                <div class="checkbox">
+                                    <label><input class="cb" value="{{ item.id }}" type="checkbox"></label>
+                                </div>
+                            </div><!-- /col-md-3 -->
+                            {% endfor %}
+                        </div><!-- /row -->
+                      <button type="submit" class="btn btn-default">確定送出</button>
+                </div><!-- /block -->
+            </form><!-- /form -->
+            <div class="text-right" id="footer">
+                <p>© 2013</p>
+            </div>
+        </div><!-- /container -->
+
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title">Swear London SS14 票選</h4>
+                </div>
+                <div class="modal-body">
+                    謝謝你寶貴的建議，希望你可以穿到你想穿的鞋 :)
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+        <div class="modal fade" id="secondModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h4 class="modal-title">Swear London SS14 票選</h4>
+                </div>
+                <div class="modal-body">
+                    我們知道鞋很好看，不過只能挑15雙唷！
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+      </div>
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script src="{{ STATIC_URL}}js/bootstrap.min.js"></script>
+        <script src="{{ STATIC_URL}}js/plugins.js"></script>
+        <script>
+            $('#top-nav').onePageNav({
+            currentClass: 'active',
+            changeHash: true,
+            scrollSpeed: 1200
+            });
+            $(function() {
+                window.counter = 0;
+                $('.cb').change(function() {
+                    if($(this).is(':checked')){
+                        window.counter++;
+                    } else {
+                        window.counter--;
+                    }
+                    if(window.counter > 15) {
+                        $(this).prop('checked', false);
+                        window.counter--;
+                        $('#secondModal').modal('show');
+                    }
+                }); 
+                $('form').submit(function() {
+                    data = [];
+                    $(':checked').each(function() {
+                        data.push($(this).val());
+                    });
+                    console.log(data);
+                    $.post('{{ request.path }}', {'csrfmiddlewaretoken': '{{ csrf_token }}', 'items': data}, function(response) {
+                        if(response.success) {
+                            $('#myModal').modal('show');
+                        }
+                    });  
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

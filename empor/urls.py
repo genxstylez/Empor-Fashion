@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^discount/', include('discount.urls')),
     url(r'^order/', include('order.urls')),
     url(r'^service/', include('service.urls')),
+    url(r'^vote/', include('vote.urls')),
 
     (r'^paypal/emporipnreal/', include('paypal.standard.ipn.urls')),
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
